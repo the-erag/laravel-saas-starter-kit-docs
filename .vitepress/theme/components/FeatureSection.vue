@@ -45,11 +45,11 @@ const rows: { eyebrow: string; title: string; text: string; points: string[]; do
   },
   {
     eyebrow: 'Users, roles & permissions',
-    title: 'Access control that is ready on day one',
+    title: "Access control that's ready on day one",
     text: 'Spatie roles and permissions for both the central app and every tenant. System roles receive their default permissions automatically.',
     points: [
       'Users list with search, stats and pagination',
-      'Role select on create and edit — system roles get their default permissions, custom roles none',
+      'Role select on create and edit. System roles get their default permissions, custom roles start with none',
       'Assign individual permissions per user, grouped by module',
       'Queued invitation emails with a signed 7-day link and an “Invitation pending” badge',
       'Protected system roles plus your own custom roles',
@@ -62,7 +62,7 @@ const rows: { eyebrow: string; title: string; text: string; points: string[]; do
   },
   {
     eyebrow: 'Maintenance & suspension',
-    title: 'Take workspaces offline — safely',
+    title: 'Take workspaces offline safely',
     text: 'Switch every tenant workspace into maintenance from Setup → Tenant Settings while the central app stays online.',
     points: [
       'Custom message on an animated 503 page',
@@ -78,8 +78,8 @@ const rows: { eyebrow: string; title: string; text: string; points: string[]; do
   },
   {
     eyebrow: 'Authentication',
-    title: 'Secure sign-in out of the box',
-    text: 'Laravel Fortify powers every auth flow for the central app and each tenant, with modern options like passkeys built in.',
+    title: 'Secure sign-in, ready to use',
+    text: 'Laravel Fortify handles every auth flow for the central app and each tenant, and passkeys are already built in.',
     points: [
       'Login, registration and password reset',
       'Email verification and password confirmation',
@@ -95,7 +95,7 @@ const rows: { eyebrow: string; title: string; text: string; points: string[]; do
   {
     eyebrow: 'Localization',
     title: '17 languages, translated end to end',
-    text: 'Every screen, menu, email and validation message is translated. Translations are shared with the frontend automatically.',
+    text: 'Every screen, menu, email and validation message is translated, and the translations reach the frontend automatically.',
     points: [
       'English, Hindi, Spanish, French, German, Japanese and 11 more',
       'One translation file per feature in lang/<locale>/modules',
@@ -125,7 +125,7 @@ const rows: { eyebrow: string; title: string; text: string; points: string[]; do
   {
     eyebrow: 'Menus & navigation',
     title: 'Database-driven menus',
-    text: 'Menus live in the database, so you can reorder and reshape the navigation without touching the code.',
+    text: 'Menus are stored in the database, so you can reorder and reshape the navigation without touching any code.',
     points: [
       'Drag & drop menu builder with Reset Defaults',
       'Menus hide automatically when the user lacks the permission',

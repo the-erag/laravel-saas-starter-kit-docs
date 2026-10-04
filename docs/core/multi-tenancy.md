@@ -24,7 +24,7 @@ head:
 
 # Multi-tenancy
 
-The kits use **stancl/tenancy** (`^3.10`) in **multi-database** mode: every tenant (workspace) gets its own database and is identified by the request's domain. Data is isolated at the database level, so tenant code does not need `where tenant_id = ...` filters.
+The kits run stancl/tenancy (`^3.10`) in multi-database mode. Each tenant (workspace) gets **its own database**, and the request's domain tells the app which tenant it's dealing with. Because the data is split at the database level, your tenant code doesn't need `where tenant_id = ...` filters.
 
 ```text
 vue.test            → central app  (central DB: saas_laravel_vue)
@@ -34,7 +34,7 @@ globex.vue.test     → tenant 2     (DB: tenant2)
 
 ## Identification
 
-The host of each request decides the context:
+The host of each request decides which context it runs in:
 
 ```text
 host == APP_DOMAIN              → central app
@@ -43,12 +43,12 @@ unknown host                    → 404
 ```
 
 - `APP_DOMAIN` is the only central domain (`central_domains` in `config/tenancy.php`).
-- `InitializeTenancyIfTenantDomain` runs first on every request and hands non-central hosts to stancl's `InitializeTenancyByDomain`.
-- Tenant domains are always subdomains of `APP_DOMAIN`: the subdomain you enter (`acme`) is stored as `acme.vue.test`. See [Domains](/docs/core/domains).
+- `InitializeTenancyIfTenantDomain` runs first on every request and passes any non-central host to stancl's `InitializeTenancyByDomain`.
+- Tenant domains are always subdomains of `APP_DOMAIN`. If you enter `acme` as the subdomain, it's stored as `acme.vue.test`. See [Domains](/docs/core/domains).
 
 ## What is tenant-aware
 
-Once a tenant is identified, these bootstrappers (`config/tenancy.php`) switch Laravel services to that tenant:
+As soon as a tenant is identified, the bootstrappers in `config/tenancy.php` point these Laravel services at it:
 
 | Bootstrapper | Effect inside a tenant |
 | --- | --- |
@@ -57,11 +57,11 @@ Once a tenant is identified, these bootstrappers (`config/tenancy.php`) switch L
 | `FilesystemTenancyBootstrapper` | `local` and `public` disks and `storage_path()` are suffixed per tenant |
 | `QueueTenancyBootstrapper` | Jobs remember the tenant and re-initialize it when processed |
 
-On top of that the kit switches the auth guard, Fortify features, app name and locale. See [Architecture](/docs/core/architecture#central-vs-tenant-context).
+The kit also switches the auth guard, Fortify features, app name and locale. [Architecture](/docs/core/architecture#central-vs-tenant-context) explains how.
 
 ## Managing tenants
 
-All tenant screens are central-only (`central.only` middleware) and live in `Modules/Tenant`:
+The tenant screens live in `Modules/Tenant` and only exist in the central app (`central.only` middleware):
 
 | Route | Page | Permission |
 | --- | --- | --- |
@@ -74,14 +74,14 @@ All tenant screens are central-only (`central.only` middleware) and live in `Mod
 
 ### Tenant data
 
-Tenants are stored in the central `tenants` table (`App\Models\Tenant`). Some attributes are real columns; the rest are kept in the `data` JSON column by stancl's virtual columns. You read and write both the same way (`$tenant->industry`).
+Tenants live in the central `tenants` table (`App\Models\Tenant`). A few attributes are real columns, and stancl's virtual columns put the rest in the `data` JSON column. You don't have to care which is which: `$tenant->industry` reads and writes the same way.
 
 | Stored as | Attributes |
 | --- | --- |
 | Columns | `id`, `first_name`, `last_name`, `email`, `phone`, `company`, `team_size` |
 | `data` JSON | `industry`, `registration_number`, `tax_number`, `workspace_status`, `work_week`, `status_message` |
 
-Select options come from enums in `Modules/Tenant/Enums`:
+The select options come from enums in `Modules/Tenant/Enums`:
 
 | Enum | Values |
 | --- | --- |
@@ -92,7 +92,7 @@ Select options come from enums in `Modules/Tenant/Enums`:
 
 ## Creating a tenant
 
-Creating a tenant from **Tenants → Add Tenant** does everything needed for a working workspace in one request:
+When you add a tenant from Tenants → Add Tenant, a single request sets up everything the workspace needs:
 
 ```text
 TenantController::store()  → validates TenantRegisterData
@@ -108,9 +108,9 @@ TenantCreated event        → provisioning pipeline (synchronous)
 | `CreateDatabase` | `CREATE DATABASE tenant<id>` |
 | `MigrateDatabase` | Runs `database/migrations/tenant` |
 | `SeedDatabase` | Runs `Database\Seeders\tenant\TenantDatabaseSeeder` (roles, tenant permissions, tenant menus, default users) |
-| `CreateTenantUserJob` | Creates the tenant admin (tenant's email) with the `super-admin` role and **all** `tenant` permissions |
+| `CreateTenantUserJob` | Creates the tenant admin (tenant's email) with the `super-admin` role and every `tenant` permission |
 
-Deleting a tenant fires `TenantDeleted` → `DeleteDatabase`.
+Deleting a tenant fires `TenantDeleted`, which runs `DeleteDatabase`.
 
 ::: details View implementation example
 ```php
@@ -128,12 +128,12 @@ Events\TenantCreated::class => [
 :::
 
 ::: warning Queuing the pipeline
-The pipeline runs inside the request, which can be slow with many migrations. You can switch `shouldBeQueued(false)` to `true`, but then the tenant is only usable after the worker finishes. `CreateTenantUserJob` also reads the admin password and the invitation flag from the current request, which a queue worker does not have, so adjust it before queuing.
+The pipeline runs inside the request, so it gets slow once you have a lot of migrations. You can change `shouldBeQueued(false)` to `true`, but then the tenant isn't usable until the worker is done. There's a catch: `CreateTenantUserJob` reads the admin password and the invitation flag from the current request, and a queue worker doesn't have that request. Change the job before you queue it.
 :::
 
 ## Workspace status
 
-`Modules\Tenant\Enums\WorkspaceStatusEnum`:
+Each tenant has a status, defined in `Modules\Tenant\Enums\WorkspaceStatusEnum`:
 
 | Status | Value | Behaviour |
 | --- | --- | --- |
@@ -142,11 +142,11 @@ The pipeline runs inside the request, which can be slow with many migrations. Yo
 | Pending Invitation | `pending` | Set automatically when an invitation is sent; becomes `active` when the admin accepts |
 | Suspended | `suspended` | Every tenant page renders `auth/Suspended` (HTTP 403) with the optional status message; only logout works |
 
-See [Maintenance & suspension](/docs/core/maintenance-and-suspension).
+For what a suspended tenant can and can't do, see [Maintenance & suspension](/docs/core/maintenance-and-suspension).
 
 ## Invitations
 
-An invitation lets the tenant admin choose their own password instead of you setting one in the create form.
+With an invitation, the tenant admin picks their own password, so you don't have to set one in the create form.
 
 ```text
 Create tenant with "send invitation" on
@@ -156,23 +156,23 @@ Create tenant with "send invitation" on
   → admin is verified and signed in, workspace = active
 ```
 
-- Pending tenants can be re-invited from the tenant page (`POST /tenants/{tenant}/invitation`, throttled 3 per minute).
-- The email is queued, so a [queue worker](/docs/getting-started/local-development#queue-worker) must be running.
+- If a tenant is still pending, you can send the invitation again from the tenant page (`POST /tenants/{tenant}/invitation`, throttled to 3 per minute).
+- The email goes through the queue, so you need a [queue worker](/docs/getting-started/local-development#queue-worker) running.
 
 **Related files**: `TenantService::sendInvitation()`, `Modules/Tenant/Notifications/TenantInvitationNotification.php`, `Modules/Tenant/Http/Controllers/TenantInvitationController.php`, `Modules/Tenant/routes/tenant.php`.
 
 ## Admin password reset
 
-From the tenant's domains, a central admin can reset the tenant admin's password (requires `Edit Tenant`):
+A central admin with `Edit Tenant` can reset the tenant admin's password from the tenant's domains:
 
 | Option | Route | What happens |
 | --- | --- | --- |
 | Email a reset link | `POST /tenants/domains/{domain}/password-reset` | Creates a `tenant_users` token and sends `TenantPasswordResetNotification` with a link on that domain |
-| Set a password manually | `PUT /tenants/domains/{domain}/password` | Password is updated directly |
+| Set a password manually | `PUT /tenants/domains/{domain}/password` | Updates the password straight away |
 
 ## Working in tenant context from code
 
-Inside a tenant request, tenancy is already initialized. To run code for a specific tenant elsewhere (commands, jobs, central pages), use `run()`:
+In a tenant request, tenancy is already initialized for you. Anywhere else (commands, jobs, central pages), wrap the code in `run()` to execute it for a specific tenant:
 
 ```php
 $tenant->run(function () {
@@ -196,4 +196,4 @@ php artisan tenants:migrate --tenants=1      # one tenant
 php artisan tenants:seed                     # run TenantDatabaseSeeder for all tenants
 ```
 
-`tenants:list` and `tenants:run <command>` are also available. Details: [Database](/docs/core/database).
+You also get `tenants:list` and `tenants:run <command>`. The [Database](/docs/core/database) page has the details.

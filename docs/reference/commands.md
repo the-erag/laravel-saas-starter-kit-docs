@@ -24,10 +24,10 @@ head:
 
 # Commands
 
-All kits share the same Composer scripts and Artisan commands. Where a kit differs, the table says so.
+Every kit has the same Composer scripts and Artisan commands. If one kit does something differently, the table tells you.
 
 ::: tip Most used
-`composer dev` to run everything locally, `composer lint` before committing, `php artisan tenants:migrate` after adding a tenant migration.
+Day to day you'll mostly reach for `composer dev` to run everything locally, `composer lint` before you commit, and `php artisan tenants:migrate` after you add a tenant migration.
 :::
 
 ## Composer scripts
@@ -42,7 +42,7 @@ All kits share the same Composer scripts and Artisan commands. Where a kit diffe
 | `composer lint:check` | `pint --parallel --test`, `npm run lint`. Vue also runs `wayfinder:generate --with-form` first. |
 | `composer types:check` | `phpstan analyse` |
 
-After `composer update`, the `post-update-cmd` hook publishes Laravel assets and runs `php artisan boost:update`.
+When you run `composer update`, the `post-update-cmd` hook publishes Laravel's assets and then runs `php artisan boost:update`.
 
 ## npm scripts
 
@@ -54,7 +54,7 @@ After `composer update`, the `post-update-cmd` hook publishes Laravel assets and
 | `npm run lint` | ESLint + Prettier check + `vue-tsc --noEmit` | ESLint + Prettier check + `tsc --noEmit` | ESLint + Prettier check + `svelte-check --tsconfig ./tsconfig.json` |
 | `npm run lint:fix` | ESLint `--fix` + Prettier `--write` + `vue-tsc --noEmit` | ESLint `--fix` + Prettier `--write` + `tsc --noEmit` | ESLint `--fix` + Prettier `--write` + `svelte-check --tsconfig ./tsconfig.json` |
 
-ESLint runs on `.` and Prettier on `resources/` in every kit.
+In every kit, ESLint runs on `.` and Prettier runs on `resources/`.
 
 ## Artisan
 
@@ -106,7 +106,7 @@ ESLint runs on `.` and Prettier on `resources/` in every kit.
 
 ## Herd
 
-Use the site name that matches `APP_DOMAIN` (`vue`, `react` or `svelte` by default).
+Use the site name that matches your `APP_DOMAIN`. By default that's `vue`, `react` or `svelte`.
 
 | Command | Purpose |
 | --- | --- |

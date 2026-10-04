@@ -35,29 +35,29 @@ head:
 | `php artisan erag:generate-lang` | Export `lang/*` to `resources/js/lang/*.json` |
 | `php artisan wayfinder:generate --with-form` | Regenerate `@/routes` and `@/actions` without Vite running |
 
-All commands are listed in [Commands](/docs/reference/commands).
+The complete list is on the [Commands](/docs/reference/commands) page.
 
 ::: tip
-If a change doesn't show up in the browser, check that `npm run dev` (or `composer dev`) is running, or run `npm run build`.
+Change not showing up in the browser? Make sure `npm run dev` (or `composer dev`) is running, or run `npm run build`.
 :::
 
 ## Adding a page
 
-Example: a **Reports** page in the Dashboard module at `/reports`. Each step has the full code in a collapsible block.
+We'll walk through adding a Reports page to the Dashboard module, served at `/reports`. You'll find the full code for each step in the collapsible blocks further down.
 
 ```text
 route (module web.php) → controller → Inertia::render('reports/Index')
   → resources/js/pages/reports/Index.svelte → translations → permission + menu → test
 ```
 
-1. **Route.** Add it to `Modules/Dashboard/routes/web.php` inside the `auth` + `verified` group, with `permission:View Reports|View Tenant Reports` middleware and the name `reports.index`.
-2. **Controller.** Create `Modules/Dashboard/Http/Controllers/ReportController.php`. Keep it thin: business logic belongs in `Modules/<Module>/Services`. Render the page by its path under `resources/js/pages` (PascalCase in this kit): `Inertia::render('reports/Index', …)`.
-3. **Page.** Create `resources/js/pages/reports/Index.svelte`. Put breadcrumbs in `<script module>`, read props with `$props()`, set the title with `AppHead`.
-4. **Wayfinder.** `@/routes/reports` exists once Wayfinder has run. With `npm run dev` running it regenerates automatically; otherwise run `php artisan wayfinder:generate --with-form`.
-5. **Translations.** Add keys to `lang/en/modules/dashboard.php` and the same file in every other locale, then run `php artisan erag:generate-lang`. Svelte uses the dot form `__('modules.dashboard.reports.title')`; PHP uses the slash form `__('modules/dashboard.reports.title')`.
-6. **Permission.** Add `View Reports` to `config/permissions/dashboard.php` and `View Tenant Reports` to `config/permissions/tenant/dashboard.php`, then seed them (commands below).
-7. **Menu.** Add an entry with `'route_name' => 'reports.index'` and the permission to `database/seeders/MenuSeeder.php` (and `database/seeders/tenant/MenuSeeder.php`), then run `php artisan db:seed --class=MenuSeeder`. Menu titles come from the `nav.<slug>` keys in `lang/<locale>/modules/common.php`.
-8. **Test.** Assert that a user with the permission gets the `reports/Index` component.
+1. Add the route to `Modules/Dashboard/routes/web.php`. It goes inside the `auth` + `verified` group, with the `permission:View Reports|View Tenant Reports` middleware and the name `reports.index`.
+2. Create the controller at `Modules/Dashboard/Http/Controllers/ReportController.php`. Keep it thin and put any business logic in `Modules/<Module>/Services`. The controller renders the page by its path under `resources/js/pages`, which is PascalCase in this kit: `Inertia::render('reports/Index', …)`.
+3. Create the page at `resources/js/pages/reports/Index.svelte`. Breadcrumbs go in `<script module>`, props come from `$props()`, and `AppHead` sets the title.
+4. Check Wayfinder. You can only import `@/routes/reports` after Wayfinder has run. If `npm run dev` is running, that happens on its own. If not, run `php artisan wayfinder:generate --with-form`.
+5. Add translation keys to `lang/en/modules/dashboard.php` and to the matching file in every other locale, then run `php artisan erag:generate-lang`. In Svelte you write the dot form, `__('modules.dashboard.reports.title')`. In PHP it's the slash form, `__('modules/dashboard.reports.title')`.
+6. Add the permissions: `View Reports` goes in `config/permissions/dashboard.php` and `View Tenant Reports` in `config/permissions/tenant/dashboard.php`. Then seed them with the commands below.
+7. Add a menu entry with `'route_name' => 'reports.index'` and the permission to `database/seeders/MenuSeeder.php` (and to `database/seeders/tenant/MenuSeeder.php`), then run `php artisan db:seed --class=MenuSeeder`. The menu title is read from the `nav.<slug>` keys in `lang/<locale>/modules/common.php`.
+8. Write a test that checks a user with the permission gets the `reports/Index` component.
 
 ::: details Steps 1–2: route and controller
 ```php
@@ -183,21 +183,21 @@ test('users with the permission can visit the reports page', function () {
 });
 ```
 
-Run it with `php artisan test --compact --filter=reports`. `config/inertia.php` enables `testing.ensure_pages_exist`, so the test fails if `reports/Index.svelte` is missing.
+Run it with `php artisan test --compact --filter=reports`. Since `config/inertia.php` turns on `testing.ensure_pages_exist`, the test will fail if `reports/Index.svelte` doesn't exist.
 :::
 
 ::: info
-Users who get a system role after seeding receive the permission from `associated_roles`. Grant it to existing users from **Users → Assign permissions**. Details: [Users, roles & permissions](/docs/core/users-roles-permissions).
+When a user is given a system role after seeding, they pick up the permission through `associated_roles`. For users you already have, grant it from **Users → Assign permissions**. [Users, roles & permissions](/docs/core/users-roles-permissions) explains how this works.
 :::
 
 ## Adding a form
 
-Forms post to a controller action through Wayfinder and Inertia's `<Form>` component. The roles form is a good model (`RoleController`, `RoleData`, `pages/roles/Partials/RoleFormModal.svelte`).
+A form posts to a controller action using Wayfinder and Inertia's `<Form>` component. If you want something to copy, look at the roles form (`RoleController`, `RoleData`, `pages/roles/Partials/RoleFormModal.svelte`).
 
-1. **Validate on the server.** The kit validates with Spatie Data classes (for example `Modules/RolePermission/Data/RoleData.php` with a `rules()` method) type-hinted in the controller action.
-2. **Delegate and respond.** The controller calls a service, flashes a toast with `Inertia::flash('toast', …)` and redirects.
-3. **Add the route** to the module's `routes/web.php` with a name and permission middleware.
-4. **Build the form** by spreading the Wayfinder `.form()` object into `<Form>` and using `Common*` inputs with `name` and `error`.
+1. Validate on the server. We use Spatie Data classes for this (for example `Modules/RolePermission/Data/RoleData.php`, which has a `rules()` method), type-hinted in the controller action.
+2. Let the controller hand the work to a service, flash a toast with `Inertia::flash('toast', …)` and redirect.
+3. Add a route to the module's `routes/web.php`, with a name and the permission middleware.
+4. Build the form: spread the Wayfinder `.form()` object into `<Form>`, then add `Common*` inputs with `name` and `error`.
 
 ```svelte
 <script lang="ts">
@@ -213,7 +213,7 @@ Forms post to a controller action through Wayfinder and Inertia's `<Form>` compo
 </Form>
 ```
 
-Validation errors land in `errors` automatically; the flashed toast appears through `lib/flash-toast.ts`. Edit forms, `useForm` and create/edit modals are covered in [Inertia → Forms](/docs/svelte/inertia#forms).
+Validation errors show up in `errors` without any extra code, and `lib/flash-toast.ts` displays the flashed toast. For edit forms, `useForm` and create/edit modals, see [Inertia → Forms](/docs/svelte/inertia#forms).
 
 ## Type checking & linting
 
@@ -225,13 +225,13 @@ Validation errors land in `errors` automatically; the flashed toast appears thro
 | `composer lint` | Pint, `php artisan typescript:transform`, `npm run lint:fix` |
 | `composer test` | `config:clear`, `composer lint:check`, Larastan (`composer types:check`), then `php artisan test` |
 
-Run `npm run lint:fix` before committing.
+Get into the habit of running `npm run lint:fix` before you commit.
 
 ## Conventions
 
-- **No hard-coded text.** Every visible string goes through `__()` with a `modules.<feature>.<key>` key, including breadcrumbs, placeholders, toasts and confirm dialogs.
-- **Use the `Common*` components** for form fields and buttons, and `useConfirmDialog()` for destructive actions.
-- **Use Wayfinder** instead of hard-coded URLs, and `.form()` with `<Form>`.
-- **Type everything.** Use generated types from `@/types/Modules/...` for Data objects and `import type` for type-only imports (enforced by ESLint).
-- **Hide actions by permission** with `usePermission()` (for example `can('Export Analytics Reports', 'Export Tenant Reports')`). See [Architecture → Permissions](/docs/svelte/architecture#permissions-on-the-frontend).
-- **Shared logic** goes in `lib/` (a `.svelte.ts` file when it needs runes); page-only components go in the page's `Partials/` folder.
+- Don't hard-code text. Every string the user sees goes through `__()` with a `modules.<feature>.<key>` key, and that includes breadcrumbs, placeholders, toasts and confirm dialogs.
+- Build form fields and buttons from the `Common*` components, and ask before destructive actions with `useConfirmDialog()`.
+- Use Wayfinder rather than typing URLs by hand, and pair `.form()` with `<Form>`.
+- Type everything. Data objects get the generated types from `@/types/Modules/...`, and type-only imports use `import type` (ESLint will remind you).
+- Hide actions the user isn't allowed to take with `usePermission()`, for example `can('Export Analytics Reports', 'Export Tenant Reports')`. See [Architecture → Permissions](/docs/svelte/architecture#permissions-on-the-frontend).
+- Put shared logic in `lib/` (as a `.svelte.ts` file if it needs runes). Components that belong to a single page go in that page's `Partials/` folder.

@@ -24,7 +24,7 @@ head:
 
 # Domains
 
-A domain is how a request finds its tenant. Each tenant has one or more domains, stored in the central `domains` table (`App\Models\Domain`), and every domain also carries its own branding, language and auth settings.
+Domains are how a request finds its tenant. A tenant can have one or more, all stored in the central `domains` table (`App\Models\Domain`). Each domain also has its own branding, language and auth settings.
 
 ```text
 acme.vue.test  → domains table → tenant 1 → per-domain App name, language, auth features
@@ -32,7 +32,7 @@ acme.vue.test  → domains table → tenant 1 → per-domain App name, language,
 
 ## Domain format
 
-Domains are **subdomains of `APP_DOMAIN`**. You enter only the subdomain; the kit appends the central domain:
+Every domain is a **subdomain of `APP_DOMAIN`**. You only type the subdomain, and the kit adds the central domain for you:
 
 ```text
 input: acme      → stored: acme.vue.test
@@ -47,18 +47,16 @@ input: acme-eu   → stored: acme-eu.vue.test
 | Validated by | `TenantRegisterData` (new tenant), `DomainData` (extra domain) |
 
 ::: info Custom top-level domains
-`DomainService::createDomain()` always builds `<sub>.APP_DOMAIN`. Mapping fully custom domains (e.g. `app.customer.com`) is not part of the kit.
+`DomainService::createDomain()` always builds `<sub>.APP_DOMAIN`. The kit doesn't handle mapping fully custom domains (e.g. `app.customer.com`).
 :::
 
 ## Domains page
 
-`/tenants/domains` lists all domains of all tenants. It is central only and needs `View Tenants`.
+`/tenants/domains` lists every domain across all tenants. It's central only and needs `View Tenants`.
 
-- Paginated, with stats cards
-- Search by domain or tenant, filter by **primary** / **secondary**
-- Add, set primary, delete, settings and authentication features (require `Manage Tenant Domains`)
+The list is paginated and comes with stats cards. You can search by domain or tenant and filter by primary or secondary. Adding a domain, setting the primary, deleting, and editing settings or authentication features all need `Manage Tenant Domains`.
 
-The same actions are available per tenant on the tenant detail page.
+You'll find the same actions for a single tenant on its detail page.
 
 | Action | Route |
 | --- | --- |
@@ -70,14 +68,14 @@ The same actions are available per tenant on the tenant detail page.
 
 ## Primary domain
 
-Each tenant has exactly one primary domain. Invitation links and tenant links use it.
+Each tenant has exactly one primary domain, and that's the one invitation links and tenant links use.
 
-- The first domain of a tenant is always primary. Adding a domain with **primary** checked moves the flag.
-- The primary domain **cannot be deleted**. Make another domain primary first.
+- A tenant's first domain is always primary. If you add a domain with primary checked, the flag moves to the new one.
+- You **can't delete** the primary domain. Make another domain primary first.
 
 ## Per-domain settings
 
-Each domain can override three settings. They are stored as columns on `domains` and validated by `Modules\Tenant\Data\DomainSettingsData` (auth features by their own request).
+Each domain can override three settings. They're stored as columns on `domains` and validated by `Modules\Tenant\Data\DomainSettingsData` (auth features go through their own request).
 
 | Setting | Column | Effect |
 | --- | --- | --- |
@@ -87,7 +85,7 @@ Each domain can override three settings. They are stored as columns on `domains`
 
 ### App name
 
-When tenancy starts, `App\Listeners\ApplyTenantAppName` sets `config('app.name')` to the first value that exists:
+When tenancy starts, `App\Listeners\ApplyTenantAppName` sets `config('app.name')` to the first of these that has a value:
 
 ```text
 domain app_name → tenant company → central APP_NAME
@@ -95,15 +93,15 @@ domain app_name → tenant company → central APP_NAME
 
 ### Default language
 
-One of the 17 `LanguageEnum` values, or empty to use the app default. See [Localization](/docs/core/localization#how-the-locale-is-resolved).
+Pick one of the 17 `LanguageEnum` values, or leave it empty to use the app default. [Localization](/docs/core/localization#how-the-locale-is-resolved) explains how the final locale is chosen.
 
 ### Authentication features
 
-Registration, password reset, email verification, two-factor and passkeys can be switched off per domain. See [Authentication → Per-domain features](/docs/core/authentication#per-domain-features).
+Registration, password reset, email verification, two-factor and passkeys can each be switched off for a single domain. Details are in [Authentication → Per-domain features](/docs/core/authentication#per-domain-features).
 
 ## Local DNS
 
-Every tenant domain must resolve to your app.
+Every tenant domain has to resolve to your app.
 
 | Environment | Setup |
 | --- | --- |

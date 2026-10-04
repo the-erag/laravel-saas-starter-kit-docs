@@ -24,21 +24,21 @@ head:
 
 # Pages <Badge type="tip" text="Svelte" />
 
-Pages live in `resources/js/pages`. The Inertia page name is the path without `.svelte`:
+You'll find the pages in `resources/js/pages`. To get the Inertia page name, take the file path and drop `.svelte`:
 
 ```text
 Inertia::render('users/Index') → resources/js/pages/users/Index.svelte
 ```
 
-Controllers live in `Modules/<Module>/Http/Controllers`.
+The controllers that render them are in `Modules/<Module>/Http/Controllers`.
 
 ::: info
-Routes marked **central** only exist on the central domain (`APP_DOMAIN`, `central.only` middleware). Everything else works on the central domain and on tenant domains; the permission names include both variants (for example `View Users|View Tenant Users`).
+A route marked **central** is only available on the central domain (`APP_DOMAIN`, `central.only` middleware). All the others work on both the central domain and tenant domains, which is why their permission names list both variants (for example `View Users|View Tenant Users`).
 :::
 
 ## Public and auth pages
 
-Auth pages render inside `AuthLayout` (card, simple or split). Fortify registers the auth routes; `Modules/Auth/Providers/AuthServiceProvider.php` binds them to these pages.
+The auth pages render inside `AuthLayout`, in its card, simple or split design. Fortify registers the auth routes, and `Modules/Auth/Providers/AuthServiceProvider.php` connects them to the pages below.
 
 | Page file | Route | Purpose |
 | --- | --- | --- |
@@ -56,21 +56,21 @@ Auth pages render inside `AuthLayout` (card, simple or split). Fortify registers
 
 ## App pages
 
-App pages render inside `AppLayout` and require `auth` + `verified`.
+These pages render inside `AppLayout`, and you need `auth` + `verified` to reach them.
 
 | Page file | Route | Permission | Purpose |
 | --- | --- | --- | --- |
 | `Dashboard.svelte` | `GET /dashboard` (`dashboard`, `Route::inertia`) | `View Analytics Dashboard\|View Tenant Dashboard` | Dashboard placeholder grid |
 | `users/Index.svelte` | `GET /users` (`users.index`) | `View Users\|View Tenant Users` | User list with search, stats, pagination, create/edit/delete, invitations, permission assignment |
 | `roles/Index.svelte` | `GET /roles` (`roles.index`) | `View Roles\|View Tenant Roles` | Role list and create/edit/delete (system roles protected) |
-| `tenants/Index.svelte` | `GET /tenants` (`tenants.index`) — central | `View Tenants` | Tenant list with search, status filter and stats |
-| `tenants/Create.svelte` | `GET /tenants/create` (`tenants.create`) — central | `Create Tenant` | Create a tenant (company, subdomain, admin, profile data, status) |
-| `tenants/Show.svelte` | `GET /tenants/{tenant}` (`tenants.show`) — central | `View Tenants` | Tenant detail: edit, domains, reset admin password, resend invitation, delete |
-| `tenants/Domains.svelte` | `GET /tenants/domains` (`tenants.domains`) — central | `View Tenants` | All domains: filters, search, add, set primary, delete, per-domain settings and auth features |
+| `tenants/Index.svelte` | `GET /tenants` (`tenants.index`), central | `View Tenants` | Tenant list with search, status filter and stats |
+| `tenants/Create.svelte` | `GET /tenants/create` (`tenants.create`), central | `Create Tenant` | Create a tenant (company, subdomain, admin, profile data, status) |
+| `tenants/Show.svelte` | `GET /tenants/{tenant}` (`tenants.show`), central | `View Tenants` | Tenant detail: edit, domains, reset admin password, resend invitation, delete |
+| `tenants/Domains.svelte` | `GET /tenants/domains` (`tenants.domains`), central | `View Tenants` | All domains: filters, search, add, set primary, delete, per-domain settings and auth features |
 
 ## Settings pages
 
-`settings/*` pages render inside `AppLayout` + `layouts/settings/Layout.svelte` (the Profile / Security / Appearance / Layout sub-navigation). `GET /settings` redirects to `/settings/profile`.
+Anything under `settings/*` renders inside `AppLayout` plus `layouts/settings/Layout.svelte`, which adds the Profile / Security / Appearance / Layout sub-navigation. Visiting `GET /settings` sends you on to `/settings/profile`.
 
 | Page file | Route | Purpose |
 | --- | --- | --- |
@@ -81,13 +81,13 @@ App pages render inside `AppLayout` and require `auth` + `verified`.
 
 ## Setup pages
 
-`setup/*` pages use the plain `AppLayout`; the sidebar switches to `setupMenus` while the URL starts with `/setup`. `GET /setup` redirects to `/setup/menus`.
+The `setup/*` pages use `AppLayout` with nothing extra. While the URL starts with `/setup`, the sidebar shows `setupMenus` instead of the usual menu. `GET /setup` redirects to `/setup/menus`.
 
 | Page file | Route | Permission | Purpose |
 | --- | --- | --- | --- |
 | `setup/Menus.svelte` | `GET /setup/menus` (`setup.menus.index`) | `View Navigation Menus\|View Tenant Menus` | Drag & drop menu order (`sortablejs`), reset to defaults |
 | `setup/Layout.svelte` | `GET /setup/layout` (`setup.layout.index`) | `Update Layout Settings\|Update Tenant Layout` | Global default app and auth layout |
-| `setup/TenantSettings.svelte` | `GET /setup/tenant-settings` (`setup.tenant-settings.edit`) — central | `Manage Tenant Maintenance` | Global maintenance mode for tenant workspaces |
+| `setup/TenantSettings.svelte` | `GET /setup/tenant-settings` (`setup.tenant-settings.edit`), central | `Manage Tenant Maintenance` | Global maintenance mode for tenant workspaces |
 
 ## Error page
 
@@ -95,11 +95,11 @@ App pages render inside `AppLayout` and require `auth` + `verified`.
 | --- | --- | --- |
 | `errors/Error.svelte` | Exception handler in `bootstrap/app.php` | 403, 404, 500 and 503 responses. Uses `AppLayout` for signed-in users and `AuthLayout` for guests. |
 
-In `local` and `testing` only 403 renders this page; other statuses show Laravel's debug page.
+In the `local` and `testing` environments, only a 403 uses this page. Any other status shows Laravel's debug page so you can see what went wrong.
 
 ## Partials
 
-Page-specific modals and sections live in `Partials/` next to the page:
+Modals and sections that belong to a single page sit in a `Partials/` folder beside it:
 
 | File | Used by |
 | --- | --- |
@@ -115,5 +115,5 @@ Page-specific modals and sections live in `Partials/` next to the page:
 | `tenants/Partials/MaintenanceModeForm.svelte` | Maintenance message, secret bypass link, allowed IPs |
 
 ::: tip
-Adding a page? Follow [Development → Adding a page](/docs/svelte/development#adding-a-page).
+Building a new page? The steps are in [Development → Adding a page](/docs/svelte/development#adding-a-page).
 :::

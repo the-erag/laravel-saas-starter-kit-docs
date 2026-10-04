@@ -14,8 +14,8 @@ withDefaults(defineProps<{ primary?: boolean }>(), { primary: false });
       <SectionHeading
         :as="primary ? 'h1' : 'h2'"
         eyebrow="Pricing"
-        title="Simple, one-time pricing"
-        lead="Pay once and keep access to your kit's repository for life — including every weekly update."
+        title="One-time pricing, no subscription"
+        lead="One payment gets you lifetime access to your kit's repository, and every weekly update that lands in it."
       />
       <div class="plans">
         <article
@@ -37,8 +37,8 @@ withDefaults(defineProps<{ primary?: boolean }>(), { primary: false });
             <span class="plan-term">one-time</span>
           </p>
           <ul class="sl-checklist plan-list">
-            <li><SlIcon name="infinity" :size="16" class="plan-check" /><b>Lifetime Access</b></li>
-            <li><SlIcon name="refresh" :size="16" class="plan-check" /><b>Weekly Updates</b></li>
+            <li><SlIcon name="infinity" :size="16" class="plan-check" /><b>Lifetime access</b></li>
+            <li><SlIcon name="refresh" :size="16" class="plan-check" /><b>Weekly updates</b></li>
             <li v-for="benefit in plans[key].benefits" :key="benefit">
               <SlIcon name="check" :size="16" class="plan-check" />{{ benefit }}
             </li>
@@ -57,7 +57,7 @@ withDefaults(defineProps<{ primary?: boolean }>(), { primary: false });
         {{ site.paymentNote }}
       </p>
       <p class="pricing-sub">
-        Payment is made through GitHub Sponsors. <a class="sl-link" href="/how-to-pay.html">See how to pay →</a>
+        You pay through GitHub Sponsors. <a class="sl-link" href="/how-to-pay.html">See how it works →</a>
       </p>
     </div>
   </section>

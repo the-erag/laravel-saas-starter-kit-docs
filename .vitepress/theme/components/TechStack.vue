@@ -51,7 +51,7 @@ const groups = [
 <template>
   <section class="stack" aria-labelledby="tech-stack-title">
     <div class="sl-container">
-      <p id="tech-stack-title" class="stack-title">Built on the modern Laravel stack</p>
+      <p id="tech-stack-title" class="stack-title">Built on the current Laravel stack</p>
       <div class="stack-groups">
         <div v-for="group in groups" :key="group.title" class="stack-group">
           <span class="stack-label">{{ group.title }}</span>

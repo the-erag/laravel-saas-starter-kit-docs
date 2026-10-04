@@ -24,7 +24,7 @@ head:
 
 # Authentication
 
-Authentication is powered by **Laravel Fortify** (headless) with Inertia pages. Fortify handles the routes and logic; the `Modules/Auth` module connects it to the kit's pages, actions and rate limits.
+Authentication runs on Laravel Fortify (headless) with Inertia pages. Fortify handles the routes and the logic, and the `Modules/Auth` module connects it to the kit's pages, actions and rate limits.
 
 ## Features
 
@@ -38,7 +38,7 @@ Authentication is powered by **Laravel Fortify** (headless) with Inertia pages. 
 | Two-factor auth (TOTP + recovery codes) | `Features::twoFactorAuthentication()` | `auth/TwoFactorChallenge`, Security settings |
 | Passkeys (WebAuthn) | `Features::passkeys()` | Login, Confirm password, Security settings |
 
-Page names are shown in Vue/Svelte casing; React uses kebab-case (`auth/two-factor-challenge`).
+The page names above use Vue/Svelte casing. React uses kebab-case (`auth/two-factor-challenge`).
 
 Signed-in users also get these settings pages:
 
@@ -51,7 +51,7 @@ Signed-in users also get these settings pages:
 
 ## How it is wired
 
-`AuthServiceProvider` in the Auth module tells Fortify which actions and Inertia pages to use, and registers the rate limiters. On tenant domains it also points Fortify at the `tenant` guard, so users are logged into the right database.
+`AuthServiceProvider` in the Auth module tells Fortify which actions and Inertia pages to use and registers the rate limiters. On tenant domains it also points Fortify at the `tenant` guard, so users get logged into the right database.
 
 | Rate limiter | Limit |
 | --- | --- |
@@ -59,7 +59,7 @@ Signed-in users also get these settings pages:
 | `two-factor` | 5 per minute per login session |
 | `passkeys` | 10 per minute per credential (or session) + IP |
 
-**Related files**
+Related files:
 
 | File | Role |
 | --- | --- |
@@ -70,26 +70,26 @@ Signed-in users also get these settings pages:
 
 ## Central and tenant guards
 
-Central users and tenant users live in different databases, so each context has its own session guard. Both guards use the same `App\Models\User` model.
+Central users and tenant users live in different databases, so each context gets its own session guard. Both guards use the same `App\Models\User` model.
 
 | Guard | Provider and password broker | Database |
 | --- | --- | --- |
 | `web` | `central_users` | Central |
 | `tenant` | `tenant_users` | Tenant |
 
-You never switch guards by hand. On every request the kit sets the Laravel and Fortify guard for the current context, and the `auth` / `guest` middleware aliases map `web` to `tenant` inside a tenant. Write `->middleware('auth')` in both contexts.
+You don't switch guards yourself. On every request the kit sets the Laravel and Fortify guard for the current context, and inside a tenant the `auth` / `guest` middleware aliases map `web` to `tenant`. Just write `->middleware('auth')` in both contexts.
 
 ::: info Separate accounts
-A central user and a tenant user are different records in different databases, even with the same email. Sessions are also per host.
+A central user and a tenant user are separate records in separate databases, even if they share an email address. Sessions are per host too.
 :::
 
-**Related files**: `config/auth.php`, `App\Http\Middleware\InitializeTenancyIfTenantDomain`, `App\Listeners\ConfigureTenantAuth`, `App\Listeners\RevertTenantAuth`. See [Architecture → Central vs tenant context](/docs/core/architecture#central-vs-tenant-context).
+Related files: `config/auth.php`, `App\Http\Middleware\InitializeTenancyIfTenantDomain`, `App\Listeners\ConfigureTenantAuth`, `App\Listeners\RevertTenantAuth`. For the bigger picture, see [Architecture → Central vs tenant context](/docs/core/architecture#central-vs-tenant-context).
 
 ## Per-domain features
 
-Each tenant domain can turn Fortify features off without code changes, for example to disable self-registration for one customer. Open **Tenants → Domains → Authentication features**; the dialog lists every feature from `config/fortify.php` with a toggle.
+Each tenant domain can switch Fortify features off without any code changes. You might use this to stop self-registration for one customer, for example. Open **Tenants → Domains → Authentication features** and you'll see every feature from `config/fortify.php` with a toggle.
 
-How it works:
+Here's what happens:
 
 ```text
 domains.auth_features (JSON)   → stored per domain; missing keys count as enabled
@@ -99,20 +99,20 @@ request to a disabled feature  → EnsureTenantAuthFeatureEnabled returns 404
 
 Blocked route names include `register`, `password.request`, `verification.*`, `two-factor.*` and `passkey.*`.
 
-The central domain always uses the full `config/fortify.php` list. To disable a feature everywhere, remove it from that list.
+The central domain always uses the full `config/fortify.php` list. If you want a feature gone everywhere, remove it from that list.
 
 ## Registration and permissions
 
-`CreateNewUser` creates a user **without a role or permissions**. Fortify then redirects to `/dashboard`, which requires `View Analytics Dashboard` (central) or `View Tenant Dashboard` (tenant).
+`CreateNewUser` creates a user without any role or permissions. Fortify then redirects to `/dashboard`, which needs `View Analytics Dashboard` (central) or `View Tenant Dashboard` (tenant).
 
 ::: warning New users see a 403
-A freshly registered user gets a **403** on the dashboard until an admin assigns a role.
+A freshly registered user gets a **403** on the dashboard until an admin gives them a role.
 :::
 
-Your options:
+You can handle this in two ways:
 
-- Assign a role in `Modules\Auth\Actions\CreateNewUser::create()` (below). `RoleEnum::USER` has no dashboard permission by default, so pick a role, or edit `config/permissions/*.php`, to fit your app.
-- Turn registration off per domain (see above).
+- Assign a role in `Modules\Auth\Actions\CreateNewUser::create()` (example below). `RoleEnum::USER` doesn't have a dashboard permission by default, so pick a role that fits your app, or edit `config/permissions/*.php`.
+- Turn registration off for that domain (see above).
 
 ::: details View implementation example
 ```php
@@ -129,19 +129,19 @@ return $user;
 
 ## Email verification
 
-`Features::emailVerification()` is enabled, but `App\Models\User` does **not** implement `MustVerifyEmail` (the import is commented out). The `verified` middleware therefore lets unverified users through.
+`Features::emailVerification()` is enabled, but `App\Models\User` doesn't implement `MustVerifyEmail` (the import is commented out). That means the `verified` middleware lets unverified users through.
 
-To require verification, uncomment the `MustVerifyEmail` import in `app/Models/User.php` and add it to the class:
+If you want to require verification, uncomment the `MustVerifyEmail` import in `app/Models/User.php` and add it to the class:
 
 ```php
 class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
 ```
 
-Seeded users are already verified, and invited users are verified when they accept.
+Seeded users are already verified, and invited users get verified when they accept.
 
 ## Passwords
 
-`AppServiceProvider` sets `Password::defaults()`:
+`Password::defaults()` is set in `AppServiceProvider`:
 
 | Environment | Rules |
 | --- | --- |
@@ -150,7 +150,7 @@ Seeded users are already verified, and invited users are verified when they acce
 
 ## Passkeys
 
-Passkeys use `@laravel/passkeys` on the frontend and Fortify's passkey routes.
+Passkeys use `@laravel/passkeys` on the frontend and Fortify's passkey routes on the backend.
 
 | Setting (`config/fortify.php`) | Value |
 | --- | --- |
@@ -158,14 +158,14 @@ Passkeys use `@laravel/passkeys` on the frontend and Fortify's passkey routes.
 | Allowed origin | `APP_URL` |
 
 ::: tip Use HTTPS locally
-Browsers only allow WebAuthn on secure origins. Run `herd secure` to test passkeys.
+Browsers only allow WebAuthn on secure origins, so run `herd secure` before you test passkeys.
 :::
 
 ## Invitations
 
-Two invitation flows let admins create accounts without choosing a password:
+There are two invitation flows that let admins create accounts without choosing a password:
 
-- **Tenant admin invitation**: see [Multi-tenancy](/docs/core/multi-tenancy#invitations).
-- **User invitation**: see [Users, roles & permissions](/docs/core/users-roles-permissions#invitations).
+- Tenant admin invitations: see [Multi-tenancy](/docs/core/multi-tenancy#invitations).
+- User invitations: see [Users, roles & permissions](/docs/core/users-roles-permissions#invitations).
 
-Both send queued emails with a signed link valid for 7 days; run a [queue worker](/docs/getting-started/local-development#queue-worker).
+Both send queued emails with a signed link that's valid for 7 days, so you'll need a [queue worker](/docs/getting-started/local-development#queue-worker) running.

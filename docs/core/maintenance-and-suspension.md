@@ -24,26 +24,26 @@ head:
 
 # Maintenance & suspension
 
-Two mechanisms block access to tenant workspaces without touching the central app: **maintenance mode** takes every workspace offline for planned work, **suspension** locks a single tenant.
+There are two ways to block access to tenant workspaces while the central app keeps running. Maintenance mode takes every workspace offline while you do planned work. Suspension locks out one tenant.
 
 | | Maintenance mode | Suspension |
 | --- | --- | --- |
-| Scope | **All** tenant workspaces | One tenant |
+| Scope | Every tenant workspace | One tenant |
 | Set in | Setup → Tenant Settings | Tenant edit form (Workspace status) |
 | Page | `auth/Maintenance` (HTTP 503) | `auth/Suspended` (HTTP 403) |
 | Still reachable | Login, two-factor, passkey login, logout, bypass link | Logout only |
 | Bypass | Secret link, IP/CIDR allow list | None |
 | Middleware | `EnsureTenantIsNotInMaintenance` | `EnsureTenantIsNotSuspended` |
 
-The central app is never affected by either mechanism.
+Neither one affects the central app.
 
 ::: info Laravel's own maintenance mode
-This is separate from `php artisan down`, which takes the whole application (central and tenants) offline.
+Don't confuse this with `php artisan down`. That command takes the whole application offline, central app and tenants included.
 :::
 
 ## Maintenance mode
 
-Turn it on in **Setup → Tenant Settings** (`/setup/tenant-settings`, central only, permission `Manage Tenant Maintenance`).
+You'll find it under Setup → Tenant Settings (`/setup/tenant-settings`). It's central only and needs the `Manage Tenant Maintenance` permission.
 
 | Field | Rules | Purpose |
 | --- | --- | --- |
@@ -52,7 +52,7 @@ Turn it on in **Setup → Tenant Settings** (`/setup/tenant-settings`, central o
 | `secret` | 8-64 chars, `alpha_dash` | Enables the bypass link |
 | `allowed_ips` | up to 50 IPs or CIDR ranges | These IPs are never blocked |
 
-How a tenant request is handled while maintenance is on:
+While maintenance is on, each tenant request is checked like this:
 
 ```text
 login / two-factor / passkey login / logout / bypass route → allowed
@@ -63,19 +63,19 @@ anything else                                              → maintenance page 
 
 ### Bypass link
 
-Lets your team use a workspace while it is in maintenance:
+Your team can keep using a workspace during maintenance through this link:
 
 ```text
 https://acme.vue.test/maintenance/bypass/{secret}
 ```
 
-- Sign in to the tenant first; the route requires a signed-in tenant user (`auth:tenant`).
-- A valid secret sets the `tenant_maintenance_bypass` cookie for **12 hours** and redirects to `/`.
-- The cookie holds an HMAC of the secret with `APP_KEY`, so changing the secret invalidates existing bypass cookies.
+- Sign in to the tenant first. The route needs a signed-in tenant user (`auth:tenant`).
+- If the secret is valid, you get the `tenant_maintenance_bypass` cookie for 12 hours and land on `/`.
+- The cookie stores an HMAC of the secret keyed with `APP_KEY`. Change the secret and every existing bypass cookie stops working.
 
 ### IP allow list
 
-Requests from any listed IP or CIDR range pass straight through. Entries are validated by the `IpAddressOrCidr` rule and checked with Symfony's `IpUtils::checkIp()`.
+Requests from a listed IP or CIDR range go straight through. The `IpAddressOrCidr` rule validates each entry, and Symfony's `IpUtils::checkIp()` does the matching.
 
 **Related files**
 
@@ -89,8 +89,8 @@ Requests from any listed IP or CIDR range pass straight through. Entries are val
 
 ## Suspension
 
-Set a tenant's **Workspace status** to **Suspended** in the tenant edit form, optionally with a **status message** (max 500 chars).
+To suspend a tenant, open its edit form and set Workspace status to Suspended. You can add a status message as well (max 500 chars).
 
-On every request to that tenant's domains, `EnsureTenantIsNotSuspended` renders `auth/Suspended` with the company name and message (HTTP 403). Only `logout` still works. Set the status back to Active or Trial to restore access.
+From then on, every request to that tenant's domains hits `EnsureTenantIsNotSuspended`, which renders `auth/Suspended` with the company name and your message (HTTP 403). `logout` is the only route that still works. To give the tenant access again, set the status back to Active or Trial.
 
-See [Multi-tenancy → Workspace status](/docs/core/multi-tenancy#workspace-status).
+The statuses are listed in [Multi-tenancy → Workspace status](/docs/core/multi-tenancy#workspace-status).

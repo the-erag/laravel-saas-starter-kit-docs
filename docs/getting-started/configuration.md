@@ -24,7 +24,7 @@ head:
 
 # Configuration
 
-Most settings are standard Laravel. This page covers the keys and files that are specific to the kits. For every `.env` key and its default, see the [Environment reference](/docs/reference/environment).
+Most of the settings are plain Laravel. Here we only cover the keys and files that are specific to the kits. If you want every `.env` key with its default, see the [Environment reference](/docs/reference/environment).
 
 ## Key `.env` values
 
@@ -38,7 +38,7 @@ Most settings are standard Laravel. This page covers the keys and files that are
 | `CACHE_STORE` | `database` | Cache |
 | `MAIL_MAILER` | `log` | Writes emails to the log until you configure a real mailer |
 
-Where the database-backed drivers store their data:
+Here's where the database-backed drivers keep their data:
 
 | Driver | Central domain | Tenant domain |
 | --- | --- | --- |
@@ -48,7 +48,7 @@ Where the database-backed drivers store their data:
 
 ## `config/tenancy.php`
 
-`APP_DOMAIN` is read here twice: as `central_domains` (a single-item array) and as `domain` (the suffix for tenant subdomains).
+This file reads `APP_DOMAIN` twice. Once as `central_domains` (a single-item array), and once as `domain` (the suffix for tenant subdomains).
 
 | Key | Value | Meaning |
 | --- | --- | --- |
@@ -64,7 +64,7 @@ Where the database-backed drivers store their data:
 | `migration_parameters` | `--path => database/migrations/tenant` | Used by `tenants:migrate` |
 | `seeder_parameters` | `--class => TenantDatabaseSeeder` | Used by `tenants:seed` and tenant creation |
 
-See [Database → Tenant database naming](/docs/core/database#tenant-database-naming) before changing the prefix.
+Read [Database → Tenant database naming](/docs/core/database#tenant-database-naming) before you change the prefix.
 
 ## `config/fortify.php`
 
@@ -78,19 +78,19 @@ See [Database → Tenant database naming](/docs/core/database#tenant-database-na
 | `passkeys.user_handle_secret` | `env('PASSKEYS_USER_HANDLE_SECRET', config('app.key'))` |
 
 ::: info The feature list is the maximum
-Tenant domains can switch individual features off, but never on if they are missing here. See [Authentication → Per-domain features](/docs/core/authentication#per-domain-features).
+A tenant domain can turn individual features off, but it can't turn on a feature that's missing here. See [Authentication → Per-domain features](/docs/core/authentication#per-domain-features).
 :::
 
 ## `config/auth.php`
 
-Two session guards share `App\Models\User`:
+There are two session guards, and both use `App\Models\User`:
 
 | Guard | Provider | Password broker |
 | --- | --- | --- |
 | `web` | `central_users` | `central_users` |
 | `tenant` | `tenant_users` | `tenant_users` |
 
-`AUTH_PASSWORD_TIMEOUT` (default `10800` seconds) controls how long a password confirmation lasts.
+`AUTH_PASSWORD_TIMEOUT` (default `10800` seconds) sets how long a password confirmation stays valid.
 
 ## `config/permission.php` and `config/permissions/*`
 
@@ -100,7 +100,7 @@ Two session guards share `App\Models\User`:
 | `config/permissions/*.php` | Central permissions and the default system roles for each |
 | `config/permissions/tenant/*.php` | Tenant permissions and the default system roles for each |
 
-Each file becomes one permission group in the UI; the file name is the group key. File format and examples: [Users, roles & permissions → Permissions](/docs/core/users-roles-permissions#permissions).
+Each file shows up as one permission group in the UI, and the file name is the group key. For the file format and examples, see [Users, roles & permissions → Permissions](/docs/core/users-roles-permissions#permissions).
 
 ## `config/inertia-lang.php`
 
@@ -109,13 +109,13 @@ Each file becomes one permission group in the UI; the file name is the group key
 | `lang_path` | `base_path('lang')` |
 | `output_lang` | `resource_path('js/lang')` |
 
-`php artisan erag:generate-lang` exports PHP translation files from `lang_path` to JSON in `output_lang`. See [Localization](/docs/core/localization).
+`php artisan erag:generate-lang` takes the PHP translation files in `lang_path` and exports them as JSON to `output_lang`. See [Localization](/docs/core/localization).
 
 ## `config/queue.php`
 
-All queued jobs, including those dispatched inside a tenant, are stored in the **central** `jobs` table, so a single worker processes them for every tenant.
+Every queued job, including jobs dispatched inside a tenant, goes into the **central** `jobs` table. That means one worker can process jobs for every tenant.
 
-This works because the `database` queue connection reads `DB_QUEUE_CONNECTION`, which defaults to `DB_CONNECTION` (the central connection name, e.g. `mysql`), not the tenant connection. stancl's `QueueTenancyBootstrapper` restores the tenant context when each job runs.
+It works because the `database` queue connection reads `DB_QUEUE_CONNECTION`, which falls back to `DB_CONNECTION` (the central connection name, e.g. `mysql`) rather than the tenant connection. When each job runs, stancl's `QueueTenancyBootstrapper` restores the tenant context.
 
 ::: details View the queue connection
 ```php
@@ -129,7 +129,7 @@ This works because the `database` queue connection reads `DB_QUEUE_CONNECTION`, 
 ```
 :::
 
-More: [Local development → Queue worker](/docs/getting-started/local-development#queue-worker).
+There's more in [Local development → Queue worker](/docs/getting-started/local-development#queue-worker).
 
 ## Other files
 

@@ -81,6 +81,45 @@ export default defineConfig({
   titleTemplate: `:title | ${site.name}`,
   description: site.description,
   cleanUrls: false,
+  // Site data and the page hash map go into one cached chunk instead of being inlined in every page.
+  metaChunk: true,
+  markdown: {
+    anchor: {
+      // Same "#" heading links as VitePress, but with visually hidden text, so crawlers do not report
+      // them as "links with no anchor text". The symbol token keeps VitePress's isPermalinkSymbol meta,
+      // so it is still left out of page titles, the outline and search.
+      permalink: (slug, _options, state, index) => {
+        const title: string = state.tokens[index + 1].content;
+        const escaped = title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const space = Object.assign(new state.Token('text', '', 0), { content: ' ' });
+        const open = Object.assign(new state.Token('link_open', 'a', 1), {
+          attrs: [
+            ['class', 'header-anchor'],
+            ['href', `#${slug}`],
+            ['aria-label', `Permalink to "${title}"`],
+          ],
+        });
+        const symbol = Object.assign(new state.Token('html_inline', '', 0), {
+          content: `<span class="sl-sr-only">Link to the “${escaped}” section</span>`,
+          meta: { isPermalinkSymbol: true },
+        });
+        const close = new state.Token('link_close', 'a', -1);
+
+        state.tokens[index + 1].children.push(space, open, symbol, close);
+      },
+    },
+  },
+  vite: {
+    resolve: {
+      // Social icon links with a hidden text label (see theme/components/SocialLink.vue).
+      alias: [
+        {
+          find: /^.*\/VPSocialLink\.vue$/,
+          replacement: fileURLToPath(new URL('./theme/components/SocialLink.vue', import.meta.url)),
+        },
+      ],
+    },
+  },
   lastUpdated: true,
   sitemap: {
     hostname: site.url,

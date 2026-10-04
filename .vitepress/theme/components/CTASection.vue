@@ -12,7 +12,7 @@ withDefaults(
   }>(),
   {
     title: 'Start Building Your SaaS Today',
-    text: 'Pick a starter kit, pay once and get lifetime access with weekly updates. Your next product starts with tenants, auth and permissions already done.',
+    text: 'Pick a starter kit and pay once. You get lifetime access and weekly updates, and your next product starts with tenants, auth and permissions already done.',
     primaryText: 'View Pricing',
     primaryLink: '/pricing.html',
     secondaryText: 'Read Documentation',

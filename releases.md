@@ -24,7 +24,7 @@ head:
 
 # Release Notes
 
-New features, improvements and fixes for the SaaS Laravel starter kits. Updates are pushed to your kit repository every week — see [Updates](/docs/purchase/updates) for how to pull them into your project.
+What's new, improved and fixed in the SaaS Laravel starter kits. We push updates to your kit repository every week. To bring them into your project, see [Updates](/docs/purchase/updates).
 
 <!--
 Kit changes are collected under "## Unreleased" at the top (see rule 6 in AGENTS.md).

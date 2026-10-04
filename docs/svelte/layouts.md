@@ -24,11 +24,11 @@ head:
 
 # Layouts <Badge type="tip" text="Svelte" />
 
-Layouts live in `resources/js/layouts`. `app.ts` assigns a default layout by page name (see [Architecture](/docs/svelte/architecture#overview)); a page can pass props to it or replace it.
+The layout files are in `resources/js/layouts`. Each page gets a default layout from `app.ts`, chosen by the page name (see [Architecture](/docs/svelte/architecture#overview)). From there, a page can pass props to that layout or swap it for another one.
 
 ## Layout selection flow
 
-Which shell a user sees is decided on the server and read on the client from the shared `layout` prop (`LayoutSettings`):
+The server decides which shell a user gets. The client then reads that choice from the shared `layout` prop (`LayoutSettings`):
 
 ```text
 Setup → Layout (global default, incl. auth layout)
@@ -37,40 +37,40 @@ Setup → Layout (global default, incl. auth layout)
   → AppLayout.svelte / AuthLayout.svelte pick the matching component
 ```
 
-- A user's saved setting wins over the global default.
-- `auth_layout` always comes from the global default, because auth pages are shown before login.
+- If a user has saved their own setting, it beats the global default.
+- `auth_layout` is the exception. Auth pages appear before anyone has logged in, so it always uses the global default.
 
-Background on menus and layout settings: [Navigation & layouts](/docs/core/navigation-and-layouts).
+For more on how menus and layout settings work, read [Navigation & layouts](/docs/core/navigation-and-layouts).
 
 ## App layouts
 
-`AppLayout.svelte` takes `breadcrumbs?: BreadcrumbItem[]` and a `children` snippet, and renders one of two shells based on `page.props.layout.app_layout`:
+`AppLayout.svelte` accepts `breadcrumbs?: BreadcrumbItem[]` and a `children` snippet. It looks at `page.props.layout.app_layout` and renders one of two shells:
 
 | `app_layout` | Component | Structure |
 | --- | --- | --- |
 | `sidebar` (default) | `app/AppSidebarLayout.svelte` | `AppSidebar` + `AppSidebarHeader` (breadcrumbs) + content |
 | `header` | `app/AppHeaderLayout.svelte` | `AppHeader` top navigation (menus + breadcrumbs) + content |
 
-Both shells also mount the `Toaster` (svelte-sonner) and the global `ConfirmDialog`.
+Each shell also mounts the `Toaster` (svelte-sonner) and the global `ConfirmDialog`.
 
-In the sidebar shell, `AppSidebar` reads two more settings:
+When you're in the sidebar shell, `AppSidebar` looks at two extra settings:
 
 | Setting | Values | Default |
 | --- | --- | --- |
 | `sidebar_variant` | `inset`, `sidebar`, `floating` | `inset` |
 | `sidebar_collapsible` | `icon`, `offcanvas`, `none` | `icon` |
 
-The sidebar shows `menus` normally and `setupMenus` while the URL starts with `/setup`.
+Usually the sidebar lists `menus`. Once the URL starts with `/setup`, it switches to `setupMenus`.
 
-**Settings layout.** `settings/*` pages get `[AppLayout, SettingsLayout]`, so `layouts/settings/Layout.svelte` renders the Profile / Security / Appearance / Layout sub-navigation inside the app shell. The active item is detected with `isCurrentOrParentUrl` from `lib/currentUrl.svelte.ts`.
+**Settings layout.** Pages under `settings/*` get `[AppLayout, SettingsLayout]`. That lets `layouts/settings/Layout.svelte` draw the Profile / Security / Appearance / Layout sub-navigation inside the app shell. To work out which item is active, it uses `isCurrentOrParentUrl` from `lib/currentUrl.svelte.ts`.
 
 ::: tip
-To add another app-wide wrapper (for example a banner), put it in both `AppSidebarLayout.svelte` and `AppHeaderLayout.svelte` so it survives a switch between sidebar and header mode.
+Want to wrap the whole app in something else, like a banner? Add it to `AppSidebarLayout.svelte` and to `AppHeaderLayout.svelte`. Otherwise it disappears when someone switches between sidebar and header mode.
 :::
 
 ## Auth layouts
 
-`AuthLayout.svelte` takes `title` and `description` (translation keys; the layout translates them) and renders one of three designs from `page.props.layout.auth_layout`:
+`AuthLayout.svelte` accepts a `title` and a `description`. Pass translation keys for both, and the layout translates them for you. Based on `page.props.layout.auth_layout`, it renders one of three designs:
 
 | `auth_layout` | Component | Look |
 | --- | --- | --- |
@@ -80,7 +80,7 @@ To add another app-wide wrapper (for example a banner), put it in both `AppSideb
 
 ## Per-page layout override
 
-A page exports `layout` from its `<script module>` block. Imports the layout object needs (such as Wayfinder routes) go in the same block.
+To change its layout, a page exports `layout` from its `<script module>` block. Anything the layout object imports, such as Wayfinder routes, belongs in that same block.
 
 ```svelte
 <script module lang="ts">
@@ -96,7 +96,7 @@ A page exports `layout` from its `<script module>` block. Imports the layout obj
 </script>
 ```
 
-What `layout` can be:
+`layout` can take any of these forms:
 
 | Value | Effect | Used by |
 | --- | --- | --- |
@@ -104,7 +104,7 @@ What `layout` can be:
 | `[]` | No layout (full-screen page) | `Home.svelte`, `auth/Maintenance.svelte`, `auth/Suspended.svelte` |
 | Function of the page props | Choose a layout per request | `errors/Error.svelte`: `AppLayout` for signed-in users, `AuthLayout` for guests |
 
-For values that depend on state, call `setLayoutProps()` from the page. `TwoFactorChallenge.svelte` swaps the title when the user switches to a recovery code; `AcceptInvitation.svelte` uses it when `mode === 'user'` to show the user-invitation wording.
+When a value depends on state, call `setLayoutProps()` from the page instead. Two pages do this. `TwoFactorChallenge.svelte` changes the title once the user switches to a recovery code, and `AcceptInvitation.svelte` calls it when `mode === 'user'` so the user-invitation wording shows.
 
 ::: details View more examples
 Title and description on an auth page:

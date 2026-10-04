@@ -36,8 +36,8 @@ const savings = computed(() => planKits.value.reduce((total, kit) => total + kit
         <p class="sl-lead">{{ plan.tagline }}</p>
         <div class="detail-meta">
           <span class="detail-amount">{{ formatPrice(plan.price) }}</span>
-          <span class="sl-badge sl-badge--brand detail-badge"><SlIcon name="infinity" :size="13" /> Lifetime Access</span>
-          <span class="sl-badge sl-badge--success detail-badge"><SlIcon name="refresh" :size="13" /> Weekly Updates</span>
+          <span class="sl-badge sl-badge--brand detail-badge"><SlIcon name="infinity" :size="13" /> Lifetime access</span>
+          <span class="sl-badge sl-badge--success detail-badge"><SlIcon name="refresh" :size="13" /> Weekly updates</span>
           <span v-if="isBundle && savings > 0" class="sl-badge sl-badge--warning detail-badge">Save {{ formatPrice(savings) }}</span>
         </div>
         <p class="detail-note">{{ site.paymentNote }}</p>
@@ -100,28 +100,33 @@ const savings = computed(() => planKits.value.reduce((total, kit) => total + kit
         </section>
 
         <section class="block">
-          <h2 class="block-title"><SlIcon name="git" :size="20" /> What you receive</h2>
+          <h2 class="block-title"><SlIcon name="git" :size="20" /> What you get</h2>
           <p class="sl-text">
-            Access to {{ isBundle ? 'each starter kit GitHub repository' : 'the starter kit GitHub repository' }} with the full source
-            code — backend, frontend, tests and configuration:
+            The full source code (backend, frontend, tests and configuration) lives in
+            {{ isBundle ? 'these GitHub repositories' : 'this GitHub repository' }}:
           </p>
           <ul class="repos">
             <li v-for="kit in planKits" :key="kit.key">
               <FrameworkLogo :name="kit.key" :size="18" />
-              <a :href="kit.repo" target="_blank" rel="noopener">{{ kit.repo.replace('https://', '') }}</a>
+              <span class="repo-name">{{ kit.repo.replace('https://', '') }}</span>
+              <span class="repo-private">Private</span>
             </li>
           </ul>
+          <p class="sl-text repo-note">
+            {{ isBundle ? 'These repositories are' : 'This repository is' }} private. We invite your GitHub account as soon as your payment goes through. The details
+            are in <a class="sl-link" href="/docs/purchase/repository-access.html">Repository access</a>.
+          </p>
           <p class="sl-text license-note">
-            Licensed under the <a class="sl-link" href="/license.html">SaaS Laravel Commercial License</a> — use it in unlimited
-            projects for you or your clients; reselling or publishing the source code is not allowed.
+            It's licensed under the <a class="sl-link" href="/license.html">SaaS Laravel Commercial License</a>. Use it in as
+            many projects as you like, for yourself or for clients. You can't resell it or publish the source code.
           </p>
         </section>
 
         <section class="block">
           <h2 class="block-title"><SlIcon name="refresh" :size="20" /> Update policy</h2>
           <p class="sl-text">
-            Weekly updates are pushed to the kit {{ isBundle ? 'repositories' : 'repository' }}. You pull them into your own
-            project whenever you are ready — nothing changes in your app until you merge. Updates are included for life with
+            We push updates to the kit {{ isBundle ? 'repositories' : 'repository' }} every week. You pull them into your own
+            project when you're ready, and nothing in your app changes until you merge. Updates are included for life, with
             no renewal fee. <a class="sl-link" href="/docs/purchase/updates.html">How updates work →</a>
           </p>
         </section>
@@ -131,16 +136,16 @@ const savings = computed(() => planKits.value.reduce((total, kit) => total + kit
           <ul class="sl-checklist">
             <li>
               <SlIcon name="check" :size="16" class="check" />
-              Repository access is granted automatically as soon as your GitHub Sponsors payment goes through. Sponsor from the
-              GitHub account you want to be invited.
+              Repository access is set up automatically once your GitHub Sponsors payment goes through, so sponsor from the
+              GitHub account you want us to invite.
             </li>
             <li>
               <SlIcon name="check" :size="16" class="check" />
-              You receive a GitHub invitation to the {{ isBundle ? 'repositories' : 'repository' }} — accept it to start cloning.
+              You'll get a GitHub invitation to the {{ isBundle ? 'repositories' : 'repository' }}. Accept it and you can start cloning.
             </li>
             <li>
               <SlIcon name="check" :size="16" class="check" />
-              Support happens on GitHub, through issues on the kit repository.
+              For support, open an issue on the kit repository on GitHub.
             </li>
           </ul>
         </section>
@@ -151,12 +156,12 @@ const savings = computed(() => planKits.value.reduce((total, kit) => total + kit
           <p class="summary-name">{{ plan.name }}</p>
           <p class="summary-price">{{ formatPrice(plan.price) }} <small>one-time</small></p>
           <ul class="sl-checklist summary-list">
-            <li><SlIcon name="check" :size="16" class="check" />Lifetime Access</li>
-            <li><SlIcon name="check" :size="16" class="check" />Weekly Updates</li>
+            <li><SlIcon name="check" :size="16" class="check" />Lifetime access</li>
+            <li><SlIcon name="check" :size="16" class="check" />Weekly updates</li>
             <li v-for="benefit in plan.benefits" :key="benefit"><SlIcon name="check" :size="16" class="check" />{{ benefit }}</li>
           </ul>
           <a class="sl-btn sl-btn--primary sl-btn--block" :href="plan.sponsorUrl" target="_blank" rel="noopener">
-            <SlIcon name="github" :size="16" /> Sponsor / Purchase on GitHub
+            <SlIcon name="github" :size="16" /> Buy on GitHub Sponsors
           </a>
           <a class="summary-how" href="/how-to-pay.html">How to pay</a>
         </div>
@@ -168,15 +173,15 @@ const savings = computed(() => planKits.value.reduce((total, kit) => total + kit
         <div>
           <h2 class="purchase-title">Get the {{ plan.name }} for {{ formatPrice(plan.price) }}</h2>
           <p class="purchase-text">
-            {{ site.paymentNote }}. After payment, your GitHub account automatically gets access to
-            {{ isBundle ? 'all three repositories' : 'the repository' }}.
+            {{ site.paymentNote }}. Once you've paid, your GitHub account is invited to
+            {{ isBundle ? 'all three repositories' : 'the repository' }} automatically.
           </p>
         </div>
         <div class="purchase-actions">
           <a class="sl-btn sl-btn--lg purchase-btn" :href="plan.sponsorUrl" target="_blank" rel="noopener">
-            <SlIcon name="github" :size="16" /> Sponsor / Purchase on GitHub
+            <SlIcon name="github" :size="16" /> Buy on GitHub Sponsors
           </a>
-          <a class="purchase-link" href="/how-to-pay.html">Read how to pay →</a>
+          <a class="purchase-link" href="/how-to-pay.html">How paying works →</a>
         </div>
       </div>
     </section>
@@ -532,8 +537,24 @@ const savings = computed(() => planKits.value.reduce((total, kit) => total + kit
   overflow-wrap: anywhere;
 }
 
-.repos a {
-  color: var(--vp-c-brand-1);
+.repo-name {
+  color: var(--vp-c-text-1);
+}
+
+.repo-private {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--vp-c-default-soft);
+  font-family: var(--vp-font-family-base);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--vp-c-text-2);
+}
+
+.repo-note {
+  margin-top: 12px;
+  font-size: 14px;
 }
 
 .detail-aside {

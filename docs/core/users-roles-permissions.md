@@ -24,9 +24,9 @@ head:
 
 # Users, roles & permissions
 
-Authorization uses **spatie/laravel-permission** (`^8.3`). The same screens work on the central domain (guard `web`) and inside every tenant (guard `tenant`), each with its own users, roles and permissions.
+Authorization is built on spatie/laravel-permission (`^8.3`). You get the same screens on the central domain (guard `web`) and inside every tenant (guard `tenant`), and each side has its own users, roles and permissions.
 
-How the pieces fit together:
+Here's how the pieces connect:
 
 ```text
 config/permissions/*.php  → defines permissions + default roles for each
@@ -37,13 +37,10 @@ permission middleware / can() → checks the user's permissions
 
 ## Users
 
-`/users` (module `Modules/User`):
+The users page is at `/users` (module `Modules/User`). It lists users with search, pagination and stats (total, verified, unverified). You can create, edit and delete users (but not yourself), and pick a role while creating or editing. Two more things live here:
 
-- List with search, pagination and stats (total, verified, unverified)
-- Create, edit and delete users (you cannot delete yourself)
-- Pick a role when creating or editing
-- **Send invitation email** instead of setting a password
-- **Assign permissions** dialog: permissions grouped by config file, with a role selector that checks the role's default permissions
+- Send invitation email, so the user sets their own password instead of you setting one.
+- The Assign permissions dialog, which groups permissions by config file and has a role selector that checks that role's default permissions.
 
 | Action | Central permission | Tenant permission |
 | --- | --- | --- |
@@ -55,7 +52,7 @@ permission middleware / can() → checks the user's permissions
 
 ### Invitations
 
-An invitation lets the new user choose their own password. When **Send invitation email** is on:
+An invitation lets the new user choose their own password. With Send invitation email turned on, this is what happens:
 
 ```text
 UserService::createUser()
@@ -67,17 +64,17 @@ User opens the link
   → is verified and signed in, invited_at is cleared
 ```
 
-The list shows an **Invitation pending** badge while `invited_at` is set.
+While `invited_at` is set, the user has an Invitation pending badge in the list.
 
 ::: warning Invitations need a queue worker
-Invitation emails are queued. Without a running worker no email is sent. See [Local development → Queue worker](/docs/getting-started/local-development#queue-worker).
+Invitation emails go through the queue, so nothing is sent unless a worker is running. See [Local development → Queue worker](/docs/getting-started/local-development#queue-worker).
 :::
 
 **Related files**: `Modules/User/Services/UserService.php`, `Modules/User/Notifications/UserInvitationNotification.php` (`EXPIRES_IN_DAYS`), `Modules/User/Http/Controllers/UserInvitationController.php` (route `users.invitation.show`).
 
 ## Roles
 
-`/roles` (module `Modules/RolePermission`) lists roles with search and stats (total, system, custom) and lets you create, rename and delete roles.
+On `/roles` (module `Modules/RolePermission`) you can search roles, see stats (total, system, custom), and create, rename or delete roles.
 
 | Action | Central permission | Tenant permission |
 | --- | --- | --- |
@@ -86,7 +83,7 @@ Invitation emails are queued. Without a running worker no email is sent. See [Lo
 | Edit | `Edit Role` | `Edit Tenant Role` |
 | Delete | `Delete Role` | `Delete Tenant Role` |
 
-There are two kinds of roles:
+Roles come in two kinds:
 
 | | System roles | Custom roles |
 | --- | --- | --- |
@@ -94,7 +91,7 @@ There are two kinds of roles:
 | Default permissions | From `config/permissions` | None |
 | Edit or delete in the UI | No (marked as system) | Yes |
 
-System roles:
+These are the system roles:
 
 | Value | Label |
 | --- | --- |
@@ -104,18 +101,18 @@ System roles:
 | `employee` | Employee |
 | `user` | User |
 
-The backend also refuses to delete `super-admin`.
+Even outside the UI, the backend refuses to delete `super-admin`.
 
 ### Super admin
 
-Users with the `super-admin` role pass every check:
+A user with the `super-admin` role passes every check, on both ends:
 
-- **Backend**: `AppServiceProvider` registers a `Gate::before` that grants every ability.
-- **Frontend**: `auth.isSuperAdmin` makes every `can()` check pass.
+- Backend: `AppServiceProvider` registers a `Gate::before` that grants every ability.
+- Frontend: `auth.isSuperAdmin` makes every `can()` check pass.
 
 ## Permissions
 
-Permissions are defined in PHP config files, one file per group. The file tells the kit which permissions exist and which system roles get each one by default.
+Permissions are defined in PHP config files, one file per group. Each file lists the permissions that exist and which system roles get each one by default.
 
 ```text
 config/permissions/            # central (guard web)
@@ -139,22 +136,22 @@ return [
 | `permission_name` | The permission stored in the database |
 | `associated_roles` | **Role labels** (from `RoleEnum::label()`), not values, that get this permission by default |
 
-`PermissionService::getGroupedPermissions()` reads the central or tenant folder depending on context. Group names are translated with `modules/role.permission_groups.<file name>`.
+`PermissionService::getGroupedPermissions()` picks the central or tenant folder based on the current context. Group names are translated with `modules/role.permission_groups.<file name>`.
 
 ### How permissions are assigned
 
-Permissions are assigned **directly to users**, not to roles. This lets you fine-tune one user without creating a new role. `PermissionService::assignRole($user, $roleName)` works like this:
+Permissions are given **directly to users**, not to roles. That way you can adjust one person's access without creating a new role just for them. Here's what `PermissionService::assignRole($user, $roleName)` does:
 
 | Role type | Result |
 | --- | --- |
-| System role | Syncs the role **and** replaces the user's permissions with those whose `associated_roles` include the role's label |
-| Custom role | Syncs only the role; the user's permissions are not changed. Use the **Assign permissions** dialog |
+| System role | Syncs the role and also replaces the user's permissions with those whose `associated_roles` include the role's label |
+| Custom role | Syncs only the role and leaves the user's permissions alone. Set them in the Assign permissions dialog |
 
-Changing a user's role in the edit form re-applies that role's default permissions.
+When you change a user's role in the edit form, that role's default permissions are applied again.
 
 ### Adding a permission
 
-1. Add an entry to the right file in `config/permissions/` (and `config/permissions/tenant/` if tenants need it).
+1. Add an entry to the right file in `config/permissions/` (and to `config/permissions/tenant/` if tenants need it too).
 2. Create it in the database:
 
    ```bash
@@ -162,11 +159,11 @@ Changing a user's role in the edit form re-applies that role's default permissio
    php artisan tenants:seed                           # all tenants (runs TenantDatabaseSeeder)
    ```
 
-3. Assign it to users in the UI, or re-assign the role.
-4. If you created a new file, add a group label to `lang/<locale>/modules/role.php` under `permission_groups`.
+3. Give it to users in the UI, or assign the role again.
+4. If you added a new file, give it a group label under `permission_groups` in `lang/<locale>/modules/role.php`.
 
 ::: warning `tenants:seed` runs the full tenant seeder
-`TenantDatabaseSeeder` also runs `DefaultUserSeeder`, which creates (or updates) the `<role>@gmail.com` users in every tenant. Remove it from `database/seeders/tenant/TenantDatabaseSeeder.php` if you do not want those accounts, or seed only permissions with `php artisan tenants:seed --class="Database\\Seeders\\PermissionSeeder"`.
+`TenantDatabaseSeeder` also runs `DefaultUserSeeder`, which creates or updates the `<role>@gmail.com` users in every tenant. If you don't want those accounts, take it out of `database/seeders/tenant/TenantDatabaseSeeder.php`, or seed just the permissions with `php artisan tenants:seed --class="Database\\Seeders\\PermissionSeeder"`.
 :::
 
 ## Checking permissions
@@ -178,7 +175,7 @@ Changing a user's role in the edit form re-applies that role's default permissio
 | Menus | The `permission` column on each `menus` row; `MenuService` hides items the user cannot access |
 | Frontend | `can()` helper, powered by the shared props `auth.permissions` and `auth.isSuperAdmin` |
 
-**Routes**: when a route serves both contexts, pipe-separate the central and tenant names:
+For a route that serves both contexts, list the central and tenant permission names separated by a pipe:
 
 ```php
 Route::get('users', [UserController::class, 'index'])
@@ -186,7 +183,7 @@ Route::get('users', [UserController::class, 'index'])
     ->name('users.index');
 ```
 
-**Frontend**: `can(...names)` returns `true` if the user has **any** of the given permissions.
+On the frontend, `can(...names)` returns `true` if the user has at least one of the permissions you pass in.
 
 ::: code-group
 
@@ -227,5 +224,5 @@ export default function UsersToolbar() {
 :::
 
 ::: tip Hiding is not securing
-Frontend checks only hide UI. Always protect the route with `permission:` middleware too.
+A frontend check only hides things in the UI. The route still needs `permission:` middleware to actually block access.
 :::

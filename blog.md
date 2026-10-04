@@ -28,6 +28,6 @@ head:
 
 # Laravel SaaS Blog
 
-Practical guides for building SaaS products with Laravel — multi-tenancy, architecture, authentication and the frontend choices that come with them.
+Practical guides from our team on building SaaS products with Laravel. We write about multi-tenancy, architecture, authentication and the frontend choices that come with them.
 
 <BlogIndex />

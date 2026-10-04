@@ -26,7 +26,7 @@ head:
 
 ## Overview
 
-Components live in `resources/js/components`, in three groups:
+You'll find the components in `resources/js/components`, split into three groups:
 
 | Folder | What it holds |
 | --- | --- |
@@ -34,10 +34,10 @@ Components live in `resources/js/components`, in three groups:
 | `components/ui/` | shadcn/ui primitives built on Radix UI (`button.tsx`, `dialog.tsx`, `select.tsx`, `sidebar.tsx`, …) |
 | `components/` | App shell and feature components (`AppSidebar`, `AppHeader`, `UserMenuContent`, `ErrorStatus`, …) |
 
-Reach for `Common*` components first. They wire up the label, `id`, `aria-*` attributes and the error message, so a field is one line. Each file has both a named and a default export.
+Start with the `Common*` components. They handle the label, `id`, `aria-*` attributes and error message for you, which turns a form field into a single line. Every file exports the component both as a named and as a default export.
 
 ::: tip
-Page-only components live next to their page in `partials/` (for example `pages/tenants/partials/domain-modal.tsx`), not in `components/`.
+If a component is only used by one page, put it in a `partials/` folder next to that page (for example `pages/tenants/partials/domain-modal.tsx`) rather than in `components/`.
 :::
 
 ## Common form components
@@ -57,13 +57,13 @@ Page-only components live next to their page in `partials/` (for example `pages/
 | `CommonTooltip` | `common-tooltip.tsx` | Tooltip around any trigger |
 | `ConfirmDialog` | `confirm-dialog.tsx` | Promise-based confirm dialog, opened with `useConfirmDialog()` |
 
-All input components share the same basics:
+The input components all work the same way:
 
-- They accept `label`, `error`, `required` and `disabled`.
-- They generate an `id` with `useId()` when you don't pass one.
-- Other props (`autoFocus`, `tabIndex`, `className`, `data-test`, …) go to the underlying element.
-- Inside an Inertia `<Form>` you only need `name` and `error`. Use `defaultValue` to prefill.
-- Outside a `<Form>`, control the value with `value` + `onChange` / `onValueChange`.
+- Each one takes `label`, `error`, `required` and `disabled`.
+- If you leave out `id`, one is generated with `useId()`.
+- Any other prop (`autoFocus`, `tabIndex`, `className`, `data-test`, …) is passed to the underlying element.
+- In an Inertia `<Form>`, `name` and `error` are all you need. Prefill a field with `defaultValue`.
+- When there's no `<Form>` around it, control the value yourself with `value` + `onChange` / `onValueChange`.
 
 ::: details View props of each component
 | Component | Props |
@@ -81,16 +81,16 @@ All input components share the same basics:
 
 ### CommonButton and CommonButtonRow
 
-`CommonButton` defaults to `type="button"`. While `loading` is true it is disabled and shows a `Spinner` in place of its children.
+By default `CommonButton` is `type="button"`. Set `loading` to true and it disables itself and swaps its children for a `Spinner`.
 
 | Prop | Values | Default |
 | --- | --- | --- |
 | `type` | `'button' \| 'submit' \| 'reset'` | `'button'` |
 | `variant` | `default`, `destructive`, `outline`, `secondary`, `ghost`, `link` | `default` |
 | `size` | `default`, `sm`, `lg`, `icon`, `icon-sm`, `icon-lg` | `default` |
-| `loading` | `boolean` | — |
+| `loading` | `boolean` | none |
 
-`CommonButtonRow` is the Save / Discard bar on settings forms. In the default `bottom-pop` position it slides in only when `isDirty` is true. Save calls `requestSubmit()` on the closest `<form>`, so it works inside `<Form>` without extra wiring.
+`CommonButtonRow` is the Save / Discard bar you see on the settings forms. In its default `bottom-pop` position it only slides in once `isDirty` is true. Save calls `requestSubmit()` on the nearest `<form>`, so you can drop it into a `<Form>` and it just works.
 
 ::: details View CommonButtonRow props
 | Prop | Type | Default |
@@ -101,13 +101,13 @@ All input components share the same basics:
 | `saveText`, `discardText`, `message` | `string` | translated defaults |
 | `showDiscard` | `boolean` | `true` |
 | `alwaysVisible`, `saveDisabled` | `boolean` | `false` |
-| `onSave`, `onDiscard` | `() => void` | — |
-| `className` | `string` | — |
+| `onSave`, `onDiscard` | `() => void` | none |
+| `className` | `string` | none |
 :::
 
 ### ConfirmDialog
 
-`ConfirmDialog` is mounted once by the app layouts. Call `confirm()` from `useConfirmDialog()` anywhere; it returns a `Promise<boolean>`.
+The app layouts mount `ConfirmDialog` once. From any component, call `confirm()` from `useConfirmDialog()` and await the `Promise<boolean>` it returns.
 
 ```tsx
 const { confirm } = useConfirmDialog();
@@ -117,10 +117,10 @@ if (await confirm({ title, message, confirmVariant: 'destructive' })) {
 }
 ```
 
-Useful options (all optional): `warning`, `itemDetails`, `icon` (`danger`, `warning`, `info`, `question`, `success`), `size` (`sm`–`xl`), `warningVariant`, `highlight`, `confirmationKeyword` (user must type it to enable the button), `closeOnBackdrop`, `closeOnEscape`, `showCancelButton`. `setLoading(true)` shows a spinner on the confirm button.
+Other options you can pass, none of them required: `warning`, `itemDetails`, `icon` (`danger`, `warning`, `info`, `question`, `success`), `size` (`sm`–`xl`), `warningVariant`, `highlight`, `confirmationKeyword` (the user has to type it before the button is enabled), `closeOnBackdrop`, `closeOnEscape` and `showCancelButton`. Call `setLoading(true)` to put a spinner on the confirm button.
 
 ::: warning
-`ConfirmDialog` is only mounted by `app-sidebar-layout.tsx` and `app-header-layout.tsx`. Pages rendered with `AuthLayout` or no layout cannot use `confirm()`.
+Only `app-sidebar-layout.tsx` and `app-header-layout.tsx` mount `ConfirmDialog`. On a page that uses `AuthLayout` or no layout at all, `confirm()` won't work.
 :::
 
 ::: details View full example (delete user)
@@ -150,9 +150,9 @@ const handleDeleteUser = async (user: UserManagementUser) => {
 
 ## UI primitives (shadcn)
 
-`components/ui/*.tsx` holds shadcn/ui components (new-york style, configured in `components.json` at the project root). Use them directly when a `Common*` wrapper doesn't fit, for example dialogs, cards and badges.
+The shadcn/ui components are in `components/ui/*.tsx`, in the new-york style and configured in `components.json` at the project root. When there's no `Common*` wrapper for what you need, such as dialogs, cards or badges, use them directly.
 
-Available: `alert`, `avatar`, `badge`, `breadcrumb`, `button`, `card`, `checkbox`, `collapsible`, `dialog`, `dropdown-menu`, `icon`, `input`, `input-otp`, `label`, `navigation-menu`, `placeholder-pattern`, `select`, `separator`, `sheet`, `sidebar`, `skeleton`, `sonner`, `spinner`, `toggle`, `toggle-group`, `tooltip`.
+These are included: `alert`, `avatar`, `badge`, `breadcrumb`, `button`, `card`, `checkbox`, `collapsible`, `dialog`, `dropdown-menu`, `icon`, `input`, `input-otp`, `label`, `navigation-menu`, `placeholder-pattern`, `select`, `separator`, `sheet`, `sidebar`, `skeleton`, `sonner`, `spinner`, `toggle`, `toggle-group`, `tooltip`.
 
 ```tsx
 import { Badge } from '@/components/ui/badge';
@@ -169,11 +169,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 | Toast from the server | `Inertia::flash('toast', …)` in the controller. See [Inertia → Flash toasts](/docs/react/inertia#flash-toasts) |
 | Toast from the client | `import { toast } from 'sonner'` |
 
-`CommonIcon` renders Iconify icons. Names with a prefix (`lucide:…`) are used as is; PascalCase names are converted to Lucide (`LayoutGrid` → `lucide:layout-grid`). Props: `icon`, `className`, `click`.
+`CommonIcon` renders Iconify icons. A name with a prefix (`lucide:…`) is used unchanged, and a PascalCase name is converted to its Lucide equivalent (`LayoutGrid` → `lucide:layout-grid`). It takes three props: `icon`, `className` and `click`.
 
 ## Usage example
 
-A typical edit form (from the profile page): inputs inside an Inertia `<Form>`, with the Save / Discard bar.
+Here's a typical edit form, taken from the profile page. The inputs and the Save / Discard bar all sit inside an Inertia `<Form>`.
 
 ```tsx
 <Form {...ProfileController.update.form()} setDefaultsOnSuccess>
@@ -264,4 +264,4 @@ A typical edit form (from the profile page): inputs inside an Inertia `<Form>`, 
 | `ManageTwoFactor`, `TwoFactorSetupModal`, `TwoFactorRecoveryCodes` | Two-factor setup on the security page |
 | `ManagePasskeys`, `PasskeyRegister`, `PasskeyItem`, `PasskeyVerify` | Passkey management and passkey login |
 
-`input-error.tsx` and `password-input.tsx` are not used by any page. Use `CommonError` and `CommonPassword` instead.
+No page uses `input-error.tsx` or `password-input.tsx`. Reach for `CommonError` and `CommonPassword` instead.

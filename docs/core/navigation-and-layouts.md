@@ -26,7 +26,7 @@ head:
 
 ## Database-driven menus
 
-Navigation is stored in the database instead of being hard-coded in components. Admins can reorder it from the UI, each item can require a permission, and central and tenant apps have separate menus (a `menus` table in the central database and in each tenant database).
+Menus live in the database, not hard-coded in components. That lets admins reorder them from the UI, and any item can require a permission. The central app and each tenant get their own menus, because there's a `menus` table in the central database and in every tenant database.
 
 ```text
 menus table → MenuService (filters by permission) → `menus` / `setupMenus` props → sidebar or header
@@ -42,7 +42,7 @@ menus table → MenuService (filters by permission) → `menus` / `setupMenus` p
 | `permission` | Permission required to see the item; empty = visible to everyone signed in |
 | `active` | JSON list of extra route names that mark the item active (e.g. `tenants.show`) |
 | `icon` | Iconify name, e.g. `lucide:building-2` |
-| `is_setup` | `true` for items in the **Setup** section instead of the main sidebar |
+| `is_setup` | `true` for items in the Setup section instead of the main sidebar |
 
 **Related files**: `App\Models\Menu`, `Modules\Menu\Services\MenuService`.
 
@@ -58,9 +58,9 @@ menus table → MenuService (filters by permission) → `menus` / `setupMenus` p
 
 ### Adding a menu item
 
-1. Add an entry to the menu seeder (central and/or tenant).
-2. Re-run the seeder.
-3. Optionally add a `nav.projects` key to `lang/<locale>/modules/common.php` to translate the label.
+1. Add an entry to the menu seeder (central, tenant or both).
+2. Run the seeder again.
+3. If you want the label translated, add a `nav.projects` key to `lang/<locale>/modules/common.php`.
 
 ```php
 [
@@ -80,25 +80,25 @@ php artisan db:seed --class=MenuSeeder
 php artisan tenants:seed --class="Database\Seeders\tenant\MenuSeeder"
 ```
 
-Seeders use `updateOrCreate` on `slug`, so re-running is safe.
+The seeders use `updateOrCreate` on `slug`, so it's safe to run them again.
 
 ### Reordering
 
-**Setup → Menus** (`/setup/menus`):
+Open Setup → Menus (`/setup/menus`) to change the order:
 
-- Drag and drop items to reorder or move them between parents. Changes are saved automatically (`POST /setup/menus/reorder`).
-- **Reset** re-runs the menu seeder for the current context (`POST /setup/menus/reset`), restoring default order and parents.
+- Drag items to reorder them or move them under a different parent. Changes save automatically (`POST /setup/menus/reorder`).
+- Reset runs the menu seeder again for the current context (`POST /setup/menus/reset`) and puts the default order and parents back.
 
 | Action | Central permission | Tenant permission |
 | --- | --- | --- |
 | View | `View Navigation Menus` | `View Tenant Menus` |
 | Reorder / reset | `Reorder Navigation Menus` | `Reorder Tenant Menus` |
 
-The drag and drop library differs per kit: `vue-draggable-plus` (Vue), `sortablejs` (React, Svelte).
+Each kit uses its own drag and drop library: `vue-draggable-plus` (Vue), `sortablejs` (React, Svelte).
 
 ## Layout settings
 
-Admins set a default look for everyone; each user can override it for themselves.
+Admins pick a default look for everyone, and each user can override it for their own account.
 
 | Setting | Options | Default |
 | --- | --- | --- |
@@ -109,14 +109,14 @@ Admins set a default look for everyone; each user can override it for themselves
 
 | Level | Where | Who | Applies to |
 | --- | --- | --- | --- |
-| Personal | **Settings → Layout** (`/settings/layout`) | Every signed-in user | Their own app layout and sidebar options |
-| Global default | **Setup → Layout Settings** (`/setup/layout`) | Users with `Update Layout Settings` or `Update Tenant Layout` | Guests and users without a personal setting |
+| Personal | Settings → Layout (`/settings/layout`) | Every signed-in user | Their own app layout and sidebar options |
+| Global default | Setup → Layout Settings (`/setup/layout`) | Users with `Update Layout Settings` or `Update Tenant Layout` | Guests and users without a personal setting |
 
 ::: info Auth pages always use the global default
-`auth_layout` is always taken from the global default, because auth pages are shown before sign-in.
+`auth_layout` always comes from the global default. Auth pages are shown before anyone signs in, so there's no personal setting to use yet.
 :::
 
-Both levels are stored in `layout_settings`: the row with `user_id = null` is the global default, rows with a `user_id` are personal overrides. `LayoutService::getLayoutSettings()` resolves the active settings and shares them as the `layout` prop.
+Both levels live in `layout_settings`. The row with `user_id = null` is the global default, and rows with a `user_id` are personal overrides. `LayoutService::getLayoutSettings()` works out which settings apply and shares them as the `layout` prop.
 
 ### Layout components
 
@@ -126,7 +126,7 @@ Both levels are stored in `layout_settings`: the row with `user_id = null` is th
 | Auth (switches on `auth_layout`) | `layouts/AuthLayout.vue` → `layouts/auth/AuthCardLayout.vue`, `AuthSimpleLayout.vue`, `AuthSplitLayout.vue` |
 | Settings | `layouts/settings/Layout.vue` |
 
-`app.ts` assigns layouts by page name:
+`app.ts` picks the layout from the page name:
 
 ```text
 auth/*       → auth layout
@@ -134,15 +134,15 @@ settings/*   → app layout + settings layout
 everything else → app layout
 ```
 
-React and Svelte follow the same structure with their own file naming; see the framework [layout guides](/docs/vue/layouts).
+React and Svelte use the same structure with their own file names. The framework [layout guides](/docs/vue/layouts) cover the details.
 
 ## Appearance
 
-**Settings → Appearance** (`/settings/appearance`) switches between **light**, **dark** and **system**.
+Users switch between light, dark and system under Settings → Appearance (`/settings/appearance`). The choice is saved in two places:
 
 | Stored in | Why |
 | --- | --- |
 | `localStorage` | Read by the frontend |
 | `appearance` cookie (not encrypted) | `HandleAppearance` shares it with the Blade root view, so the right theme is applied before the page renders |
 
-The sidebar's open/closed state is kept in the `sidebar_state` cookie and shared as `sidebarOpen`.
+Whether the sidebar is open or closed is kept in the `sidebar_state` cookie and shared as `sidebarOpen`.

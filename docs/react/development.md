@@ -26,7 +26,7 @@ head:
 
 ## Daily workflow
 
-Start everything with `composer dev`, then edit files in `resources/js` and `Modules/`. Vite reloads the browser and regenerates Wayfinder files as you go.
+Run `composer dev` to start everything, then work in `resources/js` and `Modules/`. While you edit, Vite reloads the browser and keeps the Wayfinder files up to date.
 
 | Command | What it does |
 | --- | --- |
@@ -37,30 +37,30 @@ Start everything with `composer dev`, then edit files in `resources/js` and `Mod
 | `php artisan erag:generate-lang` | Export `lang/*` to `resources/js/lang/*.json` |
 | `php artisan wayfinder:generate --with-form` | Regenerate Wayfinder files without Vite running |
 
-All commands are listed in [Commands](/docs/reference/commands).
+The full list is on the [Commands](/docs/reference/commands) page.
 
 ::: tip
-If a change doesn't show up in the browser, check that `npm run dev` (or `composer dev`) is running, or run `npm run build`.
+Change not showing up in the browser? Make sure `npm run dev` (or `composer dev`) is running, or run `npm run build`.
 :::
 
 ## Adding a page
 
-Example: a **Reports** page in the Dashboard module at `/reports`.
+Let's walk through adding a Reports page to the Dashboard module, served at `/reports`.
 
 ```text
 routes/web.php → ReportController@index → Inertia::render('reports/index') → pages/reports/index.tsx
 ```
 
-1. **Route.** Add it to `Modules/Dashboard/routes/web.php` inside the `auth` + `verified` group, with `permission:View Reports|View Tenant Reports` middleware and the name `reports.index`.
-2. **Controller.** Create `Modules/Dashboard/Http/Controllers/ReportController.php`. Keep it thin: call a service in `Modules/<Module>/Services` and return `Inertia::render('reports/index', [...])`.
-3. **Page file.** Create `resources/js/pages/reports/index.tsx` with a default-exported component and a static `layout` for breadcrumbs.
-4. **Wayfinder.** `@/routes/reports` appears once Wayfinder has run. With `npm run dev` running it regenerates automatically.
-5. **Translations.** Add the keys to `lang/en/modules/dashboard.php` and the same file in every other locale, then run `php artisan erag:generate-lang`.
-6. **Permission.** Add `View Reports` to `config/permissions/dashboard.php` and `View Tenant Reports` to `config/permissions/tenant/dashboard.php`, then seed them.
-7. **Menu (optional).** Add an entry to `database/seeders/MenuSeeder.php` and `database/seeders/tenant/MenuSeeder.php` with `'route_name' => 'reports.index'` and the permission.
-8. **Test.** Assert the route renders the `reports/index` component.
+1. Add the route to `Modules/Dashboard/routes/web.php` inside the `auth` + `verified` group. Give it the `permission:View Reports|View Tenant Reports` middleware and the name `reports.index`.
+2. Create the controller at `Modules/Dashboard/Http/Controllers/ReportController.php`. It should stay thin: call a service in `Modules/<Module>/Services` and return `Inertia::render('reports/index', [...])`.
+3. Create the page at `resources/js/pages/reports/index.tsx`. It needs a default-exported component and a static `layout` that sets the breadcrumbs.
+4. Once Wayfinder has run, you can import `@/routes/reports`. If `npm run dev` is running, that happens on its own.
+5. Add the translation keys to `lang/en/modules/dashboard.php` and to the same file in each of the other locales, then run `php artisan erag:generate-lang`.
+6. Add the permissions: `View Reports` goes in `config/permissions/dashboard.php` and `View Tenant Reports` in `config/permissions/tenant/dashboard.php`. Seed them afterwards.
+7. If you want a menu entry (optional), add one to `database/seeders/MenuSeeder.php` and `database/seeders/tenant/MenuSeeder.php` with `'route_name' => 'reports.index'` and the permission.
+8. Write a test that checks the route renders the `reports/index` component.
 
-The page itself stays small:
+The page itself doesn't need much:
 
 ```tsx
 export default function ReportsIndex({ reports }: Props) {
@@ -154,7 +154,7 @@ ReportsIndex.layout = {
 :::
 
 ::: details View translations, permissions and menu
-Translation keys in `lang/en/modules/dashboard.php` (repeat for each locale under `lang/<locale>/modules/`):
+The translation keys go in `lang/en/modules/dashboard.php`. Repeat them for every locale under `lang/<locale>/modules/`:
 
 ```php
 'reports' => [
@@ -163,7 +163,7 @@ Translation keys in `lang/en/modules/dashboard.php` (repeat for each locale unde
 ],
 ```
 
-The frontend uses `__('modules.dashboard.reports.title')`. PHP code uses the slash form: `__('modules/dashboard.reports.title')`.
+On the frontend you write `__('modules.dashboard.reports.title')`. In PHP, use the slash form instead: `__('modules/dashboard.reports.title')`.
 
 Permissions:
 
@@ -188,11 +188,11 @@ php artisan db:seed --class=PermissionSeeder
 php artisan tenants:seed --class="Database\Seeders\PermissionSeeder"
 ```
 
-Users that get a system role afterwards receive the permission from `associated_roles`. Grant it to existing users from **Users → Assign permissions**.
+Anyone who's given a system role after this gets the permission through `associated_roles`. For existing users, grant it from **Users → Assign permissions**.
 
-For the menu, run `php artisan db:seed --class=MenuSeeder` after adding the entry. Menu titles are translated from the `nav.<slug>` keys in `lang/<locale>/modules/common.php`.
+After adding the menu entry, run `php artisan db:seed --class=MenuSeeder`. The menu title comes from the `nav.<slug>` key in `lang/<locale>/modules/common.php`.
 
-More on roles, permissions and tenant seeding: [Users, roles & permissions](/docs/core/users-roles-permissions).
+Roles, permissions and tenant seeding are covered in more depth in [Users, roles & permissions](/docs/core/users-roles-permissions).
 :::
 
 ::: details View feature test
@@ -211,21 +211,21 @@ test('users with the permission can visit the reports page', function () {
 });
 ```
 
-Run it with `php artisan test --compact --filter=reports`. `config/inertia.php` has `testing.ensure_pages_exist` enabled, so the test fails if `reports/index.tsx` is missing.
+Run it with `php artisan test --compact --filter=reports`. Since `config/inertia.php` turns on `testing.ensure_pages_exist`, the test will fail if `reports/index.tsx` doesn't exist.
 :::
 
 ## Adding a form
 
-Forms post straight to a Laravel route. There is no API layer.
+A form posts directly to a Laravel route, with no API layer in between.
 
 ```text
 <Form {...store.form()}> → Controller@store(Data $data) → Service → Inertia::flash('toast') → redirect
 ```
 
-1. **Route.** Add a `POST` (or `PATCH`/`PUT`) route with a name and permission middleware.
-2. **Validation.** Put the rules in a Spatie Data class (`Modules/<Module>/Data/*Data.php`, `rules()` method) and type-hint it in the controller action, as `RoleController@store(RoleData $data)` does.
-3. **Controller.** Call the service, flash a toast and redirect.
-4. **Page.** Spread the Wayfinder `.form()` object into `<Form>` and use `Common*` inputs with `name` and `error`.
+1. Add a named `POST` (or `PATCH`/`PUT`) route with permission middleware.
+2. Write the validation rules in the `rules()` method of a Spatie Data class (`Modules/<Module>/Data/*Data.php`), then type-hint that class in the controller action the way `RoleController@store(RoleData $data)` does.
+3. In the controller, call the service, flash a toast and redirect.
+4. On the page, spread the Wayfinder `.form()` object into `<Form>` and add `Common*` inputs with a `name` and an `error`.
 
 ```tsx
 import { store } from '@/routes/roles';
@@ -242,7 +242,7 @@ import { store } from '@/routes/roles';
 </Form>
 ```
 
-Validation errors come back in `errors` keyed by field name. More patterns (edit forms, `useForm`, create/edit modals) are in [Inertia → Forms](/docs/react/inertia#forms).
+If validation fails, the messages come back in `errors`, keyed by field name. For edit forms, `useForm` and combined create/edit modals, see [Inertia → Forms](/docs/react/inertia#forms).
 
 ::: details View controller action
 ```php
@@ -267,13 +267,13 @@ public function store(RoleData $data): RedirectResponse
 | `composer lint` | Pint, `php artisan typescript:transform`, `npm run lint:fix` |
 | `composer test` | Lint check, Larastan, then `php artisan test` |
 
-Run `npm run lint:fix` before committing.
+Get into the habit of running `npm run lint:fix` before you commit.
 
 ## Conventions
 
-- **No hard-coded text.** Every visible string goes through `__()` with a `modules.<feature>.<key>` key, including breadcrumbs, placeholders, toasts and confirm dialogs.
-- **Use the `Common*` components** for form fields and buttons, and `useConfirmDialog()` for destructive actions.
-- **Use Wayfinder** instead of hard-coded URLs; use `.form()` with `<Form>`.
-- **Type everything.** Use generated types from `@/types/Modules/...` for Data objects, and `import type` for type-only imports (enforced by ESLint).
-- **Hide actions by permission** with `usePermission().can(...)`. See [Architecture → Permissions](/docs/react/architecture#permissions-on-the-frontend).
-- **Placement.** Hooks go in `hooks/use-x.ts`; page-only components in the page's `partials/` folder. Files are kebab-case.
+- Don't hard-code text. Every string the user sees goes through `__()` with a `modules.<feature>.<key>` key, and that includes breadcrumbs, placeholders, toasts and confirm dialogs.
+- Build form fields and buttons from the `Common*` components, and ask for confirmation with `useConfirmDialog()` before anything destructive.
+- Get URLs from Wayfinder rather than typing them out, and pair `.form()` with `<Form>`.
+- Type everything. Data objects use the generated types from `@/types/Modules/...`, and type-only imports use `import type` (ESLint enforces it).
+- Hide actions the user isn't allowed to take with `usePermission().can(...)`, as described in [Architecture → Permissions](/docs/react/architecture#permissions-on-the-frontend).
+- Hooks go in `hooks/use-x.ts` and page-only components go in the page's `partials/` folder. All file names are kebab-case.

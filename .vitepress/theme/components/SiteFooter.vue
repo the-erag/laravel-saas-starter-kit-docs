@@ -68,7 +68,7 @@ const social: { icon: IconName; label: string; href: string; external: boolean }
     <div class="sl-container footer-bottom">
       <span>
         © {{ year }} <a class="footer-company" :href="site.company.url" target="_blank" rel="noopener">{{ site.company.name }}</a>. All rights reserved.
-        <span class="footer-tagline">{{ site.company.name }} — {{ site.company.tagline }}</span>
+        <span class="footer-tagline">{{ site.company.name }}: {{ site.company.tagline }}</span>
       </span>
       <div class="footer-social">
         <a v-for="item in social" :key="item.label" :href="item.href" :target="item.external ? '_blank' : undefined" :rel="item.external ? 'noopener' : undefined">

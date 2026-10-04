@@ -6,24 +6,24 @@ import SectionHeading from './SectionHeading.vue';
 const steps: { title: string; text: string; link?: { text: string; href: string } }[] = [
   {
     title: 'Choose your plan',
-    text: `Pick a single kit — ${kitPriceList} — or All Starter Kits for ${formatPrice(site.bundlePrice)}.`,
+    text: `Pick a single kit (${kitPriceList}) or get All Starter Kits for ${formatPrice(site.bundlePrice)}.`,
     link: { text: 'Compare plans', href: '/pricing.html' },
   },
   {
     title: 'Open the plan details',
-    text: 'Each plan has a detail page listing the technologies, features, requirements and the repository you will receive.',
+    text: 'Every plan has its own page with the technologies, features and requirements, plus the repository you\'ll get.',
   },
   {
     title: 'Pay on GitHub Sponsors',
-    text: 'Click “Sponsor / Purchase on GitHub” at the bottom of the detail page and make a one-time payment for the plan price, signed in with the GitHub account that should get access.',
+    text: 'Click “Buy on GitHub Sponsors” at the bottom of the plan page and make a one-time payment for the plan price. Sign in with the GitHub account you want to have access.',
   },
   {
-    title: 'Access is granted automatically',
-    text: 'As soon as your payment goes through, your GitHub account is automatically invited to the kit repository.',
+    title: 'You get access automatically',
+    text: 'Your GitHub account is invited to the kit repository as soon as your payment goes through.',
   },
   {
     title: 'Accept the invite and start building',
-    text: 'Accept the GitHub invitation, clone the repository and follow the installation guide.',
+    text: 'Accept the GitHub invitation, clone the repository and work through the installation guide.',
     link: { text: 'Installation guide', href: '/docs/getting-started/installation.html' },
   },
 ];
@@ -53,9 +53,9 @@ const faqs = paymentFaqs;
           </li>
         </ol>
         <div class="notice" role="note">
-          <strong>Access is granted automatically.</strong>
-          As soon as your sponsorship goes through, your GitHub account is invited to the repository — you will receive a
-          GitHub invitation.
+          <strong>Access is automatic.</strong>
+          Your GitHub account is invited to the repository the moment your sponsorship goes through, and the invitation
+          shows up on GitHub.
         </div>
       </div>
     </section>

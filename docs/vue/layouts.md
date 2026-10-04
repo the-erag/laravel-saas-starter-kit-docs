@@ -24,7 +24,7 @@ head:
 
 # Layouts <Badge type="tip" text="Vue" />
 
-Layouts live in `resources/js/layouts`. Two wrapper layouts, `AppLayout.vue` and `AuthLayout.vue`, pick the actual design at runtime from the shared `layout` prop.
+The layouts are in `resources/js/layouts`. There are two wrappers, `AppLayout.vue` and `AuthLayout.vue`, and each one decides at runtime which design to show, based on the shared `layout` prop.
 
 ## Layout selection flow
 
@@ -39,45 +39,45 @@ Layouts live in `resources/js/layouts`. Two wrapper layouts, `AppLayout.vue` and
      AuthLayout → auth_layout → card | simple | split
 ```
 
-Where the `layout` values come from (`LayoutService::getLayoutSettings()`):
+The `layout` values are built by `LayoutService::getLayoutSettings()` from these sources:
 
 | Setting | Source |
 | --- | --- |
-| Global default | **Setup → Layout** (row with no user) |
-| `app_layout`, `sidebar_variant`, `sidebar_collapsible` | The user's own **Settings → Layout** if saved, otherwise the global default |
+| Global default | Setup → Layout (row with no user) |
+| `app_layout`, `sidebar_variant`, `sidebar_collapsible` | The user's own Settings → Layout if they've saved one, otherwise the global default |
 | `auth_layout` | Always the global default |
 
-More on the backend side: [Navigation & layouts](/docs/core/navigation-and-layouts).
+The backend side is explained in [Navigation & layouts](/docs/core/navigation-and-layouts).
 
 ## App layouts
 
-`AppLayout.vue` takes one prop, `breadcrumbs?: BreadcrumbItem[]`, and renders one of two shells:
+`AppLayout.vue` has a single prop, `breadcrumbs?: BreadcrumbItem[]`, and renders one of two shells:
 
 | `app_layout` | Component | Structure |
 | --- | --- | --- |
 | `sidebar` (default) | `layouts/app/AppSidebarLayout.vue` | `AppSidebar` + `AppSidebarHeader` (breadcrumbs) + content |
 | `header` | `layouts/app/AppHeaderLayout.vue` | `AppHeader` top navigation (menus + breadcrumbs) + content |
 
-Both shells also mount the `Toaster` (vue-sonner) and the global `ConfirmDialog`.
+Each shell also mounts the `Toaster` (vue-sonner) and the global `ConfirmDialog`.
 
-The sidebar shell reads two more settings:
+The sidebar shell looks at two extra settings:
 
 | Setting | Values | Default |
 | --- | --- | --- |
 | `sidebar_variant` | `inset`, `sidebar`, `floating` | `inset` |
 | `sidebar_collapsible` | `icon`, `offcanvas`, `none` | `icon` |
 
-The sidebar shows `menus`, or `setupMenus` while the URL is under `/setup`.
+It shows `menus` in the sidebar, switching to `setupMenus` while you're under `/setup`.
 
-**Settings layout.** `settings/*` pages get `[AppLayout, SettingsLayout]`, so `layouts/settings/Layout.vue` renders the Profile / Security / Appearance / Layout sub-navigation inside the app shell. The active item comes from `useCurrentUrl().isCurrentOrParentUrl`.
+Settings pages are a special case. `settings/*` pages get `[AppLayout, SettingsLayout]`, so `layouts/settings/Layout.vue` adds the Profile / Security / Appearance / Layout sub-navigation inside the app shell. It works out the active item with `useCurrentUrl().isCurrentOrParentUrl`.
 
 ::: tip
-Adding an app-wide wrapper (for example a banner)? Put it in both `AppSidebarLayout.vue` and `AppHeaderLayout.vue` so it survives a switch between sidebar and header mode.
+If you add something app-wide, like a banner, put it in both `AppSidebarLayout.vue` and `AppHeaderLayout.vue`. Otherwise it disappears when someone switches between sidebar and header mode.
 :::
 
 ## Auth layouts
 
-`AuthLayout.vue` takes `title` and `description` as translation keys (it translates them) and renders one of three designs:
+`AuthLayout.vue` takes `title` and `description` as translation keys and translates them itself. It renders one of three designs:
 
 | `auth_layout` | Component | Look |
 | --- | --- | --- |
@@ -87,7 +87,7 @@ Adding an app-wide wrapper (for example a banner)? Put it in both `AppSidebarLay
 
 ## Per-page layout override
 
-A page passes props to its default layout, or replaces it, with `defineOptions`:
+With `defineOptions`, a page can pass props to its default layout or swap the layout out entirely:
 
 ```vue
 <script setup lang="ts">
@@ -111,10 +111,7 @@ defineOptions({
 
 ### Changing layout props at runtime
 
-`defineOptions` is static. When a value depends on state, call `setLayoutProps()`:
-
-- `TwoFactorChallenge.vue` swaps the title when the user switches to a recovery code.
-- `AcceptInvitation.vue` calls it once when `mode === 'user'` to show the user-invitation wording.
+`defineOptions` can't change after the page loads. If a value depends on state, call `setLayoutProps()` instead. `TwoFactorChallenge.vue` does this to change the title when the user switches to a recovery code, and `AcceptInvitation.vue` calls it once when `mode === 'user'` so the user-invitation wording shows.
 
 ::: details View setLayoutProps example
 ```ts

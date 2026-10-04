@@ -21,11 +21,11 @@ const kit = computed(() => kits[props.framework]);
 const otherKits = computed(() => frameworkKeys.filter((key) => key !== props.framework).map((key) => kits[key]));
 
 const included = computed(() => [
-  'Complete Laravel + ' + kit.value.name + ' source code',
+  'The full Laravel + ' + kit.value.name + ' source code',
   'Access to the ' + kit.value.repoName + ' repository',
-  'Weekly updates pushed to the repository',
-  'Pest feature tests, Larastan and Pint configured',
-  '17 languages with synced frontend translations',
+  'Weekly updates, pushed to that repository',
+  'Pest feature tests, with Larastan and Pint already set up',
+  '17 languages, with translations synced to the frontend',
   'Documentation for the backend and the ' + kit.value.name + ' frontend',
 ]);
 </script>
@@ -44,7 +44,7 @@ const included = computed(() => [
           <p class="sl-lead">{{ kit.summary }}</p>
           <div class="sl-actions">
             <a class="sl-btn sl-btn--primary sl-btn--lg" href="#features">
-              Explore features <span class="vpi-arrow-right" />
+              See the features <span class="vpi-arrow-right" />
             </a>
             <a class="sl-btn sl-btn--secondary sl-btn--lg" :href="`/docs/${framework}.html`">Read the {{ kit.name }} docs</a>
           </div>
@@ -67,8 +67,8 @@ const included = computed(() => [
     <FeatureGrid
       id="features"
       eyebrow="Features"
-      title="Everything included in the kit"
-      :lead="`Every backend feature ships with a complete ${kit.name} interface — pages, dialogs, forms and toasts.`"
+      title="What's in the kit"
+      :lead="`Every backend feature comes with a finished ${kit.name} UI: pages, dialogs, forms and toasts.`"
     />
 
     <section class="sl-section">
@@ -78,7 +78,7 @@ const included = computed(() => [
             :center="false"
             eyebrow="Conventions"
             :title="`Idiomatic ${kit.name}`"
-            :lead="`The ${kit.name} kit follows the conventions of its ecosystem, type-checked with ${kit.typeCheck}.`"
+            :lead="`The ${kit.name} kit sticks to the usual ${kit.name} conventions, and ${kit.typeCheck} checks the types.`"
           />
           <dl class="conventions">
             <div v-for="item in kit.conventions" :key="item.label">
@@ -105,7 +105,7 @@ index.url()</code></pre>
             :center="false"
             eyebrow="Shared backend"
             title="The same Laravel backend in every kit"
-            lead="The backend code is identical across the Vue, React and Svelte kits. Only resources/js changes."
+            lead="The Vue, React and Svelte kits run exactly the same backend code. Only resources/js is different."
           />
           <ul class="sl-checklist">
             <li v-for="item in included" :key="item">
@@ -126,7 +126,7 @@ index.url()</code></pre>
 
     <section class="sl-section others">
       <div class="sl-container">
-        <p class="others-title">Prefer another frontend?</p>
+        <p class="others-title">Want a different frontend?</p>
         <div class="others-grid">
           <a v-for="other in otherKits" :key="other.key" :href="`/kits/${other.key}.html`" class="sl-card other">
             <FrameworkLogo :name="other.key" :size="28" />
@@ -142,7 +142,7 @@ index.url()</code></pre>
 
     <CTASection
       :title="`Start building with ${kit.name}`"
-      :text="`${formatPrice(kit.price)} one-time for the ${kit.title}, or ${formatPrice(site.bundlePrice)} for all three kits. Lifetime access with weekly updates.`"
+      :text="`The ${kit.title} is ${formatPrice(kit.price)}, paid once, or get all three kits for ${formatPrice(site.bundlePrice)}. You keep access for life and get weekly updates.`"
       :primary-text="`Get the ${kit.name} kit`"
       :primary-link="`/pricing/${framework}.html`"
       secondary-text="Compare all plans"

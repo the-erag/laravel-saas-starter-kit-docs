@@ -43,7 +43,7 @@ const selectLayout = (value: LayoutKey) => {
         :center="false"
         eyebrow="Layouts"
         title="Configurable responsive layouts"
-        lead="Pick a card, simple or split sign-in page and a sidebar or header app layout. Set the defaults in Setup → Layout Settings; every user can override them."
+        lead="Pick a card, simple or split sign-in page and a sidebar or header app layout. Set the defaults in Setup → Layout Settings, and every user can override them."
       />
 
       <div class="playground">

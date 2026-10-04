@@ -24,7 +24,7 @@ head:
 
 # Packages
 
-Version constraints are taken from each kit's `composer.json` and `package.json`.
+The version constraints below come straight from each kit's `composer.json` and `package.json`.
 
 ## Backend (all kits)
 
@@ -84,7 +84,7 @@ Version constraints are taken from each kit's `composer.json` and `package.json`
 
 ## Translations: erag/laravel-lang-sync-inertia
 
-The backend package `erag/laravel-lang-sync-inertia` (`^2.3`) and the frontend package `@erag/lang-sync-inertia` (`^3.1.0`) work together:
+The backend package `erag/laravel-lang-sync-inertia` (`^2.3`) and the frontend package `@erag/lang-sync-inertia` (`^3.1.0`) work as a pair:
 
 ```text
 lang/<locale>/**/*.php → php artisan erag:generate-lang → resources/js/lang/<locale>/*.json → __() in components
@@ -92,12 +92,12 @@ lang/<locale>/**/*.php → php artisan erag:generate-lang → resources/js/lang/
 
 | Part | Details |
 | --- | --- |
-| Config | `config/inertia-lang.php` (`lang_path` = `lang/`, `output_lang` = `resources/js/lang`). The kits already include it; in a new project publish it with `php artisan erag:install-lang`. |
+| Config | `config/inertia-lang.php` (`lang_path` = `lang/`, `output_lang` = `resources/js/lang`). The kits already ship with it. In a new project, publish it with `php artisan erag:install-lang`. |
 | Export | `php artisan erag:generate-lang` converts the PHP files to JSON |
 | Sharing | The service provider shares a `lang` Inertia prop for the active locale |
 | Frontend helpers | `__()`, `trans()`, `transChoice()`, `trans_choice()` with `:placeholder` replacement and Laravel-style pluralization |
 
-Import the helper from the **framework subpath**, never the package root:
+Always import the helper from the **framework subpath**, not from the package root:
 
 ::: code-group
 
@@ -121,8 +121,8 @@ const { __ } = svelteLang();
 
 :::
 
-The package declares `node >= 24` in its `engines` field. See [Localization](/docs/core/localization).
+Keep in mind the package lists `node >= 24` in its `engines` field. See [Localization](/docs/core/localization).
 
 ## Documentation site
 
-This site uses VitePress `1.6.4`.
+The site you're reading runs on VitePress `1.6.4`.

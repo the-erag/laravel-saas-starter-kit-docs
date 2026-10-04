@@ -24,21 +24,21 @@ head:
 
 # Pages <Badge type="tip" text="React" />
 
-Pages live in `resources/js/pages`. Each page is a default-exported function component, and its Inertia name is the kebab-case path without `.tsx`:
+All pages are in `resources/js/pages`. A page is a function component exported as the default, and you refer to it in Inertia by its kebab-case path minus the `.tsx`:
 
 ```text
 Inertia::render('users/index') → resources/js/pages/users/index.tsx
 ```
 
-Controllers live in `Modules/<Module>/Http/Controllers`.
+The controllers behind them are in `Modules/<Module>/Http/Controllers`.
 
 ::: info
-Routes marked **central** only exist on the central domain (`APP_DOMAIN`, `central.only` middleware). Everything else works on both central and tenant domains, so permissions list both variants (for example `View Users|View Tenant Users`).
+A route marked **central** exists only on the central domain (`APP_DOMAIN`, `central.only` middleware). The rest work on central and tenant domains alike, which is why their permissions name both variants (for example `View Users|View Tenant Users`).
 :::
 
 ## Public and auth pages
 
-Auth pages render inside `AuthLayout` (card, simple or split). Fortify registers the routes, and `Modules/Auth/Providers/AuthServiceProvider.php` binds them to these pages.
+Auth pages are shown inside `AuthLayout` (card, simple or split). The routes come from Fortify, and `Modules/Auth/Providers/AuthServiceProvider.php` connects each one to its page.
 
 | Page file | Route | Purpose |
 | --- | --- | --- |
@@ -56,21 +56,21 @@ Auth pages render inside `AuthLayout` (card, simple or split). Fortify registers
 
 ## App pages
 
-App pages render inside `AppLayout` and require `auth` + `verified`.
+These pages use `AppLayout`, and the user has to pass `auth` + `verified` to reach them.
 
 | Page file | Route | Permission | Purpose |
 | --- | --- | --- | --- |
 | `dashboard.tsx` | `GET /dashboard` (`dashboard`, `Route::inertia`) | `View Analytics Dashboard\|View Tenant Dashboard` | Dashboard placeholder grid |
 | `users/index.tsx` | `GET /users` (`users.index`) | `View Users\|View Tenant Users` | User list with search, stats, pagination, create/edit/delete, invitations, permission assignment |
 | `roles/index.tsx` | `GET /roles` (`roles.index`) | `View Roles\|View Tenant Roles` | Role list and create/edit/delete (system roles protected) |
-| `tenants/index.tsx` | `GET /tenants` (`tenants.index`) — central | `View Tenants` | Tenant list with search, status filter and stats |
-| `tenants/create.tsx` | `GET /tenants/create` (`tenants.create`) — central | `Create Tenant` | Create a tenant (company, subdomain, admin, profile data, status) |
-| `tenants/show.tsx` | `GET /tenants/{tenant}` (`tenants.show`) — central | `View Tenants` | Tenant detail: edit, domains, reset admin password, resend invitation, delete |
-| `tenants/domains.tsx` | `GET /tenants/domains` (`tenants.domains`) — central | `View Tenants` | All domains: filters, search, add, set primary, delete, per-domain settings and auth features |
+| `tenants/index.tsx` | `GET /tenants` (`tenants.index`), central | `View Tenants` | Tenant list with search, status filter and stats |
+| `tenants/create.tsx` | `GET /tenants/create` (`tenants.create`), central | `Create Tenant` | Create a tenant (company, subdomain, admin, profile data, status) |
+| `tenants/show.tsx` | `GET /tenants/{tenant}` (`tenants.show`), central | `View Tenants` | Tenant detail: edit, domains, reset admin password, resend invitation, delete |
+| `tenants/domains.tsx` | `GET /tenants/domains` (`tenants.domains`), central | `View Tenants` | All domains: filters, search, add, set primary, delete, per-domain settings and auth features |
 
 ## Settings pages
 
-`settings/*` pages render inside `AppLayout` plus the settings sub-navigation (`layouts/settings/layout.tsx`). `GET /settings` redirects to `/settings/profile`.
+Pages under `settings/*` get `AppLayout` with the settings sub-navigation (`layouts/settings/layout.tsx`) on top. Visiting `GET /settings` sends you to `/settings/profile`.
 
 | Page file | Route | Purpose |
 | --- | --- | --- |
@@ -81,13 +81,13 @@ App pages render inside `AppLayout` and require `auth` + `verified`.
 
 ## Setup pages
 
-`setup/*` pages use the plain `AppLayout`. While the URL starts with `/setup`, the sidebar shows `setupMenus` instead of the main menu. `GET /setup` redirects to `/setup/menus`.
+Pages under `setup/*` use the plain `AppLayout`. On any URL starting with `/setup`, the sidebar swaps the main menu for `setupMenus`. `GET /setup` redirects to `/setup/menus`.
 
 | Page file | Route | Permission | Purpose |
 | --- | --- | --- | --- |
 | `setup/menus.tsx` | `GET /setup/menus` (`setup.menus.index`) | `View Navigation Menus\|View Tenant Menus` | Drag & drop menu order (`sortablejs`), reset to defaults |
 | `setup/layout.tsx` | `GET /setup/layout` (`setup.layout.index`) | `Update Layout Settings\|Update Tenant Layout` | Global default app layout, sidebar settings and auth layout |
-| `setup/tenant-settings.tsx` | `GET /setup/tenant-settings` (`setup.tenant-settings.edit`) — central | `Manage Tenant Maintenance` | Global maintenance mode for tenant workspaces |
+| `setup/tenant-settings.tsx` | `GET /setup/tenant-settings` (`setup.tenant-settings.edit`), central | `Manage Tenant Maintenance` | Global maintenance mode for tenant workspaces |
 
 ## Error page
 
@@ -95,11 +95,11 @@ App pages render inside `AppLayout` and require `auth` + `verified`.
 | --- | --- | --- |
 | `errors/error.tsx` | Exception handler in `bootstrap/app.php` | 403, 404, 500 and 503 responses. Uses `AppLayout` for signed-in users and `AuthLayout` for guests. |
 
-In `local` and `testing`, only 403 renders this page. Other statuses show Laravel's debug page.
+In `local` and `testing` you'll only see this page for a 403. Any other status shows Laravel's debug page.
 
 ## Partials
 
-Page-specific modals and sections live in `partials/` next to the page:
+Modals and sections that belong to a single page sit in a `partials/` folder beside it:
 
 | File | Used by |
 | --- | --- |
@@ -115,5 +115,5 @@ Page-specific modals and sections live in `partials/` next to the page:
 | `tenants/partials/maintenance-mode-form.tsx` | Maintenance message, secret bypass link, allowed IPs |
 
 ::: tip
-Adding a page? Follow [Development → Adding a page](/docs/react/development#adding-a-page).
+Building a new page? [Development → Adding a page](/docs/react/development#adding-a-page) takes you through it step by step.
 :::

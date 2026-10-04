@@ -26,7 +26,7 @@ head:
 
 ## Kit layout
 
-A kit is a standard Laravel app with one addition: features live in `Modules/` instead of being spread across `app/`. Why? See [Architecture → Why a module-based structure](/docs/core/architecture#why-a-module-based-structure). React and Svelte have the same backend folders as Vue; only `resources/js` differs (see the framework guides: [Vue](/docs/vue/architecture), [React](/docs/react/architecture), [Svelte](/docs/svelte/architecture)).
+Each kit is a standard Laravel app with one difference: features live in `Modules/` rather than being spread across `app/`. We explain why in [Architecture → Why a module-based structure](/docs/core/architecture#why-a-module-based-structure). The React and Svelte kits have the same backend folders as Vue. Only `resources/js` is different, and the framework guides cover it: [Vue](/docs/vue/architecture), [React](/docs/react/architecture), [Svelte](/docs/svelte/architecture).
 
 | Folder | What lives there |
 | --- | --- |
@@ -106,9 +106,9 @@ vue/
 
 ## Inside a module
 
-Each module is self-contained: it has its own routes, controllers, Data objects, services and enums, and registers its routes from its service provider (listed in `bootstrap/providers.php`). Adding a feature usually means adding a module, not touching `app/`.
+A module keeps everything it needs in one place. It has its own routes, controllers, Data objects, services and enums, and it registers its routes from its own service provider (listed in `bootstrap/providers.php`). So when you add a feature, you'll usually add a module and leave `app/` alone.
 
-`Modules/Tenant` is the most complete example:
+`Modules/Tenant` is the fullest example, so it's a good one to read:
 
 | Folder | Contains | Examples |
 | --- | --- | --- |
@@ -127,7 +127,7 @@ Each module is self-contained: it has its own routes, controllers, Data objects,
 | `routes/web.php` | Central routes | Tenants, domains, tenant settings |
 | `routes/tenant.php` | Tenant-only routes | Invitation accept, maintenance bypass |
 
-See [Architecture](/docs/core/architecture) for how requests flow through these pieces.
+To see how a request moves through these pieces, read [Architecture](/docs/core/architecture).
 
 ## Frontend naming per kit
 

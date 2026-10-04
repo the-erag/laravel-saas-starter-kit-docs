@@ -24,7 +24,7 @@ head:
 
 # Layouts <Badge type="tip" text="React" />
 
-Layouts live in `resources/js/layouts`. Two wrapper components, `AppLayout` and `AuthLayout`, pick the actual design at runtime, so pages never import a specific variant.
+The layouts are in `resources/js/layouts`. `AppLayout` and `AuthLayout` are wrappers that choose the real design at runtime, so a page never has to import a specific variant.
 
 ## Layout selection flow
 
@@ -36,42 +36,42 @@ Setup → Layout (global default)
   → AppLayout / AuthLayout render the chosen variant
 ```
 
-1. An admin sets the global defaults (app layout, sidebar variant, collapsible mode, auth layout) on **Setup → Layout**.
-2. A user can override the app layout, sidebar variant and collapsible mode on **Settings → Layout**. The auth layout always comes from the global default.
-3. The backend shares the result as the `layout` prop (`LayoutSettings`).
-4. `app.tsx` assigns `AuthLayout` to `auth/*` pages, `[AppLayout, SettingsLayout]` to `settings/*` pages and `AppLayout` to everything else (see [Architecture → Overview](/docs/react/architecture#overview)).
+1. On **Setup → Layout**, an admin picks the global defaults: app layout, sidebar variant, collapsible mode and auth layout.
+2. Each user can change their own app layout, sidebar variant and collapsible mode on **Settings → Layout**. They can't change the auth layout, which always follows the global default.
+3. The backend sends the result to the frontend as the `layout` prop (`LayoutSettings`).
+4. In `app.tsx`, `auth/*` pages get `AuthLayout`, `settings/*` pages get `[AppLayout, SettingsLayout]` and the rest get `AppLayout` (see [Architecture → Overview](/docs/react/architecture#overview)).
 
-Backend details are in [Navigation & layouts](/docs/core/navigation-and-layouts).
+For the backend side, read [Navigation & layouts](/docs/core/navigation-and-layouts).
 
 ## App layouts
 
-`app-layout.tsx` takes `breadcrumbs?: BreadcrumbItem[]` and renders one of two shells based on `layout.app_layout`:
+`app-layout.tsx` accepts `breadcrumbs?: BreadcrumbItem[]` and, depending on `layout.app_layout`, renders one of two shells:
 
 | `app_layout` | Component | Structure |
 | --- | --- | --- |
 | `sidebar` (default) | `app/app-sidebar-layout.tsx` | `AppSidebar` + `AppSidebarHeader` (breadcrumbs) + content |
 | `header` | `app/app-header-layout.tsx` | `AppHeader` top navigation (menus + breadcrumbs) + content |
 
-Both shells mount the global `ConfirmDialog`. The sonner `Toaster` and `TooltipProvider` are added once for every page in `app.tsx` (`withApp`).
+Each shell mounts the global `ConfirmDialog`. The sonner `Toaster` and `TooltipProvider` don't live here: `app.tsx` adds them once for every page in `withApp`.
 
-The sidebar shell also reads two settings:
+The sidebar shell has two extra settings:
 
 | Setting | Values | Default |
 | --- | --- | --- |
 | `sidebar_variant` | `inset`, `sidebar`, `floating` | `inset` |
 | `sidebar_collapsible` | `icon`, `offcanvas`, `none` | `icon` |
 
-The sidebar shows `menus` normally and `setupMenus` while the URL starts with `/setup`.
+Normally the sidebar shows `menus`. As soon as the URL starts with `/setup`, it shows `setupMenus` instead.
 
-**Settings layout.** `settings/layout.tsx` renders the Profile / Security / Appearance / Layout sub-navigation inside the app shell. The active item is detected with `useCurrentUrl().isCurrentOrParentUrl`.
+The settings pages add one more layer. `settings/layout.tsx` draws the Profile / Security / Appearance / Layout sub-navigation inside the app shell and uses `useCurrentUrl().isCurrentOrParentUrl` to highlight the active item.
 
 ::: tip
-To add another app-wide wrapper (for example a banner), put it in both `app-sidebar-layout.tsx` and `app-header-layout.tsx`, or in `withApp` in `app.tsx` if it should also appear on auth pages.
+Want something on every app page, like a banner? Add it to both `app-sidebar-layout.tsx` and `app-header-layout.tsx`. If it should show on auth pages too, put it in `withApp` in `app.tsx` instead.
 :::
 
 ## Auth layouts
 
-`auth-layout.tsx` takes `title` and `description` as translation keys (the layout translates them) and renders one of three designs based on `layout.auth_layout`:
+`auth-layout.tsx` takes `title` and `description` as translation keys and translates them itself. Which of the three designs it renders depends on `layout.auth_layout`:
 
 | `auth_layout` | Component | Look |
 | --- | --- | --- |
@@ -81,7 +81,7 @@ To add another app-wide wrapper (for example a banner), put it in both `app-side
 
 ## Per-page layout override
 
-A page controls its layout through a static `layout` property:
+Each page can control its layout with a static `layout` property:
 
 | Goal | Set `Page.layout` to | Used by |
 | --- | --- | --- |
@@ -90,7 +90,7 @@ A page controls its layout through a static `layout` property:
 | No layout (full screen) | `[] as never[]` | `home.tsx`, `auth/maintenance.tsx`, `auth/suspended.tsx` |
 | Pick a layout from props | A function returning a layout | `errors/error.tsx` |
 
-Breadcrumbs on an app page (titles are translation keys, translated by `breadcrumbs.tsx`):
+This is how an app page sets its breadcrumbs. The titles are translation keys, and `breadcrumbs.tsx` translates them:
 
 ```tsx
 UsersIndex.layout = {
@@ -102,7 +102,7 @@ UsersIndex.layout = {
 ```
 
 ::: details View other override examples
-Title and description on an auth page:
+Setting the title and description on an auth page:
 
 ```tsx
 Login.layout = {
@@ -111,7 +111,7 @@ Login.layout = {
 };
 ```
 
-Dynamic title with `setLayoutProps`. `two-factor-challenge.tsx` swaps the title when the user switches to a recovery code. `accept-invitation.tsx` does the same when `mode === 'user'` to show the user-invitation wording.
+Changing the title at runtime with `setLayoutProps`. When the user switches to a recovery code, `two-factor-challenge.tsx` swaps the title. `accept-invitation.tsx` does the same thing when `mode === 'user'`, so the wording fits a user invitation.
 
 ```tsx
 import { setLayoutProps } from '@inertiajs/react';
@@ -124,13 +124,13 @@ useEffect(() => {
 }, [authConfigContent.title, authConfigContent.description]);
 ```
 
-No layout:
+Turning the layout off:
 
 ```tsx
 Home.layout = [] as never[];
 ```
 
-Layout chosen per request. The error page uses the app shell for signed-in users and the auth layout for guests:
+Choosing the layout per request. Signed-in users see the error page in the app shell, while guests get the auth layout:
 
 ```tsx
 import AppLayout from '@/layouts/app-layout';

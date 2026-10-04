@@ -24,7 +24,7 @@ head:
 
 # Localization
 
-The kits ship with **17 languages**. Translations are written once, as Laravel PHP files, and shared with the frontend, so the backend and the components always use the same strings.
+The kits come with 17 languages. You write translations once, as Laravel PHP files, and they're shared with the frontend, so your backend and your components always use the same strings.
 
 ```text
 lang/<locale>/*.php
@@ -34,11 +34,11 @@ lang/<locale>/*.php
   → __('...') in components
 ```
 
-The sharing is done by `erag/laravel-lang-sync-inertia` (PHP) and `@erag/lang-sync-inertia` (JS).
+Two packages handle the sharing: `erag/laravel-lang-sync-inertia` (PHP) and `@erag/lang-sync-inertia` (JS).
 
 ## Languages
 
-Defined in `Modules\Settings\Enums\LanguageEnum`:
+The list lives in `Modules\Settings\Enums\LanguageEnum`:
 
 | Code | Language | Code | Language |
 | --- | --- | --- | --- |
@@ -52,11 +52,11 @@ Defined in `Modules\Settings\Enums\LanguageEnum`:
 | `ru` | Russian | `tr` | Turkish |
 | `ja` | Japanese | | |
 
-`LanguageEnum::DEFAULT` is English; `LanguageEnum::resolve()` falls back to it for unknown codes.
+`LanguageEnum::DEFAULT` is English, and `LanguageEnum::resolve()` falls back to it when it gets a code it doesn't know.
 
 ## File layout
 
-Laravel's core files sit at the top of each locale; kit strings are split into one file per feature under `modules/`.
+Laravel's core files sit at the top of each locale. The kit's own strings are split into one file per feature under `modules/`.
 
 ```text
 lang/<locale>/
@@ -70,13 +70,13 @@ resources/js/lang/<locale>/        # generated JSON, same structure
 
 ## How the locale is resolved
 
-`SetUserLocale` runs on every web request and uses the first value that exists:
+`SetUserLocale` runs on every web request and picks the first value that exists:
 
-1. **User language**: `users.locale`, if the signed-in user picked one
-2. **Domain default**: `domains.locale` of the current tenant domain (tenant context only)
-3. **App default**: `APP_LOCALE` (`en`)
+1. User language: `users.locale`, if the signed-in user has picked one
+2. Domain default: `domains.locale` of the current tenant domain (tenant context only)
+3. App default: `APP_LOCALE` (`en`)
 
-Users change their language in **Profile** or from the **user menu** (`PATCH /settings/language`, route `language.update`). Choosing **Default** stores `null`, so the user follows the domain or app default.
+Users can change their language on their Profile or from the user menu (`PATCH /settings/language`, route `language.update`). Picking **Default** stores `null`, which means the user follows the domain or app default.
 
 | Shared prop | Content |
 | --- | --- |
@@ -85,27 +85,27 @@ Users change their language in **Profile** or from the **user menu** (`PATCH /se
 | `defaultLocale` | Domain or app default |
 | `languages` | Options for language selects |
 
-**Related files**: `Modules/Settings/Http/Middleware/SetUserLocale.php`, `Modules/Settings/Enums/LanguageEnum.php`.
+Related files: `Modules/Settings/Http/Middleware/SetUserLocale.php`, `Modules/Settings/Enums/LanguageEnum.php`.
 
 ## Using translations
 
-The key is the file path plus the array path. PHP uses `/` for sub-folders; components use `.` everywhere.
+A key is the file path plus the array path. PHP uses `/` for sub-folders, while components use `.` everywhere.
 
 | Where | Key format | Example |
 | --- | --- | --- |
 | PHP | `modules/<file>.<key>` | `__('modules/tenant.toasts.created')` |
 | Components | `modules.<file>.<key>` | `__('modules.tenant.index.title')` |
 
-Placeholders work like Laravel in both: `__('modules/user.notifications.invitation.expires', ['days' => 7])` in PHP, `__('...', { name: user.name })` in components. `transChoice` handles pluralization.
+Placeholders work the way they do in Laravel, on both sides: `__('modules/user.notifications.invitation.expires', ['days' => 7])` in PHP, `__('...', { name: user.name })` in components. For pluralization there's `transChoice`.
 
-Translations are also used in two places you do not call yourself:
+Translations also get used in two places where you don't call them yourself:
 
-- **Data objects** translate validation attribute names and messages in `attributes()` and `messages()`.
-- **Menu titles** use `modules/common.nav.<slug>` (dots and dashes in the slug become underscores), falling back to the `title` column.
+- Data objects translate validation attribute names and messages in `attributes()` and `messages()`.
+- Menu titles use `modules/common.nav.<slug>` (dots and dashes in the slug become underscores) and fall back to the `title` column.
 
 ### In components
 
-Import the helper for **your framework from its subpath**:
+Import the helper for your framework from its own subpath:
 
 ::: code-group
 
@@ -143,15 +143,15 @@ export default function Title() {
 
 :::
 
-The helper also returns `trans` and `transChoice`.
+The helper returns `trans` and `transChoice` as well.
 
 ::: warning Always use the subpath import
-Import from `@erag/lang-sync-inertia/vue`, `/react` or `/svelte`. The root import `@erag/lang-sync-inertia` breaks the build in the kits.
+Import from `@erag/lang-sync-inertia/vue`, `/react` or `/svelte`. Importing from the root `@erag/lang-sync-inertia` breaks the build in the kits.
 :::
 
 ## Generating frontend JSON
 
-The frontend reads the generated JSON, not the PHP files. After editing any file in `lang/`, regenerate and commit the output:
+The frontend reads the generated JSON, not the PHP files. Whenever you edit a file in `lang/`, regenerate it and commit the output:
 
 ```bash
 php artisan erag:generate-lang
@@ -162,22 +162,22 @@ php artisan erag:generate-lang
 | `lang_path` (source) | `lang/` |
 | `output_lang` (output) | `resources/js/lang/` |
 
-The backend shares a merge of this generated JSON and any runtime-loaded translations.
+What the backend shares is this generated JSON merged with any translations loaded at runtime.
 
 ## Adding a translation key
 
 1. Add the key to `lang/en/modules/<feature>.php`.
-2. Add the same key to the other 16 locales (missing keys fall back to the raw key string on the frontend).
+2. Add the same key to the other 16 locales. If one is missing, the frontend falls back to the raw key string.
 3. Run `php artisan erag:generate-lang`.
 4. Use it: `__('modules/<feature>.key')` in PHP, `__('modules.<feature>.key')` in components.
 
-For a new feature, create `lang/<locale>/modules/<feature>.php` in every locale.
+If it's a new feature, create `lang/<locale>/modules/<feature>.php` in every locale.
 
 ## Adding a language
 
 1. Add a case and a label to `Modules\Settings\Enums\LanguageEnum`, for example `case Swedish = 'sv';` and `self::Swedish => 'Svenska'` in `label()`.
 2. Copy `lang/en` to `lang/sv` and translate it.
 3. Run `php artisan erag:generate-lang`.
-4. Run `php artisan typescript:transform` so the enum type in `resources/js/types` is updated.
+4. Run `php artisan typescript:transform` so the enum type in `resources/js/types` gets updated.
 
-The new language then appears in the profile, user menu and domain settings selects.
+After that, the new language shows up in the language selects on the profile, the user menu and the domain settings.

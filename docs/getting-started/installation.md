@@ -24,7 +24,7 @@ head:
 
 # Installation
 
-This page gets the code onto your machine. [Local development](/docs/getting-started/local-development) covers the full first run (database, seeding, tenants, dev server) in more detail.
+This page gets the code onto your machine. For the full first run (database, seeding, tenants, dev server), [Local development](/docs/getting-started/local-development) goes into more detail.
 
 ```text
 Repository access → clone → composer install + .env → migrate and seed → npm install → open APP_URL
@@ -32,7 +32,7 @@ Repository access → clone → composer install + .env → migrate and seed →
 
 ## 1. Get repository access
 
-After purchase, your GitHub account is automatically invited to the kit repository. See [Repository access](/docs/purchase/repository-access).
+Once you've bought a kit, your GitHub account gets an automatic invite to its repository. See [Repository access](/docs/purchase/repository-access).
 
 ## 2. Clone the kit
 
@@ -56,7 +56,7 @@ cd svelte
 :::
 
 ::: tip Keep updates easy
-Rename the kit remote to `upstream` right away and push to your own repository as `origin`. This makes weekly updates a simple merge. See [Updates](/docs/purchase/updates).
+Rename the kit remote to `upstream` straight away and push to your own repository as `origin`. Weekly updates then come down to a simple merge. See [Updates](/docs/purchase/updates).
 
 ```bash
 git remote rename origin upstream
@@ -74,18 +74,18 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-Edit `.env` (at minimum `APP_URL`, `APP_DOMAIN` and the `DB_*` keys) and create the database. Then:
+Edit `.env` (at least `APP_URL`, `APP_DOMAIN` and the `DB_*` keys) and create the database. Then run:
 
 ```bash
 php artisan migrate --seed
 npm install
 ```
 
-Each step is explained in [Local development](/docs/getting-started/local-development).
+[Local development](/docs/getting-started/local-development) walks through each of these steps.
 
 ## One-command setup
 
-`composer setup` runs most of the steps above in one go:
+`composer setup` handles most of the steps above in one go:
 
 | Step | Command |
 | --- | --- |
@@ -96,15 +96,15 @@ Each step is explained in [Local development](/docs/getting-started/local-develo
 | Frontend | `npm install`, `npm run build` |
 
 ::: warning No seeding
-`composer setup` does **not** seed the database, and it migrates using whatever `.env` contains. Create and edit `.env` first, create the database, run `composer setup`, then run `php artisan db:seed`.
+`composer setup` does **not** seed the database, and it migrates with whatever is in `.env` at the time. So create and edit `.env` first, create the database, run `composer setup`, and then run `php artisan db:seed`.
 :::
 
 ## Open the app
 
-With Herd, link the project to the domain you set in `APP_DOMAIN`:
+If you use Herd, link the project to the domain you set in `APP_DOMAIN`:
 
 ```bash
 herd link vue   # serves this folder as vue.test and *.vue.test
 ```
 
-Open `APP_URL` (for example `http://vue.test`) and sign in with a [seeded user](/docs/getting-started/local-development#seeded-data).
+Now open `APP_URL` (for example `http://vue.test`) and sign in as a [seeded user](/docs/getting-started/local-development#seeded-data).

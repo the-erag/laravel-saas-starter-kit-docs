@@ -12,12 +12,12 @@ import SlIcon from './SlIcon.vue';
       Important
     </p>
     <p class="notice-text">
-      Keep your copy of the kit in a <b>private</b> repository. If you push it to a public repository, anyone can see the
-      full source code of the paid starter kit — and publishing it is not allowed under the
+      Keep your copy of the kit in a <b>private</b> repository. Push it to a public one and anyone can read the full
+      source code of a paid starter kit. Publishing it also isn't allowed under the
       <a href="/license.html">SaaS Laravel Commercial License</a>.
     </p>
     <p class="notice-text notice-small">
-      Choose <b>Private</b> when you create the repository. Already created it as public? Open the repository's
+      Pick <b>Private</b> when you create the repository. Already made it public? Go to the repository's
       <b>Settings → General → Danger Zone → Change visibility</b> and switch it to private.
     </p>
 

@@ -12,9 +12,9 @@ const ready = [
 
 const features: { icon: IconName; title: string; text: string }[] = [
   { icon: 'layout', title: 'Configurable layouts', text: 'Sidebar or header app layouts and card, simple or split sign-in pages.' },
-  { icon: 'wrench', title: 'Fully customizable', text: 'All the code lives in your application, so you control everything.' },
-  { icon: 'layers', title: 'Vue, React or Svelte', text: 'The same Laravel backend with the frontend you already know.' },
-  { icon: 'zap', title: 'Tailwind CSS v4', text: 'Built with the latest Tailwind CSS utilities and design tokens.' },
+  { icon: 'wrench', title: 'Fully customizable', text: 'Every file lives in your app, so you can change whatever you like.' },
+  { icon: 'layers', title: 'Vue, React or Svelte', text: 'The same Laravel backend, with the frontend your team already knows.' },
+  { icon: 'zap', title: 'Tailwind CSS v4', text: 'Styled with Tailwind CSS v4 utilities and design tokens.' },
   { icon: 'code', title: 'TypeScript supported', text: 'Typed routes with Wayfinder and types generated from Data classes.' },
   { icon: 'package', title: 'shadcn UI', text: 'shadcn-vue, shadcn/ui and shadcn-svelte components in every kit.' },
   { icon: 'git', title: 'Built-in CI workflow', text: 'A GitHub Actions workflow runs the test suite on pushes to main and on pull requests.' },
@@ -27,13 +27,13 @@ const features: { icon: IconName; title: string; text: string }[] = [
     <div class="box-glow" aria-hidden="true" />
     <div class="sl-container box-layout">
       <div class="box-intro">
-        <p class="sl-eyebrow">Out of the box</p>
-        <h2 id="out-of-the-box-title" class="sl-h2">An authenticated application out of the box</h2>
-        <p class="sl-lead box-lead">Install a kit and start with a working product — not an empty Laravel project.</p>
+        <p class="sl-eyebrow">What you get</p>
+        <h2 id="out-of-the-box-title" class="sl-h2">A working, signed-in app from the first install</h2>
+        <p class="sl-lead box-lead">Install a kit and you start with a working product, not an empty Laravel project.</p>
         <p class="sl-text box-description">
-          Every kit ships the same production-ready Laravel backend with a polished Vue, React or Svelte frontend. Sign-in,
-          tenant management, users and settings already work end to end, so your first day goes into the features that make
-          your product different.
+          Every kit comes with the same production-ready Laravel backend and a finished Vue, React or Svelte frontend.
+          Sign-in, tenant management, users and settings already work end to end, so you can spend your first day on the
+          features that make your product yours.
         </p>
         <p class="box-ready-label">Ready on install</p>
         <ul class="box-ready">

@@ -24,7 +24,7 @@ head:
 
 # Environment
 
-Defaults below are from the Vue kit's `.env.example`. The other kits differ only in these keys:
+The defaults on this page come from the Vue kit's `.env.example`. The React and Svelte kits only differ in these keys:
 
 | Key | Vue | React | Svelte |
 | --- | --- | --- | --- |
@@ -34,14 +34,14 @@ Defaults below are from the Vue kit's `.env.example`. The other kits differ only
 | `DB_PASSWORD` | set to a sample value | empty | empty |
 
 ::: tip
-Change `APP_URL`, `APP_DOMAIN` and the `DB_*` keys first. Most other defaults work as is for local development.
+Start with `APP_URL`, `APP_DOMAIN` and the `DB_*` keys. For local development, you can leave most of the other defaults alone.
 :::
 
 ## Application
 
 | Key | Default | Notes |
 | --- | --- | --- |
-| `APP_NAME` | `Laravel` | Central app name. Tenant domains override it with the domain's App name or company. |
+| `APP_NAME` | `Laravel` | Name of the central app. On tenant domains, the domain's App name or company takes its place. |
 | `APP_ENV` | `local` | In `production`: strict password rules, destructive DB commands prohibited, full error pages |
 | `APP_KEY` | empty | `php artisan key:generate`. Also signs maintenance bypass cookies and is the default passkey user handle secret. |
 | `APP_DEBUG` | `true` | `false` in production |
@@ -57,7 +57,7 @@ Change `APP_URL`, `APP_DOMAIN` and the `DB_*` keys first. Most other defaults wo
 
 | Key | Default | Notes |
 | --- | --- | --- |
-| `TENANCY_DB_PREFIX` | `tenant` | **React kit only** (`config/tenancy.php`). Vue and Svelte hardcode `'prefix' => 'tenant'`; edit the config or switch it to `env()`. Use a unique prefix when several apps share one MySQL server. |
+| `TENANCY_DB_PREFIX` | `tenant` | **React kit only** (`config/tenancy.php`). Vue and Svelte hardcode `'prefix' => 'tenant'`, so edit the config there or switch it to `env()`. If several apps share one MySQL server, give each one its own prefix. |
 
 ## Database
 
@@ -126,7 +126,7 @@ Change `APP_URL`, `APP_DOMAIN` and the `DB_*` keys first. Most other defaults wo
 | `MAIL_MAILER` | `smtp` (or another real transport) |
 
 ::: warning Also before going live
-- Run a queue worker (`php artisan queue:work`); invitation and reset emails are queued.
-- Point `*.your-domain.com` at the app (wildcard DNS and TLS certificate).
-- Remove or change the seeded default users.
+- Run a queue worker (`php artisan queue:work`), because invitation and reset emails go through the queue.
+- Point `*.your-domain.com` at the app with wildcard DNS and a wildcard TLS certificate.
+- Remove the seeded default users, or change their details.
 :::

@@ -5,7 +5,7 @@ import SectionHeading from './SectionHeading.vue';
 withDefaults(defineProps<{ eyebrow?: string; title?: string; lead?: string }>(), {
   eyebrow: 'Included',
   title: 'Everything included in every kit',
-  lead: 'Each plan ships the complete Laravel backend and a full frontend for every feature below.',
+  lead: 'Every plan comes with the complete Laravel backend and a working frontend for each feature below.',
 });
 </script>
 

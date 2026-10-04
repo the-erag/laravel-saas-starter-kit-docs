@@ -21,8 +21,8 @@ const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '
           Build Laravel SaaS Products <span class="sl-gradient-text">Faster</span>
         </h1>
         <p class="sl-lead">
-          Build and launch Laravel SaaS products faster with production-ready Laravel 13 starter kits: multi-tenancy,
-          authentication, roles &amp; permissions and localization — built on one shared backend with a Vue, React or Svelte
+          Production-ready Laravel 13 starter kits with multi-tenancy, authentication, roles &amp; permissions and
+          localization already working. Every kit runs on the same backend, and you pick Vue, React or Svelte for the
           frontend.
         </p>
         <div class="sl-actions hero-actions">

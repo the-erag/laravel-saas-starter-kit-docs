@@ -26,16 +26,16 @@ head:
 
 | Tool | Version | Notes |
 | --- | --- | --- |
-| PHP | `^8.3` | The kits are developed and tested on PHP 8.4. Extensions required by Laravel 13, plus `pdo_mysql`. |
+| PHP | `^8.3` | We build and test the kits on PHP 8.4. You'll need the extensions Laravel 13 needs, plus `pdo_mysql`. |
 | Composer | 2.x | Installs the Laravel backend. |
-| Node.js + npm | A current Node LTS | `@erag/lang-sync-inertia` declares `node >= 24`. Each kit ships a `package-lock.json`, so use **npm**. |
-| MySQL (or MariaDB) | Any supported version | Multi-database tenancy creates one database per tenant, so the DB user must be allowed to `CREATE DATABASE` / `DROP DATABASE`. |
-| Local web server with wildcard subdomains | — | [Laravel Herd](https://herd.laravel.com) is recommended. |
-| Git | — | To clone your kit repository and pull updates. |
+| Node.js + npm | A current Node LTS | `@erag/lang-sync-inertia` declares `node >= 24`. Each kit ships a `package-lock.json`, so stick with **npm**. |
+| MySQL (or MariaDB) | Any supported version | Every tenant gets its own database, so your DB user has to be allowed to `CREATE DATABASE` / `DROP DATABASE`. |
+| Local web server with wildcard subdomains | — | We recommend [Laravel Herd](https://herd.laravel.com). |
+| Git | — | For cloning your kit repository and pulling updates. |
 
 ## Why Herd
 
-Tenants are identified by domain, so every tenant subdomain must reach your app:
+The app finds each tenant by its domain, so every tenant subdomain has to reach your app:
 
 ```text
 APP_DOMAIN=vue.test
@@ -43,18 +43,18 @@ vue.test        → central app
 acme.vue.test   → tenant created with the subdomain "acme"
 ```
 
-Herd serves `*.test` sites and their subdomains out of the box, so every new tenant works without extra DNS or hosts-file entries.
+Herd serves `*.test` sites and their subdomains with no extra setup, so each new tenant just works. You don't need DNS changes or hosts-file entries.
 
 ::: tip Other setups
-Any local stack works as long as the central domain **and all of its subdomains** point to the project's `public/` directory without a port in the URL (tenant links are built as `scheme://<domain>/path`). Laravel Sail is installed as a dev dependency, but the kits are configured and tested with Herd.
+You can use any local stack, as long as the central domain and all of its subdomains point to the project's `public/` directory with no port in the URL (tenant links are built as `scheme://<domain>/path`). Laravel Sail is installed as a dev dependency, but we configure and test the kits with Herd.
 :::
 
 ## Database
 
-`.env.example` uses `DB_CONNECTION=mysql`. `config/tenancy.php` also registers database managers for `sqlite`, `mariadb` and `pgsql`, but MySQL is the setup the kits are built and tested against.
+`.env.example` uses `DB_CONNECTION=mysql`. `config/tenancy.php` also registers database managers for `sqlite`, `mariadb` and `pgsql`, but MySQL is what we build and test the kits against.
 
 ::: warning Database permissions
-Creating a tenant runs `CREATE DATABASE` on the central connection. If your DB user cannot create databases, tenant creation fails.
+Creating a tenant runs `CREATE DATABASE` on the central connection. If your DB user can't create databases, tenant creation will fail.
 :::
 
 ## Production
@@ -65,6 +65,6 @@ Creating a tenant runs `CREATE DATABASE` on the central connection. If your DB u
 | Web server routing the central domain and a wildcard subdomain (`*.your-domain.com`) to the app, plus a wildcard DNS record | Every tenant is a subdomain |
 | A database user with rights to create tenant databases | Tenant creation runs `CREATE DATABASE` |
 | A queue worker (`php artisan queue:work`) | Invitation and password-reset emails are queued |
-| A real mailer (`MAIL_MAILER=smtp` or similar) | So those emails are delivered |
+| A real mailer (`MAIL_MAILER=smtp` or similar) | So those emails actually get delivered |
 
 Next: [Installation](/docs/getting-started/installation).

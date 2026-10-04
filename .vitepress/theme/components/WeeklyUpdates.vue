@@ -6,17 +6,17 @@ const steps: { icon: IconName; title: string; text: string }[] = [
   {
     icon: 'wrench',
     title: 'Improvements every week',
-    text: 'Fixes, new features and dependency upgrades are shipped for Vue, React and Svelte together.',
+    text: 'We ship fixes, new features and dependency upgrades to Vue, React and Svelte at the same time.',
   },
   {
     icon: 'refresh',
     title: 'Pushed to your kit',
-    text: 'Every update is published to the kit repository you have access to, with a clear commit history.',
+    text: 'Each update lands in the kit repository you have access to, with a commit history you can follow.',
   },
   {
     icon: 'git',
     title: 'You pull when ready',
-    text: 'Updates arrive in the kit repository you have access to. Merge them into your project on your own schedule.',
+    text: 'Nothing changes in your project until you say so. Merge updates in on your own schedule.',
   },
 ];
 </script>
@@ -27,7 +27,7 @@ const steps: { icon: IconName; title: string; text: string }[] = [
       <SectionHeading
         eyebrow="Weekly updates"
         title="A starter kit that keeps improving"
-        lead="Your purchase includes lifetime access to the repository and the weekly updates pushed to it — no renewal, no subscription."
+        lead="Your purchase includes lifetime access to the repository and every weekly update we push to it. No renewal, no subscription."
       />
       <ol class="steps">
         <li v-for="(step, index) in steps" :key="step.title" class="sl-card step">
@@ -38,7 +38,7 @@ const steps: { icon: IconName; title: string; text: string }[] = [
         </li>
       </ol>
       <p class="note">
-        <SlIcon name="calendar" :size="16" /> Updates are published weekly.
+        <SlIcon name="calendar" :size="16" /> We publish updates every week.
         <a class="sl-link" href="/docs/purchase/updates.html">How updates work →</a>
       </p>
     </div>

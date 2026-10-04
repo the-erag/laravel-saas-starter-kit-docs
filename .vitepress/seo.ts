@@ -103,19 +103,25 @@ const offer = (planKey: PlanKey): JsonLd => ({
   priceCurrency: 'USD',
   availability: 'https://schema.org/InStock',
   url: `${site.url}${plans[planKey].href}`,
+  priceValidUntil: `${new Date().getFullYear() + 1}-12-31`,
   seller: { '@id': organizationId },
 });
 
+// A kit is described as a Product with an Offer: Google accepts that without ratings, while a
+// SoftwareApplication is only valid with an aggregateRating or review (and has no `brand`).
 const software = (planKey: PlanKey, url: string, description: string): JsonLd => ({
-  '@type': 'SoftwareApplication',
+  '@type': 'Product',
   name: plans[planKey].name,
   description,
   url,
+  sku: `saas-laravel-${planKey}`,
   image: ogImageFor(planKey === 'all-kits' ? 'pricing.md' : `kits/${planKey}.md`),
-  applicationCategory: 'DeveloperApplication',
-  operatingSystem: 'Windows, macOS, Linux',
-  softwareRequirements: 'PHP 8.3+, Composer 2, Node.js LTS, MySQL',
-  brand: { '@id': organizationId },
+  category: 'Software > Developer Tools',
+  brand: { '@type': 'Brand', name: site.name },
+  additionalProperty: [
+    { '@type': 'PropertyValue', name: 'Requirements', value: 'PHP 8.3+, Composer 2, Node.js LTS, MySQL' },
+    { '@type': 'PropertyValue', name: 'Operating system', value: 'Windows, macOS, Linux' },
+  ],
   offers: offer(planKey),
 });
 
@@ -282,6 +288,9 @@ export const seoHead = (pageData: PageData, title: string, description: string, 
 
   const head: HeadConfig[] = [
     ...robots(indexable),
+    // The site is English only: each page is its own English and default-language version.
+    ['link', { rel: 'alternate', hreflang: 'en', href: url }],
+    ['link', { rel: 'alternate', hreflang: 'x-default', href: url }],
     ['meta', { property: 'og:type', content: isDocs ? 'article' : 'website' }],
     ['meta', { property: 'og:image', content: image }],
     ['meta', { property: 'og:image:type', content: 'image/png' }],

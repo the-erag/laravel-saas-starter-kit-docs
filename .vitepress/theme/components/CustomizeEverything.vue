@@ -35,7 +35,7 @@ const brands = [
         :center="false"
         eyebrow="Customize"
         title="Customize everything"
-        lead="All of the code lives in your application — components, layouts, pages and translations. Change anything, from the logo to the sign-in screen, and give every domain its own app name."
+        lead="All of the code lives in your application: components, layouts, pages and translations. Change anything from the logo to the sign-in screen, and give each domain its own app name."
       />
 
       <div class="custom">

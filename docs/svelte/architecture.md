@@ -24,11 +24,11 @@ head:
 
 # Architecture <Badge type="tip" text="Svelte" />
 
-Everything framework-specific lives in `resources/js`. The Laravel side (modules, tenancy, auth) is described in [Core architecture](/docs/core/architecture).
+All the Svelte-specific code is in `resources/js`. For the Laravel side (modules, tenancy, auth), see [Core architecture](/docs/core/architecture).
 
 ## Overview
 
-A request flows from a Laravel controller to a Svelte page like this:
+Here's the path a request takes from a Laravel controller to a Svelte page:
 
 ```text
 Controller: Inertia::render('users/Index', $props)
@@ -37,7 +37,7 @@ Controller: Inertia::render('users/Index', $props)
   → page reads its own props with $props() and shared props from `page`
 ```
 
-`resources/js/app.ts` creates the app. There is no `resolve` callback; the `@inertiajs/vite` plugin in `vite.config.ts` resolves pages. The `layout` callback chooses a default layout by page name:
+The app is created in `resources/js/app.ts`. You won't find a `resolve` callback there, because the `@inertiajs/vite` plugin in `vite.config.ts` handles page resolution. What `app.ts` does have is a `layout` callback, which picks a default layout based on the page name:
 
 | Page name starts with | Default layout |
 | --- | --- |
@@ -45,12 +45,12 @@ Controller: Inertia::render('users/Index', $props)
 | `settings/` | `AppLayout` wrapping `settings/Layout.svelte` |
 | anything else | `AppLayout` |
 
-A page can override this from `<script module>`. See [Layouts](/docs/svelte/layouts).
+Any page can override that default from its `<script module>` block (more on this in [Layouts](/docs/svelte/layouts)).
 
-`app.ts` also calls two setup functions:
+After that, `app.ts` runs two setup functions:
 
-- `initializeTheme()` from `lib/theme.svelte.ts` applies light, dark or system mode.
-- `initializeFlashToast()` from `lib/flash-toast.ts` turns server flash data into toasts.
+- `initializeTheme()` from `lib/theme.svelte.ts`, which applies light, dark or system mode.
+- `initializeFlashToast()` from `lib/flash-toast.ts`, which turns flash data from the server into toasts.
 
 ::: details View app.ts
 ```ts
@@ -101,9 +101,9 @@ initializeFlashToast();
 | Shared logic | camelCase module in `lib/`; `.svelte.ts` when it uses runes | `lib/permission.ts`, `lib/confirmDialog.svelte.ts` |
 | UI primitive | shadcn-svelte folder with `index.ts` | `components/ui/dialog` |
 
-Components use `<script lang="ts">` with runes (`$props()`, `$state`, `$derived`, `$effect`) and snippets (`{#snippet}` / `{@render}`) instead of slots.
+Every component uses `<script lang="ts">` with runes (`$props()`, `$state`, `$derived`, `$effect`). Where you'd reach for slots in older Svelte, we use snippets (`{#snippet}` / `{@render}`).
 
-ESLint (`eslint-plugin-svelte`) enforces type-only imports, alphabetised import groups, 1TBS braces and blank lines around control statements.
+Linting runs through ESLint with `eslint-plugin-svelte`. It expects type-only imports, import groups in alphabetical order, 1TBS braces and a blank line before and after control statements.
 
 ### `lib` modules
 
@@ -133,15 +133,15 @@ ESLint (`eslint-plugin-svelte`) enforces type-only imports, alphabetised import 
 | `php artisan typescript:transform` | `types/Modules/<Module>/Data` and `.../Enums` from Spatie Data classes and enums in `app/` and `Modules/` | `import type { DomainData } from '@/types/Modules/Tenant/Data'` |
 | `php artisan erag:generate-lang` | `lang/<locale>/…json` | Read by `svelteLang()` |
 
-Hand-written page prop types sit next to the generated ones (`types/Tenants/tenants.ts`, `types/Users/users.ts`, `types/Roles/roles.ts`) and are re-exported from `@/types`. How to call Wayfinder functions is covered in [Inertia](/docs/svelte/inertia#wayfinder-routes).
+The page prop types we wrote by hand live alongside the generated ones (`types/Tenants/tenants.ts`, `types/Users/users.ts`, `types/Roles/roles.ts`), and `@/types` re-exports them. For how to call the Wayfinder functions, see [Inertia](/docs/svelte/inertia#wayfinder-routes).
 
 ::: tip
-`composer lint` runs `typescript:transform` before the frontend linters, so generated types stay in sync with the PHP classes.
+`composer lint` runs `typescript:transform` before it starts the frontend linters. That way the generated types never drift away from the PHP classes.
 :::
 
 ## Shared props
 
-`HandleInertiaRequests` shares these props on every page. They are typed as `SharedData` in `types/global.d.ts`.
+Every page receives the props below from `HandleInertiaRequests`. Their type is `SharedData`, declared in `types/global.d.ts`.
 
 | Prop | Type | Content |
 | --- | --- | --- |
@@ -155,7 +155,7 @@ Hand-written page prop types sit next to the generated ones (`types/Tenants/tena
 | `appUrl`, `domain` | `string` (`domain` can be `null`) | App URL and central domain |
 | `permissionsConfig` | not declared in `SharedData` (`unknown`) | Grouped permissions used by the permission dialogs |
 
-Read shared props from the reactive `page` object, and page-specific props from `$props()`:
+Shared props come from the reactive `page` object. Props that belong to one page come from `$props()`:
 
 ```svelte
 <script lang="ts">
@@ -167,14 +167,14 @@ Read shared props from the reactive `page` object, and page-specific props from 
 </script>
 ```
 
-`types/global.d.ts` registers `SharedData` with Inertia, so `page.props` is typed everywhere. It also declares a global `PageProps<T>` type (`T & SharedData`).
+Because `types/global.d.ts` registers `SharedData` with Inertia, `page.props` is typed in every file. The same file declares a global `PageProps<T>` type (`T & SharedData`).
 
 ## Permissions on the frontend
 
-Use `usePermission()` from `lib/permission.ts` instead of reading `page.props.auth` by hand.
+Rather than digging through `page.props.auth` yourself, call `usePermission()` from `lib/permission.ts`.
 
-- `can(...names)` returns `true` for super admins, or when the user has **any** of the given permissions.
-- Pass the central and tenant names together, because the same page runs on both.
+- `can(...names)` returns `true` for a super admin, or when the user holds **any** of the permissions you pass.
+- The same page runs on central and tenant domains, so pass both permission names together.
 
 ```svelte
 <script lang="ts">
@@ -189,14 +189,14 @@ Use `usePermission()` from `lib/permission.ts` instead of reading `page.props.au
 ```
 
 ::: info
-Hiding a button is only a UI convenience. Routes are protected on the server by `permission:` middleware. See [Users, roles & permissions](/docs/core/users-roles-permissions).
+Hiding a button just keeps the UI tidy. The real protection is the `permission:` middleware on the server routes. See [Users, roles & permissions](/docs/core/users-roles-permissions).
 :::
 
-The same pattern applies to language: `useLanguage()` from `lib/language.ts` returns getters (`language.languages`, `language.userLocale`) and `changeLanguage()`. Don't destructure the reactive values.
+Language works the same way. `useLanguage()` from `lib/language.ts` gives you getters (`language.languages`, `language.userLocale`) and `changeLanguage()`. Read the reactive values through the object and don't destructure them.
 
 ## Translations
 
-Import the helper from the **Svelte subpath** (`@erag/lang-sync-inertia/svelte`). The package root import breaks the build.
+Always import the helper from the Svelte subpath, `@erag/lang-sync-inertia/svelte`. Importing from the package root breaks the build.
 
 ```svelte
 <script lang="ts">
@@ -208,12 +208,12 @@ Import the helper from the **Svelte subpath** (`@erag/lang-sync-inertia/svelte`)
 <AppHead title={__('modules.user.index.title')} />
 ```
 
-- Keys map to `lang/<locale>/modules/<feature>.php`.
-- `php artisan erag:generate-lang` exports them to `resources/js/lang/<locale>/modules/<feature>.json`.
-- Placeholders work as in Laravel: `__('modules.user.index.delete_confirm.message', { name: user.name })`.
-- `svelteLang()` also returns `trans`, `transChoice` and `trans_choice`.
+- Each key points to `lang/<locale>/modules/<feature>.php`.
+- Running `php artisan erag:generate-lang` exports them to `resources/js/lang/<locale>/modules/<feature>.json`.
+- Placeholders behave just like they do in Laravel: `__('modules.user.index.delete_confirm.message', { name: user.name })`.
+- You also get `trans`, `transChoice` and `trans_choice` from `svelteLang()`.
 
-More in [Localization](/docs/core/localization).
+[Localization](/docs/core/localization) has the full story.
 
 ## Related files
 
@@ -225,5 +225,5 @@ More in [Localization](/docs/core/localization).
 - `eslint.config.js`: lint rules
 
 ::: info
-`vite.config.ts` sets `LARAVEL_BYPASS_ENV_CHECK` when it is loaded by `svelte-check`, so type checking works without a running Laravel environment.
+When `svelte-check` loads `vite.config.ts`, the config sets `LARAVEL_BYPASS_ENV_CHECK`. This lets you type check without a running Laravel environment.
 :::

@@ -14,7 +14,7 @@ const sharedProps = ['auth', 'locale', 'languages', 'menus', 'layout', 'flash'];
       <SectionHeading
         eyebrow="Architecture"
         title="Three frameworks. One backend."
-        lead="The Laravel code is identical in every kit — only resources/js changes. Learn the backend once and move between frontends freely."
+        lead="The Laravel code is identical in every kit. Only resources/js changes, so you learn the backend once and can switch frontends whenever you like."
       />
       <div class="diagram">
         <div class="tier tier--backend">

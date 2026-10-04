@@ -35,77 +35,77 @@ head:
 
 ## `Unable to locate file in Vite manifest`
 
-The frontend has not been built, or the dev server is not running. Run `npm run dev` (or `composer dev`) during development, or `npm run build` for a production-like build.
+Either the frontend hasn't been built or the dev server isn't running. While you're developing, run `npm run dev` (or `composer dev`). For a production-like build, run `npm run build`.
 
 ## The app shows 404 on `127.0.0.1:8000` or `localhost`
 
-Only `APP_DOMAIN` is a central domain; any other host is treated as a tenant and unknown tenants return 404. Open the app at `APP_URL` (e.g. `http://vue.test`), not the address printed by `php artisan serve`.
+Only `APP_DOMAIN` counts as a central domain. Any other host is treated as a tenant, and a tenant that doesn't exist returns 404. Open the app at `APP_URL` (e.g. `http://vue.test`) instead of the address `php artisan serve` prints.
 
 ## Tenant subdomain does not load
 
-- The tenant domain must resolve to the app. With Herd, link the site with the name matching `APP_DOMAIN` (`herd link vue` for `vue.test`); all `*.vue.test` subdomains then work.
-- Without Herd you need wildcard DNS (e.g. dnsmasq) and a web server that serves `*.APP_DOMAIN` from `public/`. A plain `/etc/hosts` file cannot do wildcards.
-- In production add a `*.your-domain.com` DNS record and a wildcard TLS certificate.
-- Check the domain exists: `php artisan tenants:list`.
+- The tenant domain has to resolve to the app. With Herd, link the site using the name that matches `APP_DOMAIN` (`herd link vue` for `vue.test`), and every `*.vue.test` subdomain will work.
+- Without Herd, you need wildcard DNS (dnsmasq, for example) and a web server that serves `*.APP_DOMAIN` from `public/`. A plain `/etc/hosts` file can't do wildcards.
+- In production, add a `*.your-domain.com` DNS record and a wildcard TLS certificate.
+- Make sure the domain actually exists: `php artisan tenants:list`.
 
 ## Invitation or password reset emails are not sent
 
-These notifications are queued (`QUEUE_CONNECTION=database`).
+These notifications go through the queue (`QUEUE_CONNECTION=database`), so work through this list:
 
-1. Run a worker: `composer dev` (includes `queue:listen`) or `php artisan queue:work`.
-2. Keep `DB_QUEUE_CONNECTION` unset (it falls back to `DB_CONNECTION`) so jobs from tenants land in the central `jobs` table where the worker looks.
-3. With `MAIL_MAILER=log` emails are written to `storage/logs/laravel.log`, not delivered. Configure SMTP to send them.
-4. Check `php artisan queue:failed`.
+1. Run a worker, either `composer dev` (it includes `queue:listen`) or `php artisan queue:work`.
+2. Leave `DB_QUEUE_CONNECTION` unset so it falls back to `DB_CONNECTION`. That way jobs from tenants end up in the central `jobs` table, which is where the worker looks.
+3. With `MAIL_MAILER=log`, emails are written to `storage/logs/laravel.log` instead of being delivered. Set up SMTP to actually send them.
+4. Look at `php artisan queue:failed`.
 
 ## Translations do not update in the UI
 
-The frontend reads the generated JSON in `resources/js/lang`, not `lang/` directly. Run `php artisan erag:generate-lang` after changing `lang/`.
+The frontend reads the generated JSON in `resources/js/lang`, not the files in `lang/`. After you change anything in `lang/`, run `php artisan erag:generate-lang`.
 
-Also check you import the helper from the framework subpath (`@erag/lang-sync-inertia/vue`, `/react`, `/svelte`).
+Also make sure you import the helper from the framework subpath (`@erag/lang-sync-inertia/vue`, `/react`, `/svelte`).
 
 ## Route functions or types are outdated / TypeScript errors after backend changes
 
-Regenerate the generated files:
+These files are generated, so regenerate them:
 
 | Command | Regenerates |
 | --- | --- |
 | `php artisan wayfinder:generate --with-form` | `@/routes`, `@/actions` |
 | `php artisan typescript:transform` | `resources/js/types` |
 
-Restart `npm run dev` if the editor still shows stale types.
+If your editor still shows old types after that, restart `npm run dev`.
 
 ## Creating a tenant fails with a database error
 
-- **Access denied / cannot create database**: the DB user needs `CREATE DATABASE` (and `DROP DATABASE` to delete tenants).
-- **Database exists**: another app on the same MySQL server already created `tenant1`, or a previous `migrate:fresh` left tenant databases behind. Drop the old databases, or use a unique tenant DB prefix: `TENANCY_DB_PREFIX` in the React kit, `'prefix'` in `config/tenancy.php` in Vue and Svelte. See [Database](/docs/core/database#tenant-database-naming).
+- If you get access denied or the database can't be created, the DB user is missing `CREATE DATABASE` rights. It also needs `DROP DATABASE` to delete tenants.
+- If the database already exists, either another app on the same MySQL server has already created `tenant1`, or an earlier `migrate:fresh` left tenant databases behind. Drop the old databases, or use a unique tenant DB prefix: `TENANCY_DB_PREFIX` in the React kit, `'prefix'` in `config/tenancy.php` in Vue and Svelte. See [Database](/docs/core/database#tenant-database-naming).
 
 ## New tenant migration did not run
 
-Tenant migrations belong in `database/migrations/tenant` and run with `php artisan tenants:migrate`, not `php artisan migrate`.
+Tenant migrations live in `database/migrations/tenant` and you run them with `php artisan tenants:migrate`. Plain `php artisan migrate` won't pick them up.
 
 ## 403 right after registering
 
-Self-registered users get no role and no permissions, and `/dashboard` requires `View Analytics Dashboard` (central) or `View Tenant Dashboard` (tenant). Assign a role or permissions from **Users**, or assign a default role in `Modules\Auth\Actions\CreateNewUser`. See [Authentication](/docs/core/authentication#registration-and-permissions).
+Users who sign up on their own get no role and no permissions, but `/dashboard` needs `View Analytics Dashboard` (central) or `View Tenant Dashboard` (tenant). Give them a role or permissions from **Users**, or set a default role in `Modules\Auth\Actions\CreateNewUser`. See [Authentication](/docs/core/authentication#registration-and-permissions).
 
 ## A menu item is missing
 
-Menus are filtered by their `permission` column. Check the user has that permission, or that the item exists in the current context's `menus` table (central and tenant menus are separate). **Setup → Menus → Reset** restores the seeded defaults.
+Menus are filtered by their `permission` column. Usually the user doesn't have that permission, or the item isn't in the current context's `menus` table (central and tenant menus are stored separately). **Setup → Menus → Reset** brings back the seeded defaults.
 
 ## Changes to `config/permissions` have no effect
 
-Permissions must exist in the database. Run `php artisan db:seed --class=PermissionSeeder` (central) and `php artisan tenants:seed --class="Database\Seeders\PermissionSeeder"` (tenants), then assign them. spatie caches permissions for 24 hours; the seeders clear the cache, otherwise run `php artisan permission:cache-reset`.
+Permissions have to exist in the database before they do anything. Run `php artisan db:seed --class=PermissionSeeder` (central) and `php artisan tenants:seed --class="Database\Seeders\PermissionSeeder"` (tenants), then assign them. spatie caches permissions for 24 hours. The seeders clear that cache for you; if you didn't use them, run `php artisan permission:cache-reset`.
 
 ## Passkeys do not work locally
 
-WebAuthn needs a secure origin (HTTPS). Secure the site (for example `herd secure vue`) and use an `https://` `APP_URL`. The React and Svelte `.env.example` files already use `https://`; the Vue one uses `http://vue.test`.
+WebAuthn only works on a secure origin (HTTPS). Secure the site (for example `herd secure vue`) and use an `https://` `APP_URL`. The React and Svelte `.env.example` files already use `https://`, but the Vue one uses `http://vue.test`.
 
 ## A tenant shows the maintenance or suspended page
 
-- Maintenance: **Setup → Tenant Settings** on the central domain, or use the bypass link / IP allow list.
+- Maintenance: check **Setup → Tenant Settings** on the central domain, or use the bypass link or the IP allow list.
 - Suspended: set the tenant's Workspace status back to Active.
 
 See [Maintenance & suspension](/docs/core/maintenance-and-suspension).
 
 ## Still stuck
 
-Open an issue on your kit's GitHub repository with the error, the steps to reproduce and your PHP/Node versions.
+Open an issue on your kit's GitHub repository. Include the error, the steps to reproduce it and your PHP and Node versions.

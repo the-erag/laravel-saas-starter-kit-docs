@@ -4,10 +4,10 @@ import SlIcon from './SlIcon.vue';
 const providers = ['Stripe', 'Razorpay', 'Paddle', 'PayPal', 'Lemon Squeezy'];
 
 const points = [
-  'No payment gateway lock-in',
-  'Choose your preferred provider',
-  'Implement subscriptions or one-time payments as needed',
-  'Keep the core starter kit clean and flexible',
+  'You aren\'t tied to one payment gateway',
+  'Use the provider you already prefer',
+  'Build subscriptions, one-time payments or both',
+  'The core kit stays clean and easy to change',
 ];
 </script>
 
@@ -17,14 +17,14 @@ const points = [
       <div class="gateway">
         <div class="gateway-copy">
           <p class="sl-eyebrow">Billing</p>
-          <h2 id="payment-gateway-title" class="sl-h2">Payment Gateway — Your Choice</h2>
+          <h2 id="payment-gateway-title" class="sl-h2">Bring your own payment gateway</h2>
           <p class="sl-lead gateway-lead">
-            Payment integration is intentionally not included in the starter kit because every SaaS product has different
-            payment requirements, countries, currencies, pricing models, and preferred providers.
+            We left payments out of the starter kit on purpose. Every SaaS product has its own payment needs: different
+            countries, currencies and pricing models, and a different favourite provider.
           </p>
           <p class="sl-text">
-            Instead of forcing a specific provider, the starter kit keeps the billing layer flexible so developers can integrate
-            the gateway that best fits their business.
+            So rather than pick a provider for you, the kit leaves the billing layer open. You add the gateway that suits
+            your business.
           </p>
           <ul class="sl-checklist gateway-points">
             <li v-for="point in points" :key="point">

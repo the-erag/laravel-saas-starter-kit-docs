@@ -24,7 +24,7 @@ head:
 
 # Database
 
-The kits use two kinds of databases on the same server. Each tenant's data is physically separate, so one tenant can never query another tenant's rows.
+The kits use two kinds of database on the same server. Each tenant gets its own database, so tenant data is physically separate and one tenant can't query another tenant's rows.
 
 | | Central database | Tenant database |
 | --- | --- | --- |
@@ -35,7 +35,7 @@ The kits use two kinds of databases on the same server. Each tenant's data is ph
 
 ## Migrations
 
-Each context has its own migration folder and command.
+Central and tenant migrations live in different folders and run with different commands.
 
 | Folder | Runs on | Command |
 | --- | --- | --- |
@@ -43,17 +43,17 @@ Each context has its own migration folder and command.
 | `database/migrations/tenant` | Every tenant database | `php artisan tenants:migrate` (also runs automatically when a tenant is created) |
 
 ::: warning Put migrations in the right folder
-A migration in `database/migrations` never reaches tenant databases, and vice versa. Tables that both contexts need (users, menus, permissions, cache, jobs) exist in both folders.
+A migration in `database/migrations` never reaches the tenant databases, and it works the same the other way round. Tables that both contexts need (users, menus, permissions, cache, jobs) exist in both folders.
 :::
 
-A tenant table, for example:
+For example, to add a tenant table:
 
 ```bash
 php artisan make:migration create_projects_table --path=database/migrations/tenant
 php artisan tenants:migrate
 ```
 
-Other tenant commands (all accept `--tenants=<id>` to target specific tenants):
+There are a few more tenant commands. Each one accepts `--tenants=<id>` if you only want to target specific tenants:
 
 | Command | Does |
 | --- | --- |
@@ -63,7 +63,7 @@ Other tenant commands (all accept `--tenants=<id>` to target specific tenants):
 | `tenants:list` | List tenants |
 | `tenants:run` | Run any artisan command per tenant |
 
-The tenant migration path is set by `migration_parameters` in `config/tenancy.php`.
+The tenant migration path comes from `migration_parameters` in `config/tenancy.php`.
 
 ## Seeders
 
@@ -72,11 +72,11 @@ The tenant migration path is set by `migration_parameters` in `config/tenancy.ph
 | `Database\Seeders\DatabaseSeeder` | Central (`php artisan db:seed`) | `RoleSeeder`, `PermissionSeeder`, `MenuSeeder`, `DefaultUserSeeder` |
 | `Database\Seeders\tenant\TenantDatabaseSeeder` | Tenant (`tenants:seed`, tenant creation) | `tenant\RoleSeeder`, `PermissionSeeder`, `tenant\MenuSeeder`, `DefaultUserSeeder` |
 
-`RoleSeeder` and `PermissionSeeder` work in both contexts: they check `tenancy()->initialized` to pick the guard (`web` or `tenant`) and the permission folder. See [Local development → Seeded data](/docs/getting-started/local-development#seeded-data).
+`RoleSeeder` and `PermissionSeeder` work in both contexts. They check `tenancy()->initialized` to pick the guard (`web` or `tenant`) and the permission folder. For what ends up in the database, see [Local development → Seeded data](/docs/getting-started/local-development#seeded-data).
 
 ## Tenant database naming
 
-stancl names each tenant database **prefix + tenant id + suffix**. Tenant IDs are auto-increment integers (`App\Models\Tenant`), so the databases are `tenant1`, `tenant2`, ...
+stancl builds each tenant database name from prefix + tenant id + suffix. Tenant IDs are auto-increment integers (`App\Models\Tenant`), so you get `tenant1`, `tenant2` and so on.
 
 | Key in `config/tenancy.php` | Vue, Svelte | React |
 | --- | --- | --- |
@@ -84,8 +84,10 @@ stancl names each tenant database **prefix + tenant id + suffix**. Tenant IDs ar
 | `database.suffix` | `''` | `''` |
 
 ::: warning Sharing a MySQL server
-Two apps using the same prefix on one server both try to create `tenant1`. Use a unique prefix per app (for example `acme_tenant`) **before** the first tenant is created. In the React kit set `TENANCY_DB_PREFIX`; in Vue and Svelte edit `config/tenancy.php`.
+If two apps on one server use the same prefix, both will try to create `tenant1`. Pick a unique prefix per app (for example `acme_tenant`) **before** the first tenant is created. In the React kit, set `TENANCY_DB_PREFIX`. In Vue and Svelte, edit `config/tenancy.php`.
 :::
+
+What drops a tenant database, and what doesn't:
 
 | Action | Tenant database |
 | --- | --- |
@@ -122,4 +124,4 @@ Two apps using the same prefix on one server both try to create `tenant1`. Use a
 
 ## Testing database
 
-Tests never touch MySQL: `phpunit.xml` uses SQLite in memory (`DB_CONNECTION=sqlite`, `DB_DATABASE=:memory:`), and Pest applies `RefreshDatabase` to `tests/Feature`. See [Testing](/docs/core/testing).
+Tests never touch MySQL. `phpunit.xml` uses SQLite in memory (`DB_CONNECTION=sqlite`, `DB_DATABASE=:memory:`), and Pest applies `RefreshDatabase` to `tests/Feature`. There's more in [Testing](/docs/core/testing).

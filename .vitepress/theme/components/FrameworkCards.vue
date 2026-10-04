@@ -16,7 +16,7 @@ const versions: Record<FrameworkKey, string> = { vue: 'Vue 3.5', react: 'React 1
         v-if="heading"
         eyebrow="Starter kits"
         title="Pick your frontend. Keep the same backend."
-        lead="All three kits share an identical Laravel backend. Choose the frontend your team knows best — or get all three."
+        lead="All three kits run the same Laravel backend. Pick the frontend your team already knows, or get all three."
       />
       <div class="cards">
         <article v-for="key in frameworkKeys" :key="key" class="sl-card card" :class="`card--${key}`">
@@ -33,8 +33,8 @@ const versions: Record<FrameworkKey, string> = { vue: 'Vue 3.5', react: 'React 1
             </li>
           </ul>
           <div class="card-actions">
-            <a class="sl-btn sl-btn--primary" :href="`/kits/${key}.html`">View Details</a>
-            <a class="sl-btn sl-btn--secondary" :href="`/docs/${key}.html`">View Docs</a>
+            <a class="sl-btn sl-btn--primary" :href="`/kits/${key}.html`">View details</a>
+            <a class="sl-btn sl-btn--secondary" :href="`/docs/${key}.html`">Read the docs</a>
           </div>
         </article>
       </div>

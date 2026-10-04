@@ -6,7 +6,7 @@ const reasons: { icon: IconName; title: string; text: string }[] = [
   {
     icon: 'zap',
     title: 'Skip months of groundwork',
-    text: 'Tenants, domains, authentication, roles, invitations and maintenance mode are already built, wired and tested.',
+    text: 'Tenants, domains, authentication, roles, invitations and maintenance mode are already built, wired up and covered by tests.',
   },
   {
     icon: 'layers',
@@ -31,7 +31,7 @@ const reasons: { icon: IconName; title: string; text: string }[] = [
   {
     icon: 'bot',
     title: 'Ready for AI agents',
-    text: 'Laravel Boost guidelines and project skills help coding agents follow the conventions already in the codebase.',
+    text: 'Laravel Boost guidelines and project skills help coding agents stick to the conventions the codebase already uses.',
   },
 ];
 </script>
@@ -42,7 +42,7 @@ const reasons: { icon: IconName; title: string; text: string }[] = [
       <SectionHeading
         eyebrow="Why SaaS Laravel"
         title="The boring parts of SaaS, done properly"
-        lead="Start from a codebase that already handles the hard, repetitive parts of a multi-tenant product — and spend your time on what makes yours different."
+        lead="Start from a codebase that already handles the hard, repetitive parts of a multi-tenant product, and spend your time on what makes yours different."
       />
       <div class="grid">
         <div v-for="reason in reasons" :key="reason.title" class="item">

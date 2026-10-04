@@ -24,21 +24,21 @@ head:
 
 # Pages <Badge type="tip" text="Vue" />
 
-Pages live in `resources/js/pages`. The Inertia page name is the path without `.vue`:
+All pages are in `resources/js/pages`, and a page's Inertia name is just its path without `.vue`:
 
 ```text
 Inertia::render('users/Index') → resources/js/pages/users/Index.vue
 ```
 
-Controllers live in `Modules/<Module>/Http/Controllers`. Default layouts are explained in [Layouts](/docs/vue/layouts).
+The controllers that render them are in `Modules/<Module>/Http/Controllers`. For how default layouts are picked, see [Layouts](/docs/vue/layouts).
 
 ::: info
-Routes marked **central** only exist on the central domain (`APP_DOMAIN`, `central.only` middleware). Everything else works on the central domain and on tenant domains; the permission names include both variants (for example `View Users|View Tenant Users`).
+Routes marked **central** exist only on the central domain (`APP_DOMAIN`, `central.only` middleware). The rest work on both the central domain and tenant domains, which is why their permission names list both variants (for example `View Users|View Tenant Users`).
 :::
 
 ## Public and auth pages
 
-Auth pages render inside `AuthLayout` (card, simple or split). Fortify registers the auth routes; `Modules/Auth/Providers/AuthServiceProvider.php` binds them to these pages.
+Auth pages render inside `AuthLayout` (card, simple or split). Fortify registers the auth routes, and `Modules/Auth/Providers/AuthServiceProvider.php` points them at these pages.
 
 | Page file | Route | Purpose |
 | --- | --- | --- |
@@ -56,21 +56,21 @@ Auth pages render inside `AuthLayout` (card, simple or split). Fortify registers
 
 ## App pages
 
-App pages render inside `AppLayout` and require `auth` + `verified`.
+App pages render inside `AppLayout`, and you need to pass `auth` + `verified` to reach them.
 
 | Page file | Route | Permission | Purpose |
 | --- | --- | --- | --- |
 | `Dashboard.vue` | `GET /dashboard` (`dashboard`, `Route::inertia`) | `View Analytics Dashboard\|View Tenant Dashboard` | Dashboard placeholder grid |
 | `users/Index.vue` | `GET /users` (`users.index`) | `View Users\|View Tenant Users` | User list with search, stats, pagination, create/edit/delete, invitations, permission assignment |
 | `roles/Index.vue` | `GET /roles` (`roles.index`) | `View Roles\|View Tenant Roles` | Role list and create/edit/delete (system roles protected) |
-| `tenants/Index.vue` | `GET /tenants` (`tenants.index`) — central | `View Tenants` | Tenant list with search, status filter and stats |
-| `tenants/Create.vue` | `GET /tenants/create` (`tenants.create`) — central | `Create Tenant` | Create a tenant (company, subdomain, admin, profile data, status) |
-| `tenants/Show.vue` | `GET /tenants/{tenant}` (`tenants.show`) — central | `View Tenants` | Tenant detail: edit, domains, reset admin password, resend invitation, delete |
-| `tenants/Domains.vue` | `GET /tenants/domains` (`tenants.domains`) — central | `View Tenants` | All domains: filters, search, add, set primary, delete, per-domain settings and auth features |
+| `tenants/Index.vue` | `GET /tenants` (`tenants.index`), central | `View Tenants` | Tenant list with search, status filter and stats |
+| `tenants/Create.vue` | `GET /tenants/create` (`tenants.create`), central | `Create Tenant` | Create a tenant (company, subdomain, admin, profile data, status) |
+| `tenants/Show.vue` | `GET /tenants/{tenant}` (`tenants.show`), central | `View Tenants` | Tenant detail: edit, domains, reset admin password, resend invitation, delete |
+| `tenants/Domains.vue` | `GET /tenants/domains` (`tenants.domains`), central | `View Tenants` | All domains: filters, search, add, set primary, delete, per-domain settings and auth features |
 
 ## Settings pages
 
-`settings/*` pages render inside `AppLayout` + `layouts/settings/Layout.vue` (the Profile / Security / Appearance / Layout sub-navigation). `GET /settings` redirects to `/settings/profile`.
+`settings/*` pages render inside `AppLayout` + `layouts/settings/Layout.vue`, which adds the Profile / Security / Appearance / Layout sub-navigation. Visiting `GET /settings` sends you to `/settings/profile`.
 
 | Page file | Route | Purpose |
 | --- | --- | --- |
@@ -81,13 +81,13 @@ App pages render inside `AppLayout` and require `auth` + `verified`.
 
 ## Setup pages
 
-`setup/*` pages use the plain `AppLayout`; the sidebar switches to `setupMenus` while the URL starts with `/setup`. `GET /setup` redirects to `/setup/menus`.
+`setup/*` pages use the plain `AppLayout`, but the sidebar shows `setupMenus` for as long as the URL starts with `/setup`. `GET /setup` redirects to `/setup/menus`.
 
 | Page file | Route | Permission | Purpose |
 | --- | --- | --- | --- |
 | `setup/Menus.vue` | `GET /setup/menus` (`setup.menus.index`) | `View Navigation Menus\|View Tenant Menus` | Drag & drop menu order (`vue-draggable-plus`), reset to defaults |
 | `setup/Layout.vue` | `GET /setup/layout` (`setup.layout.index`) | `Update Layout Settings\|Update Tenant Layout` | Global default app and auth layout |
-| `setup/TenantSettings.vue` | `GET /setup/tenant-settings` (`setup.tenant-settings.edit`) — central | `Manage Tenant Maintenance` | Global maintenance mode for tenant workspaces |
+| `setup/TenantSettings.vue` | `GET /setup/tenant-settings` (`setup.tenant-settings.edit`), central | `Manage Tenant Maintenance` | Global maintenance mode for tenant workspaces |
 
 ## Error page
 
@@ -95,11 +95,11 @@ App pages render inside `AppLayout` and require `auth` + `verified`.
 | --- | --- | --- |
 | `errors/Error.vue` | Exception handler in `bootstrap/app.php` | 403, 404, 500 and 503 responses. Uses `AppLayout` for signed-in users and `AuthLayout` for guests. |
 
-In `local` and `testing` only 403 renders this page; other statuses show Laravel's debug page.
+While you're in `local` or `testing`, only a 403 uses this page. Any other status shows Laravel's debug page instead.
 
 ## Partials
 
-Page-specific modals and sections live in `Partials/` next to the page:
+Modals and sections that belong to a single page sit in a `Partials/` folder next to it:
 
 | File | Used by |
 | --- | --- |
@@ -115,5 +115,5 @@ Page-specific modals and sections live in `Partials/` next to the page:
 | `tenants/Partials/MaintenanceModeForm.vue` | Maintenance message, secret bypass link, allowed IPs |
 
 ::: tip
-Adding a page? Follow [Development → Adding a page](/docs/vue/development#adding-a-page).
+Want to add your own page? Follow [Development → Adding a page](/docs/vue/development#adding-a-page).
 :::

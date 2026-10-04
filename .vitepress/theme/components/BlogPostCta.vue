@@ -1,7 +1,7 @@
 <script setup lang="ts">
 withDefaults(defineProps<{ title?: string; text?: string }>(), {
   title: 'Skip the groundwork',
-  text: 'SaaS Laravel gives you database-per-tenant multi-tenancy, authentication, roles and permissions and 17 languages out of the box — with a Vue, React or Svelte frontend.',
+  text: 'SaaS Laravel already has database-per-tenant multi-tenancy, authentication, roles and permissions and 17 languages wired up. You pick the frontend: Vue, React or Svelte.',
 });
 </script>
 

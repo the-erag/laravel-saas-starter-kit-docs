@@ -24,13 +24,13 @@ head:
 
 # Testing
 
-The kits ship with a test suite and code quality checks that run locally and in CI with one command (`composer test`).
+Each kit comes with a test suite and code quality checks. One command, `composer test`, runs them all, either locally or in CI.
 
 | Tool | Purpose |
 | --- | --- |
-| **Pest 5** + `pestphp/pest-plugin-laravel` | Feature and unit tests |
-| **Larastan** (PHPStan) | Static analysis |
-| **Pint** | PHP code style |
+| Pest 5 + `pestphp/pest-plugin-laravel` | Feature and unit tests |
+| Larastan (PHPStan) | Static analysis |
+| Pint | PHP code style |
 | ESLint, Prettier, framework type checker | Frontend lint and types (`npm run lint`) |
 
 ## Structure
@@ -50,12 +50,12 @@ tests/
 ```
 
 ::: tip Removing a Fortify feature
-`tests/TestCase.php` provides `skipUnlessFortifyHas($feature)`, so auth tests skip cleanly when you remove a feature from `config/fortify.php`.
+If you remove a feature from `config/fortify.php`, its auth tests skip instead of failing. That's what the `skipUnlessFortifyHas($feature)` helper in `tests/TestCase.php` is for.
 :::
 
 ## Test environment
 
-Tests run on in-memory SQLite, so your MySQL data is never touched. `phpunit.xml` overrides:
+Tests use an in-memory SQLite database, so they never touch your MySQL data. These are the overrides in `phpunit.xml`:
 
 | Key | Value |
 | --- | --- |
@@ -75,16 +75,16 @@ php artisan test --compact --filter="users can authenticate" # one test
 composer test                                               # full CI check
 ```
 
-`composer test` runs the full check in this order:
+`composer test` runs these steps in order:
 
 ```text
 config:clear → lint:check (Pint + npm run lint) → types:check (PHPStan) → php artisan test
 ```
 
 - In the Vue kit, `lint:check` also runs `wayfinder:generate --with-form`.
-- `composer ci:check` runs the same as `composer test` without a process timeout.
+- `composer ci:check` does the same as `composer test`, just without a process timeout.
 
-Frontend type checks are part of `npm run lint` (`eslint . && prettier --check resources/ && <type checker>`):
+Frontend type checking happens inside `npm run lint` (`eslint . && prettier --check resources/ && <type checker>`). Each kit uses its framework's checker:
 
 | Kit | Type checker |
 | --- | --- |
@@ -99,7 +99,7 @@ php artisan make:test --pest ProjectTest          # tests/Feature/ProjectTest.ph
 php artisan make:test --pest --unit ProjectTest   # tests/Unit/ProjectTest.php
 ```
 
-A feature test for a permission-protected page:
+Here's a feature test for a page that needs a permission:
 
 ```php
 use App\Models\User;
@@ -114,21 +114,21 @@ test('users with permission can view the users page', function () {
 });
 ```
 
-For tenant behaviour, create a tenant and switch context with `tenancy()->initialize($tenant)` or `$tenant->run(...)`, and end tenancy in `afterEach`. See `tests/Feature/Tenancy` in the React or Svelte kit.
+To test tenant behaviour, create a tenant, switch into it with `tenancy()->initialize($tenant)` or `$tenant->run(...)`, and end tenancy in `afterEach`. You'll find examples in `tests/Feature/Tenancy` in the React or Svelte kit.
 
 ## AI agent rules about tests
 
-The kits ship Laravel Boost guidelines for AI coding agents. The two guideline files set **different** test rules:
+The kits include Laravel Boost guidelines for AI coding agents. Watch out: the two guideline files **don't agree** on tests.
 
 | File | Used by | Test rule |
 | --- | --- | --- |
-| `CLAUDE.md` | Claude Code | **Test Enforcement**: every change must be tested; write or update a test and run the affected tests with `php artisan test --compact` |
-| `AGENTS.md` | Codex, Junie and other agents | **Testing Policy**: do not create tests or run the suite unless the user asks |
+| `CLAUDE.md` | Claude Code | Test Enforcement: every change must be tested; write or update a test and run the affected tests with `php artisan test --compact` |
+| `AGENTS.md` | Codex, Junie and other agents | Testing Policy: do not create tests or run the suite unless the user asks |
 
-Both also say: use Pest (`php artisan make:test --pest`), use factories, and never delete tests without approval.
+They do agree on the basics: use Pest (`php artisan make:test --pest`), use factories, and never delete tests without approval.
 
 ::: tip Align the rules with your team
-Edit both files to match your team's policy. `php artisan boost:update` may regenerate them (it runs after `composer update`).
+Edit both files so they match how your team works. Keep in mind that `php artisan boost:update` may regenerate them, and it runs after `composer update`.
 :::
 
-Project rules for agents live in `.ai/rules/` (for example `.ai/rules/general.md`: no code comments in new code).
+Project rules for agents are in `.ai/rules/`. For example, `.ai/rules/general.md` says new code shouldn't contain code comments.

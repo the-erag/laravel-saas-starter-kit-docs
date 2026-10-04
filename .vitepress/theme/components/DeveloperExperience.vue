@@ -11,7 +11,7 @@ const items: { icon: IconName; title: string; text: string }[] = [
   {
     icon: 'code',
     title: 'Typed routes and data',
-    text: 'Wayfinder generates route functions in resources/js; Spatie Data classes are transformed into TypeScript types.',
+    text: 'Wayfinder generates route functions in resources/js, and Spatie Data classes turn into TypeScript types.',
   },
   {
     icon: 'flask',
@@ -21,7 +21,7 @@ const items: { icon: IconName; title: string; text: string }[] = [
   {
     icon: 'bot',
     title: 'Agent-friendly codebase',
-    text: 'Laravel Boost ships guidelines and skills so AI coding agents understand the project from the first prompt.',
+    text: 'Laravel Boost adds guidelines and skills, so AI coding agents know how the project works from the first prompt.',
   },
 ];
 </script>
@@ -33,8 +33,8 @@ const items: { icon: IconName; title: string; text: string }[] = [
         <SectionHeading
           :center="false"
           eyebrow="Developer experience"
-          title="Clone it. Run it. Ship it."
-          lead="Designed for Laravel Herd with *.test domains and wildcard subdomains, so tenant workspaces work locally without extra setup."
+          title="Clone it and run it"
+          lead="We built it around Laravel Herd, with *.test domains and wildcard subdomains, so tenant workspaces work locally with no extra setup."
         />
         <div class="dx-items">
           <div v-for="item in items" :key="item.title" class="dx-item">

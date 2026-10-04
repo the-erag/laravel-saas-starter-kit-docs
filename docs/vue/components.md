@@ -26,7 +26,7 @@ head:
 
 ## Overview
 
-Components live in `resources/js/components`, in three groups:
+You'll find the components in `resources/js/components`, split into these folders:
 
 | Folder | What it holds |
 | --- | --- |
@@ -34,9 +34,9 @@ Components live in `resources/js/components`, in three groups:
 | `components/ui/` | shadcn-vue primitives built on reka-ui |
 | `components/` | App shell and feature components (`AppSidebar`, `AppHeader`, `UserMenuContent`, …) |
 
-Build pages with the `Common*` components first. They wire up the label, `id`, `aria-*` attributes and the error message, so a field is one line.
+When you build a page, reach for the `Common*` components first. They take care of the label, the `id`, the `aria-*` attributes and the error message, so most fields fit on one line.
 
-Page-only components live next to their page in `Partials/` (for example `pages/tenants/Partials/DomainModal.vue`), not in `components/`.
+If a component is only used by one page, keep it in a `Partials/` folder next to that page (for example `pages/tenants/Partials/DomainModal.vue`) rather than in `components/`.
 
 ## Common form components
 
@@ -55,13 +55,9 @@ Page-only components live next to their page in `Partials/` (for example `pages/
 | `CommonTooltip` | Wraps its slot in a tooltip (`content`, `side`) |
 | `ConfirmDialog` | Global confirm dialog, opened with `useConfirmDialog()` |
 
-Shared behaviour of the input components:
+The input components behave the same way. They share the props `name`, `id`, `label`, `error`, `required` and `disabled`, and if you leave out the `id`, one is generated for you. Any other attribute you add (`autofocus`, `class`, `data-test`, …) is passed through to the underlying element.
 
-- Common props: `name`, `id`, `label`, `error`, `required`, `disabled`.
-- An `id` is generated when you don't pass one.
-- Other attributes (`autofocus`, `class`, `data-test`, …) go to the underlying element.
-- Inside an Inertia `<Form>` you only need `name` and `error`. Prefill with `:default-value`.
-- Outside a `<Form>`, bind a value with `v-model`.
+Inside an Inertia `<Form>`, `name` and `error` are all you need, and you can prefill a field with `:default-value`. Outside a `<Form>`, bind the value with `v-model` instead.
 
 ::: details View props reference
 | Component | Props |
@@ -81,7 +77,7 @@ Shared behaviour of the input components:
 
 ### CommonButtonRow
 
-With the default `bottom-pop` position the bar slides in only when `isDirty` is true. Save calls `requestSubmit()` on the closest `<form>`, so it works inside `<Form>` without extra wiring.
+In the default `bottom-pop` position, the bar only slides in once `isDirty` is true. Clicking Save calls `requestSubmit()` on the nearest `<form>`, so you don't have to wire anything up inside `<Form>`.
 
 ```vue
 <Form v-bind="ProfileController.update.form()" set-defaults-on-success
@@ -93,7 +89,7 @@ With the default `bottom-pop` position the bar slides in only when `isDirty` is 
 
 ### Confirm dialog
 
-`ConfirmDialog` is mounted once by the app layouts. Call `confirm()` from any page; it returns a `Promise<boolean>`.
+The app layouts mount `ConfirmDialog` once. From any page you call `confirm()`, which returns a `Promise<boolean>`.
 
 ```ts
 const { confirm } = useConfirmDialog();
@@ -103,10 +99,10 @@ if (await confirm({ title, message, confirmVariant: 'destructive' })) {
 }
 ```
 
-Other options (all optional): `warning`, `itemDetails`, `confirmText`, `icon` (`danger`, `warning`, `info`, `question`, `success`), `size` (`sm` to `xl`), `warningVariant`, `highlight`, `confirmationKeyword` (user must type it to enable the button), `closeOnBackdrop`, `closeOnEscape`, `showCancelButton`. Call `setLoading(true)` to show a spinner on the confirm button.
+You can also pass any of these: `warning`, `itemDetails`, `confirmText`, `icon` (`danger`, `warning`, `info`, `question`, `success`), `size` (`sm` to `xl`), `warningVariant`, `highlight`, `confirmationKeyword` (the user has to type it before the button enables), `closeOnBackdrop`, `closeOnEscape` and `showCancelButton`. To put a spinner on the confirm button, call `setLoading(true)`.
 
 ::: warning
-`ConfirmDialog` is only mounted by `AppSidebarLayout` and `AppHeaderLayout`. Pages rendered with `AuthLayout` or without a layout cannot use `confirm()`.
+Only `AppSidebarLayout` and `AppHeaderLayout` mount `ConfirmDialog`. On pages that use `AuthLayout`, or no layout at all, `confirm()` won't work.
 :::
 
 ::: details View full example (delete user)
@@ -132,7 +128,7 @@ if (isConfirmed) {
 
 ## UI primitives (shadcn)
 
-`components/ui/<name>/` holds shadcn-vue components (new-york-v4 style, configured in `components.json`). Each folder has an `index.ts`:
+The shadcn-vue components are in `components/ui/<name>/`, using the new-york-v4 style set in `components.json`. Every folder has an `index.ts`. These are included:
 
 `alert`, `avatar`, `badge`, `breadcrumb`, `button`, `card`, `checkbox`, `collapsible`, `dialog`, `dropdown-menu`, `input`, `input-otp`, `label`, `navigation-menu`, `select`, `separator`, `sheet`, `sidebar`, `skeleton`, `sonner`, `spinner`, `tooltip`.
 
@@ -141,7 +137,7 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 ```
 
-Use them directly for layout and display (cards, badges, dialogs). For form fields, prefer the `Common*` wrappers.
+Use them as they are for layout and display, like cards, badges and dialogs. For form fields, the `Common*` wrappers are the better choice.
 
 ## Icons & toasts
 
@@ -152,19 +148,19 @@ Use them directly for layout and display (cards, badges, dialogs). For form fiel
 | Toast from the server | `Inertia::flash('toast', …)`, see [Inertia → Flash toasts](/docs/vue/inertia#flash-toasts) |
 | Toast from the client | `import { toast } from 'vue-sonner'` |
 
-`CommonIcon` takes `icon`, `class` and `click`. PascalCase names are converted to Lucide (`LayoutGrid` → `lucide:layout-grid`); names with a prefix are used as is.
+`CommonIcon` accepts `icon`, `class` and `click`. A PascalCase name is turned into a Lucide icon (`LayoutGrid` → `lucide:layout-grid`), and a name that already has a prefix is used unchanged.
 
 ```vue
 <CommonIcon icon="lucide:building-2" class="size-4" />
 ```
 
 ::: warning
-The `Toaster` is mounted only in `AppSidebarLayout` and `AppHeaderLayout`. Toasts do not show on auth pages or pages without a layout.
+The `Toaster` lives in `AppSidebarLayout` and `AppHeaderLayout` only, so you won't see toasts on auth pages or on pages without a layout.
 :::
 
 ## Usage example
 
-A typical field, a tooltip action and a submit button:
+Here's a typical field, an action button with a tooltip, and a submit button:
 
 ```vue
 <CommonInput name="email" type="email" :label="__('modules.auth.common.email_address')"

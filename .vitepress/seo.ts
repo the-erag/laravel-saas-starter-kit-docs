@@ -306,6 +306,14 @@ export const seoHead = (pageData: PageData, title: string, description: string, 
     head.push(['meta', { property: 'article:modified_time', content: new Date(pageData.lastUpdated).toISOString() }]);
   }
 
+  const hasFrontmatterCanonical = pageData.frontmatter.head?.some(
+    (h: [string, Record<string, string>]) => h[0] === 'link' && h[1]?.rel === 'canonical',
+  );
+
+  if (!hasFrontmatterCanonical) {
+    head.push(['link', { rel: 'canonical', href: url }]);
+  }
+
   if (graph.length) {
     head.push(['script', { type: 'application/ld+json' }, JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })]);
   }
@@ -313,8 +321,8 @@ export const seoHead = (pageData: PageData, title: string, description: string, 
   return head;
 };
 
-export const transformSitemapItems = async (items: SitemapItem[], srcDir: string): Promise<SitemapItem[]> =>
-  Promise.all(
+export const transformSitemapItems = async (items: SitemapItem[], srcDir: string): Promise<SitemapItem[]> => {
+  const transformed = await Promise.all(
     items.map(async (item) => {
       const path = item.url.replace(/^https?:\/\/[^/]+\//, '');
       const source = path === '' ? 'index.md' : path.replace(/\.html$/, '.md');
@@ -325,6 +333,9 @@ export const transformSitemapItems = async (items: SitemapItem[], srcDir: string
       return { ...item, lastmod, changefreq: 'weekly', priority };
     }),
   );
+
+  return transformed.sort((a, b) => (b.priority ?? 0.5) - (a.priority ?? 0.5));
+};
 
 const readFrontmatter = (source: string): { title?: string; description?: string; body: string } => {
   const match = source.match(/^---\n([\s\S]*?)\n---\n?/);

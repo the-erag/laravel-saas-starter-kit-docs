@@ -140,6 +140,9 @@ export default defineConfig({
     ['meta', { name: 'twitter:site', content: site.social.xHandle }],
     ['meta', { name: 'twitter:creator', content: site.social.xHandle }],
     ['meta', { property: 'og:locale', content: 'en_US' }],
+    ...(site.googleSiteVerification
+      ? ([['meta', { name: 'google-site-verification', content: site.googleSiteVerification }]] as HeadConfig[])
+      : []),
   ],
   transformHead({ pageData, title, description, content }): HeadConfig[] {
     return seoHead(pageData, title, description, content);

@@ -71,6 +71,7 @@ export const site = {
   kitPriceFrom: Math.min(prices.vue, prices.react, prices.svelte),
   paymentNote: 'One-time payment · Lifetime access · Weekly updates included · No recurring subscription',
   accessNote: 'Lifetime access with weekly updates.',
+  googleSiteVerification: 'U0WTb7Bs263WPTVwQx1JmXhsou5IPxtsBNVhBX2GpFQ',
 };
 
 export interface BlogAuthor {

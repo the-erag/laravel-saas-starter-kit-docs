@@ -22,14 +22,20 @@ const columns: { title: string; links: { text: string; href: string; external?: 
     ],
   },
   {
+    title: 'Purchase',
+    links: [
+      { text: 'How to Pay', href: '/how-to-pay.html' },
+      { text: 'Repository Access', href: '/docs/purchase/repository-access.html' },
+      { text: 'Weekly Updates', href: '/docs/purchase/updates.html' },
+      { text: 'License', href: '/license.html' },
+    ],
+  },
+  {
     title: 'Resources',
     links: [
       { text: 'About', href: '/about.html' },
-      { text: 'GitHub', href: site.githubProfile, external: true },
-      { text: 'Updates', href: '/docs/purchase/updates.html' },
-      { text: 'Release Notes', href: '/releases.html' },
       { text: 'Blog', href: '/blog.html' },
-      { text: 'License', href: '/license.html' },
+      { text: 'Release Notes', href: '/releases.html' },
       { text: 'Privacy Policy', href: '/privacy-policy.html' },
     ],
   },
@@ -108,7 +114,7 @@ const social: { icon: IconName; label: string; href: string; external: boolean }
 
 .footer-inner {
   display: grid;
-  grid-template-columns: 2fr repeat(3, 1fr);
+  grid-template-columns: 2fr repeat(4, 1fr);
   gap: 40px;
 }
 
@@ -196,7 +202,7 @@ const social: { icon: IconName; label: string; href: string; external: boolean }
 
 @media (max-width: 860px) {
   .footer-inner {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .footer-brand {

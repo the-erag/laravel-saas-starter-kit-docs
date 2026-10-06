@@ -3,35 +3,16 @@ title: "Tenant-Aware Cache and File Storage in Laravel"
 description: "How Laravel tenancy cache and file storage stay separate per tenant: cache tags, supported stores, calls that skip scoping, tenant disks, S3 and public URLs."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: multi-tenancy
 tags: [Multi-tenancy, Performance]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-tenant-cache-filesystem.html
-  - - meta
-    - property: og:title
-      content: "Tenant-Aware Cache and File Storage in Laravel"
-  - - meta
-    - property: og:description
-      content: "How Laravel tenancy cache and file storage stay separate per tenant: cache tags, supported stores, calls that skip scoping, tenant disks, S3 and public URLs."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-tenant-cache-filesystem.html
-  - - meta
-    - name: twitter:title
-      content: "Tenant-Aware Cache and File Storage in Laravel"
-  - - meta
-    - name: twitter:description
-      content: "How Laravel tenancy cache and file storage stay separate per tenant: cache tags, supported stores, calls that skip scoping, tenant disks, S3 and public URLs."
 ---
 
 # Laravel Tenancy Cache and File Storage: Keeping Every Tenant's Data Apart
 
 <BlogPostMeta />
 
-You gave every tenant its own database, so their data is separate. Except the cache and the `storage` folder are still shared by default, and that's where leaks happen. Here I'll walk through how **Laravel tenancy cache** scoping works with stancl/tenancy, which cache stores support it, the calls that quietly skip it, and how tenant file storage, S3 and public file URLs behave.
+You gave every tenant its own database, so their data is separate. Except the cache and the `storage` folder are still shared by default, and that's where leaks happen. Here we'll walk through how **Laravel tenancy cache** scoping works with stancl/tenancy, which cache stores support it, the calls that quietly skip it, and how tenant file storage, S3 and public file URLs behave.
 
 The examples use [stancl/tenancy](https://tenancyforlaravel.com) version 3. If you want the bigger picture first, read [How to Build a Multi-Tenant SaaS with Laravel](/blog/multi-tenant-saas-laravel-database-per-tenant.html).
 
@@ -77,7 +58,7 @@ Tagging only works on stores that implement tags. For the others, Laravel throws
 | `file` | No | No |
 | `dynamodb` | No | No |
 
-Look closely at the `array` row, because it hides a trap. Test suites usually run with `CACHE_STORE=array`, which supports tags, while production might use `database` or `file`. Your tests pass, and then the first tenant request that touches the cache fails. I'd always run at least one test against the store you actually deploy with; [Testing Multi-Tenant Laravel Apps with Pest](/blog/test-multi-tenant-laravel-pest.html) covers how.
+Look closely at the `array` row, because it hides a trap. Test suites usually run with `CACHE_STORE=array`, which supports tags, while production might use `database` or `file`. Your tests pass, and then the first tenant request that touches the cache fails. We'd always run at least one test against the store you actually deploy with; [Testing Multi-Tenant Laravel Apps with Pest](/blog/test-multi-tenant-laravel-pest.html) covers how.
 
 Can't use a tag-capable store? Then leave the cache bootstrapper out and put the tenant key into your cache keys yourself:
 
@@ -88,7 +69,7 @@ function tenant_cache_key(string $key): string
 }
 ```
 
-If you have the choice, though, I'd go with Redis and the bootstrapper. Manual prefixes work until someone forgets one.
+If you have the choice, though, we'd go with Redis and the bootstrapper. Manual prefixes work until someone forgets one.
 
 ## Calls that skip tenant scoping
 
@@ -155,7 +136,7 @@ Disks that aren't in the list are left alone. So if you add an `uploads` disk an
 
 ### S3 and other cloud disks
 
-Add `s3` to `tenancy.filesystem.disks`. Without a `root_override` entry, the bootstrapper appends the suffix to the disk's `root`, so tenant 42's objects go under a `tenant42/` prefix in the same bucket. I like this setup: one bucket, one set of credentials, and it's easy to list, back up or delete a single tenant's files.
+Add `s3` to `tenancy.filesystem.disks`. Without a `root_override` entry, the bootstrapper appends the suffix to the disk's `root`, so tenant 42's objects go under a `tenant42/` prefix in the same bucket. We like this setup: one bucket, one set of credentials, and it's easy to list, back up or delete a single tenant's files.
 
 ## Serving public tenant files
 

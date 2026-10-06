@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: multi-tenancy
 tags: [Multi-tenancy, Domains]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-tenant-custom-domains.html
-  - - meta
-    - property: og:title
-      content: "Custom Domains for Tenants in Laravel"
-  - - meta
-    - property: og:description
-      content: "Add a Laravel tenant custom domain the safe way: storing and verifying domains, customer DNS, TLS certificates on demand, sessions, passkeys and links."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-tenant-custom-domains.html
-  - - meta
-    - name: twitter:title
-      content: "Custom Domains for Tenants in Laravel"
-  - - meta
-    - name: twitter:description
-      content: "Add a Laravel tenant custom domain the safe way: storing and verifying domains, customer DNS, TLS certificates on demand, sessions, passkeys and links."
 ---
 
 # Laravel Tenant Custom Domains: Letting Customers Bring Their Own Domain

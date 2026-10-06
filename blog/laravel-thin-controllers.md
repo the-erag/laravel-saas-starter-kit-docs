@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: architecture
 tags: [Architecture, Code quality]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-thin-controllers.html
-  - - meta
-    - property: og:title
-      content: "Thin Controllers in Laravel"
-  - - meta
-    - property: og:description
-      content: "How to write Laravel thin controllers: the four jobs a controller has, Form Requests, authorization attributes, clean responses and a fat controller refactor."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-thin-controllers.html
-  - - meta
-    - name: twitter:title
-      content: "Thin Controllers in Laravel"
-  - - meta
-    - name: twitter:description
-      content: "How to write Laravel thin controllers: the four jobs a controller has, Form Requests, authorization attributes, clean responses and a fat controller refactor."
 ---
 
 # Laravel Thin Controllers: Keeping Controller Methods Small and Readable

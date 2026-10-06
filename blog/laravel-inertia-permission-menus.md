@@ -3,37 +3,18 @@ title: "Permission-Based Menus in Laravel and Inertia"
 description: "Handle Laravel Inertia permissions on the frontend: define menu items with a permission, filter them on the server and render only what each user can open."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: permissions
 tags: [Permissions, Inertia]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-inertia-permission-menus.html
-  - - meta
-    - property: og:title
-      content: "Permission-Based Menus in Laravel and Inertia"
-  - - meta
-    - property: og:description
-      content: "Handle Laravel Inertia permissions on the frontend: define menu items with a permission, filter them on the server and render only what each user can open."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-inertia-permission-menus.html
-  - - meta
-    - name: twitter:title
-      content: "Permission-Based Menus in Laravel and Inertia"
-  - - meta
-    - name: twitter:description
-      content: "Handle Laravel Inertia permissions on the frontend: define menu items with a permission, filter them on the server and render only what each user can open."
 ---
 
 # Permission-Based Menus in Laravel and Inertia: Build the Navigation on the Server
 
 <BlogPostMeta />
 
-A sidebar that shows "Billing" to someone who then gets a 403 after clicking it looks broken. If you want to handle Laravel Inertia permissions on the frontend properly, I'd start with the navigation, because it's the first thing every user sees. Permission-based menus mean each user sees only the pages they can actually open.
+A sidebar that shows "Billing" to someone who then gets a 403 after clicking it looks broken. If you want to handle Laravel Inertia permissions on the frontend properly, we'd start with the navigation, because it's the first thing every user sees. Permission-based menus mean each user sees only the pages they can actually open.
 
-Below I give each menu item a required permission, filter the menu in PHP, share it as an Inertia prop, mark the active item and render it in Vue, React or Svelte. None of it copies authorization rules into JavaScript.
+Below we give each menu item a required permission, filter the menu in PHP, share it as an Inertia prop, mark the active item and render it in Vue, React or Svelte. None of it copies authorization rules into JavaScript.
 
 ## Why filter the menu on the server
 
@@ -46,13 +27,13 @@ There are two ways to build a permission-aware menu. You can send the whole menu
 | Super admin and policy rules | Must be re-implemented | Applied automatically by `$user->can()` |
 | Frontend code | Loops plus permission checks | Just a loop |
 
-For navigation I filter on the server, every time. `$user->can()` goes through Laravel's Gate, so Spatie permissions, a [super admin rule](/blog/laravel-super-admin-role.html) in `Gate::before` and your policies all count without extra code. If the package itself is new to you, start with [Laravel Roles and Permissions with Spatie](/blog/laravel-roles-permissions-spatie.html).
+For navigation we filter on the server, every time. `$user->can()` goes through Laravel's Gate, so Spatie permissions, a [super admin rule](/blog/laravel-super-admin-role.html) in `Gate::before` and your policies all count without extra code. If the package itself is new to you, start with [Laravel Roles and Permissions with Spatie](/blog/laravel-roles-permissions-spatie.html).
 
 ## Describe each menu item with a permission
 
 Each item needs a label and a route name, plus an optional icon, an optional required permission and optional children. The definition can live in a config file or in a database table.
 
-A config file lives in git, gets reviewed in pull requests and needs no migration. It fits when the menu only changes when the code does. A database table lets admins reorder or regroup items at runtime; if you go that way, seed the defaults with `updateOrCreate()` on a unique slug so re-running the seeder is safe. I'd start with config and only move to a table once admins really need to rearrange things.
+A config file lives in git, gets reviewed in pull requests and needs no migration. It fits when the menu only changes when the code does. A database table lets admins reorder or regroup items at runtime; if you go that way, seed the defaults with `updateOrCreate()` on a unique slug so re-running the seeder is safe. We'd start with config and only move to a table once admins really need to rearrange things.
 
 Here's the config version:
 
@@ -127,7 +108,7 @@ protected function isActive(array $item): bool
 }
 ```
 
-With `'active' => ['projects.show', 'projects.edit']`, "All projects" stays highlighted while someone views or edits a project. A wildcard such as `projects.*` works too, but it would also match `projects.create` and highlight two items at once, so I'd rather list the routes. And since `node()` marks a parent as active when one of its children is, collapsible groups open on the right page.
+With `'active' => ['projects.show', 'projects.edit']`, "All projects" stays highlighted while someone views or edits a project. A wildcard such as `projects.*` works too, but it would also match `projects.create` and highlight two items at once, so we'd rather list the routes. And since `node()` marks a parent as active when one of its children is, collapsible groups open on the right page.
 
 ## Share the menu as an Inertia prop
 
@@ -197,7 +178,7 @@ return Inertia::render('projects/Show', [
 ]);
 ```
 
-I prefer the second option. It keeps rules like "only the owner can delete" on the server, where they belong.
+We prefer the second option. It keeps rules like "only the owner can delete" on the server, where they belong.
 
 ## Keep menus and routes in sync
 
@@ -222,7 +203,7 @@ Only if your pages need them for buttons. For navigation, the filtered menu is e
 
 ### Can I cache the menu with Inertia's once props?
 
-Inertia v3 can remember a prop across navigations with `Inertia::once()` or `shareOnce()`. The catch is freshness. A user whose role changes keeps the old menu until the prop expires or the page is fully reloaded. Building a small menu is cheap, so I'd stick with a normal lazy prop.
+Inertia v3 can remember a prop across navigations with `Inertia::once()` or `shareOnce()`. The catch is freshness. A user whose role changes keeps the old menu until the prop expires or the page is fully reloaded. Building a small menu is cheap, so we'd stick with a normal lazy prop.
 
 ### How do I translate menu labels?
 

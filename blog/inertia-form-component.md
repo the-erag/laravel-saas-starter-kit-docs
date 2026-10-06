@@ -3,35 +3,16 @@ title: "Inertia Forms with the Form Component"
 description: "A practical guide to the Inertia Form component: field names, errors, slot props, reset and dirty state, file uploads, events and when to use useForm instead."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: frontend
 tags: [Inertia, Frontend]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/inertia-form-component.html
-  - - meta
-    - property: og:title
-      content: "Inertia Forms with the Form Component"
-  - - meta
-    - property: og:description
-      content: "A practical guide to the Inertia Form component: field names, errors, slot props, reset and dirty state, file uploads, events and when to use useForm instead."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/inertia-form-component.html
-  - - meta
-    - name: twitter:title
-      content: "Inertia Forms with the Form Component"
-  - - meta
-    - name: twitter:description
-      content: "A practical guide to the Inertia Form component: field names, errors, slot props, reset and dirty state, file uploads, events and when to use useForm instead."
 ---
 
 # The Inertia Form Component: Laravel Forms With Less Frontend Code
 
 <BlogPostMeta />
 
-Most forms in a Laravel app do the same job. Send some fields, show the validation errors, disable the button while it saves. The **Inertia Form component** does all of that with a plain HTML form. You give each input a `name`, and Inertia collects the values, submits them as an Inertia visit and hands the errors back. I'll go through how it works in Vue, React and Svelte, the props and slot values you'll actually use, edit forms, file uploads, and when I still reach for `useForm`.
+Most forms in a Laravel app do the same job. Send some fields, show the validation errors, disable the button while it saves. The **Inertia Form component** does all of that with a plain HTML form. You give each input a `name`, and Inertia collects the values, submits them as an Inertia visit and hands the errors back. We'll go through how it works in Vue, React and Svelte, the props and slot values you'll actually use, edit forms, file uploads, and when we still reach for `useForm`.
 
 The examples use Inertia v3. If you're upgrading, the changes are listed in [what's new in Inertia v3](/blog/inertia-js-v3-whats-new.html).
 
@@ -50,7 +31,7 @@ public function store(StoreUserRequest $request, UserService $users): RedirectRe
 }
 ```
 
-The Form Request does the validation and the service does the saving, so the controller is a few lines long. That's how I like controllers to look.
+The Form Request does the validation and the service does the saving, so the controller is a few lines long. That's how we like controllers to look.
 
 ## A first form in Vue, React and Svelte
 
@@ -96,7 +77,7 @@ The API is identical across the three adapters. What changes is how you read the
 
 :::
 
-`action` also takes a route object from Laravel Wayfinder, so you don't have to hard-code URLs. I explain that setup in [typed routes with Laravel Wayfinder](/blog/laravel-wayfinder-typed-routes.html).
+`action` also takes a route object from Laravel Wayfinder, so you don't have to hard-code URLs. We explain that setup in [typed routes with Laravel Wayfinder](/blog/laravel-wayfinder-typed-routes.html).
 
 ## How field names become request data
 
@@ -191,7 +172,7 @@ The part people usually get wrong is uploads on an update route. Submit with POS
 </Form>
 ```
 
-To tell the user it worked, I'd flash a toast from the controller rather than wire a message into every form. The setup is in [flash messages and toasts with Inertia](/blog/inertia-flash-messages-toasts.html).
+To tell the user it worked, we'd flash a toast from the controller rather than wire a message into every form. The setup is in [flash messages and toasts with Inertia](/blog/inertia-flash-messages-toasts.html).
 
 ## Live validation with Precognition
 
@@ -210,7 +191,7 @@ Big forms end up split into components. Rather than passing `errors` down throug
 | Data comes straight from the fields | You build data in code or submit without a form element |
 | — | You want form state kept in history with a remember key |
 
-My default is `Form`. I only switch to `useForm` when one of the cases on the right actually applies. Both send the same Inertia visit, so the server side doesn't change either way.
+Our default is `Form`. We only switch to `useForm` when one of the cases on the right actually applies. Both send the same Inertia visit, so the server side doesn't change either way.
 
 ## Frequently asked questions
 

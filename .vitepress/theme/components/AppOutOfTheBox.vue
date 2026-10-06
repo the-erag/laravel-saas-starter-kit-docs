@@ -47,7 +47,7 @@ const features: { icon: IconName; title: string; text: string }[] = [
       <div class="box-grid">
         <div v-for="feature in features" :key="feature.title" class="box-card">
           <span class="box-icon"><SlIcon :name="feature.icon" :size="18" /></span>
-          <h3 class="box-title">{{ feature.title }}</h3>
+          <p class="box-title">{{ feature.title }}</p>
           <p class="box-text">{{ feature.text }}</p>
         </div>
       </div>

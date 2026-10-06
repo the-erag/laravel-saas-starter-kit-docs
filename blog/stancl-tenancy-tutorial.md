@@ -3,37 +3,18 @@ title: "stancl/tenancy Tutorial: Getting Started"
 description: "A hands-on stancl tenancy tutorial: install stancl/tenancy 3, create a Tenant model, add tenant migrations and routes, and create your first tenant database."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: multi-tenancy
 tags: [Multi-tenancy, Tutorial]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/stancl-tenancy-tutorial.html
-  - - meta
-    - property: og:title
-      content: "stancl/tenancy Tutorial: Getting Started"
-  - - meta
-    - property: og:description
-      content: "A hands-on stancl tenancy tutorial: install stancl/tenancy 3, create a Tenant model, add tenant migrations and routes, and create your first tenant database."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/stancl-tenancy-tutorial.html
-  - - meta
-    - name: twitter:title
-      content: "stancl/tenancy Tutorial: Getting Started"
-  - - meta
-    - name: twitter:description
-      content: "A hands-on stancl tenancy tutorial: install stancl/tenancy 3, create a Tenant model, add tenant migrations and routes, and create your first tenant database."
 ---
 
 # stancl/tenancy Tutorial: Build Your First Multi-Database Tenant in Laravel
 
 <BlogPostMeta />
 
-When a Laravel app needs multi-tenancy, [stancl/tenancy](https://tenancyforlaravel.com) is the package most teams reach for. In this stancl tenancy tutorial I'll take a fresh Laravel app to a working multi-database setup. You'll install the package, register it, create a `Tenant` model, add tenant migrations and routes, and then create a tenant and watch its database appear.
+When a Laravel app needs multi-tenancy, [stancl/tenancy](https://tenancyforlaravel.com) is the package most teams reach for. In this stancl tenancy tutorial we'll take a fresh Laravel app to a working multi-database setup. You'll install the package, register it, create a `Tenant` model, add tenant migrations and routes, and then create a tenant and watch its database appear.
 
-I'm using version 3 of the package (3.10 at the time of writing), which supports Laravel 10 through 13. If you want the bigger picture first, [How to Build a Multi-Tenant SaaS with Laravel](/blog/multi-tenant-saas-laravel-database-per-tenant.html) explains how the pieces fit together.
+We're using version 3 of the package (3.10 at the time of writing), which supports Laravel 10 through 13. If you want the bigger picture first, [How to Build a Multi-Tenant SaaS with Laravel](/blog/multi-tenant-saas-laravel-database-per-tenant.html) explains how the pieces fit together.
 
 ## What you will have at the end
 
@@ -106,7 +87,7 @@ The first is `database.central_connection`, which defaults to `env('DB_CONNECTIO
 
 The second is the pair `database.prefix` and `database.suffix`, which build the database name as prefix + tenant ID + suffix. With the default prefix, tenant `acme` gets the database `tenantacme`.
 
-The database user in your `.env` needs permission to create and drop databases. If two apps share one server, give each its own prefix before you create the first tenant. I'd do that even if you think you'll never share the server, because renaming tenant databases later is no fun.
+The database user in your `.env` needs permission to create and drop databases. If two apps share one server, give each its own prefix before you create the first tenant. We'd do that even if you think you'll never share the server, because renaming tenant databases later is no fun.
 
 MySQL, MariaDB, PostgreSQL and SQLite are all supported without extra setup. With SQLite, each tenant database is a file in the `database` folder.
 
@@ -215,7 +196,7 @@ Yes. Set `id_generator` to `null` in `config/tenancy.php`, then change the `id` 
 
 ### Should the tenant creation pipeline be queued?
 
-The published provider runs it synchronously, and its own comment suggests queuing it in production. Queuing keeps sign-up fast, but the tenant is only usable once the worker has finished, and the jobs can't rely on the HTTP request. I'd keep it synchronous while you're building, and queue it once sign-up speed actually matters.
+The published provider runs it synchronously, and its own comment suggests queuing it in production. Queuing keeps sign-up fast, but the tenant is only usable once the worker has finished, and the jobs can't rely on the HTTP request. We'd keep it synchronous while you're building, and queue it once sign-up speed actually matters.
 
 ### Can each tenant have its own database user?
 

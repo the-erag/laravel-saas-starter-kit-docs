@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: architecture
 tags: [Architecture, Code quality]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-service-layer-pattern.html
-  - - meta
-    - property: og:title
-      content: "The Service Layer Pattern in Laravel"
-  - - meta
-    - property: og:description
-      content: "The Laravel service layer explained: what belongs in a service class, how to use transactions, when to send emails and jobs, and mistakes to avoid."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-service-layer-pattern.html
-  - - meta
-    - name: twitter:title
-      content: "The Service Layer Pattern in Laravel"
-  - - meta
-    - name: twitter:description
-      content: "The Laravel service layer explained: what belongs in a service class, how to use transactions, when to send emails and jobs, and mistakes to avoid."
 ---
 
 # The Laravel Service Layer: Where Your Business Logic Should Live

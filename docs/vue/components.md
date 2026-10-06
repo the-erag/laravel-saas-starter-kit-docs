@@ -1,25 +1,6 @@
 ---
 title: "Vue Kit Components (shadcn-vue)"
 description: "Common form components, the confirm dialog, shadcn-vue primitives, icons, toasts and app shell components in the Vue kit, with a small usage example."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/vue/components.html
-  - - meta
-    - property: og:title
-      content: "Vue Kit Components (shadcn-vue)"
-  - - meta
-    - property: og:description
-      content: "Common form components, the confirm dialog, shadcn-vue primitives, icons, toasts and app shell components in the Vue kit, with a small usage example."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/vue/components.html
-  - - meta
-    - name: twitter:title
-      content: "Vue Kit Components (shadcn-vue)"
-  - - meta
-    - name: twitter:description
-      content: "Common form components, the confirm dialog, shadcn-vue primitives, icons, toasts and app shell components in the Vue kit, with a small usage example."
 ---
 
 # Components <Badge type="tip" text="Vue" />

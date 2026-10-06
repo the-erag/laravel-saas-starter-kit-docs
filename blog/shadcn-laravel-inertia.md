@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: frontend
 tags: [UI, Inertia]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/shadcn-laravel-inertia.html
-  - - meta
-    - property: og:title
-      content: "shadcn for Laravel: Vue, React and Svelte"
-  - - meta
-    - property: og:description
-      content: "shadcn Laravel guide: set up shadcn/ui, shadcn-vue or shadcn-svelte in an Inertia app, configure components.json, theme with Tailwind v4 and wrap form fields."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/shadcn-laravel-inertia.html
-  - - meta
-    - name: twitter:title
-      content: "shadcn for Laravel: Vue, React and Svelte"
-  - - meta
-    - name: twitter:description
-      content: "shadcn Laravel guide: set up shadcn/ui, shadcn-vue or shadcn-svelte in an Inertia app, configure components.json, theme with Tailwind v4 and wrap form fields."
 ---
 
 # shadcn Laravel Guide: shadcn/ui, shadcn-vue and shadcn-svelte in Inertia Apps

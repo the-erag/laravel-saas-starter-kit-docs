@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: architecture
 tags: [TypeScript, Code quality]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-typescript-types-from-php.html
-  - - meta
-    - property: og:title
-      content: "Generate TypeScript Types from PHP in Laravel"
-  - - meta
-    - property: og:description
-      content: "Use the Laravel TypeScript transformer to turn PHP classes, enums and laravel-data objects into TypeScript types, with setup, attributes, writers and CI tips."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-typescript-types-from-php.html
-  - - meta
-    - name: twitter:title
-      content: "Generate TypeScript Types from PHP in Laravel"
-  - - meta
-    - name: twitter:description
-      content: "Use the Laravel TypeScript transformer to turn PHP classes, enums and laravel-data objects into TypeScript types, with setup, attributes, writers and CI tips."
 ---
 
 # Laravel TypeScript Transformer: Keep Frontend Types in Sync with Your PHP

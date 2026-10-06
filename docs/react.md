@@ -1,25 +1,6 @@
 ---
 title: "React Starter Kit Documentation"
 description: "Overview and installation of the React 19 edition of SaaS Laravel: tech stack, conventions, getting the code and next steps with Inertia v3 and shadcn/ui."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/react.html
-  - - meta
-    - property: og:title
-      content: "React Starter Kit Documentation"
-  - - meta
-    - property: og:description
-      content: "Overview and installation of the React 19 edition of SaaS Laravel: tech stack, conventions, getting the code and next steps with Inertia v3 and shadcn/ui."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/react.html
-  - - meta
-    - name: twitter:title
-      content: "React Starter Kit Documentation"
-  - - meta
-    - name: twitter:description
-      content: "Overview and installation of the React 19 edition of SaaS Laravel: tech stack, conventions, getting the code and next steps with Inertia v3 and shadcn/ui."
 ---
 
 # React Starter Kit <Badge type="tip" text="React" />

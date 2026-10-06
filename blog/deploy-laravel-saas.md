@@ -3,35 +3,16 @@ title: "Deploying a Laravel SaaS to Production"
 description: "Deploy a Laravel SaaS step by step: server needs, wildcard DNS and TLS, a deploy script with tenant migrations, queue workers with Supervisor and the scheduler."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: saas
 tags: [Multi-tenancy, Deployment]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/deploy-laravel-saas.html
-  - - meta
-    - property: og:title
-      content: "Deploying a Laravel SaaS to Production"
-  - - meta
-    - property: og:description
-      content: "Deploy a Laravel SaaS step by step: server needs, wildcard DNS and TLS, a deploy script with tenant migrations, queue workers with Supervisor and the scheduler."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/deploy-laravel-saas.html
-  - - meta
-    - name: twitter:title
-      content: "Deploying a Laravel SaaS to Production"
-  - - meta
-    - name: twitter:description
-      content: "Deploy a Laravel SaaS step by step: server needs, wildcard DNS and TLS, a deploy script with tenant migrations, queue workers with Supervisor and the scheduler."
 ---
 
 # How to Deploy a Laravel SaaS: Server, Tenant Migrations, Queues and TLS
 
 <BlogPostMeta />
 
-When you deploy a Laravel SaaS, you need everything a normal Laravel app needs. Multi-tenancy then adds a few things of its own: wildcard subdomains, a database user that's allowed to create databases, and migrations that run once for every tenant. Below I go through the server, a deploy script you can adapt, tenant migrations, queue workers, the scheduler and how I'd avoid downtime. I'm assuming a database-per-tenant app with tenants on subdomains.
+When you deploy a Laravel SaaS, you need everything a normal Laravel app needs. Multi-tenancy then adds a few things of its own: wildcard subdomains, a database user that's allowed to create databases, and migrations that run once for every tenant. Below we go through the server, a deploy script you can adapt, tenant migrations, queue workers, the scheduler and how we'd avoid downtime. We're assuming a database-per-tenant app with tenants on subdomains.
 
 ## What the production server needs
 
@@ -76,7 +57,7 @@ certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/.secrets/cloudf
   -d your-saas.com -d "*.your-saas.com"
 ```
 
-Tenant identification, central domains and cookies are a topic of their own. I cover how they fit together in [Laravel multi-tenancy with subdomains](/blog/laravel-multi-tenancy-subdomains.html).
+Tenant identification, central domains and cookies are a topic of their own. We cover how they fit together in [Laravel multi-tenancy with subdomains](/blog/laravel-multi-tenancy-subdomains.html).
 
 ## Production environment settings
 
@@ -116,9 +97,9 @@ Near the end, `php artisan optimize` caches config, events, routes and views aga
 
 `php artisan tenants:migrate` comes from stancl/tenancy. It runs your tenant migrations against every tenant database, one after the other, and stancl's default config already passes `--force`. Two things about it matter during a deploy.
 
-It gets slower with every customer. Ten tenants take seconds; a thousand can take minutes, and during that window some tenants already have the new schema while others don't. That's why I write backwards-compatible migrations, so both versions of the code keep working.
+It gets slower with every customer. Ten tenants take seconds; a thousand can take minutes, and during that window some tenants already have the new schema while others don't. That's why we write backwards-compatible migrations, so both versions of the code keep working.
 
-It also runs before `reload`. With `set -e`, a failing tenant stops the script, and workers keep running the old code until you fix the problem and deploy again. I'd much rather have that than workers on new code talking to a half-migrated schema.
+It also runs before `reload`. With `set -e`, a failing tenant stops the script, and workers keep running the old code until you fix the problem and deploy again. We'd much rather have that than workers on new code talking to a half-migrated schema.
 
 For risky changes, migrate a couple of tenants first as a canary with `php artisan tenants:migrate --tenants=1 --tenants=2`. Safe migration patterns, and how to recover from a half-finished run, are in [tenant migrations and seeders in Laravel](/blog/laravel-tenant-migrations-seeders.html).
 
@@ -164,17 +145,17 @@ Schedule::command('tenants:run reports:send')
 
 ## Avoiding downtime
 
-The script above updates files in place, so for a few seconds requests can hit a half-updated app. Zero-downtime deploys fix that. Each release is built in its own directory, and a `current` symlink switches over once everything is ready. Deployer, Envoyer or your hosting platform can automate the pattern, and once real customers depend on the app I think it's worth setting up.
+The script above updates files in place, so for a few seconds requests can hit a half-updated app. Zero-downtime deploys fix that. Each release is built in its own directory, and a `current` symlink switches over once everything is ready. Deployer, Envoyer or your hosting platform can automate the pattern, and once real customers depend on the app we think it's worth setting up.
 
 Two things have to be shared between releases: the `.env` file and the whole `storage` directory. Don't skip the second one. With stancl's filesystem bootstrapper, each tenant's files live in their own folder under `storage`, so a fresh `storage` per release would look as if every upload had vanished.
 
-The server is only one part of launch day. For product, legal and support readiness, go through the [Laravel SaaS launch checklist](/blog/laravel-saas-launch-checklist.html). And if you haven't picked a foundation yet, my [buyer's guide to Laravel SaaS starter kits](/blog/laravel-saas-starter-kit.html) covers what to look for.
+The server is only one part of launch day. For product, legal and support readiness, go through the [Laravel SaaS launch checklist](/blog/laravel-saas-launch-checklist.html). And if you haven't picked a foundation yet, our [buyer's guide to Laravel SaaS starter kits](/blog/laravel-saas-starter-kit.html) covers what to look for.
 
 ## Frequently asked questions
 
 ### Can I deploy a multi-tenant Laravel app to shared hosting?
 
-Rarely. You need wildcard subdomains, a database user that can create databases and long-running queue workers. Most shared hosts won't give you all of them, so I'd go straight to a VPS or a managed platform.
+Rarely. You need wildcard subdomains, a database user that can create databases and long-running queue workers. Most shared hosts won't give you all of them, so we'd go straight to a VPS or a managed platform.
 
 ### Should tenant migrations run in the deploy script?
 

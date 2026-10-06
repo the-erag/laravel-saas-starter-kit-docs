@@ -1,25 +1,6 @@
 ---
 title: "Inertia v3 with Vue"
 description: "Inertia v3 patterns in the Vue kit: how pages receive data, the Form component, useForm, visits, shared props, flash toasts and typed Wayfinder routes."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/vue/inertia.html
-  - - meta
-    - property: og:title
-      content: "Inertia v3 with Vue"
-  - - meta
-    - property: og:description
-      content: "Inertia v3 patterns in the Vue kit: how pages receive data, the Form component, useForm, visits, shared props, flash toasts and typed Wayfinder routes."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/vue/inertia.html
-  - - meta
-    - name: twitter:title
-      content: "Inertia v3 with Vue"
-  - - meta
-    - name: twitter:description
-      content: "Inertia v3 patterns in the Vue kit: how pages receive data, the Form component, useForm, visits, shared props, flash toasts and typed Wayfinder routes."
 ---
 
 # Inertia <Badge type="tip" text="Vue" />

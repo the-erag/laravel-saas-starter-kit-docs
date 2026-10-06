@@ -1,25 +1,6 @@
 ---
 title: "Svelte Kit Development Workflow"
 description: "Daily commands for the Svelte kit and step-by-step guides to adding a page and a form, plus type checking with svelte-check and linting with ESLint and Prettier."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/svelte/development.html
-  - - meta
-    - property: og:title
-      content: "Svelte Kit Development Workflow"
-  - - meta
-    - property: og:description
-      content: "Daily commands for the Svelte kit and step-by-step guides to adding a page and a form, plus type checking with svelte-check and linting with ESLint and Prettier."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/svelte/development.html
-  - - meta
-    - name: twitter:title
-      content: "Svelte Kit Development Workflow"
-  - - meta
-    - name: twitter:description
-      content: "Daily commands for the Svelte kit and step-by-step guides to adding a page and a form, plus type checking with svelte-check and linting with ESLint and Prettier."
 ---
 
 # Development <Badge type="tip" text="Svelte" />

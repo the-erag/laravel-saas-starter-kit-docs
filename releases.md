@@ -1,25 +1,6 @@
 ---
-title: "Release Notes"
+title: "Release Notes: Laravel SaaS Kit Updates"
 description: "Release notes for the SaaS Laravel starter kits: new features, improvements and fixes shipped to the Vue, React and Svelte kits in every weekly update."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/releases.html
-  - - meta
-    - property: og:title
-      content: "Release Notes"
-  - - meta
-    - property: og:description
-      content: "Release notes for the SaaS Laravel starter kits: new features, improvements and fixes shipped to the Vue, React and Svelte kits in every weekly update."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/releases.html
-  - - meta
-    - name: twitter:title
-      content: "Release Notes"
-  - - meta
-    - name: twitter:description
-      content: "Release notes for the SaaS Laravel starter kits: new features, improvements and fixes shipped to the Vue, React and Svelte kits in every weekly update."
 ---
 
 # Release Notes

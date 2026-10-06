@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: multi-tenancy
 tags: [Multi-tenancy, Architecture]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/multi-tenant-saas-laravel-database-per-tenant.html
-  - - meta
-    - property: og:title
-      content: "How to Build a Multi-Tenant SaaS with Laravel"
-  - - meta
-    - property: og:description
-      content: "Single database, schema or database per tenant? How database-per-tenant multi-tenancy works in Laravel with stancl/tenancy, plus the pitfalls to avoid."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/multi-tenant-saas-laravel-database-per-tenant.html
-  - - meta
-    - name: twitter:title
-      content: "How to Build a Multi-Tenant SaaS with Laravel"
-  - - meta
-    - name: twitter:description
-      content: "Single database, schema or database per tenant? How database-per-tenant multi-tenancy works in Laravel with stancl/tenancy, plus the pitfalls to avoid."
 ---
 
 # How to Build a Multi-Tenant SaaS with Laravel: Database-per-Tenant Explained

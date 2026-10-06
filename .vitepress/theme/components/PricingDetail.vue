@@ -28,11 +28,13 @@ const savings = computed(() => planKits.value.reduce((total, kit) => total + kit
     <section class="detail-hero">
       <div class="detail-glow" />
       <div class="sl-container">
-        <a class="detail-back" href="/pricing.html"><span class="vpi-arrow-left" /> All plans</a>
+        <nav class="detail-crumbs" aria-label="Breadcrumb">
+          <a href="/">Home</a><span>/</span><a href="/pricing.html">Pricing</a><span>/</span>{{ plan.name }}
+        </nav>
         <div class="detail-logos">
           <span v-for="kit in planKits" :key="kit.key" class="detail-logo"><FrameworkLogo :name="kit.key" :size="28" /></span>
         </div>
-        <h1 class="sl-h1">{{ plan.name }}</h1>
+        <h1 class="sl-h1">{{ plan.name }} Pricing</h1>
         <p class="sl-lead">{{ plan.tagline }}</p>
         <div class="detail-meta">
           <span class="detail-amount">{{ formatPrice(plan.price) }}</span>
@@ -213,17 +215,16 @@ const savings = computed(() => planKits.value.reduce((total, kit) => total + kit
   position: relative;
 }
 
-.detail-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.detail-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-bottom: 28px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--vp-c-text-2);
+  font-size: 13px;
+  color: var(--vp-c-text-3);
 }
 
-.detail-back:hover {
+.detail-crumbs a:hover {
   color: var(--vp-c-brand-1);
 }
 

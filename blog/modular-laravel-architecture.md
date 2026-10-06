@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: architecture
 tags: [Architecture, Code quality]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/modular-laravel-architecture.html
-  - - meta
-    - property: og:title
-      content: "Modular Laravel Architecture for SaaS"
-  - - meta
-    - property: og:description
-      content: "A practical guide to Laravel modular architecture for SaaS: feature modules, service providers that load routes, one-way dependencies and adding a module."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/modular-laravel-architecture.html
-  - - meta
-    - name: twitter:title
-      content: "Modular Laravel Architecture for SaaS"
-  - - meta
-    - name: twitter:description
-      content: "A practical guide to Laravel modular architecture for SaaS: feature modules, service providers that load routes, one-way dependencies and adding a module."
 ---
 
 # Laravel Modular Architecture: Organising a SaaS by Feature

@@ -1,25 +1,6 @@
 ---
 title: "SaaS Laravel Starter Kits FAQ"
 description: "Answers to common questions about the SaaS Laravel starter kits: kit differences, features, pricing, repository access, updates and development."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/reference/faq.html
-  - - meta
-    - property: og:title
-      content: "SaaS Laravel Starter Kits FAQ"
-  - - meta
-    - property: og:description
-      content: "Answers to common questions about the SaaS Laravel starter kits: kit differences, features, pricing, repository access, updates and development."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/reference/faq.html
-  - - meta
-    - name: twitter:title
-      content: "SaaS Laravel Starter Kits FAQ"
-  - - meta
-    - name: twitter:description
-      content: "Answers to common questions about the SaaS Laravel starter kits: kit differences, features, pricing, repository access, updates and development."
 ---
 
 # FAQ

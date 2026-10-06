@@ -1,25 +1,6 @@
 ---
 title: "Svelte Kit Pages & Routes"
 description: "Every Inertia page in the Svelte kit with its route, access rules, layout and purpose, from sign-in and settings pages to tenants, users and setup."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/svelte/pages.html
-  - - meta
-    - property: og:title
-      content: "Svelte Kit Pages & Routes"
-  - - meta
-    - property: og:description
-      content: "Every Inertia page in the Svelte kit with its route, access rules, layout and purpose, from sign-in and settings pages to tenants, users and setup."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/svelte/pages.html
-  - - meta
-    - name: twitter:title
-      content: "Svelte Kit Pages & Routes"
-  - - meta
-    - name: twitter:description
-      content: "Every Inertia page in the Svelte kit with its route, access rules, layout and purpose, from sign-in and settings pages to tenants, users and setup."
 ---
 
 # Pages <Badge type="tip" text="Svelte" />

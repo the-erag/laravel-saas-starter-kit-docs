@@ -1,25 +1,6 @@
 ---
 title: "Environment Variables (.env) Reference"
 description: "Every relevant .env key with its default from .env.example, what it controls in the kits, the differences between kits and a production checklist."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/reference/environment.html
-  - - meta
-    - property: og:title
-      content: "Environment Variables (.env) Reference"
-  - - meta
-    - property: og:description
-      content: "Every relevant .env key with its default from .env.example, what it controls in the kits, the differences between kits and a production checklist."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/reference/environment.html
-  - - meta
-    - name: twitter:title
-      content: "Environment Variables (.env) Reference"
-  - - meta
-    - name: twitter:description
-      content: "Every relevant .env key with its default from .env.example, what it controls in the kits, the differences between kits and a production checklist."
 ---
 
 # Environment

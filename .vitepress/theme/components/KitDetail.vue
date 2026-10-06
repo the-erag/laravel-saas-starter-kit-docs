@@ -40,7 +40,7 @@ const included = computed(() => [
             <a href="/">Home</a><span>/</span><a href="/#starter-kits">Starter Kits</a><span>/</span>{{ kit.name }}
           </nav>
           <span class="kit-logo"><FrameworkLogo :name="framework" :size="40" /></span>
-          <h1 class="sl-h1">{{ kit.title }}</h1>
+          <h1 class="sl-h1">Laravel {{ kit.name }} SaaS Starter Kit</h1>
           <p class="sl-lead">{{ kit.summary }}</p>
           <div class="sl-actions">
             <a class="sl-btn sl-btn--primary sl-btn--lg" href="#features">

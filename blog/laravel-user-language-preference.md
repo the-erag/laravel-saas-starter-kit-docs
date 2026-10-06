@@ -3,28 +3,9 @@ title: "Laravel User Locale: Per-User Language Settings"
 description: "Store a Laravel user locale, validate and save the choice, apply it on every request and send emails and queued notifications in each user's language."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: localization
 tags: [Localization, Laravel]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-user-language-preference.html
-  - - meta
-    - property: og:title
-      content: "Laravel User Locale: Per-User Language Settings"
-  - - meta
-    - property: og:description
-      content: "Store a Laravel user locale, validate and save the choice, apply it on every request and send emails and queued notifications in each user's language."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-user-language-preference.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel User Locale: Per-User Language Settings"
-  - - meta
-    - name: twitter:description
-      content: "Store a Laravel user locale, validate and save the choice, apply it on every request and send emails and queued notifications in each user's language."
 ---
 
 # Laravel User Locale: Letting Every User Choose Their Own Language
@@ -33,7 +14,7 @@ head:
 
 Once your app speaks more than one language, someone will ask why it keeps switching back to English on their laptop. The fix is a Laravel user locale: the language a signed-in person has picked, saved on their account so it follows them to every device. Laravel hands you `app()->setLocale()` and the translator, then leaves the rest to you. Where do you store the choice, when do you apply it, and how do emails and background jobs end up in the same language?
 
-I'll go through the full life of a per-user language preference here: the column, the enum of supported languages, the endpoint that saves it, where the middleware goes, guests, notifications and the frontend. If you're after sharing your `lang/` files with Vue, React or Svelte, that's in the pillar post on [Laravel Inertia translations](/blog/laravel-inertia-translations.html).
+We'll go through the full life of a per-user language preference here: the column, the enum of supported languages, the endpoint that saves it, where the middleware goes, guests, notifications and the frontend. If you're after sharing your `lang/` files with Vue, React or Svelte, that's in the pillar post on [Laravel Inertia translations](/blog/laravel-inertia-translations.html).
 
 ## Where a language preference can come from
 
@@ -60,9 +41,9 @@ Schema::table('users', function (Blueprint $table) {
 });
 ```
 
-I treat `null` as "no preference", and I'd keep it that way rather than copying the default into every row. A user with `null` follows the workspace or app default, so when that default changes, it reaches them automatically. Don't forget to add `locale` to the model's fillable attributes.
+We treat `null` as "no preference", and we'd keep it that way rather than copying the default into every row. A user with `null` follows the workspace or app default, so when that default changes, it reaches them automatically. Don't forget to add `locale` to the model's fillable attributes.
 
-Then keep the list of supported languages in one place. I like a backed enum for this, because the same enum drives validation, the options in a select and safe fallbacks:
+Then keep the list of supported languages in one place. We like a backed enum for this, because the same enum drives validation, the options in a select and safe fallbacks:
 
 ```php
 enum Language: string
@@ -114,7 +95,7 @@ With Inertia, the redirect back produces a fresh page response built in the new 
 
 ## Applying the locale on every request
 
-A middleware reads the saved preference and calls `app()->setLocale()` at the start of each request. The pillar article already shows the [middleware body with a user, domain and app fallback](/blog/laravel-inertia-translations.html#per-user-and-per-domain-locale), so I'll stick to where it runs. That's where most of the bugs are.
+A middleware reads the saved preference and calls `app()->setLocale()` at the start of each request. The pillar article already shows the [middleware body with a user, domain and app fallback](/blog/laravel-inertia-translations.html#per-user-and-per-domain-locale), so we'll stick to where it runs. That's where most of the bugs are.
 
 It has to run **after** the session starts, so `$request->user()` works, and **before** anything that renders translated output, such as your Inertia middleware. In Laravel 11 and later you set that up in `bootstrap/app.php`:
 
@@ -142,7 +123,7 @@ Setting the locale also fires Laravel's `LocaleUpdated` event, and Carbon listen
 
 ## Guests: session, cookie and Accept-Language
 
-There's no user yet on the login or sign-up page. I'd combine two light options here.
+There's no user yet on the login or sign-up page. We'd combine two light options here.
 
 First, guess from the browser. Symfony's request object picks the best match from the languages you support:
 
@@ -200,7 +181,7 @@ With both values, a select can show "Default" as selected when `userLocale` is `
 
 ## A per-user language checklist
 
-Before I'd call this done, I'd check each of these:
+Before we'd call this done, we'd check each of these:
 
 - A nullable `locale` column, where `null` means "use the default"
 - One enum or config list of supported languages, used for validation and options

@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: multi-tenancy
 tags: [Multi-tenancy, Operations]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/delete-tenant-laravel-safely.html
-  - - meta
-    - property: og:title
-      content: "Deleting Tenants Safely in Laravel"
-  - - meta
-    - property: og:description
-      content: "How to delete a tenant in Laravel safely: what stancl/tenancy removes, what it leaves behind, the soft delete trap, and a deletion flow you can retry."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/delete-tenant-laravel-safely.html
-  - - meta
-    - name: twitter:title
-      content: "Deleting Tenants Safely in Laravel"
-  - - meta
-    - name: twitter:description
-      content: "How to delete a tenant in Laravel safely: what stancl/tenancy removes, what it leaves behind, the soft delete trap, and a deletion flow you can retry."
 ---
 
 # How to Delete a Tenant in Laravel Without Losing the Wrong Data

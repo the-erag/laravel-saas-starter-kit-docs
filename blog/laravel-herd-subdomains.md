@@ -6,25 +6,6 @@ author: erag
 category: saas
 tags: [Local development, Multi-tenancy]
 pageClass: blog-page
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-herd-subdomains.html
-  - - meta
-    - property: og:title
-      content: "Local Laravel Subdomains with Laravel Herd"
-  - - meta
-    - property: og:description
-      content: "Set up Laravel Herd subdomains for a multi-tenant app: .test domains, herd link and herd secure, APP_URL and SESSION_DOMAIN, alternatives and common pitfalls."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-herd-subdomains.html
-  - - meta
-    - name: twitter:title
-      content: "Local Laravel Subdomains with Laravel Herd"
-  - - meta
-    - name: twitter:description
-      content: "Set up Laravel Herd subdomains for a multi-tenant app: .test domains, herd link and herd secure, APP_URL and SESSION_DOMAIN, alternatives and common pitfalls."
 ---
 
 # Local Laravel Subdomains with Laravel Herd: A Multi-Tenant Dev Setup

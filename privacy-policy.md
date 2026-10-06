@@ -1,27 +1,8 @@
 ---
-title: "Privacy Policy"
-description: "How SaaS Laravel handles your data: no tracking or analytics cookies, purchases processed by GitHub Sponsors, and only what we need to give you repository access."
+title: "Privacy Policy: How We Handle Your Data"
+description: "How SaaS Laravel handles your data: no tracking or analytics cookies, purchases through GitHub Sponsors, and only what we need to give you repository access."
 sidebar: false
 editLink: false
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/privacy-policy.html
-  - - meta
-    - property: og:title
-      content: "Privacy Policy"
-  - - meta
-    - property: og:description
-      content: "How SaaS Laravel handles your data: no tracking or analytics cookies, purchases processed by GitHub Sponsors, and only what we need to give you repository access."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/privacy-policy.html
-  - - meta
-    - name: twitter:title
-      content: "Privacy Policy"
-  - - meta
-    - name: twitter:description
-      content: "How SaaS Laravel handles your data: no tracking or analytics cookies, purchases processed by GitHub Sponsors, and only what we need to give you repository access."
 ---
 
 # Privacy Policy

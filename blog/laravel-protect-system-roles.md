@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: permissions
 tags: [Permissions, Security]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-protect-system-roles.html
-  - - meta
-    - property: og:title
-      content: "Laravel Default Roles: Protecting System Roles"
-  - - meta
-    - property: og:description
-      content: "Define Laravel default roles in an enum, seed them safely and block renames and deletes on the server with a policy, a model guard and clear UI badges."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-protect-system-roles.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Default Roles: Protecting System Roles"
-  - - meta
-    - name: twitter:description
-      content: "Define Laravel default roles in an enum, seed them safely and block renames and deletes on the server with a policy, a model guard and clear UI badges."
 ---
 
 # Laravel Default Roles: How to Seed Them and Keep Them Safe

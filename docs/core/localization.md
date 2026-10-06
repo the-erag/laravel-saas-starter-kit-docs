@@ -1,25 +1,6 @@
 ---
 title: "Laravel Localization in 17 Languages"
 description: "17 languages with one translation file per feature, per-user and per-domain language, translated validation messages and frontend translation helpers."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/core/localization.html
-  - - meta
-    - property: og:title
-      content: "Laravel Localization in 17 Languages"
-  - - meta
-    - property: og:description
-      content: "17 languages with one translation file per feature, per-user and per-domain language, translated validation messages and frontend translation helpers."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/core/localization.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Localization in 17 Languages"
-  - - meta
-    - name: twitter:description
-      content: "17 languages with one translation file per feature, per-user and per-domain language, translated validation messages and frontend translation helpers."
 ---
 
 # Localization

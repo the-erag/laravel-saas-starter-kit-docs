@@ -1,25 +1,6 @@
 ---
-title: "Central & Tenant Databases"
+title: "Tenant Database Migrations & Seeders"
 description: "Central and tenant databases in the kits: migrations, seeders, tenant database naming, what drops a tenant database and the key tables in each."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/core/database.html
-  - - meta
-    - property: og:title
-      content: "Central & Tenant Databases"
-  - - meta
-    - property: og:description
-      content: "Central and tenant databases in the kits: migrations, seeders, tenant database naming, what drops a tenant database and the key tables in each."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/core/database.html
-  - - meta
-    - name: twitter:title
-      content: "Central & Tenant Databases"
-  - - meta
-    - name: twitter:description
-      content: "Central and tenant databases in the kits: migrations, seeders, tenant database naming, what drops a tenant database and the key tables in each."
 ---
 
 # Database

@@ -10,13 +10,13 @@ function kitSidebar(framework: FrameworkKey): DefaultTheme.SidebarItem {
     text: kits[framework].title,
     collapsed: true,
     items: [
-      { text: 'Overview & Installation', link: base },
-      { text: 'Architecture', link: `${base}/architecture` },
-      { text: 'Components', link: `${base}/components` },
-      { text: 'Pages', link: `${base}/pages` },
-      { text: 'Layouts', link: `${base}/layouts` },
-      { text: 'Inertia', link: `${base}/inertia` },
-      { text: 'Development', link: `${base}/development` },
+      { text: 'Overview & Installation', link: `${base}.html` },
+      { text: 'Architecture', link: `${base}/architecture.html` },
+      { text: 'Components', link: `${base}/components.html` },
+      { text: 'Pages', link: `${base}/pages.html` },
+      { text: 'Layouts', link: `${base}/layouts.html` },
+      { text: 'Inertia', link: `${base}/inertia.html` },
+      { text: 'Development', link: `${base}/development.html` },
     ],
   };
 }
@@ -25,27 +25,27 @@ const docsSidebar: DefaultTheme.SidebarItem[] = [
   {
     text: 'Getting Started',
     items: [
-      { text: 'Introduction', link: '/docs' },
-      { text: 'Requirements', link: '/docs/getting-started/requirements' },
-      { text: 'Installation', link: '/docs/getting-started/installation' },
-      { text: 'Local Development', link: '/docs/getting-started/local-development' },
-      { text: 'Project Structure', link: '/docs/getting-started/project-structure' },
-      { text: 'Configuration', link: '/docs/getting-started/configuration' },
+      { text: 'Introduction', link: '/docs.html' },
+      { text: 'Requirements', link: '/docs/getting-started/requirements.html' },
+      { text: 'Installation', link: '/docs/getting-started/installation.html' },
+      { text: 'Local Development', link: '/docs/getting-started/local-development.html' },
+      { text: 'Project Structure', link: '/docs/getting-started/project-structure.html' },
+      { text: 'Configuration', link: '/docs/getting-started/configuration.html' },
     ],
   },
   {
     text: 'Core',
     items: [
-      { text: 'Architecture', link: '/docs/core/architecture' },
-      { text: 'Authentication', link: '/docs/core/authentication' },
-      { text: 'Users, Roles & Permissions', link: '/docs/core/users-roles-permissions' },
-      { text: 'Multi-Tenancy', link: '/docs/core/multi-tenancy' },
-      { text: 'Domains', link: '/docs/core/domains' },
-      { text: 'Maintenance & Suspension', link: '/docs/core/maintenance-and-suspension' },
-      { text: 'Localization', link: '/docs/core/localization' },
-      { text: 'Navigation & Layouts', link: '/docs/core/navigation-and-layouts' },
-      { text: 'Database', link: '/docs/core/database' },
-      { text: 'Testing', link: '/docs/core/testing' },
+      { text: 'Architecture', link: '/docs/core/architecture.html' },
+      { text: 'Authentication', link: '/docs/core/authentication.html' },
+      { text: 'Users, Roles & Permissions', link: '/docs/core/users-roles-permissions.html' },
+      { text: 'Multi-Tenancy', link: '/docs/core/multi-tenancy.html' },
+      { text: 'Domains', link: '/docs/core/domains.html' },
+      { text: 'Maintenance & Suspension', link: '/docs/core/maintenance-and-suspension.html' },
+      { text: 'Localization', link: '/docs/core/localization.html' },
+      { text: 'Navigation & Layouts', link: '/docs/core/navigation-and-layouts.html' },
+      { text: 'Database', link: '/docs/core/database.html' },
+      { text: 'Testing', link: '/docs/core/testing.html' },
     ],
   },
   {
@@ -55,21 +55,21 @@ const docsSidebar: DefaultTheme.SidebarItem[] = [
   {
     text: 'Purchase',
     items: [
-      { text: 'Pricing', link: '/pricing' },
-      { text: 'How to Pay', link: '/how-to-pay' },
-      { text: 'Repository Access', link: '/docs/purchase/repository-access' },
-      { text: 'Updates', link: '/docs/purchase/updates' },
-      { text: 'Release Notes', link: '/releases' },
+      { text: 'Pricing', link: '/pricing.html' },
+      { text: 'How to Pay', link: '/how-to-pay.html' },
+      { text: 'Repository Access', link: '/docs/purchase/repository-access.html' },
+      { text: 'Updates', link: '/docs/purchase/updates.html' },
+      { text: 'Release Notes', link: '/releases.html' },
     ],
   },
   {
     text: 'Reference',
     items: [
-      { text: 'Commands', link: '/docs/reference/commands' },
-      { text: 'Environment', link: '/docs/reference/environment' },
-      { text: 'Packages', link: '/docs/reference/packages' },
-      { text: 'Troubleshooting', link: '/docs/reference/troubleshooting' },
-      { text: 'FAQ', link: '/docs/reference/faq' },
+      { text: 'Commands', link: '/docs/reference/commands.html' },
+      { text: 'Environment', link: '/docs/reference/environment.html' },
+      { text: 'Packages', link: '/docs/reference/packages.html' },
+      { text: 'Troubleshooting', link: '/docs/reference/troubleshooting.html' },
+      { text: 'FAQ', link: '/docs/reference/faq.html' },
     ],
   },
 ];
@@ -83,39 +83,18 @@ export default defineConfig({
   cleanUrls: false,
   // Site data and the page hash map go into one cached chunk instead of being inlined in every page.
   metaChunk: true,
-  markdown: {
-    anchor: {
-      // Same "#" heading links as VitePress, but with visually hidden text, so crawlers do not report
-      // them as "links with no anchor text". The symbol token keeps VitePress's isPermalinkSymbol meta,
-      // so it is still left out of page titles, the outline and search.
-      permalink: (slug, _options, state, index) => {
-        const title: string = state.tokens[index + 1].content;
-        const escaped = title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        const space = Object.assign(new state.Token('text', '', 0), { content: ' ' });
-        const open = Object.assign(new state.Token('link_open', 'a', 1), {
-          attrs: [
-            ['class', 'header-anchor'],
-            ['href', `#${slug}`],
-            ['aria-label', `Permalink to "${title}"`],
-          ],
-        });
-        const symbol = Object.assign(new state.Token('html_inline', '', 0), {
-          content: `<span class="sl-sr-only">Link to the “${escaped}” section</span>`,
-          meta: { isPermalinkSymbol: true },
-        });
-        const close = new state.Token('link_close', 'a', -1);
-
-        state.tokens[index + 1].children?.push(space, open, symbol, close);
-      },
-    },
-  },
   vite: {
     resolve: {
-      // Social icon links with a hidden text label (see theme/components/SocialLink.vue).
       alias: [
+        // Social icon links with a hidden text label (see theme/components/SocialLink.vue).
         {
           find: /^.*\/VPSocialLink\.vue$/,
           replacement: fileURLToPath(new URL('./theme/components/SocialLink.vue', import.meta.url)),
+        },
+        // Sidebar group titles as text instead of headings (see theme/components/SidebarItem.vue).
+        {
+          find: /^.*\/VPSidebarItem\.vue$/,
+          replacement: fileURLToPath(new URL('./theme/components/SidebarItem.vue', import.meta.url)),
         },
       ],
     },
@@ -154,20 +133,19 @@ export default defineConfig({
     await writeLlmsFiles(siteConfig.srcDir, siteConfig.outDir, docsSidebar);
   },
   themeConfig: {
-    logo: { src: '/logo.svg', alt: site.name },
+    logo: { src: '/logo.svg', alt: site.name, width: 24, height: 24 },
     siteTitle: site.name,
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Documentation', link: '/docs', activeMatch: '^/docs($|/(?!getting-started/local-development))' },
+      { text: 'Documentation', link: '/docs.html', activeMatch: '^/docs($|/(?!getting-started/local-development))' },
       {
         text: 'Starter Kits',
         activeMatch: '^/kits/',
-        items: frameworkKeys.map((framework) => ({ text: kits[framework].title, link: `/kits/${framework}` })),
+        items: frameworkKeys.map((framework) => ({ text: kits[framework].title, link: `/kits/${framework}.html` })),
       },
-      { text: 'Pricing', link: '/pricing', activeMatch: '^/pricing($|/)' },
-      { text: 'Local Development', link: '/docs/getting-started/local-development' },
-      { text: 'How to Pay', link: '/how-to-pay' },
-      { text: 'Blog', link: '/blog', activeMatch: '^/blog($|/)' },
+      { text: 'Pricing', link: '/pricing.html', activeMatch: '^/pricing($|/)' },
+      { text: 'How to Pay', link: '/how-to-pay.html' },
+      { text: 'Blog', link: '/blog.html', activeMatch: '^/(blog|authors)($|/)' },
     ],
     socialLinks: [
       { icon: 'github', link: site.social.github, ariaLabel: 'SaaS Laravel on GitHub' },

@@ -3,37 +3,18 @@ title: "Queued Jobs in a Multi-Tenant Laravel App"
 description: "How Laravel tenancy queue jobs keep their tenant: the stancl queue bootstrapper, a central jobs table, dispatching per tenant, URLs, locks and scheduling."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: multi-tenancy
 tags: [Multi-tenancy, Queues]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-multi-tenant-queues.html
-  - - meta
-    - property: og:title
-      content: "Queued Jobs in a Multi-Tenant Laravel App"
-  - - meta
-    - property: og:description
-      content: "How Laravel tenancy queue jobs keep their tenant: the stancl queue bootstrapper, a central jobs table, dispatching per tenant, URLs, locks and scheduling."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-multi-tenant-queues.html
-  - - meta
-    - name: twitter:title
-      content: "Queued Jobs in a Multi-Tenant Laravel App"
-  - - meta
-    - name: twitter:description
-      content: "How Laravel tenancy queue jobs keep their tenant: the stancl queue bootstrapper, a central jobs table, dispatching per tenant, URLs, locks and scheduling."
 ---
 
 # Laravel Tenancy Queue Jobs: Running Background Work for the Right Tenant
 
 <BlogPostMeta />
 
-A queued job runs later, in a different process, with no request and no domain. So in a multi-tenant app every job has to answer one question: which tenant is this for? Get it wrong and your Laravel tenancy queue jobs read from the wrong database. Below I'll go through how stancl/tenancy keeps the tenant attached to a job, where the jobs table should live, how I dispatch work for a specific tenant, and the mistakes that quietly send a job somewhere it shouldn't go.
+A queued job runs later, in a different process, with no request and no domain. So in a multi-tenant app every job has to answer one question: which tenant is this for? Get it wrong and your Laravel tenancy queue jobs read from the wrong database. Below we'll go through how stancl/tenancy keeps the tenant attached to a job, where the jobs table should live, how we dispatch work for a specific tenant, and the mistakes that quietly send a job somewhere it shouldn't go.
 
-I'm using [stancl/tenancy](https://tenancyforlaravel.com) version 3 with a database per tenant. If tenancy itself isn't set up yet, read [How to Build a Multi-Tenant SaaS with Laravel](/blog/multi-tenant-saas-laravel-database-per-tenant.html) first.
+We're using [stancl/tenancy](https://tenancyforlaravel.com) version 3 with a database per tenant. If tenancy itself isn't set up yet, read [How to Build a Multi-Tenant SaaS with Laravel](/blog/multi-tenant-saas-laravel-database-per-tenant.html) first.
 
 ## What breaks when the queue doesn't know the tenant
 
@@ -64,7 +45,7 @@ One nice side effect: tenancy starts before the job is unserialized. That means 
 
 ## Keep the jobs table in the central database
 
-With the `database` driver, the `jobs` table has to live somewhere. I put it in the central database so one worker can read jobs for every tenant.
+With the `database` driver, the `jobs` table has to live somewhere. We put it in the central database so one worker can read jobs for every tenant.
 
 | Queue driver | What to check |
 | --- | --- |
@@ -91,7 +72,7 @@ Do the same for `failed_jobs` and `job_batches` by pointing `queue.failed.databa
 
 Inside a tenant request there's nothing to do. Tenancy is initialized, so the key gets added for you.
 
-It's different from the central context: an admin action, a webhook, a console command. There's no current tenant there. I wrap the dispatch in `run()`, which initializes the tenant, runs the callback and puts the previous context back:
+It's different from the central context: an admin action, a webhook, a console command. There's no current tenant there. We wrap the dispatch in `run()`, which initializes the tenant, runs the callback and puts the previous context back:
 
 ```php
 $tenant = Tenant::findOrFail($tenantId);
@@ -130,15 +111,15 @@ Restoring the tenant brings back the database, cache, filesystem and whatever el
 | The session and flash data | Not available |
 | The user's locale | The app default. Pass the locale to the job, or implement `HasLocalePreference` on the user for mail |
 
-The host is the one that bites most often. A queued email built with `route('invoices.show', $invoice)` links to the central domain instead of `acme.your-saas.com`. Build tenant links from the tenant's stored domain, the way I do in [User Invitations in Laravel with Signed URLs](/blog/laravel-user-invitations-signed-urls.html).
+The host is the one that bites most often. A queued email built with `route('invoices.show', $invoice)` links to the central domain instead of `acme.your-saas.com`. Build tenant links from the tenant's stored domain, the way we do in [User Invitations in Laravel with Signed URLs](/blog/laravel-user-invitations-signed-urls.html).
 
-I'd also search for `request()` in code that runs synchronously today, like the steps of a tenant creation pipeline. It works now because it runs inside the request. The day you queue it, `request()` is empty and the job silently falls back to defaults.
+We'd also search for `request()` in code that runs synchronously today, like the steps of a tenant creation pipeline. It works now because it runs inside the request. The day you queue it, `request()` is empty and the job silently falls back to defaults.
 
 ## Unique jobs and overlapping locks
 
 `ShouldBeUnique` and the `WithoutOverlapping` middleware both use cache locks keyed by a string you pick. Now imagine two tenants running `SyncCalendar` for "calendar 7". They're two different calendars, but if the key only holds the calendar ID, they get the same lock.
 
-My rule: put the tenant key in every lock key. Then the lock is right whether your lock store is tenant-scoped or shared.
+Our rule: put the tenant key in every lock key. Then the lock is right whether your lock store is tenant-scoped or shared.
 
 ```php
 class SyncCalendar implements ShouldQueue, ShouldBeUnique
@@ -161,7 +142,7 @@ class SyncCalendar implements ShouldQueue, ShouldBeUnique
 
 ## Running a job for every tenant
 
-Scheduled work like nightly cleanup or monthly usage reports usually needs to run once per tenant. I schedule one central job or command that fans out:
+Scheduled work like nightly cleanup or monthly usage reports usually needs to run once per tenant. We schedule one central job or command that fans out:
 
 ```php
 // routes/console.php
@@ -186,9 +167,9 @@ Skip suspended or deleted tenants inside the loop. There's no point queuing work
 
 You don't need a worker per tenant. One pool handles everyone, because the payload tells each job where to go.
 
-What you do need to think about is fairness. One big tenant importing a huge file can fill the queue for everybody. I send imports and exports to their own queue with `onQueue('imports')` and give that queue its own workers.
+What you do need to think about is fairness. One big tenant importing a huge file can fill the queue for everybody. We send imports and exports to their own queue with `onQueue('imports')` and give that queue its own workers.
 
-A few more habits I'd keep:
+A few more habits we'd keep:
 
 - Workers hold your code in memory, so run `php artisan queue:restart` on every deploy, right alongside your [tenant migrations](/blog/laravel-tenant-migrations-seeders.html).
 - Add the tenant key to your log context in a job middleware. A failed job then points straight at the customer.
@@ -206,7 +187,7 @@ Most of the time the job was dispatched from the central context, so no tenant k
 
 ### Can one job work with several tenants?
 
-Yes, but make it a central job. Dispatch it without a tenant key and switch explicitly inside `handle()` with `$tenant->run()` or `tenancy()->runForMultiple()`. That said, I'd usually dispatch one job per tenant instead. It's easier to retry and easier to monitor.
+Yes, but make it a central job. Dispatch it without a tenant key and switch explicitly inside `handle()` with `$tenant->run()` or `tenancy()->runForMultiple()`. That said, we'd usually dispatch one job per tenant instead. It's easier to retry and easier to monitor.
 
 ### How do I retry failed tenant jobs?
 

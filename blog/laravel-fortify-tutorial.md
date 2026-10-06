@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: security
 tags: [Authentication, Inertia]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-fortify-tutorial.html
-  - - meta
-    - property: og:title
-      content: "Laravel Fortify Tutorial for Inertia Apps"
-  - - meta
-    - property: og:description
-      content: "A Laravel Fortify tutorial for Inertia apps: install Fortify, pick features, render Inertia pages and wire up login, registration and password reset."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-fortify-tutorial.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Fortify Tutorial for Inertia Apps"
-  - - meta
-    - name: twitter:description
-      content: "A Laravel Fortify tutorial for Inertia apps: install Fortify, pick features, render Inertia pages and wire up login, registration and password reset."
 ---
 
 # Laravel Fortify Tutorial: Headless Authentication for Inertia Apps

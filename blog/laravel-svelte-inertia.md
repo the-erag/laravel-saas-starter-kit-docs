@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: frontend
 tags: [Svelte, Inertia]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-svelte-inertia.html
-  - - meta
-    - property: og:title
-      content: "Laravel and Svelte 5 with Inertia"
-  - - meta
-    - property: og:description
-      content: "Laravel Svelte 5 tutorial with Inertia v3: runes in pages, module-script layout props, the reactive page object, snippets in forms and shared .svelte.ts state."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-svelte-inertia.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel and Svelte 5 with Inertia"
-  - - meta
-    - name: twitter:description
-      content: "Laravel Svelte 5 tutorial with Inertia v3: runes in pages, module-script layout props, the reactive page object, snippets in forms and shared .svelte.ts state."
 ---
 
 # Laravel Svelte Tutorial: Runes, Snippets and Inertia v3 in a SaaS App

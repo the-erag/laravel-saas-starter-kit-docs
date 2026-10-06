@@ -1,25 +1,6 @@
 ---
 title: "Starter Kit Repository Access"
 description: "How your GitHub account is invited to the starter kit repository after a GitHub Sponsors payment, and how to clone the private repository."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/purchase/repository-access.html
-  - - meta
-    - property: og:title
-      content: "Starter Kit Repository Access"
-  - - meta
-    - property: og:description
-      content: "How your GitHub account is invited to the starter kit repository after a GitHub Sponsors payment, and how to clone the private repository."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/purchase/repository-access.html
-  - - meta
-    - name: twitter:title
-      content: "Starter Kit Repository Access"
-  - - meta
-    - name: twitter:description
-      content: "How your GitHub account is invited to the starter kit repository after a GitHub Sponsors payment, and how to clone the private repository."
 ---
 
 # Repository access

@@ -1,25 +1,6 @@
 ---
 title: "Requirements for Laravel SaaS Starter Kits"
 description: "What you need to run a SaaS Laravel starter kit: PHP 8.3+, Composer 2, Node.js LTS, MySQL for per-tenant databases and a local server with wildcard subdomains."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/getting-started/requirements.html
-  - - meta
-    - property: og:title
-      content: "Requirements for Laravel SaaS Starter Kits"
-  - - meta
-    - property: og:description
-      content: "What you need to run a SaaS Laravel starter kit: PHP 8.3+, Composer 2, Node.js LTS, MySQL for per-tenant databases and a local server with wildcard subdomains."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/getting-started/requirements.html
-  - - meta
-    - name: twitter:title
-      content: "Requirements for Laravel SaaS Starter Kits"
-  - - meta
-    - name: twitter:description
-      content: "What you need to run a SaaS Laravel starter kit: PHP 8.3+, Composer 2, Node.js LTS, MySQL for per-tenant databases and a local server with wildcard subdomains."
 ---
 
 # Requirements

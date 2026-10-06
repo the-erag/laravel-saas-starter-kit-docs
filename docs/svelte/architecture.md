@@ -1,25 +1,6 @@
 ---
 title: "Svelte Kit Frontend Architecture"
 description: "How resources/js is organised in the Svelte kit: folder map, page and layout resolution, shared props, permission checks and translations with Inertia."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/svelte/architecture.html
-  - - meta
-    - property: og:title
-      content: "Svelte Kit Frontend Architecture"
-  - - meta
-    - property: og:description
-      content: "How resources/js is organised in the Svelte kit: folder map, page and layout resolution, shared props, permission checks and translations with Inertia."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/svelte/architecture.html
-  - - meta
-    - name: twitter:title
-      content: "Svelte Kit Frontend Architecture"
-  - - meta
-    - name: twitter:description
-      content: "How resources/js is organised in the Svelte kit: folder map, page and layout resolution, shared props, permission checks and translations with Inertia."
 ---
 
 # Architecture <Badge type="tip" text="Svelte" />

@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: architecture
 tags: [Code quality, Tooling]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-larastan-pint.html
-  - - meta
-    - property: og:title
-      content: "Larastan and Pint for Laravel Code Quality"
-  - - meta
-    - property: og:description
-      content: "Set up Larastan and Pint in a Laravel project: code style presets, PHPStan levels, baselines, Laravel-specific rules and a simple local and CI workflow."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-larastan-pint.html
-  - - meta
-    - name: twitter:title
-      content: "Larastan and Pint for Laravel Code Quality"
-  - - meta
-    - name: twitter:description
-      content: "Set up Larastan and Pint in a Laravel project: code style presets, PHPStan levels, baselines, Laravel-specific rules and a simple local and CI workflow."
 ---
 
 # Larastan and Pint: Static Analysis and Code Style for Laravel Projects

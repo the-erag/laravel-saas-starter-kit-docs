@@ -1,25 +1,6 @@
 ---
 title: "Laravel Users, Roles & Permissions"
 description: "User management, queued invitations, system and custom roles, config-driven Spatie permissions and permission checks on routes, menus and buttons."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/core/users-roles-permissions.html
-  - - meta
-    - property: og:title
-      content: "Laravel Users, Roles & Permissions"
-  - - meta
-    - property: og:description
-      content: "User management, queued invitations, system and custom roles, config-driven Spatie permissions and permission checks on routes, menus and buttons."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/core/users-roles-permissions.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Users, Roles & Permissions"
-  - - meta
-    - name: twitter:description
-      content: "User management, queued invitations, system and custom roles, config-driven Spatie permissions and permission checks on routes, menus and buttons."
 ---
 
 # Users, roles & permissions

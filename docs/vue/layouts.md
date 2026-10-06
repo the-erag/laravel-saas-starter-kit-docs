@@ -1,25 +1,6 @@
 ---
 title: "Vue Kit Layouts"
 description: "How the Vue kit picks app and sign-in layouts from Setup defaults and user settings, the sidebar and header layouts, and per-page layout overrides."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/vue/layouts.html
-  - - meta
-    - property: og:title
-      content: "Vue Kit Layouts"
-  - - meta
-    - property: og:description
-      content: "How the Vue kit picks app and sign-in layouts from Setup defaults and user settings, the sidebar and header layouts, and per-page layout overrides."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/vue/layouts.html
-  - - meta
-    - name: twitter:title
-      content: "Vue Kit Layouts"
-  - - meta
-    - name: twitter:description
-      content: "How the Vue kit picks app and sign-in layouts from Setup defaults and user settings, the sidebar and header layouts, and per-page layout overrides."
 ---
 
 # Layouts <Badge type="tip" text="Vue" />

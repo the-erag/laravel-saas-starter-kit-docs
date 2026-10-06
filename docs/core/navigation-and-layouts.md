@@ -1,25 +1,6 @@
 ---
 title: "Database Menus & App Layouts"
 description: "Database-driven menus with permission checks and drag-and-drop ordering, sidebar or header layouts, sign-in layouts and light or dark appearance."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/core/navigation-and-layouts.html
-  - - meta
-    - property: og:title
-      content: "Database Menus & App Layouts"
-  - - meta
-    - property: og:description
-      content: "Database-driven menus with permission checks and drag-and-drop ordering, sidebar or header layouts, sign-in layouts and light or dark appearance."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/core/navigation-and-layouts.html
-  - - meta
-    - name: twitter:title
-      content: "Database Menus & App Layouts"
-  - - meta
-    - name: twitter:description
-      content: "Database-driven menus with permission checks and drag-and-drop ordering, sidebar or header layouts, sign-in layouts and light or dark appearance."
 ---
 
 # Navigation & layouts

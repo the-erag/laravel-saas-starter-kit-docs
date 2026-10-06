@@ -18,7 +18,7 @@ const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '
           <span class="vpi-arrow-right hero-pill-arrow" />
         </a>
         <h1 class="sl-h1">
-          Build Laravel SaaS Products <span class="sl-gradient-text">Faster</span>
+          Laravel SaaS Starter Kits to Build <span class="sl-gradient-text">Faster</span>
         </h1>
         <p class="sl-lead">
           Production-ready Laravel 13 starter kits with multi-tenancy, authentication, roles &amp; permissions and

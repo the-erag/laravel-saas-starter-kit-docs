@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: frontend
 tags: [Vue, Inertia]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-vue-inertia-saas.html
-  - - meta
-    - property: og:title
-      content: "Laravel SaaS Dashboard with Vue and Inertia"
-  - - meta
-    - property: og:description
-      content: "A Laravel Vue Inertia walkthrough for SaaS dashboards: typed props, layout breadcrumbs, a debounced search, useForm, modal refs and permission checks in Vue 3."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-vue-inertia-saas.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel SaaS Dashboard with Vue and Inertia"
-  - - meta
-    - name: twitter:description
-      content: "A Laravel Vue Inertia walkthrough for SaaS dashboards: typed props, layout breadcrumbs, a debounced search, useForm, modal refs and permission checks in Vue 3."
 ---
 
 # Laravel Vue Inertia Walkthrough: Building a SaaS Dashboard Page by Page

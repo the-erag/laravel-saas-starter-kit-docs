@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: saas
 tags: [Billing, Payments]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/stripe-vs-paddle-vs-lemon-squeezy-laravel.html
-  - - meta
-    - property: og:title
-      content: "Stripe vs Paddle vs Lemon Squeezy for Laravel"
-  - - meta
-    - property: og:description
-      content: "Stripe vs Paddle vs Lemon Squeezy for a Laravel SaaS: merchant of record vs payment processor, who handles sales tax and VAT, and the Laravel package for each."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/stripe-vs-paddle-vs-lemon-squeezy-laravel.html
-  - - meta
-    - name: twitter:title
-      content: "Stripe vs Paddle vs Lemon Squeezy for Laravel"
-  - - meta
-    - name: twitter:description
-      content: "Stripe vs Paddle vs Lemon Squeezy for a Laravel SaaS: merchant of record vs payment processor, who handles sales tax and VAT, and the Laravel package for each."
 ---
 
 # Stripe vs Paddle vs Lemon Squeezy: Choosing Payments for a Laravel SaaS

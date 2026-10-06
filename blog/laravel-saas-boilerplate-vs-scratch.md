@@ -3,28 +3,9 @@ title: "Laravel SaaS Boilerplate vs Building from Scratch"
 description: "Should you start from a Laravel SaaS boilerplate or build from scratch? The work involved, hidden costs on both sides and a checklist to help you decide."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: saas
 tags: [Starter kits, SaaS]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-saas-boilerplate-vs-scratch.html
-  - - meta
-    - property: og:title
-      content: "Laravel SaaS Boilerplate vs Building from Scratch"
-  - - meta
-    - property: og:description
-      content: "Should you start from a Laravel SaaS boilerplate or build from scratch? The work involved, hidden costs on both sides and a checklist to help you decide."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-saas-boilerplate-vs-scratch.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel SaaS Boilerplate vs Building from Scratch"
-  - - meta
-    - name: twitter:description
-      content: "Should you start from a Laravel SaaS boilerplate or build from scratch? The work involved, hidden costs on both sides and a checklist to help you decide."
 ---
 
 # Laravel SaaS Boilerplate vs Building from Scratch: An Honest Decision Guide
@@ -33,7 +14,7 @@ head:
 
 You've got a new product idea. Do you start from a Laravel SaaS boilerplate, or run `laravel new` and build everything yourself? Both are reasonable answers. Which one is right for you has less to do with the code than with your team, your deadline, and how standard your product really is.
 
-I'll lay out what a SaaS actually needs, where the time goes, and the costs nobody puts on the sales page, on both sides. That includes the cases where I'd build from scratch.
+We'll lay out what a SaaS actually needs, where the time goes, and the costs nobody puts on the sales page, on both sides. That includes the cases where we'd build from scratch.
 
 ## The features every SaaS needs before launch
 
@@ -53,7 +34,7 @@ None of that is your product. All of it has to work before your first customer s
 
 ## Where the work goes
 
-I can't give you exact estimates without knowing your team and your requirements. Read the table as rough orders of magnitude for an experienced Laravel developer building it properly, with tests. It's not a quote.
+We can't give you exact estimates without knowing your team and your requirements. Read the table as rough orders of magnitude for an experienced Laravel developer building it properly, with tests. It's not a quote.
 
 | Area | Typical effort from scratch | What makes it grow |
 | --- | --- | --- |
@@ -77,7 +58,7 @@ Security is the next one. Tenant isolation, permission checks on every route, ra
 
 Then there are upgrades. Laravel ships a new major version every year, and your frontend framework, Inertia and every package keep moving too. Your custom code doesn't come with an upgrade guide. Consistency slips as well. Code written under deadline pressure drifts, with validation in one place and a fat controller in another, and every new developer pays for that daily.
 
-And the cost I think matters most: opportunity cost. The weeks you spend on account settings are weeks you didn't spend talking to customers or building the feature that makes them pay.
+And the cost we think matters most: opportunity cost. The weeks you spend on account settings are weeks you didn't spend talking to customers or building the feature that makes them pay.
 
 ## The hidden costs of a Laravel SaaS boilerplate
 
@@ -111,9 +92,9 @@ Answer each row for your own project:
 
 If most of your answers land on the left, a boilerplate will probably save you time. If several land on the right, build it yourself, or start from Laravel's official starter kit and add packages one at a time.
 
-## When I'd build it myself
+## When we'd build it ourselves
 
-I'd skip a boilerplate if the product isn't a typical SaaS. An API-only service, an internal tool for one company or a content site doesn't need tenants, invitations and roles. Same if the data model is unusual: tenancy that follows geography, nested organisations, or resources shared across customers can all clash with a kit's assumptions.
+We'd skip a boilerplate if the product isn't a typical SaaS. An API-only service, an internal tool for one company or a content site doesn't need tenants, invitations and roles. Same if the data model is unusual: tenancy that follows geography, nested organisations, or resources shared across customers can all clash with a kit's assumptions.
 
 It also makes sense when learning is the point. Building auth, [multi-tenancy](/blog/multi-tenant-saas-laravel-database-per-tenant.html) and [roles and permissions](/blog/laravel-roles-permissions-spatie.html) yourself is one of the best ways to really understand Laravel.
 
@@ -131,7 +112,7 @@ Often, yes. Solo developers feel the opportunity cost the most, because every we
 
 ### Can I remove features I don't need from a boilerplate?
 
-Usually. It's easier with a modular kit, where features live in their own folders. Removing a feature does mean more conflicts when you merge updates later, so I'd only remove what actually gets in your way.
+Usually. It's easier with a modular kit, where features live in their own folders. Removing a feature does mean more conflicts when you merge updates later, so we'd only remove what actually gets in your way.
 
 ### Will a boilerplate make my app slower?
 

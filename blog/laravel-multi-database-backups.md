@@ -3,35 +3,16 @@ title: "Backups for a Multi-Database Laravel SaaS"
 description: "A Laravel database backup strategy for database-per-tenant SaaS apps: what to back up, dumping every tenant, retention, and restoring a single customer."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: saas
 tags: [Multi-tenancy, Operations]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-multi-database-backups.html
-  - - meta
-    - property: og:title
-      content: "Backups for a Multi-Database Laravel SaaS"
-  - - meta
-    - property: og:description
-      content: "A Laravel database backup strategy for database-per-tenant SaaS apps: what to back up, dumping every tenant, retention, and restoring a single customer."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-multi-database-backups.html
-  - - meta
-    - name: twitter:title
-      content: "Backups for a Multi-Database Laravel SaaS"
-  - - meta
-    - name: twitter:description
-      content: "A Laravel database backup strategy for database-per-tenant SaaS apps: what to back up, dumping every tenant, retention, and restoring a single customer."
 ---
 
 # Laravel Database Backup Strategy for Database-per-Tenant SaaS Apps
 
 <BlogPostMeta />
 
-A Laravel database backup is simple when you have one database. Dump it every night, copy it somewhere safe, done. A database-per-tenant SaaS is different: there's a central database plus one database per customer, and the list grows every time someone signs up. Here's what I'd back up, how to find and dump every tenant database, how to keep the backups consistent, where to store them, and how to restore one customer without touching anyone else.
+A Laravel database backup is simple when you have one database. Dump it every night, copy it somewhere safe, done. A database-per-tenant SaaS is different: there's a central database plus one database per customer, and the list grows every time someone signs up. Here's what we'd back up, how to find and dump every tenant database, how to keep the backups consistent, where to store them, and how to restore one customer without touching anyone else.
 
 ## What to back up
 
@@ -53,7 +34,7 @@ You could run `mysqldump --all-databases` and call it done. The problem shows up
 
 Customers rarely lose *everything*. It's far more likely that one customer deletes a project by accident, or that a bad import corrupts one tenant's data. Restoring that single tenant from one huge file means digging one database out of a dump of all of them.
 
-So I dump **each database to its own file**. That keeps the main advantage of database-per-tenant: you can restore one customer and leave everyone else alone.
+So we dump **each database to its own file**. That keeps the main advantage of database-per-tenant: you can restore one customer and leave everyone else alone.
 
 ## Find the tenant databases from the central database
 
@@ -108,7 +89,7 @@ Schedule::command('backup:databases')
     ->onOneServer();
 ```
 
-Once you have hundreds of tenants, I'd dispatch one queued job per tenant instead. A failed dump then retries on its own without holding up the others, and you can spread the load over several workers.
+Once you have hundreds of tenants, we'd dispatch one queued job per tenant instead. A failed dump then retries on its own without holding up the others, and you can spread the load over several workers.
 
 Whichever you choose, **alert on failures**. A backup that has quietly failed for three weeks is worse than none, because everyone believes it exists.
 
@@ -130,7 +111,7 @@ A simple rotation keeps storage costs predictable:
 
 Managed databases usually offer automatic snapshots and point-in-time recovery from binary logs or WAL. Use them. They're excellent for disasters, like a lost server or a bad migration that hit every tenant.
 
-For a single tenant they're clumsy, though, because a snapshot restores the whole instance. To get one customer back from a snapshot, you restore it to a temporary instance, dump that tenant's database and import it into production. Per-tenant dumps make that a one-step job. That's why I'd keep both.
+For a single tenant they're clumsy, though, because a snapshot restores the whole instance. To get one customer back from a snapshot, you restore it to a temporary instance, dump that tenant's database and import it into production. Per-tenant dumps make that a one-step job. That's why we'd keep both.
 
 ## Restoring a single tenant
 
@@ -166,7 +147,7 @@ Yes, as long as each tenant database is dumped to its own file. Pause that tenan
 
 ### Is mysqldump safe to run on a live database?
 
-For InnoDB tables, `--single-transaction` gives you a consistent snapshot without locking tables, so the app keeps working. I'd still schedule dumps outside peak hours, because they add load.
+For InnoDB tables, `--single-transaction` gives you a consistent snapshot without locking tables, so the app keeps working. We'd still schedule dumps outside peak hours, because they add load.
 
 ### Do I need to back up the APP_KEY?
 

@@ -1,25 +1,6 @@
 ---
 title: "Composer & npm Packages Used"
 description: "The key Composer and npm packages used by the kits, with their version constraints and what each one is used for in the backend and frontend."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/reference/packages.html
-  - - meta
-    - property: og:title
-      content: "Composer & npm Packages Used"
-  - - meta
-    - property: og:description
-      content: "The key Composer and npm packages used by the kits, with their version constraints and what each one is used for in the backend and frontend."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/reference/packages.html
-  - - meta
-    - name: twitter:title
-      content: "Composer & npm Packages Used"
-  - - meta
-    - name: twitter:description
-      content: "The key Composer and npm packages used by the kits, with their version constraints and what each one is used for in the backend and frontend."
 ---
 
 # Packages

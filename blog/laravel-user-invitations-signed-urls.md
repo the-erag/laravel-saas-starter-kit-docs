@@ -3,28 +3,9 @@ title: "User Invitations in Laravel with Signed URLs"
 description: "Build a secure Laravel user invitation flow with temporary signed URLs, the signed middleware, queued emails, expiring single-use links and an accept page."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: permissions
 tags: [Users, Security]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-user-invitations-signed-urls.html
-  - - meta
-    - property: og:title
-      content: "User Invitations in Laravel with Signed URLs"
-  - - meta
-    - property: og:description
-      content: "Build a secure Laravel user invitation flow with temporary signed URLs, the signed middleware, queued emails, expiring single-use links and an accept page."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-user-invitations-signed-urls.html
-  - - meta
-    - name: twitter:title
-      content: "User Invitations in Laravel with Signed URLs"
-  - - meta
-    - name: twitter:description
-      content: "Build a secure Laravel user invitation flow with temporary signed URLs, the signed middleware, queued emails, expiring single-use links and an accept page."
 ---
 
 # Laravel User Invitations with Signed URLs: A Secure Invite Flow
@@ -33,7 +14,7 @@ head:
 
 In most SaaS apps, people don't sign up on their own. A colleague adds them. A Laravel user invitation flow handles that properly: an admin enters a name and email, the app sends that person a link, and they pick their own password. Nobody emails a password around, and the admin never knows it.
 
-You don't need a package for this. Laravel already gives you temporary signed URLs, the `signed` middleware and queued notifications. I'll go through the whole flow, from creating the pending user to accepting the invitation, and point out the security details that are easy to miss.
+You don't need a package for this. Laravel already gives you temporary signed URLs, the `signed` middleware and queued notifications. We'll go through the whole flow, from creating the pending user to accepting the invitation, and point out the security details that are easy to miss.
 
 ## How a Laravel user invitation flow works
 
@@ -54,7 +35,7 @@ You can store an invitation in two ways:
 | Pending user | Create the user right away with a random password and an `invited_at` timestamp | Simple apps where an invited user can already get roles and appear in lists |
 | Invitation table | Store email, role, token and expiry in an `invitations` table; create the user on accept | Inviting people who may already have an account, or teams with many pending invites |
 
-I'd start with a pending user. It's simpler and it's enough for most apps. I only reach for a separate table when invitees might already have an account. Add a nullable `invited_at` column to your `users` table and create the user inside a transaction:
+We'd start with a pending user. It's simpler and it's enough for most apps. We only reach for a separate table when invitees might already have an account. Add a nullable `invited_at` column to your `users` table and create the user inside a transaction:
 
 ```php
 $user = DB::transaction(function () use ($data): User {
@@ -134,7 +115,7 @@ class UserInvitationNotification extends Notification implements ShouldQueue
 }
 ```
 
-Build the email in `toMail()` with a `MailMessage` and an `->action('Accept invitation', $this->acceptUrl)` button, and say when the link expires. I like a constant for the lifetime, because then the email text and the URL expiry can't drift apart.
+Build the email in `toMail()` with a `MailMessage` and an `->action('Accept invitation', $this->acceptUrl)` button, and say when the link expires. We like a constant for the lifetime, because then the email text and the URL expiry can't drift apart.
 
 Send the notification only after the database transaction has committed. Otherwise a queue worker can pick up a job for a user that doesn't exist yet:
 
@@ -176,7 +157,7 @@ Give the `show` action the same `invited_at` check. Then an old link sends peopl
 
 A resend is just a new signed URL and the same notification sent again. Only allow it while the invitation is still pending, and rate limit the endpoint so nobody can use it to spam an inbox.
 
-One thing to know: a resend doesn't cancel the earlier link. Both stay valid until they expire or the invitation is accepted. For most apps I don't think that matters. If you do need older links to die, add a value to the signed parameters that changes on every resend (a timestamp or a random token stored on the invitation) and compare it in the controller.
+One thing to know: a resend doesn't cancel the earlier link. Both stay valid until they expire or the invitation is accepted. For most apps we don't think that matters. If you do need older links to die, add a value to the signed parameters that changes on every resend (a timestamp or a random token stored on the invitation) and compare it in the controller.
 
 Revoking is simpler. Delete the pending user or invitation record, route model binding finds nothing, and the link returns a 404.
 
@@ -197,7 +178,7 @@ Once the user is in, their role decides what they can see. Assigning roles and c
 
 ### How long should an invitation link be valid?
 
-Long enough for someone to find the email after a weekend or a holiday, and short enough that forgotten links don't stay useful for months. Seven days is a common choice, and it's what I use.
+Long enough for someone to find the email after a weekend or a holiday, and short enough that forgotten links don't stay useful for months. Seven days is a common choice, and it's what we use.
 
 ### What happens when someone opens an expired invitation link?
 

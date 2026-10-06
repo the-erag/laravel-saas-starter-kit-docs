@@ -1,25 +1,6 @@
 ---
 title: "Svelte Starter Kit Documentation"
 description: "Overview and installation of the Svelte 5 edition of SaaS Laravel: tech stack, conventions, getting the code and next steps with Inertia v3 and shadcn-svelte."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/svelte.html
-  - - meta
-    - property: og:title
-      content: "Svelte Starter Kit Documentation"
-  - - meta
-    - property: og:description
-      content: "Overview and installation of the Svelte 5 edition of SaaS Laravel: tech stack, conventions, getting the code and next steps with Inertia v3 and shadcn-svelte."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/svelte.html
-  - - meta
-    - name: twitter:title
-      content: "Svelte Starter Kit Documentation"
-  - - meta
-    - name: twitter:description
-      content: "Overview and installation of the Svelte 5 edition of SaaS Laravel: tech stack, conventions, getting the code and next steps with Inertia v3 and shadcn-svelte."
 ---
 
 # Svelte Starter Kit <Badge type="tip" text="Svelte" />

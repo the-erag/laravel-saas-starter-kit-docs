@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: frontend
 tags: [Inertia, Frontend]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/inertia-persistent-layouts.html
-  - - meta
-    - property: og:title
-      content: "Persistent Layouts in Inertia"
-  - - meta
-    - property: og:description
-      content: "How Inertia layouts work: persistent, nested and default layouts, plus layout props with setLayoutProps, with Vue, React and Svelte examples for Laravel apps."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/inertia-persistent-layouts.html
-  - - meta
-    - name: twitter:title
-      content: "Persistent Layouts in Inertia"
-  - - meta
-    - name: twitter:description
-      content: "How Inertia layouts work: persistent, nested and default layouts, plus layout props with setLayoutProps, with Vue, React and Svelte examples for Laravel apps."
 ---
 
 # Inertia Layouts: Persistent, Nested and Default Layouts in Vue, React and Svelte

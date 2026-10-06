@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: frontend
 tags: [React, Inertia]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-react-inertia-saas.html
-  - - meta
-    - property: og:title
-      content: "Building a Laravel SaaS with React and Inertia"
-  - - meta
-    - property: og:description
-      content: "Laravel React Inertia guide for SaaS apps: typed page components, static layout props, withApp providers, useForm, ref-as-prop modals and the React Compiler."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-react-inertia-saas.html
-  - - meta
-    - name: twitter:title
-      content: "Building a Laravel SaaS with React and Inertia"
-  - - meta
-    - name: twitter:description
-      content: "Laravel React Inertia guide for SaaS apps: typed page components, static layout props, withApp providers, useForm, ref-as-prop modals and the React Compiler."
 ---
 
 # Laravel React Inertia Guide: Building SaaS Pages with React 19

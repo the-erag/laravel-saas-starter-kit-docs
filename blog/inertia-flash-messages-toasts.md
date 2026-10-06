@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: frontend
 tags: [Inertia, Frontend]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/inertia-flash-messages-toasts.html
-  - - meta
-    - property: og:title
-      content: "Flash Messages and Toasts with Inertia"
-  - - meta
-    - property: og:description
-      content: "Show an Inertia flash message as a toast after a Laravel redirect: Inertia::flash(), the flash event, typed payloads and Vue, React and Svelte examples."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/inertia-flash-messages-toasts.html
-  - - meta
-    - name: twitter:title
-      content: "Flash Messages and Toasts with Inertia"
-  - - meta
-    - name: twitter:description
-      content: "Show an Inertia flash message as a toast after a Laravel redirect: Inertia::flash(), the flash event, typed payloads and Vue, React and Svelte examples."
 ---
 
 # Inertia Flash Messages: Laravel Toasts After Redirects, Done Properly

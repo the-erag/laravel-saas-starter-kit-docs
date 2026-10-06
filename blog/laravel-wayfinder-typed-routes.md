@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: architecture
 tags: [TypeScript, Inertia]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-wayfinder-typed-routes.html
-  - - meta
-    - property: og:title
-      content: "Typed Routes with Laravel Wayfinder"
-  - - meta
-    - property: og:description
-      content: "How Laravel Wayfinder turns your routes and controllers into typed TypeScript functions: setup, the Vite plugin, .url(), parameters, forms and practical tips."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-wayfinder-typed-routes.html
-  - - meta
-    - name: twitter:title
-      content: "Typed Routes with Laravel Wayfinder"
-  - - meta
-    - name: twitter:description
-      content: "How Laravel Wayfinder turns your routes and controllers into typed TypeScript functions: setup, the Vite plugin, .url(), parameters, forms and practical tips."
 ---
 
 # Laravel Wayfinder: Typed Routes for Your Inertia Frontend

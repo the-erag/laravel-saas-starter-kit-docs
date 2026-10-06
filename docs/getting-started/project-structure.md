@@ -1,25 +1,6 @@
 ---
 title: "Laravel SaaS Project Structure"
 description: "Folder layout of a SaaS Laravel kit: app, Modules, config, database, lang, resources/js and tests, plus how each module groups its code by layer."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/getting-started/project-structure.html
-  - - meta
-    - property: og:title
-      content: "Laravel SaaS Project Structure"
-  - - meta
-    - property: og:description
-      content: "Folder layout of a SaaS Laravel kit: app, Modules, config, database, lang, resources/js and tests, plus how each module groups its code by layer."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/getting-started/project-structure.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel SaaS Project Structure"
-  - - meta
-    - name: twitter:description
-      content: "Folder layout of a SaaS Laravel kit: app, Modules, config, database, lang, resources/js and tests, plus how each module groups its code by layer."
 ---
 
 # Project structure

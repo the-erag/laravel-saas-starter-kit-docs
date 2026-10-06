@@ -1,25 +1,6 @@
 ---
 title: "React Kit Components (shadcn/ui)"
 description: "Common form components, the confirm dialog, shadcn/ui primitives, icons, toasts and app shell components in the React kit, with a small usage example."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/react/components.html
-  - - meta
-    - property: og:title
-      content: "React Kit Components (shadcn/ui)"
-  - - meta
-    - property: og:description
-      content: "Common form components, the confirm dialog, shadcn/ui primitives, icons, toasts and app shell components in the React kit, with a small usage example."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/react/components.html
-  - - meta
-    - name: twitter:title
-      content: "React Kit Components (shadcn/ui)"
-  - - meta
-    - name: twitter:description
-      content: "Common form components, the confirm dialog, shadcn/ui primitives, icons, toasts and app shell components in the React kit, with a small usage example."
 ---
 
 # Components <Badge type="tip" text="React" />

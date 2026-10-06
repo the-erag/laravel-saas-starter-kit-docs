@@ -6,25 +6,6 @@ author: erag
 category: multi-tenancy
 tags: [Multi-tenancy, Routing]
 pageClass: blog-page
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-multi-tenancy-subdomains.html
-  - - meta
-    - property: og:title
-      content: "Laravel Multi-Tenancy with Subdomains"
-  - - meta
-    - property: og:description
-      content: "A Laravel multi-tenancy subdomain guide for stancl/tenancy: identification middleware, central domains, tenant routes, sessions, wildcard DNS and links."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-multi-tenancy-subdomains.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Multi-Tenancy with Subdomains"
-  - - meta
-    - name: twitter:description
-      content: "A Laravel multi-tenancy subdomain guide for stancl/tenancy: identification middleware, central domains, tenant routes, sessions, wildcard DNS and links."
 ---
 
 # Laravel Multi-Tenancy with Subdomains: How Tenant Identification Works

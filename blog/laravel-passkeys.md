@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: security
 tags: [Authentication, Security]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-passkeys.html
-  - - meta
-    - property: og:title
-      content: "Passkeys in Laravel: Passwordless Login"
-  - - meta
-    - property: og:description
-      content: "How Laravel passkeys work with WebAuthn and Fortify: the register and login flows, relying party and allowed origins for subdomains, and password fallback."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-passkeys.html
-  - - meta
-    - name: twitter:title
-      content: "Passkeys in Laravel: Passwordless Login"
-  - - meta
-    - name: twitter:description
-      content: "How Laravel passkeys work with WebAuthn and Fortify: the register and login flows, relying party and allowed origins for subdomains, and password fallback."
 ---
 
 # Laravel Passkeys: Passwordless Login with WebAuthn and Fortify

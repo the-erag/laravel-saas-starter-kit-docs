@@ -1,25 +1,6 @@
 ---
 title: "Laravel Database-per-Tenant Multi-Tenancy"
 description: "Database-per-tenant multi-tenancy with stancl/tenancy: identification by domain, the tenant creation pipeline, workspace status and admin invitations."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/core/multi-tenancy.html
-  - - meta
-    - property: og:title
-      content: "Laravel Database-per-Tenant Multi-Tenancy"
-  - - meta
-    - property: og:description
-      content: "Database-per-tenant multi-tenancy with stancl/tenancy: identification by domain, the tenant creation pipeline, workspace status and admin invitations."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/core/multi-tenancy.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Database-per-Tenant Multi-Tenancy"
-  - - meta
-    - name: twitter:description
-      content: "Database-per-tenant multi-tenancy with stancl/tenancy: identification by domain, the tenant creation pipeline, workspace status and admin invitations."
 ---
 
 # Multi-tenancy

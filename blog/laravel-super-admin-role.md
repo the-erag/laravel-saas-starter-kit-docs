@@ -3,28 +3,9 @@ title: "Laravel Super Admin Role with Spatie Permission"
 description: "Build a Laravel super admin role with Spatie: Gate::before or Gate::after, checks the bypass misses, the first super admin and how to stop privilege escalation."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: permissions
 tags: [Permissions, Security]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-super-admin-role.html
-  - - meta
-    - property: og:title
-      content: "Laravel Super Admin Role with Spatie Permission"
-  - - meta
-    - property: og:description
-      content: "Build a Laravel super admin role with Spatie: Gate::before or Gate::after, checks the bypass misses, the first super admin and how to stop privilege escalation."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-super-admin-role.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Super Admin Role with Spatie Permission"
-  - - meta
-    - name: twitter:description
-      content: "Build a Laravel super admin role with Spatie: Gate::before or Gate::after, checks the bypass misses, the first super admin and how to stop privilege escalation."
 ---
 
 # How to Build a Laravel Super Admin Role with Spatie Permission
@@ -33,11 +14,11 @@ head:
 
 Sooner or later someone has to fix a customer's data at 11 p.m., and a missing permission is the last thing that person needs. A **Laravel super admin role** gives a small group of trusted people access to everything, including the permissions you'll add next month.
 
-The basic `Gate::before` trick is three lines, and most tutorials stop there. I want to cover what comes after: which hook to pick, the checks a super admin does *not* pass automatically, how to create the first super admin, and how to stop other users from promoting themselves.
+The basic `Gate::before` trick is three lines, and most tutorials stop there. We want to cover what comes after: which hook to pick, the checks a super admin does *not* pass automatically, how to create the first super admin, and how to stop other users from promoting themselves.
 
 ## What a super admin role should be
 
-A super admin isn't "an admin with a few extra permissions". It's an escape hatch that skips permission checks, and I treat it as a different kind of account altogether.
+A super admin isn't "an admin with a few extra permissions". It's an escape hatch that skips permission checks, and we treat it as a different kind of account altogether.
 
 | | Super admin | Admin |
 | --- | --- | --- |
@@ -58,7 +39,7 @@ In a multi-tenant app, keep the platform operator separate from your customers. 
 
 Assigning every permission is explicit, and you can inspect it right there in the database. The problem is that it's only as fresh as your last seeder run.
 
-`Gate::before` is what the Spatie documentation recommends, and the [Spatie permissions pillar guide](/blog/laravel-roles-permissions-spatie.html#a-super-admin-with-gate-before) has the code. The callback returns `true` for super admins and `null` for everyone else, so normal users fall through to the regular checks. This is the one I'd start with.
+`Gate::before` is what the Spatie documentation recommends, and the [Spatie permissions pillar guide](/blog/laravel-roles-permissions-spatie.html#a-super-admin-with-gate-before) has the code. The callback returns `true` for super admins and `null` for everyone else, so normal users fall through to the regular checks. This is the one we'd start with.
 
 `Gate::after` flips the order. Laravel runs the normal check first and only uses the after callback's answer if the result is still `null`:
 
@@ -93,7 +74,7 @@ Gate callbacks only run when something asks the Gate. Quite a few common checks 
 | `User::permission('Approve Invoices')` query scope | No |
 | Frontend `v-if` or conditional rendering | Only if you share a flag such as `isSuperAdmin` |
 
-The query scope is the sneaky one. Say you build "email everyone who can approve invoices" with `User::permission(...)`. It silently skips super admins who don't hold that permission directly. In application code I'd use `can()` and the `permission` middleware, and save role checks for the few places that genuinely are about roles.
+The query scope is the sneaky one. Say you build "email everyone who can approve invoices" with `User::permission(...)`. It silently skips super admins who don't hold that permission directly. In application code we'd use `can()` and the `permission` middleware, and save role checks for the few places that genuinely are about roles.
 
 There's a quieter side effect as well. A super admin passes `can('Edti User')` too, typo and all. If you only ever test with the super admin account, you'll never spot a misspelled ability name. Click through every new feature as a normal role as well.
 
@@ -105,7 +86,7 @@ Your UI can't create the first super admin, because nobody is allowed to use tha
 php artisan permission:assign-role super-admin 1 web
 ```
 
-The arguments are the role name, the user ID and the guard. I prefer something friendlier that takes an email address:
+The arguments are the role name, the user ID and the guard. We prefer something friendlier that takes an email address:
 
 ```php
 // routes/console.php

@@ -11,11 +11,18 @@ withDefaults(defineProps<{ primary?: boolean }>(), { primary: false });
   <section id="pricing" class="sl-section pricing" :class="{ 'pricing--primary': primary }">
     <div class="pricing-glow" />
     <div class="sl-container">
+      <nav v-if="primary" class="pricing-crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a><span>/</span>Pricing
+      </nav>
       <SectionHeading
         :as="primary ? 'h1' : 'h2'"
         eyebrow="Pricing"
-        title="One-time pricing, no subscription"
-        lead="One payment gets you lifetime access to your kit's repository, and every weekly update that lands in it."
+        :title="primary ? 'Laravel SaaS Starter Kit Pricing' : 'One-time pricing, no subscription'"
+        :lead="
+          primary
+            ? 'Pick the Laravel SaaS starter kit for your frontend: Vue, React or Svelte. Every kit includes the same multi-tenant Laravel 13 backend with authentication, roles and permissions. You pay once, keep lifetime access and get every weekly update.'
+            : 'One payment gets you lifetime access to your kit\'s repository, and every weekly update that lands in it.'
+        "
       />
       <div class="plans">
         <article
@@ -30,7 +37,7 @@ withDefaults(defineProps<{ primary?: boolean }>(), { primary: false });
               <FrameworkLogo :name="framework" :size="20" />
             </span>
           </div>
-          <h3 class="plan-name">{{ plans[key].name }}</h3>
+          <component :is="primary ? 'h2' : 'h3'" class="plan-name">{{ plans[key].name }}</component>
           <p class="plan-tagline">{{ plans[key].tagline }}</p>
           <p class="plan-price">
             <span class="plan-amount">{{ formatPrice(plans[key].price) }}</span>
@@ -74,6 +81,19 @@ withDefaults(defineProps<{ primary?: boolean }>(), { primary: false });
   height: 520px;
   background: var(--sl-glow);
   pointer-events: none;
+}
+
+.pricing-crumbs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+}
+
+.pricing-crumbs a:hover {
+  color: var(--vp-c-brand-1);
 }
 
 .pricing--primary {

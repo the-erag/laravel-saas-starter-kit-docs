@@ -1,9 +1,11 @@
 import type { Theme } from 'vitepress';
 import DefaultTheme from 'vitepress/theme';
+import AuthorPosts from './components/AuthorPosts.vue';
 import BlogIndex from './components/BlogIndex.vue';
 import BlogPostCta from './components/BlogPostCta.vue';
 import BlogPostMeta from './components/BlogPostMeta.vue';
 import CTASection from './components/CTASection.vue';
+import AboutSaasLaravel from './components/AboutSaasLaravel.vue';
 import AppOutOfTheBox from './components/AppOutOfTheBox.vue';
 import CustomizeEverything from './components/CustomizeEverything.vue';
 import DeveloperExperience from './components/DeveloperExperience.vue';
@@ -34,6 +36,7 @@ export default {
   enhanceApp({ app }) {
     app.component('HeroSection', HeroSection);
     app.component('BlogIndex', BlogIndex);
+    app.component('AuthorPosts', AuthorPosts);
     app.component('BlogPostMeta', BlogPostMeta);
     app.component('BlogPostCta', BlogPostCta);
     app.component('TechStack', TechStack);
@@ -42,6 +45,7 @@ export default {
     app.component('FeatureSection', FeatureSection);
     app.component('FeatureGrid', FeatureGrid);
     app.component('ThreeFrameworksOneBackend', ThreeFrameworksOneBackend);
+    app.component('AboutSaasLaravel', AboutSaasLaravel);
     app.component('AppOutOfTheBox', AppOutOfTheBox);
     app.component('CustomizeEverything', CustomizeEverything);
     app.component('DeveloperExperience', DeveloperExperience);

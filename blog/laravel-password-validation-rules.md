@@ -3,35 +3,16 @@ title: "Password Rules and Confirmation in Laravel"
 description: "Laravel password rules explained: Password::defaults(), length vs complexity, breached-password checks, passwordrules hints and password confirmation."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: security
 tags: [Authentication, Security, Validation]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-password-validation-rules.html
-  - - meta
-    - property: og:title
-      content: "Password Rules and Confirmation in Laravel"
-  - - meta
-    - property: og:description
-      content: "Laravel password rules explained: Password::defaults(), length vs complexity, breached-password checks, passwordrules hints and password confirmation."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-password-validation-rules.html
-  - - meta
-    - name: twitter:title
-      content: "Password Rules and Confirmation in Laravel"
-  - - meta
-    - name: twitter:description
-      content: "Laravel password rules explained: Password::defaults(), length vs complexity, breached-password checks, passwordrules hints and password confirmation."
 ---
 
 # Laravel Password Rules: Strong Validation and Password Confirmation
 
 <BlogPostMeta />
 
-Sign-up, password reset, "change password": every one of those forms has to agree on what a good password is. Laravel password rules let you decide that once, with the `Password` rule object and `Password::defaults()`. I'll cover the policy I'd pick today, how to define it in one place and reuse it, how the breached-password check actually works, and how to make users confirm their password before they do something sensitive.
+Sign-up, password reset, "change password": every one of those forms has to agree on what a good password is. Laravel password rules let you decide that once, with the `Password` rule object and `Password::defaults()`. We'll cover the policy we'd pick today, how to define it in one place and reuse it, how the breached-password check actually works, and how to make users confirm their password before they do something sensitive.
 
 ## A sensible password policy for a SaaS app
 
@@ -46,7 +27,7 @@ Password advice has moved on. The old "one symbol, rotate every 90 days" policy 
 | Blocklist check | Compare against common, expected and compromised passwords |
 | Periodic rotation | Do not require it; force a change only after a compromise |
 
-Sometimes a customer's compliance checklist still asks for composition rules, and Laravel can do those. If it's up to me, though, I'd take a long minimum length plus a breach check over any combination of character classes.
+Sometimes a customer's compliance checklist still asks for composition rules, and Laravel can do those. If it's up to us, though, we'd take a long minimum length plus a breach check over any combination of character classes.
 
 ## The Password rule object
 
@@ -80,7 +61,7 @@ Password::defaults(fn () => app()->isProduction()
 );
 ```
 
-After that, `Password::default()` returns your rule everywhere. When the callback returns `null`, which it does outside production in this example, Laravel falls back to its own eight-character default. I like this split. Seeding and local testing stay fast, and your test suite doesn't hit the breach API.
+After that, `Password::default()` returns your rule everywhere. When the callback returns `null`, which it does outside production in this example, Laravel falls back to its own eight-character default. We like this split. Seeding and local testing stay fast, and your test suite doesn't hit the breach API.
 
 Then use the default in every form that sets a password:
 
@@ -131,7 +112,7 @@ A change-password form needs a bit more than the rules above.
 
 Ask for the current password with the `current_password` rule, which checks it against the signed-in user's hash. Let the model do the hashing: with a `'password' => 'hashed'` cast on the user model, `$user->update(['password' => $request->password])` stores a hash, never plain text.
 
-I'd also sign out the user's other sessions. `Auth::logoutOtherDevices($password)` invalidates them, as long as those routes use the `auth.session` middleware. And throttle the endpoint, so someone holding a stolen session can't sit there guessing the current password. [Rate limiting login attempts in Laravel](/blog/laravel-login-rate-limiting.html) covers how.
+We'd also sign out the user's other sessions. `Auth::logoutOtherDevices($password)` invalidates them, as long as those routes use the `auth.session` middleware. And throttle the endpoint, so someone holding a stolen session can't sit there guessing the current password. [Rate limiting login attempts in Laravel](/blog/laravel-login-rate-limiting.html) covers how.
 
 ## Password confirmation for sensitive actions
 
@@ -152,7 +133,7 @@ For routes that deserve a tighter window, pass a shorter timeout in seconds as t
 
 ### Password confirmation with Fortify
 
-[Laravel Fortify](/blog/laravel-fortify-tutorial.html) registers the confirmation routes for you: `GET` and `POST /user/confirm-password`, plus `GET /user/confirmed-password-status`, which returns `{"confirmed": true}` or `false`. I find that status endpoint useful in an SPA, where you'd rather open a confirmation dialog than redirect.
+[Laravel Fortify](/blog/laravel-fortify-tutorial.html) registers the confirmation routes for you: `GET` and `POST /user/confirm-password`, plus `GET /user/confirmed-password-status`, which returns `{"confirmed": true}` or `false`. We find that status endpoint useful in an SPA, where you'd rather open a confirmation dialog than redirect.
 
 You can also change how the password gets checked by registering a callback. Here's one that throttles confirmation attempts per user:
 

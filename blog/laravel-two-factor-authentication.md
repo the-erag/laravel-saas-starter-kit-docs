@@ -3,35 +3,16 @@ title: "Two-Factor Authentication in Laravel"
 description: "Laravel two factor authentication with Fortify: how TOTP works, the enable, QR code and confirm flow, recovery codes, the login challenge and security tips."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: security
 tags: [Authentication, Security]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-two-factor-authentication.html
-  - - meta
-    - property: og:title
-      content: "Two-Factor Authentication in Laravel"
-  - - meta
-    - property: og:description
-      content: "Laravel two factor authentication with Fortify: how TOTP works, the enable, QR code and confirm flow, recovery codes, the login challenge and security tips."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-two-factor-authentication.html
-  - - meta
-    - name: twitter:title
-      content: "Two-Factor Authentication in Laravel"
-  - - meta
-    - name: twitter:description
-      content: "Laravel two factor authentication with Fortify: how TOTP works, the enable, QR code and confirm flow, recovery codes, the login challenge and security tips."
 ---
 
 # Laravel Two-Factor Authentication with Fortify: A Practical Guide
 
 <BlogPostMeta />
 
-A password on its own is one leaked database or one reused password away from an account takeover. Laravel two factor authentication closes most of that gap with a second step: after the password, the user types a six-digit code from an authenticator app on their phone. Below I'll cover how those codes work, how to turn 2FA on with Laravel Fortify, the enable → QR code → confirm flow, recovery codes and the login challenge. Then the small details that decide whether users like it or end up in your support inbox.
+A password on its own is one leaked database or one reused password away from an account takeover. Laravel two factor authentication closes most of that gap with a second step: after the password, the user types a six-digit code from an authenticator app on their phone. Below we'll cover how those codes work, how to turn 2FA on with Laravel Fortify, the enable → QR code → confirm flow, recovery codes and the login challenge. Then the small details that decide whether users like it or end up in your support inbox.
 
 ## How TOTP codes work
 
@@ -70,7 +51,7 @@ There aren't many options, but each one changes something you'll notice:
 | `window` | How many extra 30-second steps before and after "now" are accepted. `0` accepts only the current code. |
 | `secret-length` | Length of the generated secret (default `16`). |
 
-I use exactly the values in the snippet above: `confirm` and `confirmPassword` on, `window` at `0`. I wouldn't loosen any of them without a concrete reason.
+We use exactly the values in the snippet above: `confirm` and `confirmPassword` on, `window` at `0`. We wouldn't loosen any of them without a concrete reason.
 
 Next, add the `TwoFactorAuthenticatable` trait to your user model:
 
@@ -113,7 +94,7 @@ Once the feature is on, Fortify registers the routes below. Every management rou
 Setup takes four requests, and your frontend drives each one:
 
 1. The user clicks "Enable" and your frontend posts to `two-factor.enable`. Fortify's `EnableTwoFactorAuthentication` action generates a secret and eight recovery codes and stores both, encrypted.
-2. Fetch `two-factor.qr-code`, which returns JSON with an `svg` and the `otpauth` `url`. I'd also fetch `two-factor.secret-key` and show the key as text for anyone who can't scan.
+2. Fetch `two-factor.qr-code`, which returns JSON with an `svg` and the `otpauth` `url`. We'd also fetch `two-factor.secret-key` and show the key as text for anyone who can't scan.
 3. The user types the current code from their app, and you post it as `code` to `two-factor.confirm`. `ConfirmTwoFactorAuthentication` checks it and sets `two_factor_confirmed_at`. A wrong code comes back as a validation error on `code`.
 4. Fetch `two-factor.recovery-codes` and ask the user to store them somewhere safe.
 
@@ -131,7 +112,7 @@ When a user with 2FA enabled signs in, Fortify checks the password first. If it'
 
 The challenge form posts either `code` (from the app) or `recovery_code`. On success, Fortify logs the user in and regenerates the session.
 
-Two safeguards come with it. The first is rate limiting. The POST route uses the limiter named in `fortify.limiters.two-factor`, and I'd key it to the login attempt:
+Two safeguards come with it. The first is rate limiting. The POST route uses the limiter named in `fortify.limiters.two-factor`, and we'd key it to the login attempt:
 
 ```php
 RateLimiter::for('two-factor', function (Request $request) {
@@ -145,7 +126,7 @@ The second is replay protection. Fortify caches each accepted code, so the same 
 
 None of this is hard to build. Skipping it is how 2FA turns into a steady stream of "I'm locked out" emails.
 
-Keep `confirm` on. I've said it already, but a half-finished setup should never be able to lock anyone out.
+Keep `confirm` on. We've said it already, but a half-finished setup should never be able to lock anyone out.
 
 Show the text key next to the QR code. Some people set up 2FA on the same phone they're browsing on, and they can't scan their own screen.
 
@@ -163,11 +144,11 @@ app(DisableTwoFactorAuthentication::class)($user);
 
 The secrets are encrypted with your app key, so treat `APP_KEY` with care. If you lose it, every user has to set up 2FA again.
 
-I'd always keep `confirmPassword` on. It puts the management routes behind `password.confirm`, so someone sitting at a laptop you left open can't read recovery codes or switch 2FA off. How long a confirmation lasts is set by `password_timeout` in `config/auth.php`.
+We'd always keep `confirmPassword` on. It puts the management routes behind `password.confirm`, so someone sitting at a laptop you left open can't read recovery codes or switch 2FA off. How long a confirmation lasts is set by `password_timeout` in `config/auth.php`.
 
 TOTP depends on the server clock. Keep NTP running on your servers, especially with a strict `window` of `0`.
 
-Fortify dispatches `TwoFactorAuthenticationEnabled`, `TwoFactorAuthenticationConfirmed`, `TwoFactorAuthenticationDisabled`, `TwoFactorAuthenticationFailed` and `RecoveryCodeReplaced`. Listen to them. At minimum I'd write an audit log and email the user when 2FA is turned off.
+Fortify dispatches `TwoFactorAuthenticationEnabled`, `TwoFactorAuthenticationConfirmed`, `TwoFactorAuthenticationDisabled`, `TwoFactorAuthenticationFailed` and `RecoveryCodeReplaced`. Listen to them. At minimum we'd write an audit log and email the user when 2FA is turned off.
 
 Also be honest about the limits. A convincing phishing page can relay a TOTP code in real time. For phishing-resistant sign-in, offer [passkeys in Laravel](/blog/laravel-passkeys.html) as well.
 

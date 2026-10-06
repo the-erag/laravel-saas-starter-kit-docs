@@ -3,37 +3,18 @@ title: "Testing a Laravel SaaS with Pest"
 description: "Laravel Pest testing for SaaS apps: what to test, setup, feature tests, permissions, Inertia pages, datasets, fakes, architecture tests and a fast suite."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: architecture
 tags: [Testing, Code quality]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-saas-testing-pest.html
-  - - meta
-    - property: og:title
-      content: "Testing a Laravel SaaS with Pest"
-  - - meta
-    - property: og:description
-      content: "Laravel Pest testing for SaaS apps: what to test, setup, feature tests, permissions, Inertia pages, datasets, fakes, architecture tests and a fast suite."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-saas-testing-pest.html
-  - - meta
-    - name: twitter:title
-      content: "Testing a Laravel SaaS with Pest"
-  - - meta
-    - name: twitter:description
-      content: "Laravel Pest testing for SaaS apps: what to test, setup, feature tests, permissions, Inertia pages, datasets, fakes, architecture tests and a fast suite."
 ---
 
 # Laravel Pest Testing for SaaS Apps: What to Test and How
 
 <BlogPostMeta />
 
-A SaaS product changes every week, and any of those changes can quietly break sign-in, permissions or a workflow your customers depend on. **Laravel Pest testing** is how I catch that before they do. Pest is fast, the tests read almost like plain English, and it's pleasant enough that you'll actually keep writing them.
+A SaaS product changes every week, and any of those changes can quietly break sign-in, permissions or a workflow your customers depend on. **Laravel Pest testing** is how we catch that before they do. Pest is fast, the tests read almost like plain English, and it's pleasant enough that you'll actually keep writing them.
 
-Below I go through what's worth testing in a Laravel SaaS, how I set Pest up, and how to test HTTP flows, permissions, Inertia pages, validation and side effects. Then architecture tests, and how to keep the suite fast once it grows.
+Below we go through what's worth testing in a Laravel SaaS, how we set Pest up, and how to test HTTP flows, permissions, Inertia pages, validation and side effects. Then architecture tests, and how to keep the suite fast once it grows.
 
 ## What to test in a Laravel SaaS
 
@@ -49,7 +30,7 @@ Forget 100% coverage. Write tests where a bug would cost you customers or suppor
 | Domain logic | A service calculates the right result | Unit or feature |
 | Conventions | No `dd()` left in the code | Architecture |
 
-I lean heavily on feature tests. They send a request through the whole app, so you get the most confidence per line of test code. I save unit tests for pure logic that doesn't need the framework at all.
+We lean heavily on feature tests. They send a request through the whole app, so you get the most confidence per line of test code. We save unit tests for pure logic that doesn't need the framework at all.
 
 ## Setting up Laravel Pest testing
 
@@ -102,7 +83,7 @@ Use route names rather than URLs, so the tests survive when a URL changes. And p
 
 ## Testing permissions and authorization
 
-Authorization bugs are the ones that leak data. For every important rule, I test both sides:
+Authorization bugs are the ones that leak data. For every important rule, we test both sides:
 
 ```php
 test('members without permission cannot delete projects', function () {
@@ -137,7 +118,7 @@ test('the projects page lists the projects', function () {
 });
 ```
 
-By default, `component()` also checks that the page file exists (`inertia.testing.ensure_pages_exist`). So if someone renames a Vue, React or Svelte page, the test fails instead of the browser. This is also where I'd assert that sensitive fields, such as tokens or 2FA secrets, are **missing** from the props. It's an easy leak to miss by eye.
+By default, `component()` also checks that the page file exists (`inertia.testing.ensure_pages_exist`). So if someone renames a Vue, React or Svelte page, the test fails instead of the browser. This is also where we'd assert that sensitive fields, such as tokens or 2FA secrets, are **missing** from the props. It's an easy leak to miss by eye.
 
 ## Validation with datasets
 
@@ -194,11 +175,11 @@ arch('models extend Eloquent')
     ->toExtend(Illuminate\Database\Eloquent\Model::class);
 ```
 
-Pest also ships presets such as `arch()->preset()->php()` and `arch()->preset()->laravel()`. They're opinionated. The Laravel preset, for example, bans `env()` outside config, only allows resource-style public methods on controllers, and only looks at the `App` namespace. My advice: try a preset, keep the rules that fit, and write your own for the rest. In a [modular Laravel architecture](/blog/modular-laravel-architecture.html), rules like "this module must not use that one" stop boundaries from wearing away without anyone noticing.
+Pest also ships presets such as `arch()->preset()->php()` and `arch()->preset()->laravel()`. They're opinionated. The Laravel preset, for example, bans `env()` outside config, only allows resource-style public methods on controllers, and only looks at the `App` namespace. Our advice: try a preset, keep the rules that fit, and write your own for the rest. In a [modular Laravel architecture](/blog/modular-laravel-architecture.html), rules like "this module must not use that one" stop boundaries from wearing away without anyone noticing.
 
 ## Keeping the suite fast
 
-A slow suite is a suite nobody runs. These are the habits I'd reach for.
+A slow suite is a suite nobody runs. These are the habits we'd reach for.
 
 Run in parallel with `vendor/bin/pest --parallel`, which splits tests across processes. While you're working, run only what you changed: `--dirty` picks tests with uncommitted changes, and Pest 5's `--tia` goes further by re-running only the tests affected by your changes and replaying the rest from cache.
 
@@ -216,7 +197,7 @@ Tenant-aware code needs extra care: creating tenant databases, switching tenant 
 
 ### Is Pest better than PHPUnit for Laravel?
 
-Pest runs on top of PHPUnit, so they're equally capable. Pest's syntax is shorter, and it adds datasets, architecture tests and a nicer CLI. Laravel supports both, and Pest can run your existing PHPUnit test classes, so you can switch over gradually. I'd pick Pest for a new project.
+Pest runs on top of PHPUnit, so they're equally capable. Pest's syntax is shorter, and it adds datasets, architecture tests and a nicer CLI. Laravel supports both, and Pest can run your existing PHPUnit test classes, so you can switch over gradually. We'd pick Pest for a new project.
 
 ### Should I use SQLite or MySQL for tests?
 

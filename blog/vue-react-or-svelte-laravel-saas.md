@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: frontend
 tags: [Frontend, Inertia]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/vue-react-or-svelte-laravel-saas.html
-  - - meta
-    - property: og:title
-      content: "Vue, React or Svelte for Your Laravel SaaS?"
-  - - meta
-    - property: og:description
-      content: "How to choose between Vue, React and Svelte for a Laravel SaaS built with Inertia: what really changes, an honest comparison and a simple decision guide."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/vue-react-or-svelte-laravel-saas.html
-  - - meta
-    - name: twitter:title
-      content: "Vue, React or Svelte for Your Laravel SaaS?"
-  - - meta
-    - name: twitter:description
-      content: "How to choose between Vue, React and Svelte for a Laravel SaaS built with Inertia: what really changes, an honest comparison and a simple decision guide."
 ---
 
 # Vue, React or Svelte for Your Laravel SaaS? How to Choose

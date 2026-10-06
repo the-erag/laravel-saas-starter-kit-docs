@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: frontend
 tags: [Inertia, Frontend]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/inertia-js-v3-whats-new.html
-  - - meta
-    - property: og:title
-      content: "Inertia.js v3: What's New for Laravel"
-  - - meta
-    - property: og:description
-      content: "Inertia v3 for Laravel explained: the new Vite plugin, useHttp, optimistic updates, instant visits, layout props, breaking changes and an upgrade checklist."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/inertia-js-v3-whats-new.html
-  - - meta
-    - name: twitter:title
-      content: "Inertia.js v3: What's New for Laravel"
-  - - meta
-    - name: twitter:description
-      content: "Inertia v3 for Laravel explained: the new Vite plugin, useHttp, optimistic updates, instant visits, layout props, breaking changes and an upgrade checklist."
 ---
 
 # Inertia v3 for Laravel: New Features, Breaking Changes and How to Upgrade

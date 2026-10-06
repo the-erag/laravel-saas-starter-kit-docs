@@ -1,25 +1,6 @@
 ---
 title: "Troubleshooting Laravel SaaS Kits"
 description: "Fixes for common problems: Vite manifest errors, tenant subdomains, queued emails, stale translations or types, tenant database clashes and 403 errors."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/reference/troubleshooting.html
-  - - meta
-    - property: og:title
-      content: "Troubleshooting Laravel SaaS Kits"
-  - - meta
-    - property: og:description
-      content: "Fixes for common problems: Vite manifest errors, tenant subdomains, queued emails, stale translations or types, tenant database clashes and 403 errors."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/reference/troubleshooting.html
-  - - meta
-    - name: twitter:title
-      content: "Troubleshooting Laravel SaaS Kits"
-  - - meta
-    - name: twitter:description
-      content: "Fixes for common problems: Vite manifest errors, tenant subdomains, queued emails, stale translations or types, tenant database clashes and 403 errors."
 ---
 
 # Troubleshooting

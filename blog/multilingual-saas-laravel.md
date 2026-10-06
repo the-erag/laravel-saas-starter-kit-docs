@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: localization
 tags: [Localization, SaaS]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/multilingual-saas-laravel.html
-  - - meta
-    - property: og:title
-      content: "Building a Multilingual Laravel App for SaaS"
-  - - meta
-    - property: og:description
-      content: "Plan a multilingual Laravel app: what to translate, URL strategy and hreflang SEO, database content, dates and currencies, right-to-left text and workflow."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/multilingual-saas-laravel.html
-  - - meta
-    - name: twitter:title
-      content: "Building a Multilingual Laravel App for SaaS"
-  - - meta
-    - name: twitter:description
-      content: "Plan a multilingual Laravel app: what to translate, URL strategy and hreflang SEO, database content, dates and currencies, right-to-left text and workflow."
 ---
 
 # Multilingual Laravel App: Planning a SaaS for Customers in Many Languages

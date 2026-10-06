@@ -1,25 +1,6 @@
 ---
 title: "Tenant Domains & Per-Domain Settings"
 description: "Tenant subdomains, primary and secondary domains, and per-domain settings: app name, default language and which authentication features are enabled."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/core/domains.html
-  - - meta
-    - property: og:title
-      content: "Tenant Domains & Per-Domain Settings"
-  - - meta
-    - property: og:description
-      content: "Tenant subdomains, primary and secondary domains, and per-domain settings: app name, default language and which authentication features are enabled."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/core/domains.html
-  - - meta
-    - name: twitter:title
-      content: "Tenant Domains & Per-Domain Settings"
-  - - meta
-    - name: twitter:description
-      content: "Tenant subdomains, primary and secondary domains, and per-domain settings: app name, default language and which authentication features are enabled."
 ---
 
 # Domains

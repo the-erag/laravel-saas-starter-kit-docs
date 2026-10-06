@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: saas
 tags: [Multi-tenancy, Operations]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-multi-tenant-maintenance-mode.html
-  - - meta
-    - property: og:title
-      content: "Maintenance Mode for Multi-Tenant Laravel Apps"
-  - - meta
-    - property: og:description
-      content: "Laravel maintenance mode in a multi-tenant SaaS: php artisan down options, bypass cookies on subdomains, and pausing all workspaces or a single tenant."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-multi-tenant-maintenance-mode.html
-  - - meta
-    - name: twitter:title
-      content: "Maintenance Mode for Multi-Tenant Laravel Apps"
-  - - meta
-    - name: twitter:description
-      content: "Laravel maintenance mode in a multi-tenant SaaS: php artisan down options, bypass cookies on subdomains, and pausing all workspaces or a single tenant."
 ---
 
 # Laravel Maintenance Mode in a Multi-Tenant SaaS: Platform, Workspace and Tenant Level

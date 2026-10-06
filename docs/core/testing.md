@@ -1,25 +1,6 @@
 ---
 title: "Testing with Pest, Larastan & Pint"
 description: "The Pest test suite, Larastan static analysis, Pint and frontend linting, the composer test pipeline and the AI agent rules about tests in the kits."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/core/testing.html
-  - - meta
-    - property: og:title
-      content: "Testing with Pest, Larastan & Pint"
-  - - meta
-    - property: og:description
-      content: "The Pest test suite, Larastan static analysis, Pint and frontend linting, the composer test pipeline and the AI agent rules about tests in the kits."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/core/testing.html
-  - - meta
-    - name: twitter:title
-      content: "Testing with Pest, Larastan & Pint"
-  - - meta
-    - name: twitter:description
-      content: "The Pest test suite, Larastan static analysis, Pint and frontend linting, the composer test pipeline and the AI agent rules about tests in the kits."
 ---
 
 # Testing

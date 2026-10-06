@@ -1,25 +1,6 @@
 ---
 title: "React Kit Layouts"
 description: "How the React kit picks app and sign-in layouts from Setup defaults and user settings, the sidebar and header layouts, and per-page layout overrides."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/react/layouts.html
-  - - meta
-    - property: og:title
-      content: "React Kit Layouts"
-  - - meta
-    - property: og:description
-      content: "How the React kit picks app and sign-in layouts from Setup defaults and user settings, the sidebar and header layouts, and per-page layout overrides."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/react/layouts.html
-  - - meta
-    - name: twitter:title
-      content: "React Kit Layouts"
-  - - meta
-    - name: twitter:description
-      content: "How the React kit picks app and sign-in layouts from Setup defaults and user settings, the sidebar and header layouts, and per-page layout overrides."
 ---
 
 # Layouts <Badge type="tip" text="React" />

@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: security
 tags: [Security, Multi-tenancy]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-saas-security-checklist.html
-  - - meta
-    - property: og:title
-      content: "Laravel SaaS Security Checklist"
-  - - meta
-    - property: og:description
-      content: "A Laravel SaaS security checklist: authentication, sessions, tenant isolation, authorization, data exposure, secrets, uploads, dependencies and monitoring."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-saas-security-checklist.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel SaaS Security Checklist"
-  - - meta
-    - name: twitter:description
-      content: "A Laravel SaaS security checklist: authentication, sessions, tenant isolation, authorization, data exposure, secrets, uploads, dependencies and monitoring."
 ---
 
 # Laravel SaaS Security: A Practical Checklist for Multi-Tenant Apps

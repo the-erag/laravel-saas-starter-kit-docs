@@ -1,25 +1,6 @@
 ---
-title: "Install a Laravel SaaS Starter Kit"
+title: "Installation: Clone the Kit Repository"
 description: "Clone your SaaS Laravel kit repository, configure .env and run composer setup to install dependencies, generate the key, migrate and build frontend assets."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/getting-started/installation.html
-  - - meta
-    - property: og:title
-      content: "Install a Laravel SaaS Starter Kit"
-  - - meta
-    - property: og:description
-      content: "Clone your SaaS Laravel kit repository, configure .env and run composer setup to install dependencies, generate the key, migrate and build frontend assets."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/getting-started/installation.html
-  - - meta
-    - name: twitter:title
-      content: "Install a Laravel SaaS Starter Kit"
-  - - meta
-    - name: twitter:description
-      content: "Clone your SaaS Laravel kit repository, configure .env and run composer setup to install dependencies, generate the key, migrate and build frontend assets."
 ---
 
 # Installation

@@ -21,8 +21,7 @@ const date = computed(() =>
     <p class="post-info">
       <span>
         By
-        <a v-if="author.url" class="post-author no-icon" :href="author.url" target="_blank" rel="noopener author">{{ author.name }}</a>
-        <span v-else class="post-author">{{ author.name }}</span>
+        <a class="post-author" :href="author.page" rel="author">{{ author.name }}</a>
       </span>
       <span aria-hidden="true">·</span>
       <time :datetime="new Date(frontmatter.date).toISOString()">{{ date }}</time>
@@ -66,9 +65,5 @@ const date = computed(() =>
 .post-author {
   font-weight: 600;
   text-decoration: none;
-}
-
-.post-author::after {
-  display: none !important;
 }
 </style>

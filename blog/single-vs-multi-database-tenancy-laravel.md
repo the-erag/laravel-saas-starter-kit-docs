@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: multi-tenancy
 tags: [Multi-tenancy, Architecture]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/single-vs-multi-database-tenancy-laravel.html
-  - - meta
-    - property: og:title
-      content: "Single vs Multi-Database Tenancy in Laravel"
-  - - meta
-    - property: og:description
-      content: "Single database vs multi database tenancy in Laravel: the decision factors, costs, scaling, cross-tenant reporting and how to move between models later."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/single-vs-multi-database-tenancy-laravel.html
-  - - meta
-    - name: twitter:title
-      content: "Single vs Multi-Database Tenancy in Laravel"
-  - - meta
-    - name: twitter:description
-      content: "Single database vs multi database tenancy in Laravel: the decision factors, costs, scaling, cross-tenant reporting and how to move between models later."
 ---
 
 # Single Database vs Multi-Database Tenancy in Laravel: How to Choose

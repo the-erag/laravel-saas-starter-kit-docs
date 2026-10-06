@@ -1,7 +1,9 @@
+import { existsSync } from 'node:fs';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import type { DefaultTheme, HeadConfig, PageData } from 'vitepress';
-import { blogAuthor, frameworkKeys, kitPriceList, kits, paymentFaqs, plans, site, type FrameworkKey, type PlanKey } from './site';
+import { blogAuthor, blogCategories, frameworkKeys, kitPriceList, kits, paymentFaqs, plans, site, type FrameworkKey, type PlanKey } from './site';
 
 type JsonLd = Record<string, unknown>;
 
@@ -48,7 +50,18 @@ const imageNameFor = (relativePath: string): string => {
   return 'og-image';
 };
 
-export const ogImageFor = (relativePath: string): string => `${site.url}/${imageNameFor(relativePath)}.png`;
+const publicDir = join(dirname(fileURLToPath(import.meta.url)), '../public');
+
+export const ogImageFor = (relativePath: string): string => {
+  // A blog post uses its own image, public/og/blog/<slug>.png, when it has one.
+  const postImage = relativePath.startsWith('blog/') ? `og/blog/${relativePath.replace(/^blog\/|\.md$/g, '')}.png` : undefined;
+
+  if (postImage && existsSync(join(publicDir, postImage))) {
+    return `${site.url}/${postImage}`;
+  }
+
+  return `${site.url}/${imageNameFor(relativePath)}.png`;
+};
 
 const stripTags = (value: string): string =>
   value
@@ -95,6 +108,22 @@ const breadcrumbs = (items: { name: string; url: string }[]): JsonLd => ({
   itemListElement: items.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, item: item.url })),
 });
 
+// The same author entity on every post and on the author's own page (authors/<key>.md).
+const authorEntity = (key?: string): JsonLd => {
+  const author = blogAuthor(key);
+  const url = `${site.url}${author.page}`;
+
+  return {
+    '@type': author.type,
+    '@id': `${url}#author`,
+    name: author.name,
+    url,
+    ...(author.sameAs.length ? { sameAs: author.sameAs } : {}),
+  };
+};
+
+const categoryLabel = (key?: string): string | undefined => blogCategories.find((category) => category.key === key)?.label;
+
 const offer = (planKey: PlanKey): JsonLd => ({
   '@type': 'Offer',
   price: plans[planKey].price.toFixed(2),
@@ -107,9 +136,16 @@ const offer = (planKey: PlanKey): JsonLd => ({
 
 // A kit is described as a Product with an Offer: Google accepts that without ratings, while a
 // SoftwareApplication is only valid with an aggregateRating or review (and has no `brand`).
+const productNames: Record<PlanKey, string> = {
+  vue: 'Laravel Vue SaaS Starter Kit',
+  react: 'Laravel React SaaS Starter Kit',
+  svelte: 'Laravel Svelte SaaS Starter Kit',
+  'all-kits': 'Laravel SaaS Starter Kits Bundle (Vue, React & Svelte)',
+};
+
 const software = (planKey: PlanKey, url: string, description: string): JsonLd => ({
   '@type': 'Product',
-  name: plans[planKey].name,
+  name: productNames[planKey],
   description,
   url,
   sku: `saas-laravel-${planKey}`,
@@ -157,8 +193,7 @@ const structuredData = (pageData: PageData, url: string, title: string, descript
       itemListElement: (['vue', 'react', 'svelte', 'all-kits'] as PlanKey[]).map((key, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: key === 'all-kits' ? `${site.url}${plans[key].href}` : `${site.url}/kits/${key}.html`,
-        name: plans[key].name,
+        item: software(key, key === 'all-kits' ? `${site.url}${plans[key].href}` : `${site.url}/kits/${key}.html`, plans[key].tagline),
       })),
     });
 
@@ -198,7 +233,7 @@ const structuredData = (pageData: PageData, url: string, title: string, descript
     graph.push({ '@type': 'Blog', name: pageTitle, description, url, publisher: { '@id': organizationId } }, breadcrumbs([home, { name: 'Blog', url }]));
   } else if (path.startsWith('blog/')) {
     const published = new Date(pageData.frontmatter.date).toISOString();
-    const author = blogAuthor(pageData.frontmatter.author);
+    const section = categoryLabel(pageData.frontmatter.category);
 
     graph.push(
       {
@@ -211,8 +246,9 @@ const structuredData = (pageData: PageData, url: string, title: string, descript
         inLanguage: 'en-US',
         datePublished: published,
         dateModified: pageData.lastUpdated ? new Date(pageData.lastUpdated).toISOString() : published,
+        ...(section ? { articleSection: section } : {}),
         keywords: (pageData.frontmatter.tags ?? []).join(', '),
-        author: { '@type': author.type, name: author.name, ...(author.url ? { url: author.url } : {}) },
+        author: authorEntity(pageData.frontmatter.author),
         publisher: { '@id': organizationId },
         isPartOf: { '@id': websiteId },
       },
@@ -224,6 +260,13 @@ const structuredData = (pageData: PageData, url: string, title: string, descript
     if (faqs.length) {
       graph.push(faqPage(faqs));
     }
+  } else if (path.startsWith('authors/')) {
+    const key = path.replace(/^authors\/|\.md$/g, '');
+
+    graph.push(
+      { ...authorEntity(key), description },
+      breadcrumbs([home, { name: 'Blog', url: `${site.url}/blog.html` }, { name: blogAuthor(key).name, url }]),
+    );
   } else if (path === 'docs.md' || path.startsWith('docs/')) {
     const section = path.split('/')[1]?.replace(/\.md$/, '');
     const trail = [home, { name: 'Documentation', url: `${site.url}/docs.html` }];
@@ -278,18 +321,51 @@ export const seoHead = (pageData: PageData, title: string, description: string, 
   }
 
   const url = pageUrl(pageData.relativePath);
-  const image = ogImageFor(pageData.relativePath);
-  const imageAlt = pageData.title || title;
-  const isDocs =
-    pageData.relativePath.startsWith('docs/') || pageData.relativePath === 'docs.md' || pageData.relativePath.startsWith('blog/');
-  const graph = structuredData(pageData, url, title, description, content);
+  const pageTitle = pageData.title || title;
+  // A page can override its social image with `image:` in its frontmatter.
+  const image = pageData.frontmatter.image ? new URL(pageData.frontmatter.image, `${site.url}/`).href : ogImageFor(pageData.relativePath);
+  const imageAlt = pageTitle;
+  const isPost = pageData.relativePath.startsWith('blog/');
+  const isAuthorPage = pageData.relativePath.startsWith('authors/');
+  const isDocs = pageData.relativePath.startsWith('docs/') || pageData.relativePath === 'docs.md' || isPost;
+  const pageGraph = structuredData(pageData, url, title, description, content);
+  const hasNode = (id: string): boolean => pageGraph.some((node) => node['@id'] === id);
+  // Organization and WebSite on every page, so the @id references used by other nodes resolve on each page.
+  const graph: JsonLd[] = [
+    ...(hasNode(organizationId) ? [] : [organization()]),
+    ...(hasNode(websiteId) ? [] : [website()]),
+    {
+      '@type': pageData.relativePath === 'about.md' ? 'AboutPage' : isAuthorPage ? 'ProfilePage' : 'WebPage',
+      '@id': `${url}#webpage`,
+      ...(isAuthorPage ? { mainEntity: { '@id': `${url}#author` } } : {}),
+      url,
+      name: pageTitle,
+      description,
+      inLanguage: 'en-US',
+      isPartOf: { '@id': websiteId },
+      publisher: { '@id': organizationId },
+    },
+    ...pageGraph,
+  ];
+
+  // Tags a page sets itself in its frontmatter `head` win over the generated ones below.
+  const own = (pageData.frontmatter.head ?? []) as [string, Record<string, string>][];
+  const pageSets = (attr: 'name' | 'property' | 'rel', value: string): boolean => own.some(([, attrs]) => attrs?.[attr] === value);
+  const meta = (attr: 'name' | 'property', key: string, content: string): HeadConfig[] =>
+    pageSets(attr, key) ? [] : [['meta', { [attr]: key, content }]];
 
   const head: HeadConfig[] = [
     ...robots(indexable),
+    ...(pageSets('rel', 'canonical') ? [] : ([['link', { rel: 'canonical', href: url }]] as HeadConfig[])),
+    ...meta('property', 'og:title', pageTitle),
+    ...meta('property', 'og:description', description),
+    ...meta('property', 'og:url', url),
+    ...meta('name', 'twitter:title', pageTitle),
+    ...meta('name', 'twitter:description', description),
     // The site is English only: each page is its own English and default-language version.
     ['link', { rel: 'alternate', hreflang: 'en', href: url }],
     ['link', { rel: 'alternate', hreflang: 'x-default', href: url }],
-    ['meta', { property: 'og:type', content: isDocs ? 'article' : 'website' }],
+    ['meta', { property: 'og:type', content: isDocs ? 'article' : isAuthorPage ? 'profile' : 'website' }],
     ['meta', { property: 'og:image', content: image }],
     ['meta', { property: 'og:image:type', content: 'image/png' }],
     ['meta', { property: 'og:image:width', content: '1200' }],
@@ -300,21 +376,25 @@ export const seoHead = (pageData: PageData, title: string, description: string, 
     ['meta', { name: 'twitter:image:alt', content: imageAlt }],
   ];
 
+  if (isPost && pageData.frontmatter.date) {
+    const author = blogAuthor(pageData.frontmatter.author);
+    const section = categoryLabel(pageData.frontmatter.category);
+
+    // The post's own author replaces the site-wide author meta from config.mts.
+    head.push(
+      ['meta', { name: 'author', content: author.name }],
+      ['meta', { property: 'article:published_time', content: new Date(pageData.frontmatter.date).toISOString() }],
+      ['meta', { property: 'article:author', content: `${site.url}${author.page}` }],
+      ...(section ? ([['meta', { property: 'article:section', content: section }]] as HeadConfig[]) : []),
+      ...((pageData.frontmatter.tags ?? []) as string[]).map((tag): HeadConfig => ['meta', { property: 'article:tag', content: tag }]),
+    );
+  }
+
   if (isDocs && pageData.lastUpdated) {
     head.push(['meta', { property: 'article:modified_time', content: new Date(pageData.lastUpdated).toISOString() }]);
   }
 
-  const hasFrontmatterCanonical = pageData.frontmatter.head?.some(
-    (h: [string, Record<string, string>]) => h[0] === 'link' && h[1]?.rel === 'canonical',
-  );
-
-  if (!hasFrontmatterCanonical) {
-    head.push(['link', { rel: 'canonical', href: url }]);
-  }
-
-  if (graph.length) {
-    head.push(['script', { type: 'application/ld+json' }, JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })]);
-  }
+  head.push(['script', { type: 'application/ld+json' }, JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })]);
 
   return head;
 };
@@ -335,7 +415,8 @@ const cleanMarkdown = (body: string): string =>
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 
-const linkToSource = (link: string): string => `${link.replace(/^\//, '')}.md`;
+// Sidebar links end in .html; the Markdown source has the same path with .md.
+const linkToSource = (link: string): string => `${link.replace(/^\//, '').replace(/\.html$/, '')}.md`;
 
 const collectLinks = (items: DefaultTheme.SidebarItem[]): { text: string; link: string }[] =>
   items.flatMap((item) => [
@@ -360,6 +441,7 @@ export const writeLlmsFiles = async (srcDir: string, outDir: string, docsSidebar
     '/blog',
     '/license',
     '/privacy-policy',
+    '/about',
   ];
 
   const summary: string[] = [
@@ -402,7 +484,7 @@ export const writeLlmsFiles = async (srcDir: string, outDir: string, docsSidebar
       }
 
       const page = await describe(entry.link);
-      const url = `${site.url}${entry.link}.html`;
+      const url = `${site.url}${entry.link.replace(/\.html$/, '')}.html`;
       summary.push(`- [${page.title}](${url}): ${page.description}`);
       full.push('---', '', `# ${page.title}`, '', `URL: ${url}`, '', page.description, '', cleanMarkdown(page.body), '');
     }

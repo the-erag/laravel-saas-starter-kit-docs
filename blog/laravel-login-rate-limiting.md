@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: security
 tags: [Authentication, Security]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-login-rate-limiting.html
-  - - meta
-    - property: og:title
-      content: "Rate Limiting Login Attempts in Laravel"
-  - - meta
-    - property: og:description
-      content: "A Laravel login throttle guide: how Fortify limits sign-ins, choosing a throttle key, layered limits, friendly errors for Inertia and other auth routes."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-login-rate-limiting.html
-  - - meta
-    - name: twitter:title
-      content: "Rate Limiting Login Attempts in Laravel"
-  - - meta
-    - name: twitter:description
-      content: "A Laravel login throttle guide: how Fortify limits sign-ins, choosing a throttle key, layered limits, friendly errors for Inertia and other auth routes."
 ---
 
 # Laravel Login Throttle: How to Rate Limit Sign-In Attempts Properly

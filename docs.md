@@ -1,28 +1,9 @@
 ---
-title: "SaaS Laravel Documentation"
+title: "Laravel SaaS Starter Kit Documentation"
 description: "Documentation for the SaaS Laravel starter kits: a multi-tenant Laravel 13 and Inertia v3 backend shared by the Vue, React and Svelte editions."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs.html
-  - - meta
-    - property: og:title
-      content: "SaaS Laravel Documentation"
-  - - meta
-    - property: og:description
-      content: "Documentation for the SaaS Laravel starter kits: a multi-tenant Laravel 13 and Inertia v3 backend shared by the Vue, React and Svelte editions."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs.html
-  - - meta
-    - name: twitter:title
-      content: "SaaS Laravel Documentation"
-  - - meta
-    - name: twitter:description
-      content: "Documentation for the SaaS Laravel starter kits: a multi-tenant Laravel 13 and Inertia v3 backend shared by the Vue, React and Svelte editions."
 ---
 
-# Introduction
+# Laravel SaaS Starter Kit Documentation
 
 SaaS Laravel gives you a production-ready starting point for multi-tenant SaaS apps on Laravel 13, Inertia v3 and Tailwind CSS v4. It comes as three starter kits. They share the same Laravel backend, and only the frontend changes:
 

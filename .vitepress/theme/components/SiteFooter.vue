@@ -24,6 +24,7 @@ const columns: { title: string; links: { text: string; href: string; external?: 
   {
     title: 'Resources',
     links: [
+      { text: 'About', href: '/about.html' },
       { text: 'GitHub', href: site.githubProfile, external: true },
       { text: 'Updates', href: '/docs/purchase/updates.html' },
       { text: 'Release Notes', href: '/releases.html' },
@@ -53,7 +54,7 @@ const social: { icon: IconName; label: string; href: string; external: boolean }
         <p>Laravel SaaS starter kits for Vue, React and Svelte. {{ site.accessNote }}</p>
       </div>
       <nav v-for="column in columns" :key="column.title" class="footer-col" :aria-label="column.title">
-        <h2>{{ column.title }}</h2>
+        <p class="footer-col-title">{{ column.title }}</p>
         <ul>
           <li v-for="link in column.links" :key="link.text">
             <a
@@ -128,7 +129,7 @@ const social: { icon: IconName; label: string; href: string; external: boolean }
   color: var(--vp-c-text-2);
 }
 
-.footer-col h2 {
+.footer-col-title {
   margin-bottom: 14px;
   font-size: 13px;
   font-weight: 600;

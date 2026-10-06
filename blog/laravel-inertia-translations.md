@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: localization
 tags: [Localization, Inertia]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-inertia-translations.html
-  - - meta
-    - property: og:title
-      content: "Laravel Translations in Inertia Apps"
-  - - meta
-    - property: og:description
-      content: "How to handle Laravel Inertia translations: share PHP lang files with Vue, React or Svelte, set the locale per user, translate validation and plurals."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-inertia-translations.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Translations in Inertia Apps"
-  - - meta
-    - name: twitter:description
-      content: "How to handle Laravel Inertia translations: share PHP lang files with Vue, React or Svelte, set the locale per user, translate validation and plurals."
 ---
 
 # Laravel Inertia Translations: Sharing Lang Files with Vue, React and Svelte

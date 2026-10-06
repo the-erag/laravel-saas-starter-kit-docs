@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: security
 tags: [Authentication, Security]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-multiple-auth-guards.html
-  - - meta
-    - property: og:title
-      content: "Laravel Multiple Guards for Admins and Customers"
-  - - meta
-    - property: og:description
-      content: "Set up Laravel multiple guards for admins and customers: auth.php config, admin login, route middleware, redirects, logout, Inertia props and Fortify."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-multiple-auth-guards.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Multiple Guards for Admins and Customers"
-  - - meta
-    - name: twitter:description
-      content: "Set up Laravel multiple guards for admins and customers: auth.php config, admin login, route middleware, redirects, logout, Inertia props and Fortify."
 ---
 
 # Laravel Multiple Guards: Separate Logins for Admins and Customers

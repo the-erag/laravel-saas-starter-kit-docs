@@ -3,35 +3,16 @@ title: "Suspending Customer Accounts in a SaaS"
 description: "How to suspend a SaaS account the right way: status fields, blocking middleware, what stays reachable, background jobs, customer messages and reactivation."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: saas
 tags: [Multi-tenancy, Operations]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/suspend-tenant-accounts-saas.html
-  - - meta
-    - property: og:title
-      content: "Suspending Customer Accounts in a SaaS"
-  - - meta
-    - property: og:description
-      content: "How to suspend a SaaS account the right way: status fields, blocking middleware, what stays reachable, background jobs, customer messages and reactivation."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/suspend-tenant-accounts-saas.html
-  - - meta
-    - name: twitter:title
-      content: "Suspending Customer Accounts in a SaaS"
-  - - meta
-    - name: twitter:description
-      content: "How to suspend a SaaS account the right way: status fields, blocking middleware, what stays reachable, background jobs, customer messages and reactivation."
 ---
 
 # How to Suspend a SaaS Account: Statuses, Access Rules and Reactivation
 
 <BlogPostMeta />
 
-At some point you'll have to suspend a SaaS account. A card keeps failing, someone breaks your terms, or a security incident means a customer's workspace has to be frozen while you investigate. It sounds like one boolean. Done badly, though, it either locks customers out of the very page they need to fix the problem, or leaves background jobs running for an account that should be paused. Below is how I'd handle the data model, where to block access, what to keep reachable, the parts people forget, and how to bring an account back.
+At some point you'll have to suspend a SaaS account. A card keeps failing, someone breaks your terms, or a security incident means a customer's workspace has to be frozen while you investigate. It sounds like one boolean. Done badly, though, it either locks customers out of the very page they need to fix the problem, or leaves background jobs running for an account that should be paused. Below is how we'd handle the data model, where to block access, what to keep reachable, the parts people forget, and how to bring an account back.
 
 ## Suspend vs cancel vs delete vs maintenance
 
@@ -44,7 +25,7 @@ People mix these four up, and each one needs different behaviour:
 | Delete | Removed | None | Only from a backup |
 | Maintenance | Kept | Temporarily blocked for technical work | Yes, when the work is done |
 
-The way I think about it: suspension is **a business decision about one customer**, while maintenance is a technical pause, often for everyone. Maintenance has its own post on [maintenance mode for multi-tenant Laravel apps](/blog/laravel-multi-tenant-maintenance-mode.html).
+The way we think about it: suspension is **a business decision about one customer**, while maintenance is a technical pause, often for everyone. Maintenance has its own post on [maintenance mode for multi-tenant Laravel apps](/blog/laravel-multi-tenant-maintenance-mode.html).
 
 ## Model the status explicitly
 
@@ -60,7 +41,7 @@ enum AccountStatus: string
 }
 ```
 
-Next to the status, I'd store a few extra fields. They cost nothing now and save you later:
+Next to the status, we'd store a few extra fields. They cost nothing now and save you later:
 
 | Field | Purpose |
 | --- | --- |
@@ -75,7 +56,7 @@ In a database-per-tenant app, these fields go on the tenant record in the **cent
 
 ## Block access in one middleware
 
-Check the status in a single middleware that runs on every tenant request, after the tenant is identified and before authentication. I prefer returning a page over a redirect. It's simpler, and it works for signed-in users who already have a session:
+Check the status in a single middleware that runs on every tenant request, after the tenant is identified and before authentication. We prefer returning a page over a redirect. It's simpler, and it works for signed-in users who already have a session:
 
 ```php
 public function handle(Request $request, Closure $next): Response
@@ -112,7 +93,7 @@ Blocking everything feels safe. In practice it just creates support tickets, so 
 | Data export | Customers expect to get their data out, and it builds trust |
 | A support contact | So they can ask what happened instead of disputing a charge |
 
-For abuse or security cases, I'd close everything except logout. For non-payment, keep billing open. Otherwise you're blocking the one action that fixes the problem.
+For abuse or security cases, we'd close everything except logout. For non-payment, keep billing open. Otherwise you're blocking the one action that fixes the problem.
 
 ## Suspension beyond the web request
 
@@ -180,7 +161,7 @@ Usually yes, but only as far as the suspended page. Letting them sign in means y
 
 ### Which HTTP status code should a suspended account return?
 
-`403 Forbidden` is the most accurate choice. I'd avoid `503`, which tells browsers and monitoring tools your whole service is down.
+`403 Forbidden` is the most accurate choice. We'd avoid `503`, which tells browsers and monitoring tools your whole service is down.
 
 ### Do I need to log users out when I suspend their account?
 

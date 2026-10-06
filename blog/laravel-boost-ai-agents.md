@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: tooling
 tags: [AI, Tooling]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-boost-ai-agents.html
-  - - meta
-    - property: og:title
-      content: "Laravel Boost: AI Coding Agents for Laravel"
-  - - meta
-    - property: og:description
-      content: "Laravel Boost gives AI coding agents real context on your app: what boost:install writes, guidelines, skills, the MCP tools and how to keep it all up to date."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-boost-ai-agents.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Boost: AI Coding Agents for Laravel"
-  - - meta
-    - name: twitter:description
-      content: "Laravel Boost gives AI coding agents real context on your app: what boost:install writes, guidelines, skills, the MCP tools and how to keep it all up to date."
 ---
 
 # Laravel Boost Explained: Guidelines, Skills and MCP Tools for AI Agents

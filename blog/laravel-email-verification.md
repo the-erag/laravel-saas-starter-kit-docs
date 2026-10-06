@@ -3,35 +3,16 @@ title: "Email Verification in Laravel"
 description: "Laravel email verification explained: MustVerifyEmail, signed links, the verified middleware, Fortify routes, a resend page and handling email changes."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: security
 tags: [Authentication, Security]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-email-verification.html
-  - - meta
-    - property: og:title
-      content: "Email Verification in Laravel"
-  - - meta
-    - property: og:description
-      content: "Laravel email verification explained: MustVerifyEmail, signed links, the verified middleware, Fortify routes, a resend page and handling email changes."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-email-verification.html
-  - - meta
-    - name: twitter:title
-      content: "Email Verification in Laravel"
-  - - meta
-    - name: twitter:description
-      content: "Laravel email verification explained: MustVerifyEmail, signed links, the verified middleware, Fortify routes, a resend page and handling email changes."
 ---
 
 # Laravel Email Verification: Signed Links, Fortify and the verified Middleware
 
 <BlogPostMeta />
 
-Anyone can type any address into a sign-up form. Laravel email verification checks that the person behind an account can actually read that inbox before they get to the parts of your app that matter. I'll go through how the built-in flow works, how to turn it on with Laravel Fortify and how to build the "check your inbox" page in Inertia. Then the edge cases: changed emails, expired links and users who open the link on a different device.
+Anyone can type any address into a sign-up form. Laravel email verification checks that the person behind an account can actually read that inbox before they get to the parts of your app that matter. We'll go through how the built-in flow works, how to turn it on with Laravel Fortify and how to build the "check your inbox" page in Inertia. Then the edge cases: changed emails, expired links and users who open the link on a different device.
 
 ## How Laravel email verification works
 
@@ -66,7 +47,7 @@ class User extends Authenticatable implements MustVerifyEmail
 }
 ```
 
-Without the interface, the listener sends nothing and the `verified` middleware lets everyone through. It's the most common reason verification emails never arrive, so it's the first thing I'd check. The `users` table also needs a nullable `email_verified_at` timestamp, which the default migration already has.
+Without the interface, the listener sends nothing and the `verified` middleware lets everyone through. It's the most common reason verification emails never arrive, so it's the first thing we'd check. The `users` table also needs a nullable `email_verified_at` timestamp, which the default migration already has.
 
 ## Step 2: Enable the Fortify routes
 
@@ -136,7 +117,7 @@ defineProps<{ status?: string }>();
 </template>
 ```
 
-I'd also show which address the link went to, with a way to change it. Most "I never got the email" tickets are typos.
+We'd also show which address the link went to, with a way to change it. Most "I never got the email" tickets are typos.
 
 ## Customising the verification email
 
@@ -156,7 +137,7 @@ VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
 
 `VerifyEmail::createUrlUsing()` replaces the link itself, which is handy when a separate frontend handles the click. To change how long links last, add a `verification.expire` value (in minutes) to `config/auth.php`.
 
-By default the notification goes out synchronously, so a slow mail server makes registration slow. I'd queue it. Create a notification that extends `VerifyEmail`, implements `ShouldQueue` and uses the `Queueable` trait, then override `sendEmailVerificationNotification()` on your user model so it sends that class instead. Don't forget to run a queue worker.
+By default the notification goes out synchronously, so a slow mail server makes registration slow. We'd queue it. Create a notification that extends `VerifyEmail`, implements `ShouldQueue` and uses the `Queueable` trait, then override `sendEmailVerificationNotification()` on your user model so it sends that class instead. Don't forget to run a queue worker.
 
 ## When a user changes their email
 
@@ -206,7 +187,7 @@ Yes. Verification doesn't block login. It blocks the routes you protect with the
 
 ### Should I block login until the email is verified?
 
-I wouldn't. Letting users in and gating the important routes gives them a clear next step. If signup abuse is the worry, combine verification with [rate limiting on login](/blog/laravel-login-rate-limiting.html) and a rate limit on your registration route.
+We wouldn't. Letting users in and gating the important routes gives them a clear next step. If signup abuse is the worry, combine verification with [rate limiting on login](/blog/laravel-login-rate-limiting.html) and a rate limit on your registration route.
 
 ## Email verification in SaaS Laravel
 

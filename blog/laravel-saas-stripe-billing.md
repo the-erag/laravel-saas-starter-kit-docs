@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: saas
 tags: [Billing, Stripe]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-saas-stripe-billing.html
-  - - meta
-    - property: og:title
-      content: "Laravel Stripe Subscriptions for a SaaS"
-  - - meta
-    - property: og:description
-      content: "Add Laravel Stripe subscription billing to a multi-tenant SaaS with Cashier: bill the tenant, Checkout, webhooks, plan gating, the billing portal and tax."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-saas-stripe-billing.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Stripe Subscriptions for a SaaS"
-  - - meta
-    - name: twitter:description
-      content: "Add Laravel Stripe subscription billing to a multi-tenant SaaS with Cashier: bill the tenant, Checkout, webhooks, plan gating, the billing portal and tax."
 ---
 
 # Laravel Stripe Subscriptions for a SaaS: Billing the Tenant with Cashier

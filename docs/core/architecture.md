@@ -1,25 +1,6 @@
 ---
 title: "Laravel Multi-Tenant App Architecture"
 description: "How a request flows through the kits: modules, central vs tenant context, middleware, Data objects, services, repositories and shared Inertia props."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/core/architecture.html
-  - - meta
-    - property: og:title
-      content: "Laravel Multi-Tenant App Architecture"
-  - - meta
-    - property: og:description
-      content: "How a request flows through the kits: modules, central vs tenant context, middleware, Data objects, services, repositories and shared Inertia props."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/core/architecture.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Multi-Tenant App Architecture"
-  - - meta
-    - name: twitter:description
-      content: "How a request flows through the kits: modules, central vs tenant context, middleware, Data objects, services, repositories and shared Inertia props."
 ---
 
 # Architecture

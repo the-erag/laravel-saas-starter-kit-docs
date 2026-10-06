@@ -3,37 +3,18 @@ title: "Laravel Permissions Seeder with Config Files"
 description: "Build a Laravel permissions seeder driven by config files: file layout, idempotent seeding, role defaults, pruning old permissions, tenants and safe deploys."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: permissions
 tags: [Permissions, Database]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-permissions-config-files.html
-  - - meta
-    - property: og:title
-      content: "Laravel Permissions Seeder with Config Files"
-  - - meta
-    - property: og:description
-      content: "Build a Laravel permissions seeder driven by config files: file layout, idempotent seeding, role defaults, pruning old permissions, tenants and safe deploys."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-permissions-config-files.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Permissions Seeder with Config Files"
-  - - meta
-    - name: twitter:description
-      content: "Build a Laravel permissions seeder driven by config files: file layout, idempotent seeding, role defaults, pruning old permissions, tenants and safe deploys."
 ---
 
 # Config-Driven Permissions in Laravel: A Permissions Seeder That Scales
 
 <BlogPostMeta />
 
-Most apps start with a seeder full of `Permission::create()` calls. That's fine at ten permissions. At sixty it's a mess. I much prefer a Laravel permissions seeder that reads config files: the full list sits in one place you can review, it runs safely on every deploy, and you can see at a glance which role gets what.
+Most apps start with a seeder full of `Permission::create()` calls. That's fine at ten permissions. At sixty it's a mess. We much prefer a Laravel permissions seeder that reads config files: the full list sits in one place you can review, it runs safely on every deploy, and you can see at a glance which role gets what.
 
-Below is the file layout I use, the seeder, how to grant defaults to roles, how to remove permissions you don't need anymore, tenants, deploys, and a test that keeps routes and config in sync. It's all built on `spatie/laravel-permission`. If you need the package basics first, read [Laravel Roles and Permissions with Spatie](/blog/laravel-roles-permissions-spatie.html).
+Below is the file layout we use, the seeder, how to grant defaults to roles, how to remove permissions you don't need anymore, tenants, deploys, and a test that keeps routes and config in sync. It's all built on `spatie/laravel-permission`. If you need the package basics first, read [Laravel Roles and Permissions with Spatie](/blog/laravel-roles-permissions-spatie.html).
 
 ## Why hard-coded permission seeders stop scaling
 
@@ -45,7 +26,7 @@ Move the *data* into config files, keep the *logic* in one small seeder, and all
 
 ## Designing the permission config files
 
-I create one file per feature in `config/permissions/`. Each entry maps a permission name to the roles that get it by default:
+We create one file per feature in `config/permissions/`. Each entry maps a permission name to the roles that get it by default:
 
 ```php
 // config/permissions/projects.php
@@ -65,7 +46,7 @@ Now a feature's permissions live in one short file, and that file shows up in th
 | Role reference | Role name, e.g. `admin` | Display label, e.g. `Admin` |
 | Permission naming | Human-readable, e.g. `Create Project` | Dotted, e.g. `projects.create` |
 
-I'd reference roles by their stored **name**. Labels are for people, and people translate and reword them later. For permission naming, either style works, but pick one and stick to it. Mixed styles make permissions hard to find.
+We'd reference roles by their stored **name**. Labels are for people, and people translate and reword them later. For permission naming, either style works, but pick one and stick to it. Mixed styles make permissions hard to find.
 
 ### Reading nested config directories
 
@@ -123,7 +104,7 @@ If your roles are fixed, go with the first one. It's the simplest and the most p
 
 ## Removing permissions you no longer need
 
-A seeder that only adds never cleans up. Remove a feature and its permissions hang around in your UI. I prune them in a separate, deliberate step, like an Artisan command that asks for confirmation:
+A seeder that only adds never cleans up. Remove a feature and its permissions hang around in your UI. We prune them in a separate, deliberate step, like an Artisan command that asks for confirmation:
 
 ```php
 $known = collect(Arr::except(config('permissions', []), ['tenant']))->collapse()->keys();
@@ -143,7 +124,7 @@ The package's migration puts cascading foreign keys on its pivot tables, so a de
 
 ## Tenants and multiple guards
 
-With a database per tenant, I keep tenant permissions in their own folder, `config/permissions/tenant/`, and let the seeder choose the folder and guard based on context. With stancl/tenancy you can check `tenancy()->initialized`, then seed every tenant in one go:
+With a database per tenant, we keep tenant permissions in their own folder, `config/permissions/tenant/`, and let the seeder choose the folder and guard based on context. With stancl/tenancy you can check `tenancy()->initialized`, then seed every tenant in one go:
 
 ```bash
 php artisan tenants:seed --class="Database\Seeders\PermissionSeeder"

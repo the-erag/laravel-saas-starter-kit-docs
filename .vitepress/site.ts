@@ -77,14 +77,21 @@ export const site = {
 export interface BlogAuthor {
   name: string;
   type: 'Person' | 'Organization';
-  url?: string;
+  /** Author page on this site, listing the author's articles. */
+  page: string;
+  /** The author's own profiles elsewhere (schema.org sameAs). Only add real profiles. */
+  sameAs: string[];
 }
 
-/** Blog authors, referenced by key from a post's `author` frontmatter. */
+/** Blog authors, referenced by key from a post's `author` frontmatter. Each key has a page at authors/<key>.md. */
 export const blogAuthors: Record<string, BlogAuthor> = {
-  erag: { name: site.company.name, type: 'Organization', url: site.company.url },
-  'amit-gupta': { name: 'Amit Gupta', type: 'Person', url: 'https://github.com/eramitgupta' },
-  'annu-gupta': { name: 'Annu Gupta', type: 'Person' },
+  erag: {
+    name: site.company.name,
+    type: 'Organization',
+    page: '/authors/erag.html',
+    sameAs: [site.company.url, site.social.github, site.social.linkedin, site.social.x],
+  },
+  'annu-gupta': { name: 'Annu Gupta', type: 'Person', page: '/authors/annu-gupta.html', sameAs: [] },
 };
 
 export const blogAuthor = (key?: string): BlogAuthor => blogAuthors[key ?? ''] ?? blogAuthors.erag;

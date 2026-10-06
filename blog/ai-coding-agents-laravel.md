@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: tooling
 tags: [AI, Workflow]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/ai-coding-agents-laravel.html
-  - - meta
-    - property: og:title
-      content: "Using AI Coding Agents on a Laravel Codebase"
-  - - meta
-    - property: og:description
-      content: "AI coding in Laravel that holds up in review: guideline files, skills and MCP for context, well-sized tasks, tests as guardrails and a review checklist."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/ai-coding-agents-laravel.html
-  - - meta
-    - name: twitter:title
-      content: "Using AI Coding Agents on a Laravel Codebase"
-  - - meta
-    - name: twitter:description
-      content: "AI coding in Laravel that holds up in review: guideline files, skills and MCP for context, well-sized tasks, tests as guardrails and a review checklist."
 ---
 
 # AI Coding in Laravel: A Practical Workflow for Agents on a Real Codebase

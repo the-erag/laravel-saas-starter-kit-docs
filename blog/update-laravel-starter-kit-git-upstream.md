@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: tooling
 tags: [Git, Workflow]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/update-laravel-starter-kit-git-upstream.html
-  - - meta
-    - property: og:title
-      content: "Keeping a Starter Kit Up to Date with Git"
-  - - meta
-    - property: og:description
-      content: "A git upstream merge workflow for starter kits: set up origin and upstream, preview changes, merge on a branch, resolve conflicts and run the post-merge steps."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/update-laravel-starter-kit-git-upstream.html
-  - - meta
-    - name: twitter:title
-      content: "Keeping a Starter Kit Up to Date with Git"
-  - - meta
-    - name: twitter:description
-      content: "A git upstream merge workflow for starter kits: set up origin and upstream, preview changes, merge on a branch, resolve conflicts and run the post-merge steps."
 ---
 
 # Git Upstream Merge: How to Pull Starter Kit Updates into Your Own Project

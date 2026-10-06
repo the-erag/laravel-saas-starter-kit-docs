@@ -1,25 +1,6 @@
 ---
 title: "Vue Kit Frontend Architecture"
 description: "How resources/js is organised in the Vue kit: folder map, page and layout resolution, shared props, permission checks and translations with Inertia."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/vue/architecture.html
-  - - meta
-    - property: og:title
-      content: "Vue Kit Frontend Architecture"
-  - - meta
-    - property: og:description
-      content: "How resources/js is organised in the Vue kit: folder map, page and layout resolution, shared props, permission checks and translations with Inertia."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/vue/architecture.html
-  - - meta
-    - name: twitter:title
-      content: "Vue Kit Frontend Architecture"
-  - - meta
-    - name: twitter:description
-      content: "How resources/js is organised in the Vue kit: folder map, page and layout resolution, shared props, permission checks and translations with Inertia."
 ---
 
 # Architecture <Badge type="tip" text="Vue" />

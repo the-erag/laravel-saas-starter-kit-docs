@@ -110,7 +110,7 @@ watch(topic, (key) => {
         <article v-for="post in visiblePosts" :key="post.url" class="blog-card">
           <p class="blog-meta">
             <span v-if="post.category" class="blog-category">{{ categoryLabel(post.category) }}</span>
-            <span>By {{ blogAuthor(post.author).name }}</span>
+            <span>By <a class="blog-author" :href="blogAuthor(post.author).page">{{ blogAuthor(post.author).name }}</a></span>
             <span aria-hidden="true">·</span>
             <time :datetime="post.date">{{ formatDate(post.date) }}</time>
             <span aria-hidden="true">·</span>
@@ -356,6 +356,16 @@ watch(topic, (key) => {
   margin: 0 !important;
   font-size: 13px;
   color: var(--vp-c-text-3);
+}
+
+.blog-author {
+  font-weight: 500;
+  color: var(--vp-c-text-2);
+  text-decoration: none;
+}
+
+.blog-author:hover {
+  color: var(--vp-c-brand-1);
 }
 
 .blog-category {

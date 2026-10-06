@@ -8,25 +8,6 @@ pageClass: sl-page
 search: false
 editLink: false
 lastUpdated: false
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/how-to-pay.html
-  - - meta
-    - property: og:title
-      content: "How to Buy a Laravel SaaS Starter Kit"
-  - - meta
-    - property: og:description
-      content: "Buy a SaaS Laravel starter kit with a one-time GitHub Sponsors payment. Your GitHub account gets repository access automatically, with lifetime updates."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/how-to-pay.html
-  - - meta
-    - name: twitter:title
-      content: "How to Buy a Laravel SaaS Starter Kit"
-  - - meta
-    - name: twitter:description
-      content: "Buy a SaaS Laravel starter kit with a one-time GitHub Sponsors payment. Your GitHub account gets repository access automatically, with lifetime updates."
 ---
 
 <HowToPay />

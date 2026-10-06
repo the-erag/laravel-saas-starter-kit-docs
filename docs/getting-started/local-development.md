@@ -1,25 +1,6 @@
 ---
-title: "Run a Laravel SaaS Kit Locally"
+title: "Local Development: Run the Kit with Tenants"
 description: "First run of a SaaS Laravel kit step by step: environment, database, seeding, composer dev, the queue worker, creating tenants, generated files and tests."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/getting-started/local-development.html
-  - - meta
-    - property: og:title
-      content: "Run a Laravel SaaS Kit Locally"
-  - - meta
-    - property: og:description
-      content: "First run of a SaaS Laravel kit step by step: environment, database, seeding, composer dev, the queue worker, creating tenants, generated files and tests."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/getting-started/local-development.html
-  - - meta
-    - name: twitter:title
-      content: "Run a Laravel SaaS Kit Locally"
-  - - meta
-    - name: twitter:description
-      content: "First run of a SaaS Laravel kit step by step: environment, database, seeding, composer dev, the queue worker, creating tenants, generated files and tests."
 ---
 
 # Local development

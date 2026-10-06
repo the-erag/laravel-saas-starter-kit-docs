@@ -1,25 +1,6 @@
 ---
 title: "Vue Starter Kit Documentation"
 description: "Overview and installation of the Vue 3.5 edition of SaaS Laravel: tech stack, conventions, getting the code and next steps with Inertia v3 and shadcn-vue."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/vue.html
-  - - meta
-    - property: og:title
-      content: "Vue Starter Kit Documentation"
-  - - meta
-    - property: og:description
-      content: "Overview and installation of the Vue 3.5 edition of SaaS Laravel: tech stack, conventions, getting the code and next steps with Inertia v3 and shadcn-vue."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/vue.html
-  - - meta
-    - name: twitter:title
-      content: "Vue Starter Kit Documentation"
-  - - meta
-    - name: twitter:description
-      content: "Overview and installation of the Vue 3.5 edition of SaaS Laravel: tech stack, conventions, getting the code and next steps with Inertia v3 and shadcn-vue."
 ---
 
 # Vue Starter Kit <Badge type="tip" text="Vue" />

@@ -33,7 +33,7 @@ const steps: { icon: IconName; title: string; text: string }[] = [
         <li v-for="(step, index) in steps" :key="step.title" class="sl-card step">
           <span class="step-number">0{{ index + 1 }}</span>
           <span class="step-icon"><SlIcon :name="step.icon" :size="20" /></span>
-          <h3 class="sl-h3">{{ step.title }}</h3>
+          <p class="sl-h3">{{ step.title }}</p>
           <p class="sl-text">{{ step.text }}</p>
         </li>
       </ol>

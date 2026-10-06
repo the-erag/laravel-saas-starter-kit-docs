@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: architecture
 tags: [Architecture, Code quality]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-data-objects.html
-  - - meta
-    - property: og:title
-      content: "Laravel Data Objects with spatie/laravel-data"
-  - - meta
-    - property: og:description
-      content: "A practical spatie laravel data guide: build typed Data objects, validate requests, map snake_case fields, handle relations and send clean props to Inertia."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-data-objects.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Data Objects with spatie/laravel-data"
-  - - meta
-    - name: twitter:description
-      content: "A practical spatie laravel data guide: build typed Data objects, validate requests, map snake_case fields, handle relations and send clean props to Inertia."
 ---
 
 # Spatie Laravel Data: Typed Data Objects for Requests, Models and Inertia

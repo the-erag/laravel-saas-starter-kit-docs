@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: multi-tenancy
 tags: [Multi-tenancy, Database]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-tenant-migrations-seeders.html
-  - - meta
-    - property: og:title
-      content: "Tenant Migrations and Seeders in Laravel"
-  - - meta
-    - property: og:description
-      content: "Laravel tenant migrations and seeders with stancl/tenancy: central vs tenant folders, tenants:migrate, safe deployments, idempotent seeders and fixing failures."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-tenant-migrations-seeders.html
-  - - meta
-    - name: twitter:title
-      content: "Tenant Migrations and Seeders in Laravel"
-  - - meta
-    - name: twitter:description
-      content: "Laravel tenant migrations and seeders with stancl/tenancy: central vs tenant folders, tenants:migrate, safe deployments, idempotent seeders and fixing failures."
 ---
 
 # Laravel Tenant Migrations and Seeders: Keeping Every Tenant Database in Sync

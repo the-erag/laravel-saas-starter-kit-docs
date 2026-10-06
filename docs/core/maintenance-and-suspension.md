@@ -1,25 +1,6 @@
 ---
 title: "Tenant Maintenance Mode & Suspension"
 description: "Put every tenant workspace into maintenance with a bypass link and IP allow list, or suspend a single workspace, while the central app stays online."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/core/maintenance-and-suspension.html
-  - - meta
-    - property: og:title
-      content: "Tenant Maintenance Mode & Suspension"
-  - - meta
-    - property: og:description
-      content: "Put every tenant workspace into maintenance with a bypass link and IP allow list, or suspend a single workspace, while the central app stays online."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/core/maintenance-and-suspension.html
-  - - meta
-    - name: twitter:title
-      content: "Tenant Maintenance Mode & Suspension"
-  - - meta
-    - name: twitter:description
-      content: "Put every tenant workspace into maintenance with a bypass link and IP allow list, or suspend a single workspace, while the central app stays online."
 ---
 
 # Maintenance & suspension

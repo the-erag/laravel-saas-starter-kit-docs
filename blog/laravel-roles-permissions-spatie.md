@@ -3,28 +3,9 @@ title: "Laravel Roles and Permissions with Spatie"
 description: "A practical Laravel Spatie permission guide: roles, permissions and guards, assigning and checking them, super admins, caching, seeding and Inertia UI checks."
 pageClass: blog-page
 date: 2026-09-29
-author: amit-gupta
+author: erag
 category: permissions
 tags: [Permissions, Security]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-roles-permissions-spatie.html
-  - - meta
-    - property: og:title
-      content: "Laravel Roles and Permissions with Spatie"
-  - - meta
-    - property: og:description
-      content: "A practical Laravel Spatie permission guide: roles, permissions and guards, assigning and checking them, super admins, caching, seeding and Inertia UI checks."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-roles-permissions-spatie.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Roles and Permissions with Spatie"
-  - - meta
-    - name: twitter:description
-      content: "A practical Laravel Spatie permission guide: roles, permissions and guards, assigning and checking them, super admins, caching, seeding and Inertia UI checks."
 ---
 
 # Laravel Roles and Permissions with Spatie: A Practical Guide
@@ -33,7 +14,7 @@ head:
 
 Every SaaS app ends up asking the same thing on every request: *is this user allowed to do this?* For most Laravel apps, the answer comes from the Laravel Spatie permission package, `spatie/laravel-permission`. It keeps roles and permissions in your database and hooks into Laravel's own authorization, so `can()`, `@can` and the `can` middleware keep working the way you're used to.
 
-I'll go through the concepts, assigning and checking roles and permissions, building a super admin, how the cache behaves, and showing or hiding buttons in an Inertia frontend. Everything here uses version 8 of the package.
+We'll go through the concepts, assigning and checking roles and permissions, building a super admin, how the cache behaves, and showing or hiding buttons in an Inertia frontend. Everything here uses version 8 of the package.
 
 ## Roles, permissions and guards
 
@@ -45,7 +26,7 @@ There are three building blocks:
 | Role | A named group of permissions | `admin`, `manager` |
 | Guard | The auth guard a role or permission belongs to | `web`, `api` |
 
-A user can get a permission through a role, directly, or both. My strong advice: **check permissions in your code, not roles**. "Can this user edit users?" still makes sense after you reorganize your roles. "Is this user an admin?" doesn't.
+A user can get a permission through a role, directly, or both. Our strong advice: **check permissions in your code, not roles**. "Can this user edit users?" still makes sense after you reorganize your roles. "Is this user an admin?" doesn't.
 
 ## Installing Laravel Spatie permission
 
@@ -88,7 +69,7 @@ use Spatie\Permission\Middleware\RoleMiddleware;
 
 ## Creating and assigning roles and permissions
 
-You can create records through the models. I use `findOrCreate()` so seeders can run more than once without blowing up:
+You can create records through the models. We use `findOrCreate()` so seeders can run more than once without blowing up:
 
 ```php
 use Spatie\Permission\Models\Permission;
@@ -183,7 +164,7 @@ If a new permission "doesn't work" in production but works locally, a stale cach
 
 ## Seeding permissions from config files
 
-Hard-coded permission names in a seeder get messy as the app grows. I'd rather have one config file per feature that lists its permissions and the roles that get them by default:
+Hard-coded permission names in a seeder get messy as the app grows. We'd rather have one config file per feature that lists its permissions and the roles that get them by default:
 
 ```php
 // config/permissions/users.php
@@ -205,7 +186,7 @@ The seeder loops over the files, calls `Permission::findOrCreate()` for each ent
 
 Every role and permission has a `guard_name`. As far as a user on an `admin` or `api` guard is concerned, a permission created for `web` doesn't exist. Leave the guard out and the package uses the model's `guard_name` property if it has one. If not, it looks at the guards whose provider uses that model, preferring your default guard.
 
-Once you have more than one guard, I'd be explicit everywhere. Pass the guard when creating, as in `Permission::findOrCreate('Edit User', 'admin')`, and pass it to the middleware after a comma: `permission:Edit User,admin`. Only reuse the same permission name across guards when it really means the same thing.
+Once you have more than one guard, we'd be explicit everywhere. Pass the guard when creating, as in `Permission::findOrCreate('Edit User', 'admin')`, and pass it to the middleware after a comma: `permission:Edit User,admin`. Only reuse the same permission name across guards when it really means the same thing.
 
 Separate guards are also how you keep platform admins and customer users apart in a multi-tenant app. [How to Build a Multi-Tenant SaaS with Laravel](/blog/multi-tenant-saas-laravel-database-per-tenant.html) goes into that.
 
@@ -262,6 +243,6 @@ Yes. With a database per tenant, every tenant database has its own permission ta
 
 ## Spatie permissions in the SaaS Laravel kits
 
-I set the [SaaS Laravel starter kits](/) up this way: they use `spatie/laravel-permission` 8 with the `permission` and `role` aliases registered in `bootstrap/app.php`. Permissions live in `config/permissions/*.php` (and `config/permissions/tenant/` for tenants) and are seeded by a `PermissionSeeder` that resets the cache. Five system roles (super-admin, admin, manager, employee and user) are seeded from the start, a `Gate::before` lets `super-admin` pass every check, and `auth.permissions` plus `auth.isSuperAdmin` drive a `can()` helper in the Vue, React and Svelte kits. The central app uses the `web` guard and each tenant uses a `tenant` guard. You can also onboard new users with [signed invitation links](/blog/laravel-user-invitations-signed-urls.html). The full setup is in the [users, roles and permissions docs](/docs/core/users-roles-permissions.html).
+We set the [SaaS Laravel starter kits](/) up this way: they use `spatie/laravel-permission` 8 with the `permission` and `role` aliases registered in `bootstrap/app.php`. Permissions live in `config/permissions/*.php` (and `config/permissions/tenant/` for tenants) and are seeded by a `PermissionSeeder` that resets the cache. Five system roles (super-admin, admin, manager, employee and user) are seeded from the start, a `Gate::before` lets `super-admin` pass every check, and `auth.permissions` plus `auth.isSuperAdmin` drive a `can()` helper in the Vue, React and Svelte kits. The central app uses the `web` guard and each tenant uses a `tenant` guard. You can also onboard new users with [signed invitation links](/blog/laravel-user-invitations-signed-urls.html). The full setup is in the [users, roles and permissions docs](/docs/core/users-roles-permissions.html).
 
 <BlogPostCta title="Roles and permissions, already wired up" text="SaaS Laravel ships config-driven Spatie permissions, seeded system roles, a super admin and permission-aware menus and buttons in Vue, React or Svelte." />

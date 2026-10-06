@@ -1,25 +1,6 @@
 ---
 title: "Svelte Kit Components (shadcn-svelte)"
 description: "Common form components, the confirm dialog, shadcn-svelte primitives, icons, toasts and app shell components in the Svelte kit, with a small usage example."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/svelte/components.html
-  - - meta
-    - property: og:title
-      content: "Svelte Kit Components (shadcn-svelte)"
-  - - meta
-    - property: og:description
-      content: "Common form components, the confirm dialog, shadcn-svelte primitives, icons, toasts and app shell components in the Svelte kit, with a small usage example."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/svelte/components.html
-  - - meta
-    - name: twitter:title
-      content: "Svelte Kit Components (shadcn-svelte)"
-  - - meta
-    - name: twitter:description
-      content: "Common form components, the confirm dialog, shadcn-svelte primitives, icons, toasts and app shell components in the Svelte kit, with a small usage example."
 ---
 
 # Components <Badge type="tip" text="Svelte" />

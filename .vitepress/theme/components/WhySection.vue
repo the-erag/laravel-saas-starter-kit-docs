@@ -46,7 +46,7 @@ const reasons: { icon: IconName; title: string; text: string }[] = [
       />
       <div class="grid">
         <div v-for="reason in reasons" :key="reason.title" class="item">
-          <h3 class="item-title"><SlIcon :name="reason.icon" :size="18" /> {{ reason.title }}</h3>
+          <p class="item-title"><SlIcon :name="reason.icon" :size="18" /> {{ reason.title }}</p>
           <p class="item-text">{{ reason.text }}</p>
         </div>
       </div>

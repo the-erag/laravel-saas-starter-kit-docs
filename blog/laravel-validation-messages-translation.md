@@ -6,25 +6,6 @@ date: 2026-09-29
 author: erag
 category: localization
 tags: [Localization, Validation]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-validation-messages-translation.html
-  - - meta
-    - property: og:title
-      content: "Translating Validation Messages in Laravel"
-  - - meta
-    - property: og:description
-      content: "Laravel validation messages translation explained: the lookup order, lang files for every locale, field names, custom messages, arrays and custom rules."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-validation-messages-translation.html
-  - - meta
-    - name: twitter:title
-      content: "Translating Validation Messages in Laravel"
-  - - meta
-    - name: twitter:description
-      content: "Laravel validation messages translation explained: the lookup order, lang files for every locale, field names, custom messages, arrays and custom rules."
 ---
 
 # Laravel Validation Messages Translation: From Lang Files to Custom Rules

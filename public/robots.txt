@@ -3,7 +3,6 @@
 
 User-agent: *
 Allow: /
-Disallow:
 
 # AI-readable summaries of the site
 # https://saas-laravel.com/llms.txt

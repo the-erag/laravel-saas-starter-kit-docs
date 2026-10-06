@@ -1,25 +1,6 @@
 ---
-title: "Laravel Fortify Auth with 2FA & Passkeys"
+title: "Tenant Authentication with Fortify & Passkeys"
 description: "Fortify-based authentication with separate central and tenant guards, two-factor codes, passkeys and per-domain toggles for each sign-in feature."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/core/authentication.html
-  - - meta
-    - property: og:title
-      content: "Laravel Fortify Auth with 2FA & Passkeys"
-  - - meta
-    - property: og:description
-      content: "Fortify-based authentication with separate central and tenant guards, two-factor codes, passkeys and per-domain toggles for each sign-in feature."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/core/authentication.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel Fortify Auth with 2FA & Passkeys"
-  - - meta
-    - name: twitter:description
-      content: "Fortify-based authentication with separate central and tenant guards, two-factor codes, passkeys and per-domain toggles for each sign-in feature."
 ---
 
 # Authentication

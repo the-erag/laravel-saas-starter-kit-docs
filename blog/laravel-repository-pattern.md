@@ -6,25 +6,6 @@ date: 2026-09-29
 author: annu-gupta
 category: architecture
 tags: [Architecture, Code quality]
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/blog/laravel-repository-pattern.html
-  - - meta
-    - property: og:title
-      content: "Repositories in Laravel: When They Help"
-  - - meta
-    - property: og:description
-      content: "An honest look at the Laravel repository pattern: when a repository earns its place, when it only adds noise, and lighter options like scopes and builders."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/blog/laravel-repository-pattern.html
-  - - meta
-    - name: twitter:title
-      content: "Repositories in Laravel: When They Help"
-  - - meta
-    - name: twitter:description
-      content: "An honest look at the Laravel repository pattern: when a repository earns its place, when it only adds noise, and lighter options like scopes and builders."
 ---
 
 # The Laravel Repository Pattern: When It Helps and When It Hurts

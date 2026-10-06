@@ -40,7 +40,7 @@ const items: { icon: IconName; title: string; text: string }[] = [
           <div v-for="item in items" :key="item.title" class="dx-item">
             <span class="dx-icon"><SlIcon :name="item.icon" :size="18" /></span>
             <div>
-              <h3 class="sl-h3 dx-title">{{ item.title }}</h3>
+              <p class="sl-h3 dx-title">{{ item.title }}</p>
               <p class="sl-text dx-text">{{ item.text }}</p>
             </div>
           </div>

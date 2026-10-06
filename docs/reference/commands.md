@@ -1,25 +1,6 @@
 ---
 title: "Composer, npm & Artisan Commands"
 description: "Composer scripts, npm scripts and Artisan commands available in every SaaS Laravel kit, including setup, the dev server, tests, linting and generators."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/reference/commands.html
-  - - meta
-    - property: og:title
-      content: "Composer, npm & Artisan Commands"
-  - - meta
-    - property: og:description
-      content: "Composer scripts, npm scripts and Artisan commands available in every SaaS Laravel kit, including setup, the dev server, tests, linting and generators."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/reference/commands.html
-  - - meta
-    - name: twitter:title
-      content: "Composer, npm & Artisan Commands"
-  - - meta
-    - name: twitter:description
-      content: "Composer scripts, npm scripts and Artisan commands available in every SaaS Laravel kit, including setup, the dev server, tests, linting and generators."
 ---
 
 # Commands

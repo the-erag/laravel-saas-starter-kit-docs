@@ -3,25 +3,6 @@ title: "SaaS Laravel Commercial License"
 description: "The SaaS Laravel Commercial License: use the starter kits in unlimited projects for you or your clients, but never resell, share or publish the source code."
 sidebar: false
 editLink: false
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/license.html
-  - - meta
-    - property: og:title
-      content: "SaaS Laravel Commercial License"
-  - - meta
-    - property: og:description
-      content: "The SaaS Laravel Commercial License: use the starter kits in unlimited projects for you or your clients, but never resell, share or publish the source code."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/license.html
-  - - meta
-    - name: twitter:title
-      content: "SaaS Laravel Commercial License"
-  - - meta
-    - name: twitter:description
-      content: "The SaaS Laravel Commercial License: use the starter kits in unlimited projects for you or your clients, but never resell, share or publish the source code."
 ---
 
 # SaaS Laravel Commercial License

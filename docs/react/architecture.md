@@ -1,25 +1,6 @@
 ---
 title: "React Kit Frontend Architecture"
 description: "How resources/js is organised in the React kit: folder map, page and layout resolution, shared props, permission checks and translations with Inertia."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/react/architecture.html
-  - - meta
-    - property: og:title
-      content: "React Kit Frontend Architecture"
-  - - meta
-    - property: og:description
-      content: "How resources/js is organised in the React kit: folder map, page and layout resolution, shared props, permission checks and translations with Inertia."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/react/architecture.html
-  - - meta
-    - name: twitter:title
-      content: "React Kit Frontend Architecture"
-  - - meta
-    - name: twitter:description
-      content: "How resources/js is organised in the React kit: folder map, page and layout resolution, shared props, permission checks and translations with Inertia."
 ---
 
 # Architecture <Badge type="tip" text="React" />

@@ -1,25 +1,6 @@
 ---
 title: "Laravel SaaS Kit Configuration"
 description: "The .env keys and config files that control tenancy, authentication, permissions, translations and queues in the SaaS Laravel starter kits."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/getting-started/configuration.html
-  - - meta
-    - property: og:title
-      content: "Laravel SaaS Kit Configuration"
-  - - meta
-    - property: og:description
-      content: "The .env keys and config files that control tenancy, authentication, permissions, translations and queues in the SaaS Laravel starter kits."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/getting-started/configuration.html
-  - - meta
-    - name: twitter:title
-      content: "Laravel SaaS Kit Configuration"
-  - - meta
-    - name: twitter:description
-      content: "The .env keys and config files that control tenancy, authentication, permissions, translations and queues in the SaaS Laravel starter kits."
 ---
 
 # Configuration

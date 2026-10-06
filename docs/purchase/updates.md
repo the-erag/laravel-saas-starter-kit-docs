@@ -1,25 +1,6 @@
 ---
 title: "Weekly Starter Kit Updates"
 description: "Weekly updates are pushed to your kit repository. Set the kit as your upstream remote and merge updates into your own project when you are ready."
-head:
-  - - link
-    - rel: canonical
-      href: https://saas-laravel.com/docs/purchase/updates.html
-  - - meta
-    - property: og:title
-      content: "Weekly Starter Kit Updates"
-  - - meta
-    - property: og:description
-      content: "Weekly updates are pushed to your kit repository. Set the kit as your upstream remote and merge updates into your own project when you are ready."
-  - - meta
-    - property: og:url
-      content: https://saas-laravel.com/docs/purchase/updates.html
-  - - meta
-    - name: twitter:title
-      content: "Weekly Starter Kit Updates"
-  - - meta
-    - name: twitter:description
-      content: "Weekly updates are pushed to your kit repository. Set the kit as your upstream remote and merge updates into your own project when you are ready."
 ---
 
 # Updates

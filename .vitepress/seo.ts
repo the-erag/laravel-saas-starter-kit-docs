@@ -1,11 +1,9 @@
-import { readdir, readFile, stat, writeFile } from 'node:fs/promises';
+import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { DefaultTheme, HeadConfig, PageData } from 'vitepress';
 import { blogAuthor, frameworkKeys, kitPriceList, kits, paymentFaqs, plans, site, type FrameworkKey, type PlanKey } from './site';
 
 type JsonLd = Record<string, unknown>;
-
-type SitemapItem = { url: string; lastmod?: string | number; changefreq?: string; priority?: number };
 
 const sectionNames: Record<string, string> = {
   'getting-started': 'Getting Started',
@@ -319,22 +317,6 @@ export const seoHead = (pageData: PageData, title: string, description: string, 
   }
 
   return head;
-};
-
-export const transformSitemapItems = async (items: SitemapItem[], srcDir: string): Promise<SitemapItem[]> => {
-  const transformed = await Promise.all(
-    items.map(async (item) => {
-      const path = item.url.replace(/^https?:\/\/[^/]+\//, '');
-      const source = path === '' ? 'index.md' : path.replace(/\.html$/, '.md');
-      const priority =
-        path === '' ? 1 : /^(pricing|kits)/.test(path) ? 0.9 : path === 'docs.html' || path === 'how-to-pay.html' ? 0.8 : 0.7;
-      const lastmod = item.lastmod ?? (await stat(join(srcDir, source)).then((file) => file.mtime.toISOString(), () => undefined));
-
-      return { ...item, lastmod, changefreq: 'weekly', priority };
-    }),
-  );
-
-  return transformed.sort((a, b) => (b.priority ?? 0.5) - (a.priority ?? 0.5));
 };
 
 const readFrontmatter = (source: string): { title?: string; description?: string; body: string } => {

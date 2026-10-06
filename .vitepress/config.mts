@@ -1,6 +1,6 @@
 import { defineConfig, type DefaultTheme, type HeadConfig } from 'vitepress';
 import { fileURLToPath } from 'node:url';
-import { seoHead, transformSitemapItems, writeLlmsFiles } from './seo';
+import { seoHead, writeLlmsFiles } from './seo';
 import { frameworkKeys, kits, site, type FrameworkKey } from './site';
 
 function kitSidebar(framework: FrameworkKey): DefaultTheme.SidebarItem {
@@ -105,7 +105,7 @@ export default defineConfig({
         });
         const close = new state.Token('link_close', 'a', -1);
 
-        state.tokens[index + 1].children.push(space, open, symbol, close);
+        state.tokens[index + 1].children?.push(space, open, symbol, close);
       },
     },
   },
@@ -121,10 +121,6 @@ export default defineConfig({
     },
   },
   lastUpdated: true,
-  sitemap: {
-    hostname: site.url,
-    transformItems: (items) => transformSitemapItems(items, fileURLToPath(new URL('../', import.meta.url))),
-  },
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
     ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32.png' }],

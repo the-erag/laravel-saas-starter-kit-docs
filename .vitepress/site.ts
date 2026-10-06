@@ -67,6 +67,8 @@ export const site = {
     xHandle: '@the_erag',
   },
   docsEditPattern: `${githubOwner}/laravel-saas-starter-kit-docs/edit/main/:path`,
+  /** Raw Markdown of each page in the public docs repository, for LLMs. */
+  docsRawBase: 'https://raw.githubusercontent.com/the-erag/laravel-saas-starter-kit-docs/main',
   bundlePrice: prices.bundle,
   kitPriceFrom: Math.min(prices.vue, prices.react, prices.svelte),
   paymentNote: 'One-time payment · Lifetime access · Weekly updates included · No recurring subscription',

@@ -164,6 +164,19 @@ const productNames: Record<PlanKey, string> = {
   'all-kits': 'Laravel SaaS Starter Kits Bundle (Vue, React & Svelte)',
 };
 
+// A list page (home, pricing) links to each kit's own page instead of repeating the Product there:
+// Google wants Product markup on the page of one specific product, not on a list of products.
+const kitList = (name: string, urlFor: (key: PlanKey) => string): JsonLd => ({
+  '@type': 'ItemList',
+  name,
+  itemListElement: (['vue', 'react', 'svelte', 'all-kits'] as PlanKey[]).map((key, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: productNames[key],
+    url: urlFor(key),
+  })),
+});
+
 const software = (planKey: PlanKey, url: string, description: string): JsonLd => ({
   '@type': 'Product',
   name: productNames[planKey],
@@ -208,15 +221,11 @@ const structuredData = (pageData: PageData, url: string, title: string, descript
   const graph: JsonLd[] = [];
 
   if (path === 'index.md') {
-    graph.push(organization(), website(), {
-      '@type': 'ItemList',
-      name: 'Laravel SaaS starter kits',
-      itemListElement: (['vue', 'react', 'svelte', 'all-kits'] as PlanKey[]).map((key, index) => ({
-        '@type': 'ListItem',
-        position: index + 1,
-        item: software(key, key === 'all-kits' ? `${site.url}${plans[key].href}` : `${site.url}/kits/${key}.html`, plans[key].tagline),
-      })),
-    });
+    graph.push(
+      organization(),
+      website(),
+      kitList('Laravel SaaS starter kits', (key) => (key === 'all-kits' ? `${site.url}${plans[key].href}` : `${site.url}/kits/${key}.html`)),
+    );
 
     return graph;
   }
@@ -237,15 +246,7 @@ const structuredData = (pageData: PageData, url: string, title: string, descript
     );
   } else if (path === 'pricing.md') {
     graph.push(
-      {
-        '@type': 'ItemList',
-        name: 'SaaS Laravel pricing',
-        itemListElement: (['vue', 'react', 'svelte', 'all-kits'] as PlanKey[]).map((key, index) => ({
-          '@type': 'ListItem',
-          position: index + 1,
-          item: software(key, `${site.url}${plans[key].href}`, plans[key].tagline),
-        })),
-      },
+      kitList('SaaS Laravel pricing', (key) => `${site.url}${plans[key].href}`),
       breadcrumbs([home, { name: 'Pricing', url }]),
     );
   } else if (path === 'how-to-pay.md') {

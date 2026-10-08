@@ -67,6 +67,8 @@ export const site = {
     xHandle: '@the_erag',
   },
   docsEditPattern: `${githubOwner}/laravel-saas-starter-kit-docs/edit/main/:path`,
+  /** The date the current prices took effect (the Offer's validFrom). Update it when prices change. */
+  pricesValidFrom: '2026-09-27',
   /** Raw Markdown of each page in the public docs repository, for LLMs. */
   docsRawBase: 'https://raw.githubusercontent.com/the-erag/laravel-saas-starter-kit-docs/main',
   bundlePrice: prices.bundle,
@@ -415,6 +417,12 @@ export function formatPrice(price: number): string {
   return `$${price}`;
 }
 
+/**
+ * Countries named in the Offer's delivery and refund markup. The kits sell worldwide, but Google needs
+ * explicit two-letter country codes (50 at most), so this lists the main markets.
+ */
+export const salesCountries = ['US', 'GB', 'CA', 'AU', 'NZ', 'IN', 'DE', 'FR', 'NL', 'ES', 'IT', 'SE', 'CH', 'IE', 'PL', 'PT', 'SG', 'AE', 'JP', 'BR'];
+
 export const paymentFaqs: { question: string; answer: string }[] = [
   {
     question: 'Is this a subscription?',
@@ -440,6 +448,10 @@ export const paymentFaqs: { question: string; answer: string }[] = [
     question: 'How do I get repository access?',
     answer:
       'It happens automatically. As soon as your GitHub Sponsors payment goes through, your GitHub account gets an invitation to the kit repository. Accept it on GitHub or from the email GitHub sends you.',
+  },
+  {
+    question: 'Can I get a refund?',
+    answer: `No. The full source code is yours the moment your payment goes through, so it can't be given back, and GitHub Sponsors doesn't refund sponsorship payments. If you're not sure which kit fits, read the documentation or email ${site.company.email} before you buy. If you were charged twice or by mistake, contact GitHub Support. If you paid but the repository invitation never arrived, email us and we'll sort it out.`,
   },
   {
     question: 'Can I buy all three kits?',

@@ -3,7 +3,7 @@ import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { DefaultTheme, HeadConfig, PageData } from 'vitepress';
-import { blogAuthor, blogCategories, frameworkKeys, kitPriceList, kits, paymentFaqs, plans, site, type FrameworkKey, type PlanKey } from './site';
+import { blogAuthor, blogCategories, frameworkKeys, kitPriceList, kits, paymentFaqs, plans, salesCountries, site, type FrameworkKey, type PlanKey } from './site';
 
 type JsonLd = Record<string, unknown>;
 
@@ -124,13 +124,34 @@ const authorEntity = (key?: string): JsonLd => {
 
 const categoryLabel = (key?: string): string | undefined => blogCategories.find((category) => category.key === key)?.label;
 
+const sameDay = { '@type': 'QuantitativeValue', minValue: 0, maxValue: 0, unitCode: 'DAY' };
+
+// Delivery is digital and free: the GitHub repository invitation goes out as soon as the payment goes through.
+const shippingDetails: JsonLd = {
+  '@type': 'OfferShippingDetails',
+  shippingRate: { '@type': 'MonetaryAmount', value: 0, currency: 'USD' },
+  shippingDestination: salesCountries.map((country) => ({ '@type': 'DefinedRegion', addressCountry: country })),
+  deliveryTime: { '@type': 'ShippingDeliveryTime', handlingTime: sameDay, transitTime: sameDay },
+};
+
+// No refunds, as GitHub Sponsors payments aren't refundable. The How to Pay FAQ says the same.
+const returnPolicy: JsonLd = {
+  '@type': 'MerchantReturnPolicy',
+  applicableCountry: salesCountries,
+  returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+  merchantReturnLink: `${site.url}/how-to-pay.html`,
+};
+
 const offer = (planKey: PlanKey): JsonLd => ({
   '@type': 'Offer',
   price: plans[planKey].price.toFixed(2),
   priceCurrency: 'USD',
   availability: 'https://schema.org/InStock',
   url: `${site.url}${plans[planKey].href}`,
+  validFrom: site.pricesValidFrom,
   priceValidUntil: `${new Date().getFullYear() + 1}-12-31`,
+  shippingDetails,
+  hasMerchantReturnPolicy: returnPolicy,
   seller: { '@id': organizationId },
 });
 

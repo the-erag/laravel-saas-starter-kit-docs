@@ -103,6 +103,31 @@ index.url()</code></pre>
         <div>
           <SectionHeading
             :center="false"
+            eyebrow="Framework-specific implementation"
+            :title="kit.implementation.title"
+            :lead="kit.implementation.lead"
+          />
+          <ul class="sl-checklist">
+            <li v-for="point in kit.implementation.points" :key="point">
+              <SlIcon name="check" :size="16" class="kit-check" />{{ point }}
+            </li>
+          </ul>
+        </div>
+        <div>
+          <p class="snippet-label">A page in {{ kit.name }}</p>
+          <pre class="sl-code"><code>{{ kit.implementation.example }}</code></pre>
+          <p class="kit-detail-link">
+            See the complete <a :href="`/docs/${framework}.html`">{{ kit.name }} implementation guide</a>, including pages, layouts and daily development.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sl-section sl-section--muted">
+      <div class="sl-container split">
+        <div>
+          <SectionHeading
+            :center="false"
             eyebrow="Shared backend"
             title="The same Laravel backend in every kit"
             lead="The Vue, React and Svelte kits run exactly the same backend code. Only resources/js is different."

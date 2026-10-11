@@ -18,6 +18,12 @@ export interface Kit {
   summary: string;
   stack: StackItem[];
   conventions: StackItem[];
+  implementation: {
+    title: string;
+    lead: string;
+    points: string[];
+    example: string;
+  };
   langImport: string;
   typeCheck: string;
 }
@@ -161,6 +167,16 @@ export const kits: Record<FrameworkKey, Kit> = {
       { label: 'Components', value: 'PascalCase .vue files' },
       { label: 'Composables', value: 'resources/js/composables/useX.ts' },
     ],
+    implementation: {
+      title: 'Vue pages that feel like Laravel',
+      lead: 'The Vue kit keeps page logic close to the template: typed props, composables for reusable behavior and small Common components for consistent forms.',
+      points: [
+        'Use <script setup lang="ts"> with defineProps for Inertia page data.',
+        'Set breadcrumbs and layouts with defineOptions, then keep search and permissions in composables.',
+        'Build forms with the Inertia Form component and the kit\'s Common* inputs, including translated validation errors.',
+      ],
+      example: "<script setup lang=\"ts\">\nconst props = defineProps<{\n    tenants: Tenant[];\n}>();\n\nconst { can } = usePermission();\n</script>",
+    },
     langImport: "import { vueLang } from '@erag/lang-sync-inertia/vue'\n\nconst { __ } = vueLang()\n\n__('modules.tenant.index.title')",
     typeCheck: 'vue-tsc',
   },
@@ -188,6 +204,16 @@ export const kits: Record<FrameworkKey, Kit> = {
       { label: 'Components', value: 'kebab-case .tsx files' },
       { label: 'Hooks', value: 'resources/js/hooks/use-x.ts' },
     ],
+    implementation: {
+      title: 'React pages with typed Inertia props',
+      lead: 'The React kit uses function components, hooks and the React Compiler while keeping Laravel routes, validation and authorization in the shared backend.',
+      points: [
+        'Receive page data as typed component props and read shared state with usePage.',
+        'Keep debounced searches, permissions and layout behavior in hooks under resources/js/hooks.',
+        'Use Inertia render props for forms, Radix primitives for accessible UI and sonner for feedback.',
+      ],
+      example: "type TenantIndexProps = {\n    tenants: Tenant[];\n};\n\nexport default function Index({ tenants }: TenantIndexProps) {\n    const { can } = usePermission();\n    return <TenantTable tenants={tenants} />;\n}",
+    },
     langImport: "import { reactLang } from '@erag/lang-sync-inertia/react'\n\nconst { __ } = reactLang()\n\n__('modules.tenant.index.title')",
     typeCheck: 'tsc',
   },
@@ -215,6 +241,16 @@ export const kits: Record<FrameworkKey, Kit> = {
       { label: 'Components', value: 'PascalCase .svelte files' },
       { label: 'Shared logic', value: 'resources/js/lib/*.ts and *.svelte.ts' },
     ],
+    implementation: {
+      title: 'Svelte 5 runes for focused page state',
+      lead: 'The Svelte kit uses runes for page state and shared .svelte.ts modules for behavior, while Laravel and Inertia continue to handle routing, validation and authorization.',
+      points: [
+        'Read Inertia page data with $props and derive filtered results with $derived.',
+        'Use $effect for debounced visits and put reusable permission or layout state in .svelte.ts modules.',
+        'Expose modal actions with bind:this and keep accessible controls in shadcn-svelte components.',
+      ],
+      example: "<script lang=\"ts\">\nlet { tenants }: { tenants: Tenant[] } = $props();\nlet query = $state('');\nlet filtered = $derived(\n    tenants.filter((tenant) => tenant.name.includes(query)),\n);\n</script>",
+    },
     langImport: "import { svelteLang } from '@erag/lang-sync-inertia/svelte'\n\nconst { __ } = svelteLang()\n\n__('modules.tenant.index.title')",
     typeCheck: 'svelte-check',
   },

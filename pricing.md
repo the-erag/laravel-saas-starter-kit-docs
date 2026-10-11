@@ -1,5 +1,5 @@
 ---
-title: "Laravel SaaS Starter Kit Pricing"
+title: "Laravel SaaS Starter Kit Pricing & Lifetime Access"
 description: "Laravel SaaS starter kits: Vue $29, React $30 or Svelte $33, or all three for $79. One-time payment with lifetime access and weekly updates, no subscription."
 layout: page
 sidebar: false

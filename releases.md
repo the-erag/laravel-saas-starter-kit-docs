@@ -34,6 +34,7 @@ Improved, Fixed or Removed, and describe anything buyers must do in words as the
 - Improved the Laravel Boost AI guidelines and skills to Boost 2.10, including the new testing best practices skill.
 - Fixed the AI guideline files and skills to only cover Vue, so AI agents no longer load the other frameworks' skills.
 - Changed the example environment file to leave the database password empty, the same as the React and Svelte kits. Your existing environment file is not changed.
+- Improved the README with a link to the documentation, the default login users, and a reminder to keep your copy of the kit in a private repository. The Laravel logo at the top is removed.
 - After updating, reinstall your Composer packages.
 
 </ReleaseCard>
@@ -45,6 +46,7 @@ Improved, Fixed or Removed, and describe anything buyers must do in words as the
 - Fixed the settings and setup redirects, so the generated route types pass type checking with Laravel 13.35.
 - Improved the Laravel Boost AI guidelines and skills to Boost 2.10, including the new testing best practices skill.
 - Fixed the AI guideline files and skills to only cover React, so AI agents no longer load the other frameworks' skills.
+- Improved the README with a link to the documentation, the default login users, and a reminder to keep your copy of the kit in a private repository. The Laravel logo at the top is removed.
 - After updating, reinstall your Composer packages.
 
 </ReleaseCard>
@@ -56,6 +58,7 @@ Improved, Fixed or Removed, and describe anything buyers must do in words as the
 - Fixed the settings and setup redirects, so the generated route types pass type checking with Laravel 13.35.
 - Improved the Laravel Boost AI guidelines and skills to Boost 2.10, including the new testing best practices skill.
 - Fixed the AI guideline files and skills to only cover Svelte, so AI agents no longer load the other frameworks' skills.
+- Improved the README with a link to the documentation, the default login users, and a reminder to keep your copy of the kit in a private repository. The Laravel logo at the top is removed.
 - After updating, reinstall your Composer packages.
 
 </ReleaseCard>

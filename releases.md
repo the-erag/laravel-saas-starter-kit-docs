@@ -8,22 +8,108 @@ description: "Release notes for the SaaS Laravel starter kits: new features, imp
 What's new, improved and fixed in the SaaS Laravel starter kits. We push updates to your kit repository every week. To bring them into your project, see [Updates](/docs/purchase/updates).
 
 <!--
-Kit changes are collected under "## Unreleased" at the top (see rule 6 in AGENTS.md).
-When you publish a release, rename "Unreleased" to the version and add the date line.
-Releases are listed newest first in this format:
+Every release is a card for one kit, newest first. A change that ships to all three kits gets a card per kit.
+Kit changes are collected in "Unreleased" cards at the top (see rule 6 in AGENTS.md); leave out `date` until it ships:
 
-## v1.2.0 <Badge type="info" text="All kits" />
-
-<p class="release-meta">Released 27 September 2026</p>
+<ReleaseCard kit="vue" version="Unreleased">
 
 - Added ...
 - Fixed ...
 
-Badges: text="All kits" (type="info") or text="Vue" / "React" / "Svelte" (type="tip").
+</ReleaseCard>
+
+When you publish, set the version (semantic versioning, per kit) and the date, for example
+<ReleaseCard kit="vue" version="1.1.1" date="18 October 2026">.
+Write plain descriptions only: no code, commands or file names in backticks. Start each line with Added, Changed,
+Improved, Fixed or Removed, and describe anything buyers must do in words as the last line.
 -->
 
-## Unreleased <Badge type="info" text="All kits" />
+<ReleaseFilter />
 
-- Changed: the kit repositories moved to the ERAG GitHub organization, [`the-erag`](https://github.com/the-erag). Update your upstream remote, for example `git remote set-url upstream https://github.com/the-erag/saas-laravel-starter-kit-vue.git` (use `-react` or `-svelte` for the other kits).
-- Changed: the SaaS Laravel Commercial License now names ERAG as the copyright holder.
-- Improved: the README now clones each kit into a folder named after its framework (`vue`, `react` or `svelte`), which matches the kit's `.test` domain in Laravel Herd.
+<ReleaseCard kit="vue" version="1.1.0" date="11 October 2026">
+
+- Updated all Composer dependencies to their latest versions, including Laravel 13.35, Inertia Laravel 3.5, Fortify 1.41, Pest 5.3, Larastan 3.13 and Laravel Boost 2.10.
+- Added a Composer script that raises your dependency versions to the latest releases in one step.
+- Fixed the settings and setup redirects, so the generated route types pass type checking with Laravel 13.35.
+- Improved the Laravel Boost AI guidelines and skills to Boost 2.10, including the new testing best practices skill.
+- Fixed the AI guideline files and skills to only cover Vue, so AI agents no longer load the other frameworks' skills.
+- Changed the example environment file to leave the database password empty, the same as the React and Svelte kits. Your existing environment file is not changed.
+- After updating, reinstall your Composer packages.
+
+</ReleaseCard>
+
+<ReleaseCard kit="react" version="1.1.0" date="11 October 2026">
+
+- Updated all Composer dependencies to their latest versions, including Laravel 13.35, Inertia Laravel 3.5, Fortify 1.41, Pest 5.3, Larastan 3.13 and Laravel Boost 2.10.
+- Added a Composer script that raises your dependency versions to the latest releases in one step.
+- Fixed the settings and setup redirects, so the generated route types pass type checking with Laravel 13.35.
+- Improved the Laravel Boost AI guidelines and skills to Boost 2.10, including the new testing best practices skill.
+- Fixed the AI guideline files and skills to only cover React, so AI agents no longer load the other frameworks' skills.
+- After updating, reinstall your Composer packages.
+
+</ReleaseCard>
+
+<ReleaseCard kit="svelte" version="1.1.0" date="11 October 2026">
+
+- Updated all Composer dependencies to their latest versions, including Laravel 13.35, Inertia Laravel 3.5, Fortify 1.41, Pest 5.3, Larastan 3.13 and Laravel Boost 2.10.
+- Added a Composer script that raises your dependency versions to the latest releases in one step.
+- Fixed the settings and setup redirects, so the generated route types pass type checking with Laravel 13.35.
+- Improved the Laravel Boost AI guidelines and skills to Boost 2.10, including the new testing best practices skill.
+- Fixed the AI guideline files and skills to only cover Svelte, so AI agents no longer load the other frameworks' skills.
+- After updating, reinstall your Composer packages.
+
+</ReleaseCard>
+
+<ReleaseCard kit="vue" version="1.0.2" date="2 October 2026">
+
+- Changed the repository location to the ERAG GitHub organization. After updating, point your upstream remote to the new repository address.
+
+</ReleaseCard>
+
+<ReleaseCard kit="react" version="1.0.2" date="2 October 2026">
+
+- Changed the repository location to the ERAG GitHub organization. After updating, point your upstream remote to the new repository address.
+
+</ReleaseCard>
+
+<ReleaseCard kit="svelte" version="1.0.2" date="2 October 2026">
+
+- Changed the repository location to the ERAG GitHub organization. After updating, point your upstream remote to the new repository address.
+
+</ReleaseCard>
+
+<ReleaseCard kit="vue" version="1.0.1" date="29 September 2026">
+
+- Improved the README to clone the kit into a folder named after the framework, which matches the kit's local domain in Laravel Herd.
+
+</ReleaseCard>
+
+<ReleaseCard kit="react" version="1.0.1" date="29 September 2026">
+
+- Improved the README to clone the kit into a folder named after the framework, which matches the kit's local domain in Laravel Herd.
+
+</ReleaseCard>
+
+<ReleaseCard kit="svelte" version="1.0.1" date="29 September 2026">
+
+- Improved the README to clone the kit into a folder named after the framework, which matches the kit's local domain in Laravel Herd.
+
+</ReleaseCard>
+
+<ReleaseCard kit="vue" version="1.0.0" date="28 September 2026">
+
+- Changed the SaaS Laravel Commercial License to name ERAG (previously ERAG Technologies) as the copyright holder. The license terms are unchanged.
+
+</ReleaseCard>
+
+<ReleaseCard kit="react" version="1.0.0" date="28 September 2026">
+
+- Changed the SaaS Laravel Commercial License to name ERAG (previously ERAG Technologies) as the copyright holder. The license terms are unchanged.
+
+</ReleaseCard>
+
+<ReleaseCard kit="svelte" version="1.0.0" date="28 September 2026">
+
+- Changed the SaaS Laravel Commercial License to name ERAG (previously ERAG Technologies) as the copyright holder. The license terms are unchanged.
+
+</ReleaseCard>

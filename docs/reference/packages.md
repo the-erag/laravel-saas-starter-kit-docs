@@ -5,7 +5,7 @@ description: "The key Composer and npm packages used by the kits, with their ver
 
 # Packages
 
-The version constraints below come straight from each kit's `composer.json` and `package.json`.
+The version constraints below come straight from each kit's `composer.json` and `package.json`. To raise them in your project, see [Updating dependencies](/docs/reference/commands#updating-dependencies).
 
 ## Backend (all kits)
 

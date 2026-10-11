@@ -22,8 +22,35 @@ Day to day you'll mostly reach for `composer dev` to run everything locally, `co
 | `composer lint` | `pint --parallel`, `typescript:transform`, `npm run lint:fix`. Vue also runs `wayfinder:generate --with-form` first. |
 | `composer lint:check` | `pint --parallel --test`, `npm run lint`. Vue also runs `wayfinder:generate --with-form` first. |
 | `composer types:check` | `phpstan analyse` |
+| `composer update:requirements` | `composer bump`, `npx npm-check-updates -u`. See [Updating dependencies](#updating-dependencies). |
 
 When you run `composer update`, the `post-update-cmd` hook publishes Laravel's assets and then runs `php artisan boost:update`.
+
+## Updating dependencies
+
+`composer update:requirements` raises the version numbers in `composer.json` and `package.json`. It only edits those two files and doesn't install anything:
+
+- `composer bump` sets the minimum version of each PHP package in `composer.json` to the version you have installed, for example `"laravel/pint": "^1.27"` becomes `"^1.30.5"` when 1.30.5 is installed.
+- `npx npm-check-updates -u` changes every package in `package.json` to its newest release, including new major versions.
+
+Do it on its own branch, then install and test before you commit:
+
+```bash
+git switch -c update-dependencies
+composer update:requirements   # raise the versions in composer.json and package.json
+composer update                # install the PHP packages and refresh composer.lock
+npm install                    # install the npm packages and refresh package-lock.json
+composer test                  # Pint, ESLint, Prettier, type check, Larastan and Pest
+npm run build                  # make sure the frontend still builds
+```
+
+Before you install, check what changed with `git diff composer.json package.json`. A new major version (Vite, ESLint, TypeScript, your frontend framework) can have breaking changes, so read its upgrade guide first.
+
+::: tip
+- To stay on your current major versions, run `npx npm-check-updates -u --target minor` instead of the script's npm step.
+- `composer bump` uses the versions you have installed now. To bring `composer.json` up to the newest PHP releases, run `composer update` once before `composer update:requirements`.
+- If the tests fail, run `git restore composer.json composer.lock package.json package-lock.json`, then `composer install` and `npm install`, to go back to the working versions.
+:::
 
 ## npm scripts
 

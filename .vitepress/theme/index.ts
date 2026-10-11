@@ -19,6 +19,8 @@ import FeatureSection from './components/FeatureSection.vue';
 import FrameworkCards from './components/FrameworkCards.vue';
 import HeroSection from './components/HeroSection.vue';
 import HowToPay from './components/HowToPay.vue';
+import ReleaseCard from './components/ReleaseCard.vue';
+import ReleaseFilter from './components/ReleaseFilter.vue';
 import KitDetail from './components/KitDetail.vue';
 import PricingDetail from './components/PricingDetail.vue';
 import PricingSection from './components/PricingSection.vue';
@@ -58,6 +60,8 @@ export default {
     app.component('PricingDetail', PricingDetail);
     app.component('KitDetail', KitDetail);
     app.component('HowToPay', HowToPay);
+    app.component('ReleaseCard', ReleaseCard);
+    app.component('ReleaseFilter', ReleaseFilter);
     app.component('FaqList', FaqList);
     app.component('CTASection', CTASection);
     app.component('SiteFooter', SiteFooter);

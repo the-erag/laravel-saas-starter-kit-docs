@@ -81,6 +81,9 @@ export default defineConfig({
   titleTemplate: `:title | ${site.name}`,
   description: site.description,
   cleanUrls: false,
+  sitemap: {
+    hostname: site.url,
+  },
   // Site data and the page hash map go into one cached chunk instead of being inlined in every page.
   metaChunk: true,
   vite: {

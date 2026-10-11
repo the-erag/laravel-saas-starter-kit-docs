@@ -1,12 +1,4 @@
-# SaaS Laravel - https://saas-laravel.com
-# Search engines and AI agents are welcome to crawl and index this site.
-
 User-agent: *
 Allow: /
 
-# AI-readable summaries of the site
-# https://saas-laravel.com/llms.txt
-# https://saas-laravel.com/llms-full.txt
-
 Sitemap: https://saas-laravel.com/sitemap.xml
-

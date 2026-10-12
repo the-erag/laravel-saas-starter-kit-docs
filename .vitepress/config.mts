@@ -1,3 +1,5 @@
+import { readFile, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { defineConfig, type DefaultTheme, type HeadConfig } from 'vitepress';
 import { fileURLToPath } from 'node:url';
 import { seoHead, writeLlmsFiles } from './seo';
@@ -134,6 +136,10 @@ export default defineConfig({
   },
   async buildEnd(siteConfig) {
     await writeLlmsFiles(siteConfig.srcDir, siteConfig.outDir, docsSidebar);
+    await writeFile(
+      join(siteConfig.srcDir, 'public', 'sitemap.xml'),
+      await readFile(join(siteConfig.outDir, 'sitemap.xml'), 'utf8'),
+    );
   },
   themeConfig: {
     logo: { src: '/logo.svg', alt: site.name, width: 24, height: 24 },

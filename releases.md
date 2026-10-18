@@ -26,6 +26,27 @@ Improved, Fixed or Removed, and describe anything buyers must do in words as the
 
 <ReleaseFilter />
 
+<ReleaseCard kit="vue" version="Unreleased">
+
+- Changed the minimum PHP version to 8.4. The included test tools already needed PHP 8.4, so the kit now says so, and automatic dependency updates run on the right PHP version.
+- If you still run PHP 8.3, upgrade to PHP 8.4 or newer before updating.
+
+</ReleaseCard>
+
+<ReleaseCard kit="react" version="Unreleased">
+
+- Changed the minimum PHP version to 8.4. The included test tools already needed PHP 8.4, so the kit now says so, and automatic dependency updates run on the right PHP version.
+- If you still run PHP 8.3, upgrade to PHP 8.4 or newer before updating.
+
+</ReleaseCard>
+
+<ReleaseCard kit="svelte" version="Unreleased">
+
+- Changed the minimum PHP version to 8.4. The included test tools already needed PHP 8.4, so the kit now says so, and automatic dependency updates run on the right PHP version.
+- If you still run PHP 8.3, upgrade to PHP 8.4 or newer before updating.
+
+</ReleaseCard>
+
 <ReleaseCard kit="vue" version="1.1.0" date="11 October 2026">
 
 - Updated all Composer dependencies to their latest versions, including Laravel 13.35, Inertia Laravel 3.5, Fortify 1.41, Pest 5.3, Larastan 3.13 and Laravel Boost 2.10.

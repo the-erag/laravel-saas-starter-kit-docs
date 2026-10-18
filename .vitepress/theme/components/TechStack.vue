@@ -4,7 +4,7 @@ const groups = [
     title: 'Backend',
     items: [
       'Laravel 13',
-      'PHP 8.3+',
+      'PHP 8.4+',
       'Inertia v3',
       'Fortify',
       'Wayfinder',

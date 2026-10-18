@@ -187,7 +187,7 @@ const software = (planKey: PlanKey, url: string, description: string): JsonLd =>
   category: 'Software > Developer Tools',
   brand: { '@type': 'Brand', name: site.name },
   additionalProperty: [
-    { '@type': 'PropertyValue', name: 'Requirements', value: 'PHP 8.3+, Composer 2, Node.js LTS, MySQL' },
+    { '@type': 'PropertyValue', name: 'Requirements', value: 'PHP 8.4+, Composer 2, Node.js LTS, MySQL' },
     { '@type': 'PropertyValue', name: 'Operating system', value: 'Windows, macOS, Linux' },
   ],
   offers: offer(planKey),

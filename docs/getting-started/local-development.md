@@ -13,7 +13,7 @@ Clone → .env → central database → migrate + seed → npm install → herd 
 
 ## Prerequisites
 
-- PHP `^8.3` (the kits run on PHP 8.4 with Herd)
+- PHP `^8.4`
 - Composer 2
 - A current Node LTS and npm
 - MySQL, with a user that can create databases

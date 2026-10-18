@@ -7,7 +7,7 @@ SaaS Laravel gives you a production-ready starting point for multi-tenant SaaS a
 ## Getting Started
 
 - [SaaS Laravel Documentation](https://saas-laravel.com/docs.html): Documentation for the SaaS Laravel starter kits: a multi-tenant Laravel 13 and Inertia v3 backend shared by the Vue, React and Svelte editions.
-- [Requirements for Laravel SaaS Starter Kits](https://saas-laravel.com/docs/getting-started/requirements.html): What you need to run a SaaS Laravel starter kit: PHP 8.3+, Composer 2, Node.js LTS, MySQL for per-tenant databases and a local server with wildcard subdomains.
+- [Requirements for Laravel SaaS Starter Kits](https://saas-laravel.com/docs/getting-started/requirements.html): What you need to run a SaaS Laravel starter kit: PHP 8.4+, Composer 2, Node.js LTS, MySQL for per-tenant databases and a local server with wildcard subdomains.
 - [Install a Laravel SaaS Starter Kit](https://saas-laravel.com/docs/getting-started/installation.html): Clone your SaaS Laravel kit repository, configure .env and run composer setup to install dependencies, generate the key, migrate and build frontend assets.
 - [Run a Laravel SaaS Kit Locally](https://saas-laravel.com/docs/getting-started/local-development.html): First run of a SaaS Laravel kit step by step: environment, database, seeding, composer dev, the queue worker, creating tenants, generated files and tests.
 - [Laravel SaaS Project Structure](https://saas-laravel.com/docs/getting-started/project-structure.html): Folder layout of a SaaS Laravel kit: app, Modules, config, database, lang, resources/js and tests, plus how each module groups its code by layer.

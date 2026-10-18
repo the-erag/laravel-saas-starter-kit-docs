@@ -127,7 +127,7 @@ export const blogStartHere = [
 ];
 
 export const backendStack: StackItem[] = [
-  { label: 'Framework', value: 'Laravel 13 on PHP 8.3+' },
+  { label: 'Framework', value: 'Laravel 13 on PHP 8.4+' },
   { label: 'Bridge', value: 'Inertia v3 (inertia-laravel)' },
   { label: 'Authentication', value: 'Laravel Fortify + passkeys' },
   { label: 'Multi-tenancy', value: 'stancl/tenancy, database per tenant' },
@@ -306,7 +306,7 @@ export const plans: Record<PlanKey, Plan> = {
 export const planOrder: PlanKey[] = ['vue', 'react', 'svelte', 'all-kits'];
 
 export const requirements: StackItem[] = [
-  { label: 'PHP', value: '8.3 or newer' },
+  { label: 'PHP', value: '8.4 or newer' },
   { label: 'Composer', value: 'Composer 2' },
   { label: 'Node.js', value: 'A current Node LTS with npm' },
   { label: 'Database', value: 'MySQL (needed for database-per-tenant)' },

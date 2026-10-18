@@ -1,13 +1,13 @@
 ---
 title: "Requirements for Laravel SaaS Starter Kits"
-description: "What you need to run a SaaS Laravel starter kit: PHP 8.3+, Composer 2, Node.js LTS, MySQL for per-tenant databases and a local server with wildcard subdomains."
+description: "What you need to run a SaaS Laravel starter kit: PHP 8.4+, Composer 2, Node.js LTS, MySQL for per-tenant databases and a local server with wildcard subdomains."
 ---
 
 # Requirements
 
 | Tool | Version | Notes |
 | --- | --- | --- |
-| PHP | `^8.3` | We build and test the kits on PHP 8.4. You'll need the extensions Laravel 13 needs, plus `pdo_mysql`. |
+| PHP | `^8.4` | The kits need PHP 8.4 or newer. You'll need the extensions Laravel 13 needs, plus `pdo_mysql`. |
 | Composer | 2.x | Installs the Laravel backend. |
 | Node.js + npm | A current Node LTS | `@erag/lang-sync-inertia` declares `node >= 24`. Each kit ships a `package-lock.json`, so stick with **npm**. |
 | MySQL (or MariaDB) | Any supported version | Every tenant gets its own database, so your DB user has to be allowed to `CREATE DATABASE` / `DROP DATABASE`. |
@@ -42,7 +42,7 @@ Creating a tenant runs `CREATE DATABASE` on the central connection. If your DB u
 
 | Need | Why |
 | --- | --- |
-| PHP `^8.3` | Same as local |
+| PHP `^8.4` | Same as local |
 | Web server routing the central domain and a wildcard subdomain (`*.your-domain.com`) to the app, plus a wildcard DNS record | Every tenant is a subdomain |
 | A database user with rights to create tenant databases | Tenant creation runs `CREATE DATABASE` |
 | A queue worker (`php artisan queue:work`) | Invitation and password-reset emails are queued |

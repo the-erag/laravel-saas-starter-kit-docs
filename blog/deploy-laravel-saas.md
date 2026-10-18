@@ -171,7 +171,7 @@ Your certificate probably only covers the main domain. Issue a wildcard certific
 
 ## Deploying SaaS Laravel
 
-If you'd rather start from something that already spells this out, the SaaS Laravel kits list their production needs in the [requirements](/docs/getting-started/requirements.html): PHP 8.3 or newer, a web server that routes the central domain and `*.your-domain.com`, wildcard DNS, a database user that can create tenant databases, `php artisan queue:work`, and a real mailer. You set the central domain with `APP_DOMAIN`. Tenant migrations live in `database/migrations/tenant` and run with `php artisan tenants:migrate`. Queued jobs go into the central `jobs` table, so one worker serves every tenant.
+If you'd rather start from something that already spells this out, the SaaS Laravel kits list their production needs in the [requirements](/docs/getting-started/requirements.html): PHP 8.4 or newer, a web server that routes the central domain and `*.your-domain.com`, wildcard DNS, a database user that can create tenant databases, `php artisan queue:work`, and a real mailer. You set the central domain with `APP_DOMAIN`. Tenant migrations live in `database/migrations/tenant` and run with `php artisan tenants:migrate`. Queued jobs go into the central `jobs` table, so one worker serves every tenant.
 
 One thing to watch: `npm run build` runs `wayfinder:generate` through the Vite plugin, so PHP and Composer dependencies must be installed wherever you build. The kits don't define any scheduled tasks yet, and you should remove or change the seeded default users before going live.
 

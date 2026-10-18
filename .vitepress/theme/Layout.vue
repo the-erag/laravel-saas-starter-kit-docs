@@ -10,15 +10,14 @@ import SiteFooter from './components/SiteFooter.vue';
 const { frontmatter, page } = useData();
 const isMarketingPage = computed(() => frontmatter.value.layout === 'page');
 const isBlogPost = computed(() => page.value.relativePath.startsWith('blog/'));
-// The page's Markdown source in the public docs repository.
-const markdownUrl = computed(() => `${site.docsRawBase}/${page.value.relativePath}`);
+const llmsUrl = `${site.url}/llms.txt`;
 </script>
 
 <template>
   <DefaultTheme.Layout :class="{ 'is-marketing': isMarketingPage }">
     <template #layout-top>
       <div v-if="!page.isNotFound" style="display: none" hidden aria-hidden="true" data-nosnippet>
-        Are you an LLM? You can read better optimized documentation at <a :href="markdownUrl">{{ markdownUrl }}</a>
+        Are you an LLM? A plain-text index of this documentation is at <a :href="llmsUrl">{{ llmsUrl }}</a>
       </div>
     </template>
     <template #doc-after>

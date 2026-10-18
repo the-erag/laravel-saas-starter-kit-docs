@@ -1,17 +1,8 @@
 <script setup lang="ts">
-import type { Component } from 'vue';
-import MockAuth from './MockAuth.vue';
-import MockDomainSettings from './MockDomainSettings.vue';
-import MockLanguages from './MockLanguages.vue';
-import MockLayouts from './MockLayouts.vue';
-import MockMaintenance from './MockMaintenance.vue';
-import MockMenus from './MockMenus.vue';
-import MockRoleSelect from './MockRoleSelect.vue';
-import MockTenantProvision from './MockTenantProvision.vue';
 import SectionHeading from './SectionHeading.vue';
 import SlIcon, { type IconName } from './SlIcon.vue';
 
-const rows: { eyebrow: string; title: string; text: string; points: string[]; docs: string; visual: Component }[] = [
+const rows: { eyebrow: string; title: string; text: string; points: string[]; docs: string; image: string }[] = [
   {
     eyebrow: 'Multi-tenancy',
     title: 'A separate database for every tenant',
@@ -25,7 +16,7 @@ const rows: { eyebrow: string; title: string; text: string; points: string[]; do
       'Tenant profile: industry, team size, work week, registration and tax numbers',
     ],
     docs: '/docs/core/multi-tenancy.html',
-    visual: MockTenantProvision,
+    image: 'tenancy',
   },
   {
     eyebrow: 'Domains',
@@ -41,7 +32,7 @@ const rows: { eyebrow: string; title: string; text: string; points: string[]; do
       'All domains of a tenant share the same tenant database',
     ],
     docs: '/docs/core/domains.html',
-    visual: MockDomainSettings,
+    image: 'domains',
   },
   {
     eyebrow: 'Users, roles & permissions',
@@ -58,7 +49,7 @@ const rows: { eyebrow: string; title: string; text: string; points: string[]; do
       'Permission-aware menus and buttons in the frontend',
     ],
     docs: '/docs/core/users-roles-permissions.html',
-    visual: MockRoleSelect,
+    image: 'users',
   },
   {
     eyebrow: 'Maintenance & suspension',
@@ -74,7 +65,7 @@ const rows: { eyebrow: string; title: string; text: string; points: string[]; do
       'The central app stays online the whole time',
     ],
     docs: '/docs/core/maintenance-and-suspension.html',
-    visual: MockMaintenance,
+    image: 'maintenance',
   },
   {
     eyebrow: 'Authentication',
@@ -90,7 +81,7 @@ const rows: { eyebrow: string; title: string; text: string; points: string[]; do
       'Separate central and tenant guards and databases',
     ],
     docs: '/docs/core/authentication.html',
-    visual: MockAuth,
+    image: 'auth',
   },
   {
     eyebrow: 'Localization',
@@ -105,7 +96,7 @@ const rows: { eyebrow: string; title: string; text: string; points: string[]; do
       'Same __() helper in Vue, React and Svelte',
     ],
     docs: '/docs/core/localization.html',
-    visual: MockLanguages,
+    image: 'localization',
   },
   {
     eyebrow: 'Layout settings',
@@ -120,7 +111,7 @@ const rows: { eyebrow: string; title: string; text: string; points: string[]; do
       'Light, dark and system appearance',
     ],
     docs: '/docs/core/navigation-and-layouts.html',
-    visual: MockLayouts,
+    image: 'layouts',
   },
   {
     eyebrow: 'Menus & navigation',
@@ -134,7 +125,7 @@ const rows: { eyebrow: string; title: string; text: string; points: string[]; do
       'Separate menus for the central app and every tenant',
     ],
     docs: '/docs/core/navigation-and-layouts.html',
-    visual: MockMenus,
+    image: 'menus',
   },
 ];
 
@@ -152,7 +143,7 @@ const extras: { icon: IconName; title: string; text: string }[] = [
       <SectionHeading
         eyebrow="Features"
         title="Everything a multi-tenant SaaS needs"
-        lead="Real screens from the kits, rebuilt here in HTML. Every feature ships in all three frontends."
+        lead="Real screens from the kits. Every feature ships in the Vue, React and Svelte frontends."
       />
       <div class="rows">
         <div v-for="(row, index) in rows" :key="row.title" class="row" :class="{ 'row--reverse': index % 2 === 1 }">
@@ -168,7 +159,22 @@ const extras: { icon: IconName; title: string; text: string }[] = [
             <a class="sl-link" :href="row.docs">Read the {{ row.eyebrow }} docs →</a>
           </div>
           <div class="row-visual">
-            <component :is="row.visual" />
+            <figure class="row-shot">
+              <img
+                class="row-img row-img--light"
+                :src="`/screenshots/features/${row.image}-light.webp`"
+                :alt="`${row.title}: screenshot from the Vue kit`"
+                loading="lazy"
+                decoding="async"
+              />
+              <img
+                class="row-img row-img--dark"
+                :src="`/screenshots/features/${row.image}-dark.webp`"
+                :alt="`${row.title}: screenshot from the Vue kit`"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
           </div>
         </div>
       </div>
@@ -244,6 +250,36 @@ const extras: { icon: IconName; title: string; text: string }[] = [
   border: 1px solid var(--sl-border);
 }
 
+.row-shot {
+  margin: 0;
+  overflow: hidden;
+  max-height: 560px;
+  border: 1px solid var(--sl-border);
+  border-radius: 14px;
+  background: var(--vp-c-bg);
+  box-shadow: var(--sl-shadow-lg);
+  transform: perspective(1600px) rotateY(-4deg) rotateX(2deg);
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.row--reverse .row-shot {
+  transform: perspective(1600px) rotateY(4deg) rotateX(2deg);
+}
+
+.row:hover .row-shot {
+  transform: none;
+}
+
+.row-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.row-img--dark {
+  display: none;
+}
+
 .extras {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -307,5 +343,15 @@ const extras: { icon: IconName; title: string; text: string }[] = [
   .extras {
     grid-template-columns: 1fr;
   }
+}
+</style>
+
+<style>
+.dark .row-shot .row-img--light {
+  display: none;
+}
+
+.dark .row-shot .row-img--dark {
+  display: block;
 }
 </style>

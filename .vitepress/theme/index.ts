@@ -9,7 +9,6 @@ import AboutSaasLaravel from './components/AboutSaasLaravel.vue';
 import AppOutOfTheBox from './components/AppOutOfTheBox.vue';
 import CustomizeEverything from './components/CustomizeEverything.vue';
 import DeveloperExperience from './components/DeveloperExperience.vue';
-import LayoutPlayground from './components/LayoutPlayground.vue';
 import PaymentGateway from './components/PaymentGateway.vue';
 import PrivateRepoNotice from './components/PrivateRepoNotice.vue';
 import TestimonialsSection from './components/TestimonialsSection.vue';
@@ -18,6 +17,7 @@ import FeatureGrid from './components/FeatureGrid.vue';
 import FeatureSection from './components/FeatureSection.vue';
 import FrameworkCards from './components/FrameworkCards.vue';
 import HeroSection from './components/HeroSection.vue';
+import KitPreview from './components/KitPreview.vue';
 import HowToPay from './components/HowToPay.vue';
 import ReleaseCard from './components/ReleaseCard.vue';
 import ReleaseFilter from './components/ReleaseFilter.vue';
@@ -37,6 +37,7 @@ export default {
   Layout,
   enhanceApp({ app }) {
     app.component('HeroSection', HeroSection);
+    app.component('KitPreview', KitPreview);
     app.component('BlogIndex', BlogIndex);
     app.component('AuthorPosts', AuthorPosts);
     app.component('BlogPostMeta', BlogPostMeta);
@@ -51,7 +52,6 @@ export default {
     app.component('AppOutOfTheBox', AppOutOfTheBox);
     app.component('CustomizeEverything', CustomizeEverything);
     app.component('DeveloperExperience', DeveloperExperience);
-    app.component('LayoutPlayground', LayoutPlayground);
     app.component('PaymentGateway', PaymentGateway);
     app.component('PrivateRepoNotice', PrivateRepoNotice);
     app.component('TestimonialsSection', TestimonialsSection);

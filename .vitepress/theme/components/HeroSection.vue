@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { site } from '../../site';
 import FrameworkLogo from './FrameworkLogo.vue';
-import MockTenantList from './MockTenantList.vue';
+import HeroShowcase from './HeroShowcase.vue';
 import SlIcon from './SlIcon.vue';
 
 const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '17 languages'];
@@ -29,7 +29,7 @@ const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '
           <a class="sl-btn sl-btn--primary sl-btn--lg" href="#features">
             Explore Features <span class="vpi-arrow-right" />
           </a>
-          <a class="sl-btn sl-btn--secondary sl-btn--lg" href="/docs.html">Read Documentation</a>
+          <a class="sl-btn sl-btn--secondary sl-btn--lg" href="#preview">See It Live</a>
         </div>
         <ul class="hero-highlights">
           <li v-for="item in highlights" :key="item"><SlIcon name="check" :size="16" />{{ item }}</li>
@@ -42,11 +42,7 @@ const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '
         </div>
       </div>
       <div class="hero-visual sl-reveal">
-        <MockTenantList />
-        <div class="hero-toast">
-          <span class="hero-toast-icon"><SlIcon name="check" :size="14" /></span>
-          Tenant created successfully.
-        </div>
+        <HeroShowcase />
       </div>
     </div>
   </section>
@@ -167,45 +163,8 @@ const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '
   animation-delay: 0.12s;
 }
 
-.hero-toast {
-  position: absolute;
-  right: -12px;
-  bottom: -22px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border: 1px solid var(--sl-border);
-  border-radius: 12px;
-  background: var(--sl-surface);
-  box-shadow: var(--sl-shadow-lg);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--vp-c-text-1);
-  animation: toast-in 0.6s 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
 
-.hero-toast-icon {
-  display: grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--sl-success-soft);
-  color: var(--sl-success);
-}
 
-@keyframes toast-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px) scale(0.97);
-  }
-
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
 
 @media (max-width: 960px) {
   .hero {
@@ -215,10 +174,6 @@ const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '
   .hero-inner {
     grid-template-columns: 1fr;
     gap: 48px;
-  }
-
-  .hero-toast {
-    right: 12px;
   }
 }
 

@@ -75,6 +75,8 @@ export const site = {
   docsEditPattern: `${githubOwner}/laravel-saas-starter-kit-docs/edit/main/:path`,
   /** The date the current prices took effect (the Offer's validFrom). Update it when prices change. */
   pricesValidFrom: '2026-09-27',
+  /** Walkthrough video of the code and the admin panel; the homepage shows a Watch button once this is set. */
+  demoVideoUrl: '',
   bundlePrice: prices.bundle,
   kitPriceFrom: Math.min(prices.vue, prices.react, prices.svelte),
   paymentNote: 'One-time payment · Lifetime access · Weekly updates included · No recurring subscription',

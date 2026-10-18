@@ -26,21 +26,49 @@ Improved, Fixed or Removed, and describe anything buyers must do in words as the
 
 <ReleaseFilter />
 
-<ReleaseCard kit="vue" version="Unreleased">
+<ReleaseCard kit="vue" version="1.3.0" date="18 October 2026">
+
+- Updated the frontend packages to their latest compatible versions, including Inertia 3.9, Vite 8.3, Reka UI 2.11, VueUse 15, Lucide 1.56, Laravel Passkeys 0.4 and vue-tsc 3.
+- Updated ESLint to 9.39 with the Vue ESLint plugin 10, and TypeScript to 5.9. ESLint 10 and TypeScript 7 stay out until the lint and type-check tools support them.
+- Fixed buttons, menu items, tabs and other clickable controls so they show a pointer cursor again, which Tailwind CSS v4 no longer adds by default.
+- After updating, run npm install.
+
+</ReleaseCard>
+
+<ReleaseCard kit="react" version="1.3.0" date="18 October 2026">
+
+- Updated the frontend packages to their latest compatible versions, including React 19.3, Inertia 3.9, Vite 8.3, the Radix UI components and Laravel Passkeys 0.4.
+- Updated ESLint to 9.39 and TypeScript to 5.9. ESLint 10 and TypeScript 7 stay out until the lint and type-check tools support them.
+- Fixed the Add Tenant page, which did not open, so you can create tenants again.
+- Fixed buttons, menu items, tabs and other clickable controls so they show a pointer cursor again, which Tailwind CSS v4 no longer adds by default.
+- After updating, run npm install.
+
+</ReleaseCard>
+
+<ReleaseCard kit="svelte" version="1.3.0" date="18 October 2026">
+
+- Updated the frontend packages to their latest compatible versions, including Svelte 5.57, Inertia 3.9, Vite 8.3, Bits UI 2.19, Svelte Sonner 1.2, Lucide Svelte 1.0, Laravel Passkeys 0.4 and the Svelte Prettier plugin 4.
+- Updated ESLint to 9.39 and TypeScript to 5.9. ESLint 10 and TypeScript 7 stay out until the lint and type-check tools support them.
+- Fixed buttons, menu items, tabs and other clickable controls so they show a pointer cursor again, which Tailwind CSS v4 no longer adds by default.
+- After updating, run npm install.
+
+</ReleaseCard>
+
+<ReleaseCard kit="vue" version="1.2.0" date="18 October 2026">
 
 - Changed the minimum PHP version to 8.4. The included test tools already needed PHP 8.4, so the kit now says so, and automatic dependency updates run on the right PHP version.
 - If you still run PHP 8.3, upgrade to PHP 8.4 or newer before updating.
 
 </ReleaseCard>
 
-<ReleaseCard kit="react" version="Unreleased">
+<ReleaseCard kit="react" version="1.2.0" date="18 October 2026">
 
 - Changed the minimum PHP version to 8.4. The included test tools already needed PHP 8.4, so the kit now says so, and automatic dependency updates run on the right PHP version.
 - If you still run PHP 8.3, upgrade to PHP 8.4 or newer before updating.
 
 </ReleaseCard>
 
-<ReleaseCard kit="svelte" version="Unreleased">
+<ReleaseCard kit="svelte" version="1.2.0" date="18 October 2026">
 
 - Changed the minimum PHP version to 8.4. The included test tools already needed PHP 8.4, so the kit now says so, and automatic dependency updates run on the right PHP version.
 - If you still run PHP 8.3, upgrade to PHP 8.4 or newer before updating.

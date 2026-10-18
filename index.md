@@ -13,6 +13,8 @@ lastUpdated: false
 
 <HeroSection />
 
+<KitPreview />
+
 <TechStack />
 
 <AboutSaasLaravel />
@@ -22,8 +24,6 @@ lastUpdated: false
 <WhySection />
 
 <FeatureSection />
-
-<LayoutPlayground />
 
 <CustomizeEverything />
 

@@ -44,6 +44,7 @@ const docsSidebar: DefaultTheme.SidebarItem[] = [
       { text: 'Multi-Tenancy', link: '/docs/core/multi-tenancy.html' },
       { text: 'Domains', link: '/docs/core/domains.html' },
       { text: 'Maintenance & Suspension', link: '/docs/core/maintenance-and-suspension.html' },
+      { text: 'Notifications', link: '/docs/core/notifications.html' },
       { text: 'Localization', link: '/docs/core/localization.html' },
       { text: 'Navigation & Layouts', link: '/docs/core/navigation-and-layouts.html' },
       { text: 'Database', link: '/docs/core/database.html' },

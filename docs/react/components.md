@@ -230,10 +230,11 @@ Here's a typical edit form, taken from the profile page. The inputs and the Save
 | Component (file) | Purpose |
 | --- | --- |
 | `AppShell`, `AppContent` (`app-shell.tsx`, `app-content.tsx`) | Wrap the sidebar provider and main content (`variant: 'sidebar' \| 'header'`) |
-| `AppSidebar` (`app-sidebar.tsx`) | Sidebar with `NavMain` (from `menus`) or the setup menu (`setupMenus` on `/setup/*`), and `NavUser` |
+| `AppSidebar` (`app-sidebar.tsx`) | Sidebar with `NavMain` (from `menus`) or the setup menu (`setupMenus` on `/setup/*`) |
 | `AppSidebarHeader` (`app-sidebar-header.tsx`) | Top bar of the sidebar layout with the trigger and `Breadcrumbs` |
 | `AppHeader` (`app-header.tsx`) | Top navigation for the header layout (menus, breadcrumbs, user menu) |
-| `NavMain`, `NavFooter`, `NavUser`, `NavItemIcon` | Sidebar menu tree, footer links, user dropdown, string-or-component icon |
+| `NavMain`, `NavFooter`, `NavItemIcon` | Sidebar menu tree, footer links, string-or-component icon |
+| `HeaderActions`, `NotificationBell`, `LanguageSwitcher` (`header-actions.tsx`, `notification-bell.tsx`, `language-switcher.tsx`) | Header actions next to the breadcrumbs: notification bell, language switcher and profile menu. See [Notifications](/docs/core/notifications) |
 | `UserMenuContent` (`user-menu-content.tsx`) | User dropdown: settings link, language switcher, logout |
 | `Breadcrumbs` (`breadcrumbs.tsx`) | Renders `BreadcrumbItem[]`; titles are translation keys |
 | `Heading` (`heading.tsx`) | Page/section heading. Props: `title`, `description?`, `variant?: 'default' \| 'small'` |

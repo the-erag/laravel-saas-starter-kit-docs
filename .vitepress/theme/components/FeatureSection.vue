@@ -52,6 +52,21 @@ const rows: { eyebrow: string; title: string; text: string; points: string[]; do
     image: 'users',
   },
   {
+    eyebrow: 'Notifications',
+    title: 'Keep every user in the loop',
+    text: 'In-app notifications are stored in the database of the central app and every tenant, and show up in the header bell on every page.',
+    points: [
+      'Header bell with an unread badge and the latest notifications',
+      'Notifications page with All and Unread filters, delete and clear all',
+      'Super admins are notified when an invited user joins',
+      'Send your own with one NotificationService call',
+      'Titles and messages translated into each user’s language',
+      'Language switcher and profile menu right next to the bell',
+    ],
+    docs: '/docs/core/notifications.html',
+    image: 'notifications',
+  },
+  {
     eyebrow: 'Maintenance & suspension',
     title: 'Take workspaces offline safely',
     text: 'Switch every tenant workspace into maintenance from Setup → Tenant Settings while the central app stays online.',
@@ -90,7 +105,7 @@ const rows: { eyebrow: string; title: string; text: string; points: string[]; do
     points: [
       'English, Hindi, Spanish, French, German, Japanese and 11 more',
       'One translation file per feature in lang/<locale>/modules',
-      'Every user picks their own language from the profile or user menu',
+      'Every user picks their own language from the header or their profile',
       'Default language per domain, with English as the app default',
       'Translated validation messages in every Data class',
       'Same __() helper in Vue, React and Svelte',

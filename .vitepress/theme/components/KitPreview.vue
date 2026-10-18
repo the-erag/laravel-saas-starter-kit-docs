@@ -17,6 +17,7 @@ type ScreenKey =
   | 'profile'
   | 'security'
   | 'auth-card'
+  | 'notifications'
   | 'auth-simple'
   | 'auth-split'
   | 'app-sidebar'
@@ -33,10 +34,11 @@ const screens: Screen[] = [
   { key: 'users', label: 'Users', path: 'users', caption: 'Users with roles, invitations, verification status and per-user permission assignment.' },
   { key: 'roles', label: 'Roles', path: 'roles', caption: 'Protected system roles plus your own custom roles, scoped for the central app and every tenant.' },
   { key: 'menus', label: 'Menus', path: 'setup/menus', caption: 'Database-driven navigation with drag-and-drop ordering and permission checks.' },
-  { key: 'setup-layout', label: 'Layout settings', path: 'setup/layout', caption: 'Default sign-in and app layouts for everyone, which each user can override.' },
+  { key: 'setup-layout', label: 'Layout', path: 'setup/layout', caption: 'Default sign-in and app layouts for everyone, which each user can override.' },
   { key: 'tenant-settings', label: 'Maintenance', path: 'setup/tenant-settings', caption: 'Put every tenant workspace into maintenance with a bypass link and an IP allow list.' },
   { key: 'profile', label: 'Profile', path: 'settings/profile', caption: 'Profile, language, password, two-factor, passkeys and appearance settings for every user.' },
   { key: 'security', label: 'Security', path: 'settings/security', caption: 'Password update, two-factor authentication with recovery codes and passkeys for passwordless sign-in.' },
+  { key: 'notifications', label: 'Notifications', path: 'notifications', caption: 'In-app notifications with a header bell and unread badge, plus a Notifications page with All and Unread filters, mark as read, delete and clear all.' },
 ];
 
 const layouts: Screen[] = [
@@ -213,12 +215,23 @@ const alt = computed(() => `${kits[framework.value].title}: ${active.value.label
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 7px 14px;
+  padding: 7px 11px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-2);
   transition: background-color 0.2s, color 0.2s;
+}
+
+.frameworks button:focus-visible,
+.screens button:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: -2px;
+}
+
+.frameworks button:focus:not(:focus-visible),
+.screens button:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .frameworks button:hover,

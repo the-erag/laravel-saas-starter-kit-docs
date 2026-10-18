@@ -271,10 +271,11 @@ Here's a settings form with one prefilled input and the Save / Discard bar:
 | --- | --- |
 | `AppHead` | Sets `<title>` as `"{title} - {VITE_APP_NAME}"` through `<svelte:head>`. Props: `title`, `children` snippet for extra head tags |
 | `AppShell`, `AppContent` | Wrap the sidebar provider and main content (`variant: 'sidebar' \| 'header'`) |
-| `AppSidebar` | Sidebar with `NavMain` (from `menus`) or the setup menu (`setupMenus` on `/setup/*`), and `NavUser` |
+| `AppSidebar` | Sidebar with `NavMain` (from `menus`) or the setup menu (`setupMenus` on `/setup/*`) |
 | `AppSidebarHeader` | Top bar of the sidebar layout with the trigger and `Breadcrumbs` |
 | `AppHeader` | Top navigation for the header layout (menus, breadcrumbs, user menu) |
-| `NavMain`, `NavFooter`, `NavUser` | Sidebar menu tree, footer links, user dropdown |
+| `NavMain`, `NavFooter` | Sidebar menu tree, footer links |
+| `HeaderActions`, `NotificationBell`, `LanguageSwitcher`, `UserMenuButton` | Header actions next to the breadcrumbs: notification bell, language switcher and profile menu. See [Notifications](/docs/core/notifications) |
 | `UserMenuContent` | User dropdown: settings link, language switcher (`changeLanguage`), logout |
 | `Breadcrumbs` | Renders `BreadcrumbItem[]`; titles are translation keys |
 | `Heading` | Page/section heading. Props: `title`, `description?`, `variant?: 'default' \| 'small'` |

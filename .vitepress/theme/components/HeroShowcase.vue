@@ -5,7 +5,7 @@ import FrameworkLogo from './FrameworkLogo.vue';
 
 const layers: { kit: FrameworkKey; image: string; path: string; screen: string }[] = [
   { kit: 'vue', image: 'vue-tenant-show', path: 'tenants/1', screen: 'Tenant details' },
-  { kit: 'react', image: 'react-users', path: 'users', screen: 'Users' },
+  { kit: 'react', image: 'react-bell', path: 'dashboard', screen: 'Notifications' },
   { kit: 'svelte', image: 'svelte-menus', path: 'setup/menus', screen: 'Menu builder' },
 ];
 

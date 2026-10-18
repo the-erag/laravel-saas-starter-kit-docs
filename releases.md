@@ -26,6 +26,45 @@ Improved, Fixed or Removed, and describe anything buyers must do in words as the
 
 <ReleaseFilter />
 
+<ReleaseCard kit="vue" version="1.4.0" date="19 October 2026">
+
+- Added in-app notifications. A bell with an unread badge now sits next to the breadcrumbs and shows the latest notifications, with Mark all as read and a link to the new Notifications page.
+- Added a Notifications page with All and Unread filters, mark as read, delete, clear all and pagination.
+- Added a notification for super admins when an invited user accepts the invitation and joins.
+- Added one service call to send your own notifications from any feature. Titles and messages can be translation keys, so every user reads them in their own language.
+- Added a language switcher and a profile menu next to the notification bell, so users can change their language or open their settings from any page.
+- Changed the profile menu to live in the header. The user section at the bottom of the sidebar is removed.
+- Added notification translations in all 17 languages.
+- After updating, run npm install, then run the new database migrations for the central app and for every tenant.
+
+</ReleaseCard>
+
+<ReleaseCard kit="react" version="1.4.0" date="19 October 2026">
+
+- Added in-app notifications. A bell with an unread badge now sits next to the breadcrumbs and shows the latest notifications, with Mark all as read and a link to the new Notifications page.
+- Added a Notifications page with All and Unread filters, mark as read, delete, clear all and pagination.
+- Added a notification for super admins when an invited user accepts the invitation and joins.
+- Added one service call to send your own notifications from any feature. Titles and messages can be translation keys, so every user reads them in their own language.
+- Added a language switcher and a profile menu next to the notification bell, so users can change their language or open their settings from any page.
+- Changed the profile menu to live in the header. The user section at the bottom of the sidebar is removed.
+- Added notification translations in all 17 languages.
+- After updating, run npm install, then run the new database migrations for the central app and for every tenant.
+
+</ReleaseCard>
+
+<ReleaseCard kit="svelte" version="1.4.0" date="19 October 2026">
+
+- Added in-app notifications. A bell with an unread badge now sits next to the breadcrumbs and shows the latest notifications, with Mark all as read and a link to the new Notifications page.
+- Added a Notifications page with All and Unread filters, mark as read, delete, clear all and pagination.
+- Added a notification for super admins when an invited user accepts the invitation and joins.
+- Added one service call to send your own notifications from any feature. Titles and messages can be translation keys, so every user reads them in their own language.
+- Added a language switcher and a profile menu next to the notification bell, so users can change their language or open their settings from any page.
+- Changed the profile menu to live in the header. The user section at the bottom of the sidebar is removed.
+- Added notification translations in all 17 languages.
+- After updating, run npm install, then run the new database migrations for the central app and for every tenant.
+
+</ReleaseCard>
+
 <ReleaseCard kit="vue" version="1.3.0" date="18 October 2026">
 
 - Updated the frontend packages to their latest compatible versions, including Inertia 3.9, Vite 8.3, Reka UI 2.11, VueUse 15, Lucide 1.56, Laravel Passkeys 0.4 and vue-tsc 3.

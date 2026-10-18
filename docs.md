@@ -21,6 +21,7 @@ Everything under `app/`, `Modules/`, `config/`, `database/`, `routes/`, `lang/` 
 - Multi-tenancy with `stancl/tenancy`. Each tenant gets its own database and is identified by its domain (`<sub>.APP_DOMAIN`). You also get tenant CRUD, workspace status (Active, Trial, Pending Invitation, Suspended) and tenant admin invitations. See [Multi-tenancy](/docs/core/multi-tenancy).
 - Domains: a tenant can have several subdomains, one of them primary, and each domain can set its own app name, default language and authentication features. See [Domains](/docs/core/domains).
 - Maintenance mode for every tenant workspace, with a custom message, a secret bypass link and an IP allow list. See [Maintenance & suspension](/docs/core/maintenance-and-suspension).
+- In-app notifications with a header bell, unread badge and a Notifications page, plus one service call to send your own. See [Notifications](/docs/core/notifications).
 - Users, roles and permissions with `spatie/laravel-permission`: user management, invitations, per-user permissions and permission files you define in config. See [Users, roles & permissions](/docs/core/users-roles-permissions).
 - Navigation and layouts: menus stored in the database and ordered by drag and drop, a sidebar or header layout, three auth layouts, and light, dark or system appearance. See [Navigation & layouts](/docs/core/navigation-and-layouts).
 - Localization in 17 languages, with the language set per user and per domain. See [Localization](/docs/core/localization).

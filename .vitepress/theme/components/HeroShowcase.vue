@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { kits, type FrameworkKey } from '../../site';
 import FrameworkLogo from './FrameworkLogo.vue';
 
@@ -9,9 +9,7 @@ const layers: { kit: FrameworkKey; image: string; path: string; screen: string }
   { kit: 'svelte', image: 'svelte-menus', path: 'setup/menus', screen: 'Menu builder' },
 ];
 
-const active = ref(0);
-const paused = ref(false);
-let timer: ReturnType<typeof setInterval> | undefined;
+const active = ref(layers.findIndex((layer) => layer.kit === 'vue'));
 
 const position = (index: number) => {
   const offset = (index - active.value + layers.length) % layers.length;
@@ -22,24 +20,10 @@ const position = (index: number) => {
 const select = (index: number) => {
   active.value = index;
 };
-
-onMounted(() => {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    return;
-  }
-
-  timer = setInterval(() => {
-    if (!paused.value) {
-      active.value = (active.value + 1) % layers.length;
-    }
-  }, 4500);
-});
-
-onBeforeUnmount(() => clearInterval(timer));
 </script>
 
 <template>
-  <div class="showcase" @mouseenter="paused = true" @mouseleave="paused = false">
+  <div class="showcase">
     <div class="stage">
       <figure
         v-for="(layer, index) in layers"

@@ -15,8 +15,6 @@ lastUpdated: false
 
 <KitPreview />
 
-<TechStack />
-
 <AboutSaasLaravel />
 
 <AppOutOfTheBox />
@@ -25,11 +23,11 @@ lastUpdated: false
 
 <FeatureSection />
 
+<ReadyToBuild />
+
 <CustomizeEverything />
 
 <ThreeFrameworksOneBackend />
-
-<DeveloperExperience />
 
 <PaymentGateway />
 
@@ -38,5 +36,3 @@ lastUpdated: false
 <TestimonialsSection />
 
 <PricingSection />
-
-<CTASection />

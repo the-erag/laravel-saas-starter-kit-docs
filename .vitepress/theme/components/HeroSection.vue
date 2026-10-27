@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { site } from '../../site';
-import FrameworkLogo from './FrameworkLogo.vue';
 import HeroShowcase from './HeroShowcase.vue';
+import HeroStack from './HeroStack.vue';
 import SlIcon from './SlIcon.vue';
 
 const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '17 languages'];
@@ -34,16 +34,18 @@ const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '
         <ul class="hero-highlights">
           <li v-for="item in highlights" :key="item"><SlIcon name="check" :size="16" />{{ item }}</li>
         </ul>
-        <div class="hero-frameworks">
-          <span>Available for</span>
-          <a href="/kits/vue.html" ><FrameworkLogo name="vue" :size="22" /><span class="sl-sr-only">Vue Starter Kit</span></a>
-          <a href="/kits/react.html" ><FrameworkLogo name="react" :size="22" /><span class="sl-sr-only">React Starter Kit</span></a>
-          <a href="/kits/svelte.html" ><FrameworkLogo name="svelte" :size="22" /><span class="sl-sr-only">Svelte Starter Kit</span></a>
-        </div>
       </div>
       <div class="hero-visual sl-reveal">
         <HeroShowcase />
       </div>
+    </div>
+    <div class="sl-container hero-frameworks sl-reveal">
+      <span class="hero-plus hero-plus--tl" aria-hidden="true" />
+      <span class="hero-plus hero-plus--tr" aria-hidden="true" />
+      <span class="hero-plus hero-plus--bl" aria-hidden="true" />
+      <span class="hero-plus hero-plus--br" aria-hidden="true" />
+      <span class="hero-frameworks-label">Built on</span>
+      <HeroStack />
     </div>
   </section>
 </template>
@@ -51,7 +53,7 @@ const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '
 <style scoped>
 .hero {
   position: relative;
-  padding: 72px 0 96px;
+  padding: 72px 0 24px;
   overflow: hidden;
 }
 
@@ -132,30 +134,100 @@ const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '
 }
 
 .hero-frameworks {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-top: 28px;
-  padding-top: 24px;
+  min-height: 84px;
+  margin-top: 56px;
+  padding-top: 0;
+  padding-bottom: 0;
   border-top: 1px solid var(--sl-border);
+  border-bottom: 1px solid var(--sl-border);
   font-size: 13px;
   color: var(--vp-c-text-3);
 }
 
-.hero-frameworks a {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--sl-border);
-  border-radius: 10px;
-  background: var(--sl-surface);
-  transition: transform 0.2s, border-color 0.2s;
+.hero-frameworks::before,
+.hero-frameworks::after {
+  content: '';
+  position: absolute;
+  top: -12px;
+  bottom: -12px;
+  width: 1px;
+  background: var(--sl-border-strong);
+  opacity: 0.5;
+  pointer-events: none;
 }
 
-.hero-frameworks a:hover {
-  transform: translateY(-2px);
-  border-color: var(--sl-border-strong);
+.hero-frameworks::before {
+  left: -0.5px;
+}
+
+.hero-frameworks::after {
+  right: -0.5px;
+}
+
+.hero-plus {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  pointer-events: none;
+}
+
+.hero-plus::before,
+.hero-plus::after {
+  content: '';
+  position: absolute;
+  background: var(--vp-c-brand-1);
+}
+
+.hero-plus::before {
+  top: 5px;
+  left: 0;
+  width: 11px;
+  height: 1px;
+}
+
+.hero-plus::after {
+  top: 0;
+  left: 5px;
+  width: 1px;
+  height: 11px;
+}
+
+.hero-plus--tl {
+  top: -6px;
+  left: -6px;
+}
+
+.hero-plus--tr {
+  top: -6px;
+  right: -6px;
+}
+
+.hero-plus--bl {
+  bottom: -6px;
+  left: -6px;
+}
+
+.hero-plus--br {
+  right: -6px;
+  bottom: -6px;
+}
+
+.hero-frameworks-label {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  align-self: stretch;
+  padding: 0 28px 0 4px;
+  border-right: 1px solid var(--sl-border);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vp-c-brand-1);
 }
 
 .hero-visual {
@@ -168,7 +240,7 @@ const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '
 
 @media (max-width: 960px) {
   .hero {
-    padding: 48px 0 72px;
+    padding: 48px 0 16px;
   }
 
   .hero-inner {
@@ -180,6 +252,28 @@ const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '
 @media (max-width: 480px) {
   .hero-actions .sl-btn {
     width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero-frameworks {
+    flex-wrap: wrap;
+  }
+
+  .hero-plus,
+  .hero-frameworks::before,
+  .hero-frameworks::after {
+    display: none;
+  }
+
+  .hero-frameworks .hero-stack {
+    min-height: 64px;
+  }
+
+  .hero-frameworks-label {
+    width: 100%;
+    padding: 14px 0 0;
+    border-right: 0;
   }
 }
 </style>

@@ -127,7 +127,7 @@ const points = [
   color: var(--vp-c-text-1);
 }
 
-.gateway-core span {
+.gateway-core strong + span {
   font-size: 13px;
   color: var(--vp-c-text-2);
 }

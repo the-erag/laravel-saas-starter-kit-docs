@@ -140,56 +140,50 @@ const features: { icon: IconName; title: string; text: string }[] = [
 .box-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  border-top: 1px solid var(--sl-border);
+  border-left: 1px solid var(--sl-border);
 }
 
 .box-card {
   position: relative;
-  padding: 22px;
-  border: 1px solid var(--sl-border);
-  border-radius: var(--sl-radius);
-  background: var(--sl-surface);
-  box-shadow: var(--sl-shadow-sm);
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease,
-    box-shadow 0.25s ease;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 10px;
+  padding: 22px 24px;
+  border-right: 1px solid var(--sl-border);
+  border-bottom: 1px solid var(--sl-border);
+  transition: background-color 0.25s ease;
 }
 
 .box-card:hover {
-  border-color: var(--sl-border-strong);
-  box-shadow: 0 12px 32px -16px rgba(79, 70, 229, 0.35);
-  transform: translateY(-3px);
+  background: var(--sl-surface);
 }
 
 .box-icon {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: var(--vp-c-brand-soft);
-  color: var(--vp-c-brand-1);
-  transition:
-    background 0.25s ease,
-    color 0.25s ease;
+  width: 22px;
+  height: 22px;
+  color: var(--vp-c-text-2);
+  transition: color 0.25s ease;
 }
 
 .box-card:hover .box-icon {
-  background: var(--sl-gradient);
-  color: #fff;
+  color: var(--vp-c-brand-1);
 }
 
 .box-title {
-  margin: 16px 0 0;
-  font-size: 15.5px;
+  margin: 0;
+  font-size: 15px;
   font-weight: 600;
   line-height: 1.4;
   color: var(--vp-c-text-1);
 }
 
 .box-text {
-  margin-top: 6px;
+  grid-column: 1 / -1;
+  margin-top: 8px;
   font-size: 14px;
   line-height: 1.6;
   color: var(--vp-c-text-2);

@@ -17,6 +17,7 @@ import FeatureGrid from './components/FeatureGrid.vue';
 import FeatureSection from './components/FeatureSection.vue';
 import FrameworkCards from './components/FrameworkCards.vue';
 import HeroSection from './components/HeroSection.vue';
+import KitCells from './components/KitCells.vue';
 import KitPreview from './components/KitPreview.vue';
 import HowToPay from './components/HowToPay.vue';
 import ReleaseCard from './components/ReleaseCard.vue';
@@ -24,6 +25,7 @@ import ReleaseFilter from './components/ReleaseFilter.vue';
 import KitDetail from './components/KitDetail.vue';
 import PricingDetail from './components/PricingDetail.vue';
 import PricingSection from './components/PricingSection.vue';
+import ReadyToBuild from './components/ReadyToBuild.vue';
 import SiteFooter from './components/SiteFooter.vue';
 import TechStack from './components/TechStack.vue';
 import ThreeFrameworksOneBackend from './components/ThreeFrameworksOneBackend.vue';
@@ -38,6 +40,8 @@ export default {
   enhanceApp({ app }) {
     app.component('HeroSection', HeroSection);
     app.component('KitPreview', KitPreview);
+    app.component('KitCells', KitCells);
+    app.component('ReadyToBuild', ReadyToBuild);
     app.component('BlogIndex', BlogIndex);
     app.component('AuthorPosts', AuthorPosts);
     app.component('BlogPostMeta', BlogPostMeta);

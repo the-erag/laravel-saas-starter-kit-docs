@@ -1,64 +1,55 @@
 <script setup lang="ts">
-const groups = [
-  {
-    title: 'Backend',
-    items: [
-      'Laravel 13',
-      'PHP 8.4+',
-      'Inertia v3',
-      'Fortify',
-      'Wayfinder',
-      'Spatie Data',
-      'Spatie Permission',
-      'stancl/tenancy',
-      'Laravel Lang Sync Inertia',
-      'TypeScript Transformer',
-    ],
-  },
-  {
-    title: 'Frontend',
-    items: [
-      'Vue 3.5',
-      'React 19',
-      'Svelte 5',
-      'TypeScript',
-      'Tailwind CSS v4',
-      'Vite 8',
-      'shadcn UI',
-      'Lang Sync Inertia',
-      'Lucide Icons',
-      'Iconify',
-      'Laravel Passkeys',
-    ],
-  },
-  {
-    title: 'Quality & tooling',
-    items: [
-      'Pest 5',
-      'Larastan',
-      'Pint',
-      'ESLint',
-      'Prettier',
-      'vue-tsc · tsc · svelte-check',
-      'Laravel Boost',
-      'Laravel Pail',
-      'Laravel Sail',
-    ],
-  },
+import {
+  siInertia,
+  siLaravel,
+  siPhp,
+  siReact,
+  siShadcnui,
+  siSvelte,
+  siTailwindcss,
+  siTypescript,
+  siVite,
+  siVuedotjs,
+  type SimpleIcon,
+} from 'simple-icons';
+
+const logos: { icon: SimpleIcon; name: string; version?: string }[] = [
+  { icon: siLaravel, name: 'Laravel', version: '13' },
+  { icon: siPhp, name: 'PHP', version: '8.4+' },
+  { icon: siInertia, name: 'Inertia', version: 'v3' },
+  { icon: siVuedotjs, name: 'Vue', version: '3.5' },
+  { icon: siReact, name: 'React', version: '19' },
+  { icon: siSvelte, name: 'Svelte', version: '5' },
+  { icon: siTypescript, name: 'TypeScript' },
+  { icon: siTailwindcss, name: 'Tailwind CSS', version: 'v4' },
+  { icon: siVite, name: 'Vite', version: '8' },
+  { icon: siShadcnui, name: 'shadcn/ui' },
 ];
+
+const brand = (icon: SimpleIcon): string => (icon.hex === '000000' ? 'var(--vp-c-text-1)' : `#${icon.hex}`);
 </script>
 
 <template>
   <section class="stack" aria-labelledby="tech-stack-title">
     <div class="sl-container">
       <p id="tech-stack-title" class="stack-title">Built on the current Laravel stack</p>
-      <div class="stack-groups">
-        <div v-for="group in groups" :key="group.title" class="stack-group">
-          <span class="stack-label">{{ group.title }}</span>
-          <ul>
-            <li v-for="item in group.items" :key="item">{{ item }}</li>
-          </ul>
-        </div>
+
+      <div class="marquee">
+        <ul class="marquee-track">
+          <li
+            v-for="(logo, index) in [...logos, ...logos]"
+            :key="`${logo.name}-${index}`"
+            class="logo"
+            :style="{ '--brand': brand(logo.icon) }"
+            :aria-hidden="index >= logos.length ? 'true' : undefined"
+          >
+            <svg class="logo-icon" role="img" viewBox="0 0 24 24" aria-hidden="true">
+              <path :d="logo.icon.path" />
+            </svg>
+            <span class="logo-name">{{ logo.name }}</span>
+            <span v-if="logo.version" class="logo-version">{{ logo.version }}</span>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
@@ -66,64 +57,94 @@ const groups = [
 
 <style scoped>
 .stack {
-  padding: 40px 0 56px;
+  padding: 40px 0 44px;
   border-top: 1px solid var(--sl-border);
   border-bottom: 1px solid var(--sl-border);
   background: var(--sl-surface-muted);
 }
 
 .stack-title {
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   text-align: center;
   font-size: 14px;
   font-weight: 600;
   color: var(--vp-c-text-2);
 }
 
-.stack-groups {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
 }
 
-.stack-group {
-  padding: 18px 20px;
-  border: 1px solid var(--sl-border);
-  border-radius: var(--sl-radius);
-  background: var(--sl-surface);
-}
-
-.stack-label {
-  display: block;
-  margin-bottom: 12px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--vp-c-text-3);
-}
-
-.stack-group ul {
+.marquee-track {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  gap: 56px;
+  width: max-content;
   margin: 0;
-  padding: 0;
+  padding: 0 28px;
   list-style: none;
+  animation: stack-scroll 45s linear infinite;
 }
 
-.stack-group li {
-  padding: 4px 10px;
-  border-radius: 8px;
-  background: var(--vp-c-default-soft);
-  font-size: 13px;
-  font-weight: 500;
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--vp-c-text-3);
+  white-space: nowrap;
+  transition: color 0.25s;
+}
+
+.logo:hover {
   color: var(--vp-c-text-1);
 }
 
-@media (max-width: 860px) {
-  .stack-groups {
-    grid-template-columns: 1fr;
+.logo-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  transition: fill 0.25s;
+}
+
+.logo:hover .logo-icon {
+  fill: var(--brand);
+}
+
+.logo-name {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.logo-version {
+  font-size: 15px;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+@keyframes stack-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow-x: auto;
+  }
+
+  .marquee-track {
+    animation: none;
   }
 }
 </style>

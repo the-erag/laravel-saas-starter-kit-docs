@@ -105,7 +105,7 @@ router.get(index.url(), { search: value.trim() || undefined }, { preserveScroll:
 router.delete(destroy.url(role.id), { preserveScroll: true });
 ```
 
-Notice the difference between the two. `Link` accepts the `{ url, method }` object directly, but `router` methods want the plain string from `.url()`.
+Notice the difference between the two. `Link` and the `router` methods both accept the `{ url, method }` object directly. `.url()` gives you the plain string when you only need the path, and the kits use it with `router` because it reads a little clearer.
 
 You can pass parameters in several shapes, and all of them are typed from your route definition:
 

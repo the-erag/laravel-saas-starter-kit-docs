@@ -25,9 +25,9 @@ const links = [
           the frontend: Vue 3.5, React 19 or Svelte 5, each with TypeScript and Tailwind CSS v4.
         </p>
         <p class="sl-text">
-          The backend is the same in all three kits. Each customer gets its own database and subdomain, sign-in runs on Laravel
-          Fortify with two-factor authentication and passkeys, roles and permissions use spatie/laravel-permission, and the
-          interface comes in 17 languages.
+          The backend is the same in all three kits. Each customer gets their own database and subdomain, people sign in
+          with two-factor codes or passkeys, you decide exactly who can do what, and the whole interface comes in 17
+          languages.
         </p>
         <p class="sl-text">
           You pay once through GitHub Sponsors and keep lifetime access to the kit repository, including the updates we push

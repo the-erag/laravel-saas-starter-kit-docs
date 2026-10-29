@@ -37,7 +37,16 @@ export type IconName =
   | 'settings'
   | 'credit-card'
   | 'plug'
-  | 'sun';
+  | 'sun'
+  | 'bell'
+  | 'play'
+  | 'grip'
+  | 'construction'
+  | 'user-check'
+  | 'panel'
+  | 'moon'
+  | 'alert'
+  | 'book';
 
 withDefaults(defineProps<{ name: IconName; size?: number }>(), { size: 20 });
 </script>

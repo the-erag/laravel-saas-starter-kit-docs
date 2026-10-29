@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { formatPrice, kits, plans, type FrameworkKey, type PlanKey } from '../../site';
+import { kits, plans, type FrameworkKey, type PlanKey } from '../../site';
 import FrameworkLogo from './FrameworkLogo.vue';
 import SlIcon from './SlIcon.vue';
 
@@ -57,7 +57,6 @@ const cells: { plan: PlanKey; title: string; stack: string; href: string; color:
         <span class="kit-title">{{ cell.title }}</span>
         <span class="kit-stack">{{ cell.stack }}</span>
       </span>
-      <span class="kit-price">{{ formatPrice(plans[cell.plan].price) }}</span>
       <span class="vpi-arrow-right kit-arrow" aria-hidden="true" />
     </a>
   </div>
@@ -154,30 +153,18 @@ const cells: { plan: PlanKey; title: string; stack: string; href: string; color:
   white-space: nowrap;
 }
 
-.kit-price {
-  flex-shrink: 0;
-  padding: 3px 10px;
-  border: 1px solid var(--sl-border);
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--vp-c-text-1);
-  background: var(--sl-surface);
-}
 
 .kit-arrow {
   flex-shrink: 0;
   width: 16px;
   height: 16px;
   color: var(--vp-c-text-3);
-  opacity: 0;
-  transform: translateX(-6px);
-  transition: opacity 0.25s, transform 0.25s;
+  transition: color 0.25s, transform 0.25s;
 }
 
 .kit-cell:hover .kit-arrow {
-  opacity: 1;
-  transform: none;
+  color: var(--vp-c-brand-1);
+  transform: translateX(4px);
 }
 
 @media (max-width: 760px) {
@@ -187,10 +174,6 @@ const cells: { plan: PlanKey; title: string; stack: string; href: string; color:
 
   .kit-cell {
     padding: 20px;
-  }
-
-  .kit-arrow {
-    display: none;
   }
 }
 </style>

@@ -1,24 +1,13 @@
 <script setup lang="ts">
 import SlIcon, { type IconName } from './SlIcon.vue';
 
-const ready = [
-  'Multi-tenant workspaces with a database per tenant',
-  'Authentication with two-factor codes and passkeys',
-  'Admin dashboard with permission-aware menus',
-  'Users, roles and permissions with queued invitations',
-  'Profile, security, appearance and layout settings',
-  '17 languages, chosen per user and per domain',
-];
-
-const features: { icon: IconName; title: string; text: string }[] = [
-  { icon: 'layout', title: 'Configurable layouts', text: 'Sidebar or header app layouts and card, simple or split sign-in pages.' },
-  { icon: 'wrench', title: 'Fully customizable', text: 'Every file lives in your app, so you can change whatever you like.' },
-  { icon: 'layers', title: 'Vue, React or Svelte', text: 'The same Laravel backend, with the frontend your team already knows.' },
-  { icon: 'zap', title: 'Tailwind CSS v4', text: 'Styled with Tailwind CSS v4 utilities and design tokens.' },
-  { icon: 'code', title: 'TypeScript supported', text: 'Typed routes with Wayfinder and types generated from Data classes.' },
-  { icon: 'package', title: 'shadcn UI', text: 'shadcn-vue, shadcn/ui and shadcn-svelte components in every kit.' },
-  { icon: 'git', title: 'Built-in CI workflow', text: 'A GitHub Actions workflow runs the test suite on pushes to main and on pull requests.' },
-  { icon: 'sun', title: 'Light and dark', text: 'Light, dark and system appearance, remembered in the browser.' },
+const items: { icon: IconName; title: string; text: string }[] = [
+  { icon: 'users', title: 'Demo users for every role', text: 'Sign in as super admin, admin, manager, employee or user and see exactly what each one can do.' },
+  { icon: 'terminal', title: 'One-command setup', text: 'composer setup installs everything, creates your .env, runs the migrations and builds the frontend.' },
+  { icon: 'layout-grid', title: '25+ finished screens', text: 'Sign-in, dashboard, tenants, users, roles, settings and error pages, designed and connected.' },
+  { icon: 'package', title: 'Reusable form parts', text: 'Inputs, selects, password fields, buttons and confirm dialogs that look the same everywhere.' },
+  { icon: 'flask', title: '35+ tests included', text: 'Tests for sign-in, tenants and settings tell you right away when a change breaks something.' },
+  { icon: 'book', title: 'Docs for every feature', text: 'Step-by-step guides for installing the kit and for every core feature it ships with.' },
 ];
 </script>
 
@@ -29,26 +18,18 @@ const features: { icon: IconName; title: string; text: string }[] = [
       <div class="box-intro">
         <p class="sl-eyebrow">What you get</p>
         <h2 id="out-of-the-box-title" class="sl-h2">A working, signed-in app from the first install</h2>
-        <p class="sl-lead box-lead">Install a kit and you start with a working product, not an empty Laravel project.</p>
-        <p class="sl-text box-description">
-          Every kit comes with the same production-ready Laravel backend and a finished Vue, React or Svelte frontend.
-          Sign-in, tenant management, users and settings already work end to end, so you can spend your first day on the
-          features that make your product yours.
+        <p class="sl-lead box-lead">
+          Install a kit and you get a real product you can sign in to, not an empty Laravel project. Here is what comes
+          in the box.
         </p>
-        <p class="box-ready-label">Ready on install</p>
-        <ul class="box-ready">
-          <li v-for="item in ready" :key="item">
-            <span class="box-ready-check"><SlIcon name="check" :size="12" /></span>{{ item }}
-          </li>
-        </ul>
         <a class="sl-link box-link" href="/docs.html">Read the documentation →</a>
       </div>
 
       <div class="box-grid">
-        <div v-for="feature in features" :key="feature.title" class="box-card">
-          <span class="box-icon"><SlIcon :name="feature.icon" :size="18" /></span>
-          <p class="box-title">{{ feature.title }}</p>
-          <p class="box-text">{{ feature.text }}</p>
+        <div v-for="item in items" :key="item.title" class="box-card">
+          <span class="box-icon"><SlIcon :name="item.icon" :size="18" /></span>
+          <p class="box-title">{{ item.title }}</p>
+          <p class="box-text">{{ item.text }}</p>
         </div>
       </div>
     </div>
@@ -77,7 +58,7 @@ const features: { icon: IconName; title: string; text: string }[] = [
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  align-items: start;
+  align-items: center;
   gap: 64px;
 }
 
@@ -90,47 +71,10 @@ const features: { icon: IconName; title: string; text: string }[] = [
   margin-top: 16px;
 }
 
-.box-description {
-  margin-top: 14px;
-  font-size: 15px;
-  line-height: 1.7;
-}
 
-.box-ready-label {
-  margin: 28px 0 0;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--vp-c-text-3);
-}
 
-.box-ready {
-  display: grid;
-  gap: 12px;
-  margin: 14px 0 0;
-  padding: 0;
-  list-style: none;
-}
 
-.box-ready li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 15px;
-  color: var(--vp-c-text-1);
-}
 
-.box-ready-check {
-  display: grid;
-  flex-shrink: 0;
-  place-items: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--sl-gradient);
-  color: #fff;
-}
 
 .box-link {
   display: inline-block;
@@ -149,6 +93,7 @@ const features: { icon: IconName; title: string; text: string }[] = [
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
+  align-content: start;
   column-gap: 10px;
   padding: 22px 24px;
   border-right: 1px solid var(--sl-border);

@@ -18,6 +18,7 @@ import FeatureSection from './components/FeatureSection.vue';
 import FrameworkCards from './components/FrameworkCards.vue';
 import HeroSection from './components/HeroSection.vue';
 import KitCells from './components/KitCells.vue';
+import OfficialKitSync from './components/OfficialKitSync.vue';
 import KitPreview from './components/KitPreview.vue';
 import HowToPay from './components/HowToPay.vue';
 import ReleaseCard from './components/ReleaseCard.vue';
@@ -30,7 +31,6 @@ import SiteFooter from './components/SiteFooter.vue';
 import TechStack from './components/TechStack.vue';
 import ThreeFrameworksOneBackend from './components/ThreeFrameworksOneBackend.vue';
 import WeeklyUpdates from './components/WeeklyUpdates.vue';
-import WhySection from './components/WhySection.vue';
 import Layout from './Layout.vue';
 import './style.css';
 
@@ -41,6 +41,7 @@ export default {
     app.component('HeroSection', HeroSection);
     app.component('KitPreview', KitPreview);
     app.component('KitCells', KitCells);
+    app.component('OfficialKitSync', OfficialKitSync);
     app.component('ReadyToBuild', ReadyToBuild);
     app.component('BlogIndex', BlogIndex);
     app.component('AuthorPosts', AuthorPosts);
@@ -48,7 +49,6 @@ export default {
     app.component('BlogPostCta', BlogPostCta);
     app.component('TechStack', TechStack);
     app.component('FrameworkCards', FrameworkCards);
-    app.component('WhySection', WhySection);
     app.component('FeatureSection', FeatureSection);
     app.component('FeatureGrid', FeatureGrid);
     app.component('ThreeFrameworksOneBackend', ThreeFrameworksOneBackend);

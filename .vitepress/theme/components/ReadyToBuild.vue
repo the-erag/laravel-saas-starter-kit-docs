@@ -19,6 +19,7 @@ import KitCells from './KitCells.vue';
 <style scoped>
 .ready {
   position: relative;
+  padding-top: 0;
   overflow: hidden;
 }
 

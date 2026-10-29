@@ -99,13 +99,14 @@ Folders alone don't make an architecture. If every module reaches into every oth
 2. When a module does need another one, it uses that module's public pieces (its services, enums and Data objects) and never its internal details or tables.
 3. **Dependencies point one way**, towards a small number of foundation modules. Foundation modules never depend on feature modules, so circular dependencies can't creep in.
 
-Here's the real dependency map of the kits' seven modules:
+Here's the real dependency map of the kits' eight modules:
 
 ```text
 Auth, Dashboard, RolePermission, Settings  →  no module dependencies
 Menu                                       →  Settings (layout settings)
+Notification                               →  RolePermission (roles)
 Tenant                                     →  RolePermission (tenant admin role), Settings (languages)
-User                                       →  RolePermission (roles and permissions)
+User                                       →  RolePermission (roles and permissions), Notification (activity notifications)
 ```
 
 As an example, the `User` module's `UserService` receives `PermissionService` from `RolePermission` through its constructor. It never queries the permission tables itself.
@@ -212,6 +213,6 @@ With Inertia, pages usually stay in `resources/js/pages`, grouped by feature (fo
 
 ## Modules in the SaaS Laravel kits
 
-If you'd rather start with this already in place, the [SaaS Laravel kits](/) ship with it: seven modules (`Auth`, `Dashboard`, `Menu`, `RolePermission`, `Settings`, `Tenant` and `User`), each registered through its own service provider in `bootstrap/providers.php`, with an empty `routes/web.php` and one-way dependencies towards `RolePermission` and `Settings`. The Vue, React and Svelte kits all share the same backend. The details are in the [architecture documentation](/docs/core/architecture.html) and the [project structure guide](/docs/getting-started/project-structure.html), and our [Laravel SaaS starter kit guide](/blog/laravel-saas-starter-kit.html) shows how it fits into the bigger picture.
+If you'd rather start with this already in place, the [SaaS Laravel kits](/) ship with it: eight modules (`Auth`, `Dashboard`, `Menu`, `Notification`, `RolePermission`, `Settings`, `Tenant` and `User`), each registered through its own service provider in `bootstrap/providers.php`, with an empty `routes/web.php` and one-way dependencies towards `RolePermission`, `Settings` and `Notification`. The Vue, React and Svelte kits all share the same backend. The details are in the [architecture documentation](/docs/core/architecture.html) and the [project structure guide](/docs/getting-started/project-structure.html), and our [Laravel SaaS starter kit guide](/blog/laravel-saas-starter-kit.html) shows how it fits into the bigger picture.
 
 <BlogPostCta title="Start with a structure that scales" text="SaaS Laravel gives you a module-based Laravel backend with thin controllers, services and Data objects, plus multi-tenancy, authentication and permissions already built." />

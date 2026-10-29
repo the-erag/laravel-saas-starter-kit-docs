@@ -13,17 +13,17 @@ lastUpdated: false
 
 <HeroSection />
 
+<OfficialKitSync />
+
 <KitPreview />
 
 <AboutSaasLaravel />
 
 <AppOutOfTheBox />
 
-<WhySection />
+<ReadyToBuild />
 
 <FeatureSection />
-
-<ReadyToBuild />
 
 <CustomizeEverything />
 

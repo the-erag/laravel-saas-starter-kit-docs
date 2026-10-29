@@ -137,7 +137,7 @@ onBeforeUnmount(() => {
       <SectionHeading
         eyebrow="Architecture"
         title="Three frameworks. One backend."
-        lead="The Laravel code is identical in every kit. Only resources/js changes, so you learn the backend once and can switch frontends whenever you like."
+        lead="The Laravel code is the same in every kit. Only the frontend folder changes, so you learn the backend once and can switch frontends whenever you like."
       />
       <div ref="diagram" class="diagram">
         <div class="tier tier--backend">
@@ -175,7 +175,7 @@ onBeforeUnmount(() => {
             <svg viewBox="0 0 24 24" class="bridge-logo" aria-hidden="true"><path :d="siInertia.path" /></svg>
             <strong>Inertia v3</strong>
           </div>
-          <span class="bridge-text">Server-side routing and shared props on every page</span>
+          <span class="bridge-text">Connects Laravel to your pages, no separate API needed</span>
           <div class="chips chips--center">
             <code v-for="prop in sharedProps" :key="prop">{{ prop }}</code>
           </div>

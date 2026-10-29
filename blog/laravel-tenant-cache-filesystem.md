@@ -183,6 +183,6 @@ Use `global_cache()`, which skips the tenant tag, or cache it from the central c
 
 ## Cache and file isolation in SaaS Laravel
 
-The [SaaS Laravel starter kits](/) already enable the database, cache, filesystem and queue bootstrappers. The `local` and `public` disks and `storage_path()` are suffixed per tenant (`storage/tenant{id}/...`), and each tenant database also gets its own `cache` and `cache_locks` tables. The test suite runs with the `array` cache store. The details are under [What is tenant-aware](/docs/core/multi-tenancy.html#what-is-tenant-aware) in the documentation.
+The [SaaS Laravel starter kits](/) already enable the database, cache, filesystem and queue bootstrappers. The `local` and `public` disks and `storage_path()` are suffixed per tenant (`storage/tenant{id}/...`), and each tenant database also gets its own `cache` and `cache_locks` tables. The default `CACHE_STORE` is `database`, which the cache bootstrapper can't tag, so switch to Redis or Memcached before you call the `Cache` facade inside a tenant. The test suite runs with the `array` cache store. The details are under [What is tenant-aware](/docs/core/multi-tenancy.html#what-is-tenant-aware) in the documentation.
 
 <BlogPostCta title="Tenant isolation beyond the database" text="SaaS Laravel switches the database, cache, file disks and queued jobs per tenant, with Vue, React or Svelte on the same Laravel backend." />

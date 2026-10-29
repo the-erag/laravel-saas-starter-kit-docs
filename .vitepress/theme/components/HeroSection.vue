@@ -3,8 +3,6 @@ import { site } from '../../site';
 import HeroShowcase from './HeroShowcase.vue';
 import HeroStack from './HeroStack.vue';
 import SlIcon from './SlIcon.vue';
-
-const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '17 languages'];
 </script>
 
 <template>
@@ -21,9 +19,9 @@ const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '
           Laravel SaaS Starter Kits to Build <span class="sl-gradient-text">Faster</span>
         </h1>
         <p class="sl-lead">
-          Production-ready Laravel 13 starter kits with multi-tenancy, authentication, roles &amp; permissions and
-          localization already working. Every kit runs on the same backend, and you pick Vue, React or Svelte for the
-          frontend.
+          Every kit comes with a complete tenant management system, user management, role and permission management,
+          menu management, authentication and security, all ready to use from day one. One Laravel 13 backend, with
+          Vue, React or Svelte on the front.
         </p>
         <div class="sl-actions hero-actions">
           <a class="sl-btn sl-btn--primary sl-btn--lg" href="#features">
@@ -31,9 +29,11 @@ const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '
           </a>
           <a class="sl-btn sl-btn--secondary sl-btn--lg" href="#preview">See It Live</a>
         </div>
-        <ul class="hero-highlights">
-          <li v-for="item in highlights" :key="item"><SlIcon name="check" :size="16" />{{ item }}</li>
-        </ul>
+        <a class="hero-tree-link" href="#customize">
+          <SlIcon name="code" :size="15" />
+          See the folder structure and how easy it is to customize
+          <span class="vpi-arrow-right hero-tree-arrow" />
+        </a>
       </div>
       <div class="hero-visual sl-reveal">
         <HeroShowcase />
@@ -112,25 +112,34 @@ const highlights = ['Multi-tenancy', 'Auth & passkeys', 'Roles & permissions', '
   margin-top: 32px;
 }
 
-.hero-highlights {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 20px;
-  margin: 28px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.hero-highlights li {
+.hero-tree-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 14px;
+  gap: 8px;
+  margin-top: 22px;
+  font-size: 14.5px;
+  font-weight: 500;
   color: var(--vp-c-text-2);
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
-.hero-highlights :deep(.sl-icon) {
-  color: var(--sl-success);
+.hero-tree-link :deep(.sl-icon) {
+  color: var(--vp-c-brand-1);
+}
+
+.hero-tree-link:hover {
+  color: var(--vp-c-brand-1);
+}
+
+.hero-tree-arrow {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s;
+}
+
+.hero-tree-link:hover .hero-tree-arrow {
+  transform: translateX(3px);
 }
 
 .hero-frameworks {

@@ -14,7 +14,7 @@ tags: [Inertia, Frontend]
 
 If you've got a Laravel app on Inertia v2, you're probably wondering how much work Inertia v3 will be. It's the biggest release of the adapter since v2: Axios is gone, a new Vite plugin removes most of the setup code, and there are new tools like `useHttp`, optimistic updates, instant visits and layout props. Below I'll go through what's new, which breaking changes to search your code for, and the upgrade steps in order.
 
-Everything here was checked against `inertiajs/inertia-laravel` 3.3 and the `@inertiajs/*` 3.7 packages.
+Everything here was checked against `inertiajs/inertia-laravel` 3.5 and the `@inertiajs/*` 3.9 packages.
 
 ## Inertia v3 at a glance
 
@@ -60,7 +60,7 @@ With the plugin in place, `createInertiaApp()` can drop the `resolve` callback e
 
 `createInertiaApp()` now accepts a `layout` option, so you can choose a layout for every page in one place based on the page name. Pages can also pass data up to their layout, like a title or breadcrumbs, with static props or `setLayoutProps()`.
 
-If you've read early upgrade notes that mention a `useLayoutProps` hook, that's where the confusion comes from. In the installed 3.7 adapters the exported function is `setLayoutProps()`, with `resetLayoutProps()` beside it. I go through both step by step in [persistent layouts in Inertia](/blog/inertia-persistent-layouts.html).
+If you've read early upgrade notes that mention a `useLayoutProps` hook, that's where the confusion comes from. In the current 3.x adapters the exported function is `setLayoutProps()`, with `resetLayoutProps()` beside it. I go through both step by step in [persistent layouts in Inertia](/blog/inertia-persistent-layouts.html).
 
 ### useHttp for plain JSON requests
 
@@ -182,6 +182,6 @@ Yes. The new `<x-inertia::app>` and `<x-inertia::head>` components are an altern
 
 ## Inertia v3 in SaaS Laravel
 
-If you'd rather start on v3 than upgrade to it, the [SaaS Laravel starter kits](/) are already built on Inertia v3 (`inertiajs/inertia-laravel` ^3.0 and `@inertiajs/*` ^3.0) with the `@inertiajs/vite` plugin, so `app.ts` has no `resolve` callback. Default layouts are chosen by page name in `createInertiaApp()`. There's no Axios: forms use the `Form` component, two-factor QR and recovery codes load through `useHttp`, and controllers send toasts with `Inertia::flash()`. The root view uses `<x-inertia::head>` and `<x-inertia::app>`. You can read more in [Inertia v3 with Vue](/docs/vue/inertia.html), or compare the three frontends in [Vue, React or Svelte for your Laravel SaaS](/blog/vue-react-or-svelte-laravel-saas.html).
+If you'd rather start on v3 than upgrade to it, the [SaaS Laravel starter kits](/) are already built on Inertia v3 (`inertiajs/inertia-laravel` ^3.5 and `@inertiajs/*` ^3.9) with the `@inertiajs/vite` plugin, so `app.ts` has no `resolve` callback. Default layouts are chosen by page name in `createInertiaApp()`. There's no Axios: forms use the `Form` component, two-factor QR and recovery codes load through `useHttp`, and controllers send toasts with `Inertia::flash()`. The root view uses `<x-inertia::head>` and `<x-inertia::app>`. You can read more in [Inertia v3 with Vue](/docs/vue/inertia.html), or compare the three frontends in [Vue, React or Svelte for your Laravel SaaS](/blog/vue-react-or-svelte-laravel-saas.html).
 
 <BlogPostCta title="Start on Inertia v3 from day one" text="SaaS Laravel kits run on Inertia v3 with the Vite plugin, the Form component and flash toasts, in Vue, React or Svelte on the same Laravel backend." />

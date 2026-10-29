@@ -62,13 +62,17 @@ We keep new custom domains out of the `domains` table until they're verified. A 
 ```php
 Schema::create('pending_domains', function (Blueprint $table) {
     $table->id();
-    $table->foreignId('tenant_id')->constrained()->cascadeOnDelete();
+    $table->string('tenant_id');
     $table->string('domain')->unique();
     $table->string('token');
     $table->timestamp('last_checked_at')->nullable();
     $table->timestamps();
+
+    $table->foreign('tenant_id')->references('id')->on('tenants')->cascadeOnUpdate()->cascadeOnDelete();
 });
 ```
+
+stancl/tenancy's default `tenants` table uses a string `id`, so `tenant_id` is a string here too, the same as in its own `domains` table. If your `tenants` table uses auto-increment IDs, as the SaaS Laravel kits do, use `$table->foreignId('tenant_id')->constrained()->cascadeOnDelete()` instead.
 
 Show the customer a TXT record to add, such as `_your-saas-verify.app.acme.com` with the token as its value. A scheduled job then checks it using PHP's `dns_get_record()`:
 

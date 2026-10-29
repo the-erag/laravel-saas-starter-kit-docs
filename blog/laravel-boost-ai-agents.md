@@ -52,7 +52,7 @@ Every agent looks for its files somewhere different, and Boost knows the default
 
 | Agent | Guidelines | Skills | MCP config |
 | --- | --- | --- | --- |
-| Claude Code | `CLAUDE.md` | `.claude/skills` | `.mcp.json` |
+| Claude Code | `CLAUDE.md` if it exists, otherwise `AGENTS.md` | `.claude/skills` | `.mcp.json` |
 | Codex | `AGENTS.md` | `.agents/skills` | `.codex/config.toml` |
 | Junie | `AGENTS.md` | `.junie/skills` | `.junie/mcp/mcp.json` |
 | Cursor | `AGENTS.md` | `.cursor/skills` | `.cursor/mcp.json` |

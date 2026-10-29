@@ -16,7 +16,7 @@ If you're choosing between stancl tenancy vs spatie multitenancy, you're choosin
 
 Both are mature, maintained and free. The most detailed comparison you'll find today is on the stancl/tenancy docs site, written by that package's author. That's useful, but it isn't neutral. We use stancl/tenancy in our own product, so we're not neutral either. What we've tried to do here is describe both packages from their own documentation and source, and say plainly where each one is the better fit.
 
-Versions as of October 2026: stancl/tenancy **v3.10.1** (supports Laravel 10 to 13) and spatie/laravel-multitenancy **4.2.2** (PHP 8.3+, Laravel 12 or 13). We're testing on Laravel 13 and PHP 8.4.
+Versions as of October 2026: stancl/tenancy **v3.10.1** (supports Laravel 10 to 13) and spatie/laravel-multitenancy **4.3.0** (PHP 8.3+, Laravel 12 or 13). We're testing on Laravel 13 and PHP 8.4.
 
 ## The two packages at a glance
 
@@ -178,7 +178,7 @@ Artisan commands per tenant:
 | | stancl/tenancy v3 | spatie/laravel-multitenancy v4 |
 | --- | --- | --- |
 | Approach | Automatic (manual mode available) | Minimal and explicit |
-| Current version (Oct 2026) | v3.10.1; v4 untagged (`dev-master`) | 4.2.2 |
+| Current version (Oct 2026) | v3.10.1; v4 untagged (`dev-master`) | 4.3.0 |
 | Laravel support | 10 to 13 | 12 and 13 |
 | Identification | Domain, subdomain, path, request data | Domain; anything else via custom finder |
 | Multiple domains per tenant | Yes | Custom |

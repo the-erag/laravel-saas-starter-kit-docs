@@ -154,7 +154,7 @@ On the page side, keep a `useRef<UserFormModalHandle>(null)` and call `modalRef.
 
 ## The React Compiler and memoisation
 
-Once `babel-plugin-react-compiler` is added to `@vitejs/plugin-react` in `vite.config.ts`, the compiler memoises components and values for you. Day to day, that means writing plain derived values instead of wrapping them in `useMemo`:
+Once the React Compiler is turned on in `vite.config.ts`, it memoises components and values for you. With `@vitejs/plugin-react` v6, the old `babel: { plugins: [...] }` option no longer exists: use `react({ compiler: true })`, or add `babel({ presets: [reactCompilerPreset()] })` from `@rolldown/plugin-babel`. Day to day, that means writing plain derived values instead of wrapping them in `useMemo`:
 
 ```tsx
 const isEditing = selected !== null;
@@ -191,6 +191,6 @@ Yes. The React team released the compiler as stable, and it works on standard Re
 
 ## How SaaS Laravel does it in React
 
-If you'd rather start from working code, the [SaaS Laravel React kit](/kits/react.html) uses React 19 and Inertia v3 with the structure described above. Pages such as `pages/users/index.tsx` set breadcrumbs with `UsersIndex.layout`, `app.tsx` wraps the app in `TooltipProvider` and `Toaster` through `withApp`, and modals like `user-form-modal.tsx` expose `open()` through a ref prop. The React Compiler is enabled in `vite.config.ts`, and `npm run lint` runs ESLint, Prettier and `tsc --noEmit`. Every page, layout and hook is described in the [React kit documentation](/docs/react.html).
+If you'd rather start from working code, the [SaaS Laravel React kit](/kits/react.html) uses React 19 and Inertia v3 with the structure described above. Pages such as `pages/users/index.tsx` set breadcrumbs with `UsersIndex.layout`, `app.tsx` wraps the app in `TooltipProvider` and `Toaster` through `withApp`, and modals like `user-form-modal.tsx` expose `open()` through a ref prop. `babel-plugin-react-compiler` is installed for the React Compiler, and `npm run lint` runs ESLint, Prettier and `tsc --noEmit`. Every page, layout and hook is described in the [React kit documentation](/docs/react.html).
 
 <BlogPostCta title="Build your SaaS in React, not from zero" text="The SaaS Laravel React kit ships React 19 and Inertia v3 pages for users, roles, tenants and settings, with shadcn/ui components and typed routes." />

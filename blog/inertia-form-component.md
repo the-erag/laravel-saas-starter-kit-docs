@@ -145,7 +145,7 @@ For an edit form, set the initial values the uncontrolled way. React and Vue use
 </Form>
 ```
 
-A native HTML form only supports GET and POST. `Form` submits through Inertia, though, so `method="patch"` just works. Wayfinder's `.form()` variant goes the other way: it posts and spoofs the method with Laravel's `_method` field.
+A native HTML form only supports GET and POST. `Form` submits through Inertia, though, so `method="patch"` just works. Wayfinder's `.form()` variant goes the other way: it spoofs the method with a `_method` query parameter on the action URL, which Laravel reads just like the hidden field.
 
 ## File uploads and progress
 

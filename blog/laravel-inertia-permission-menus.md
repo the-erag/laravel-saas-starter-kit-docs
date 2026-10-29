@@ -162,7 +162,7 @@ const page = usePage<{ navigation: NavItem[] }>();
 </template>
 ```
 
-React reads the same prop with `usePage().props.navigation`, and Svelte uses the page store from `@inertiajs/svelte`. Not one of them contains a permission check. If you already describe your PHP data with classes, you can [generate the TypeScript types from PHP](/blog/laravel-typescript-types-from-php.html) instead of writing `NavItem` by hand.
+React reads the same prop with `usePage().props.navigation`, and Svelte reads `page.props.navigation` from the `page` object exported by `@inertiajs/svelte`. Not one of them contains a permission check. If you already describe your PHP data with classes, you can [generate the TypeScript types from PHP](/blog/laravel-typescript-types-from-php.html) instead of writing `NavItem` by hand.
 
 ## Buttons and actions inside a page
 

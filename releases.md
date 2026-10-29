@@ -26,6 +26,26 @@ Improved, Fixed or Removed, and describe anything buyers must do in words as the
 
 <ReleaseFilter />
 
+<ReleaseCard kit="vue" version="1.5.0" date="30 October 2026">
+
+- Fixed the dashboard and home page tests so the whole test suite passes again. The dashboard test now gives the user the dashboard permission, and the home page test expects the landing page.
+
+</ReleaseCard>
+
+<ReleaseCard kit="react" version="1.5.0" date="30 October 2026">
+
+- Fixed the test suite so every test passes again. The dashboard, home page, layout settings and tenant tests now match the current permissions, the landing page and the tenant creation form.
+- Fixed tenant tests that could fail when run together, by closing the tenant database connection after each test.
+
+</ReleaseCard>
+
+<ReleaseCard kit="svelte" version="1.5.0" date="30 October 2026">
+
+- Fixed the test suite so every test passes again. The dashboard, home page, layout settings and tenant tests now match the current permissions, the landing page and the tenant creation form.
+- Fixed tenant tests that could fail when run together, by closing the tenant database connection after each test.
+
+</ReleaseCard>
+
 <ReleaseCard kit="vue" version="1.4.0" date="19 October 2026">
 
 - Added in-app notifications. A bell with an unread badge now sits next to the breadcrumbs and shows the latest notifications, with Mark all as read and a link to the new Notifications page.

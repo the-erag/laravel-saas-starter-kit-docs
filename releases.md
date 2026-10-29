@@ -26,6 +26,27 @@ Improved, Fixed or Removed, and describe anything buyers must do in words as the
 
 <ReleaseFilter />
 
+<ReleaseCard kit="vue" version="1.5.1" date="30 October 2026">
+
+- Fixed the GitHub Actions test workflow, which stopped at setup because it looked for a MySQL server. It now runs on SQLite.
+- Fixed every static analysis error, so the code style, type and test checks all pass in CI.
+
+</ReleaseCard>
+
+<ReleaseCard kit="react" version="1.5.1" date="30 October 2026">
+
+- Fixed the GitHub Actions test workflow, which stopped at setup because it looked for a MySQL server. It now runs on SQLite.
+- Fixed every static analysis error, so the code style, type and test checks all pass in CI.
+
+</ReleaseCard>
+
+<ReleaseCard kit="svelte" version="1.5.1" date="30 October 2026">
+
+- Fixed the GitHub Actions test workflow, which stopped at setup because it looked for a MySQL server. It now runs on SQLite.
+- Fixed every static analysis error, so the code style, type and test checks all pass in CI.
+
+</ReleaseCard>
+
 <ReleaseCard kit="vue" version="1.5.0" date="30 October 2026">
 
 - Fixed the dashboard and home page tests so the whole test suite passes again. The dashboard test now gives the user the dashboard permission, and the home page test expects the landing page.

@@ -7,6 +7,14 @@ description: "Answers to common questions about the SaaS Laravel starter kits: k
 
 ## Product
 
+### What is SaaS Laravel?
+
+SaaS Laravel is a Laravel SaaS starter kit for building multi-tenant SaaS applications. It comes as three kits, Vue, React and Svelte, that share one Laravel backend with multi-tenancy, authentication, users, roles and permissions already built. See the [Laravel SaaS starter kit](/) overview.
+
+### Which Laravel version do the kits use?
+
+Laravel 13 (`laravel/framework` `^13.35`) on PHP 8.4 or newer, with Inertia v3 on the frontend. See [Requirements](/docs/getting-started/requirements).
+
 ### What is the difference between the Vue, React and Svelte kits?
 
 Just the frontend in `resources/js`. The Laravel backend is the same in all three: modules, tenancy, auth, permissions, migrations, translations and tests. Pick the frontend your team already likes working in. See [Introduction](/docs).
@@ -29,7 +37,7 @@ By default, tenant domains are subdomains of `APP_DOMAIN`, like `acme.your-domai
 
 ### Single database or one database per tenant?
 
-Each tenant gets its own database (stancl/tenancy's multi-database mode). See [Multi-tenancy](/docs/core/multi-tenancy).
+Each tenant gets its own database (stancl/tenancy's multi-database mode). See [Laravel multi-tenancy](/docs/core/multi-tenancy).
 
 ### Which languages are included?
 

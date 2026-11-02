@@ -137,6 +137,10 @@ index.url()</code></pre>
               <SlIcon name="check" :size="16" class="kit-check" />{{ item }}
             </li>
           </ul>
+          <p class="kit-detail-link">
+            See how <a href="/docs/core/multi-tenancy.html">Laravel multi-tenancy</a> works in every kit: a database per tenant
+            with stancl/tenancy, identified by subdomain.
+          </p>
         </div>
         <div class="sl-card backend">
           <dl>

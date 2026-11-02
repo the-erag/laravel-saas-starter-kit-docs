@@ -1,11 +1,13 @@
 ---
-title: "Laravel Database-per-Tenant Multi-Tenancy"
-description: "Database-per-tenant multi-tenancy with stancl/tenancy: identification by domain, the tenant creation pipeline, workspace status and admin invitations."
+title: "Laravel Multi-Tenancy with stancl/tenancy"
+description: "How Laravel multi-tenancy works in the SaaS Laravel kits: stancl/tenancy with a database per tenant, subdomain identification, tenant creation and invitations."
 ---
 
-# Multi-tenancy
+# Laravel multi-tenancy
 
 The kits run stancl/tenancy (`^3.10`) in multi-database mode. Each tenant (workspace) gets **its own database**, and the request's domain tells the app which tenant it's dealing with. Because the data is split at the database level, your tenant code doesn't need `where tenant_id = ...` filters.
+
+New to multi-tenant Laravel apps? [How to build a multi-tenant SaaS with Laravel](/blog/multi-tenant-saas-laravel-database-per-tenant.html) compares the single-database, schema and database-per-tenant models, and [single vs multi-database tenancy in Laravel](/blog/single-vs-multi-database-tenancy-laravel.html) helps you decide which one your product needs.
 
 ```text
 vue.test            → central app  (central DB: saas_laravel_vue)
@@ -178,3 +180,17 @@ php artisan tenants:seed                     # run TenantDatabaseSeeder for all 
 ```
 
 You also get `tenants:list` and `tenants:run <command>`. The [Database](/docs/core/database) page has the details.
+
+## Multi-tenancy guides
+
+These blog guides cover each part of a multi-tenant Laravel app in more depth:
+
+- [stancl/tenancy tutorial: getting started](/blog/stancl-tenancy-tutorial.html)
+- [Laravel multi-tenancy with subdomains](/blog/laravel-multi-tenancy-subdomains.html)
+- [Custom domains for tenants in Laravel](/blog/laravel-tenant-custom-domains.html)
+- [Tenant migrations and seeders in Laravel](/blog/laravel-tenant-migrations-seeders.html)
+- [Queued jobs in a multi-tenant Laravel app](/blog/laravel-multi-tenant-queues.html)
+- [Tenant-aware cache and file storage](/blog/laravel-tenant-cache-filesystem.html)
+- [Testing multi-tenant Laravel apps with Pest](/blog/test-multi-tenant-laravel-pest.html)
+- [Deleting tenants safely in Laravel](/blog/delete-tenant-laravel-safely.html)
+- [stancl/tenancy vs Spatie Multitenancy](/blog/stancl-tenancy-vs-spatie-multitenancy.html)

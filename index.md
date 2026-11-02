@@ -1,6 +1,6 @@
 ---
-title: "Laravel SaaS Starter Kits for Vue, React & Svelte"
-description: "Production-ready Laravel SaaS starter kits for Vue, React and Svelte with multi-tenancy, authentication, permissions and localization. Pay once, weekly updates."
+title: "Laravel 13 SaaS Starter Kit with Multi-Tenancy | SaaS Laravel"
+description: "Laravel 13 SaaS starter kit with multi-tenancy (a database per tenant), auth, 2FA, roles and permissions. Vue, React or Svelte kits. Pay once, weekly updates."
 titleTemplate: false
 layout: page
 sidebar: false

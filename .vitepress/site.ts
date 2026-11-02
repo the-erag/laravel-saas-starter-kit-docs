@@ -55,7 +55,7 @@ export const site = {
   url: 'https://saas-laravel.com',
   title: 'Laravel SaaS Starter Kits for Vue, React & Svelte',
   description:
-    'Production-ready Laravel SaaS starter kits for Vue, React and Svelte with lifetime access and weekly updates.',
+    'Laravel 13 SaaS starter kits for Vue, React and Svelte with database-per-tenant multi-tenancy, auth, roles and permissions. Lifetime access, weekly updates.',
   themeColor: '#4f46e5',
   sponsorUrl: 'https://github.com/sponsors/eramitgupta',
   githubProfile: githubOwner,

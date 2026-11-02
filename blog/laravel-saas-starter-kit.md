@@ -105,7 +105,7 @@ Our rule of thumb is simple. If a kit saves you even a few days of development, 
 
 ## How SaaS Laravel compares
 
-[SaaS Laravel](/) is a premium **Laravel SaaS starter kit** built around the checklist above. Here's how it answers each point, including what it doesn't do:
+SaaS Laravel is a premium [Laravel SaaS starter kit](/) for Laravel 13, built around the checklist above. Here's how it answers each point, including what it doesn't do:
 
 | Checklist item | SaaS Laravel |
 | --- | --- |

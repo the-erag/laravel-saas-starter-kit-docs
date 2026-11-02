@@ -16,12 +16,12 @@ import SlIcon from './SlIcon.vue';
           <span class="vpi-arrow-right hero-pill-arrow" />
         </a>
         <h1 class="sl-h1">
-          Laravel SaaS Starter Kits to Build <span class="sl-gradient-text">Faster</span>
+          Laravel 13 SaaS Starter Kits for <span class="sl-gradient-text">Multi-Tenant</span> Apps
         </h1>
         <p class="sl-lead">
-          Every kit comes with a complete tenant management system, user management, role and permission management,
-          menu management, authentication and security, all ready to use from day one. One Laravel 13 backend, with
-          Vue, React or Svelte on the front.
+          Build a multi-tenant Laravel SaaS application without starting from zero. Every kit ships with tenant
+          management (a database per tenant with stancl/tenancy), users, roles and permissions, menus, authentication
+          and security, ready from day one. One Laravel 13 backend, with Vue, React or Svelte on the front.
         </p>
         <div class="sl-actions hero-actions">
           <a class="sl-btn sl-btn--primary sl-btn--lg" href="#features">

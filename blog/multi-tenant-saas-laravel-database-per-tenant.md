@@ -1,6 +1,6 @@
 ---
 title: "How to Build a Multi-Tenant SaaS with Laravel"
-description: "Single database, schema or database per tenant? How database-per-tenant multi-tenancy works in Laravel with stancl/tenancy, plus the pitfalls to avoid."
+description: "How to build a multi-tenant SaaS application with Laravel: single database vs database per tenant, setting up stancl/tenancy, and the pitfalls to avoid."
 pageClass: blog-page
 date: 2026-09-29
 author: erag

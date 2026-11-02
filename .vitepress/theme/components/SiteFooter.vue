@@ -18,6 +18,7 @@ const columns: { title: string; links: { text: string; href: string; external?: 
       { text: 'Getting Started', href: '/docs.html' },
       { text: 'Local Development', href: '/docs/getting-started/local-development.html' },
       { text: 'Architecture', href: '/docs/core/architecture.html' },
+      { text: 'Laravel Multi-Tenancy', href: '/docs/core/multi-tenancy.html' },
       { text: 'FAQ', href: '/docs/reference/faq.html' },
     ],
   },

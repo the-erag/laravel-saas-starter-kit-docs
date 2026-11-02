@@ -6,6 +6,8 @@ const links = [
   { text: 'Laravel Vue SaaS starter kit', href: '/kits/vue.html' },
   { text: 'Laravel React SaaS starter kit', href: '/kits/react.html' },
   { text: 'Laravel Svelte SaaS starter kit', href: '/kits/svelte.html' },
+  { text: 'Laravel multi-tenancy docs', href: '/docs/core/multi-tenancy.html' },
+  { text: 'How to build a SaaS with Laravel', href: '/blog/multi-tenant-saas-laravel-database-per-tenant.html' },
   { text: 'Starter kit pricing', href: '/pricing.html' },
   { text: 'Documentation', href: '/docs.html' },
   { text: 'Laravel SaaS blog', href: '/blog.html' },
@@ -20,12 +22,14 @@ const links = [
           <span id="about-saas-laravel">A Laravel SaaS starter kit for Vue, React and Svelte</span>
         </SectionHeading>
         <p class="sl-text">
-          SaaS Laravel is a set of Laravel SaaS starter kits for developers and small teams who want to launch a multi-tenant
-          product without rebuilding the same foundation every time. Every kit runs on Laravel 13 and Inertia v3, and you pick
+          SaaS Laravel is a set of Laravel SaaS starter kits for developers and small teams who want to launch a
+          <a class="sl-link" href="/blog/multi-tenant-saas-laravel-database-per-tenant.html">multi-tenant SaaS application with Laravel</a>
+          without rebuilding the same foundation every time. Every kit runs on Laravel 13 and Inertia v3, and you pick
           the frontend: Vue 3.5, React 19 or Svelte 5, each with TypeScript and Tailwind CSS v4.
         </p>
         <p class="sl-text">
-          The backend is the same in all three kits. Each customer gets their own database and subdomain, people sign in
+          The backend is the same in all three kits. <a class="sl-link" href="/docs/core/multi-tenancy.html">Laravel multi-tenancy</a>
+          runs on stancl/tenancy: each customer gets their own database and subdomain, people sign in
           with two-factor codes or passkeys, you decide exactly who can do what, and the whole interface comes in 17
           languages.
         </p>

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import {
+  siAlpinedotjs,
   siInertia,
   siLaravel,
+  siLivewire,
   siPhp,
   siReact,
   siShadcnui,
@@ -20,6 +22,8 @@ const logos: { icon: SimpleIcon; name: string; version?: string }[] = [
   { icon: siVuedotjs, name: 'Vue', version: '3.5' },
   { icon: siReact, name: 'React', version: '19' },
   { icon: siSvelte, name: 'Svelte', version: '5' },
+  { icon: siLivewire, name: 'Livewire', version: '4' },
+  { icon: siAlpinedotjs, name: 'Alpine.js' },
   { icon: siTypescript, name: 'TypeScript' },
   { icon: siTailwindcss, name: 'Tailwind CSS', version: 'v4' },
   { icon: siVite, name: 'Vite', version: '8' },

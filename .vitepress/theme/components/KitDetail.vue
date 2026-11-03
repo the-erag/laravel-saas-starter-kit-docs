@@ -1,14 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import {
-  backendStack,
-  formatPrice,
-  frameworkKeys,
-  frontendCommon,
-  kits,
-  site,
-  type FrameworkKey,
-} from '../../site';
+import { formatPrice, frameworkKeys, kits, plans, site, type FrameworkKey } from '../../site';
 import CTASection from './CTASection.vue';
 import FeatureGrid from './FeatureGrid.vue';
 import FrameworkLogo from './FrameworkLogo.vue';
@@ -20,12 +12,18 @@ const props = defineProps<{ framework: FrameworkKey }>();
 const kit = computed(() => kits[props.framework]);
 const otherKits = computed(() => frameworkKeys.filter((key) => key !== props.framework).map((key) => kits[key]));
 
+const inBundle = computed(() => plans['all-kits'].frameworks.includes(props.framework));
+const ctaText = computed(() =>
+  inBundle.value
+    ? `The ${kit.value.title} is ${formatPrice(kit.value.price)}, paid once, or get all four kits for ${formatPrice(site.bundlePrice)}. You keep access for life and get weekly updates.`
+    : `The ${kit.value.title} is ${formatPrice(kit.value.price)}, paid once. You keep access for life and get weekly updates.`,
+);
 const included = computed(() => [
   'The full Laravel + ' + kit.value.name + ' source code',
   'Access to the ' + kit.value.repoName + ' repository',
   'Weekly updates, pushed to that repository',
   'Pest feature tests, with Larastan and Pint already set up',
-  '17 languages, with translations synced to the frontend',
+  kit.value.translationsNote,
   'Documentation for the backend and the ' + kit.value.name + ' frontend',
 ]);
 </script>
@@ -58,7 +56,7 @@ const included = computed(() => [
             </div>
           </dl>
           <div class="kit-common">
-            <span v-for="item in frontendCommon" :key="item">{{ item }}</span>
+            <span v-for="item in kit.frontendCommon" :key="item">{{ item }}</span>
           </div>
         </div>
       </div>
@@ -90,10 +88,8 @@ const included = computed(() => [
         <div>
           <p class="snippet-label">Translations in a component</p>
           <pre class="sl-code"><code>{{ kit.langImport }}</code></pre>
-          <p class="snippet-label snippet-label--gap">Typed routes with Wayfinder</p>
-          <pre class="sl-code"><code>import { index } from '@/routes/tenants'
-
-index.url()</code></pre>
+          <p class="snippet-label snippet-label--gap">{{ kit.routesSnippet.label }}</p>
+          <pre class="sl-code"><code>{{ kit.routesSnippet.code }}</code></pre>
         </div>
       </div>
     </section>
@@ -130,7 +126,7 @@ index.url()</code></pre>
             :center="false"
             eyebrow="Shared backend"
             title="The same Laravel backend in every kit"
-            lead="The Vue, React and Svelte kits run exactly the same backend code. Only resources/js is different."
+            :lead="kit.sharedBackendLead"
           />
           <ul class="sl-checklist">
             <li v-for="item in included" :key="item">
@@ -144,7 +140,7 @@ index.url()</code></pre>
         </div>
         <div class="sl-card backend">
           <dl>
-            <div v-for="item in backendStack" :key="item.label">
+            <div v-for="item in kit.backendStack" :key="item.label">
               <dt>{{ item.label }}</dt>
               <dd>{{ item.value }}</dd>
             </div>
@@ -171,7 +167,7 @@ index.url()</code></pre>
 
     <CTASection
       :title="`Start building with ${kit.name}`"
-      :text="`The ${kit.title} is ${formatPrice(kit.price)}, paid once, or get all three kits for ${formatPrice(site.bundlePrice)}. You keep access for life and get weekly updates.`"
+      :text="ctaText"
       :primary-text="`Get the ${kit.name} kit`"
       :primary-link="`/pricing/${framework}.html`"
       secondary-text="Compare all plans"
@@ -195,6 +191,10 @@ index.url()</code></pre>
 
 .kit--svelte {
   --accent: var(--sl-svelte);
+}
+
+.kit--livewire {
+  --accent: var(--sl-livewire);
 }
 
 .kit-hero {

@@ -6,6 +6,7 @@ const options: { value: 'all' | ReleaseKit; label: string }[] = [
   { value: 'vue', label: 'Vue' },
   { value: 'react', label: 'React' },
   { value: 'svelte', label: 'Svelte' },
+  { value: 'livewire', label: 'Livewire' },
 ];
 </script>
 

@@ -13,7 +13,7 @@ Your purchase includes **lifetime access with weekly updates**. You pay once; th
 Weekly updates → your kit repository (main) → your upstream/main → merge into your project
 ```
 
-- Every update is pushed to your kit repository (`saas-laravel-starter-kit-vue`, `-react` or `-svelte`).
+- Every update is pushed to your kit repository (`saas-laravel-starter-kit-vue`, `-react`, `-svelte` or `-livewire`).
 - We publish updates weekly, and the `main` branch of your kit repository always has the latest version.
 - The [Release Notes](/releases) page lists what changed in each update.
 - If you'd like a notification, watch the repository on GitHub (**Watch → Custom → Releases/All activity**).

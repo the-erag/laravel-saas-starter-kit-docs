@@ -118,7 +118,7 @@ SaaS Laravel is a premium [Laravel SaaS starter kit](/) for Laravel 13, built ar
 | Extras | 17 languages, per-domain settings, maintenance mode and workspace suspension, sidebar or header layouts |
 | Tests and tooling | Pest, Larastan, Pint, ESLint, Prettier, a GitHub Actions workflow and Laravel Boost guidelines for AI agents |
 | Billing | **Not included**, by design, so you can use Stripe, Paddle, Razorpay or any provider that fits your market |
-| Pricing | One-time payment from $29 per kit, or $79 for all three, with lifetime access and weekly updates |
+| Pricing | One-time payment from $49 per kit, or $139 for all four, with lifetime access and weekly updates |
 
 The full list is on the [features overview](/#features), and you can compare plans on the [pricing page](/pricing.html).
 

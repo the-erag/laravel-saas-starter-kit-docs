@@ -3,7 +3,7 @@ import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { DefaultTheme, HeadConfig, PageData } from 'vitepress';
-import { blogAuthor, blogCategories, frameworkKeys, kitPriceList, kits, paymentFaqs, plans, salesCountries, site, type FrameworkKey, type PlanKey } from './site';
+import { blogAuthor, blogCategories, frameworkKeys, kitPriceList, kits, paymentFaqs, planOrder, plans, salesCountries, site, type FrameworkKey, type PlanKey } from './site';
 
 type JsonLd = Record<string, unknown>;
 
@@ -13,6 +13,7 @@ const sectionNames: Record<string, string> = {
   vue: 'Vue Starter Kit',
   react: 'React Starter Kit',
   svelte: 'Svelte Starter Kit',
+  livewire: 'Livewire Starter Kit',
   purchase: 'Purchase',
   reference: 'Reference',
 };
@@ -35,7 +36,7 @@ const frameworkFor = (relativePath: string): FrameworkKey | undefined =>
 const imageNameFor = (relativePath: string): string => {
   const framework = frameworkFor(relativePath);
 
-  if (framework) {
+  if (framework && existsSync(join(publicDir, `og-${framework}.png`))) {
     return `og-${framework}`;
   }
 
@@ -161,7 +162,8 @@ const productNames: Record<PlanKey, string> = {
   vue: 'Laravel Vue SaaS Starter Kit',
   react: 'Laravel React SaaS Starter Kit',
   svelte: 'Laravel Svelte SaaS Starter Kit',
-  'all-kits': 'Laravel SaaS Starter Kits Bundle (Vue, React & Svelte)',
+  livewire: 'Laravel Livewire SaaS Starter Kit',
+  'all-kits': 'Laravel SaaS Starter Kits Bundle (Vue, React, Svelte & Livewire)',
 };
 
 // A list page (home, pricing) links to each kit's own page instead of repeating the Product there:
@@ -169,7 +171,7 @@ const productNames: Record<PlanKey, string> = {
 const kitList = (name: string, urlFor: (key: PlanKey) => string): JsonLd => ({
   '@type': 'ItemList',
   name,
-  itemListElement: (['vue', 'react', 'svelte', 'all-kits'] as PlanKey[]).map((key, index) => ({
+  itemListElement: planOrder.map((key, index) => ({
     '@type': 'ListItem',
     position: index + 1,
     name: productNames[key],
@@ -293,7 +295,7 @@ const structuredData = (pageData: PageData, url: string, title: string, descript
     const section = path.split('/')[1]?.replace(/\.md$/, '');
     const trail = [home, { name: 'Documentation', url: `${site.url}/docs.html` }];
 
-    if (section && ['vue', 'react', 'svelte'].includes(section) && path !== `docs/${section}.md`) {
+    if (section && (frameworkKeys as string[]).includes(section) && path !== `docs/${section}.md`) {
       trail.push({ name: sectionNames[section], url: `${site.url}/docs/${section}.html` });
     }
 
@@ -457,7 +459,7 @@ export const writeLlmsFiles = async (srcDir: string, outDir: string, docsSidebar
   const marketing = [
     ...frameworkKeys.map((key) => `/kits/${key}`),
     '/pricing',
-    ...(['vue', 'react', 'svelte', 'all-kits'] as PlanKey[]).map((key) => plans[key].href.replace(/\.html$/, '')),
+    ...planOrder.map((key) => plans[key].href.replace(/\.html$/, '')),
     '/how-to-pay',
     '/releases',
     '/blog',
@@ -471,7 +473,7 @@ export const writeLlmsFiles = async (srcDir: string, outDir: string, docsSidebar
     '',
     `> ${site.description}`,
     '',
-    `${site.name} sells three Laravel SaaS starter kits that share one Laravel 13 backend: Vue 3.5, React 19 or Svelte 5 with Inertia v3, TypeScript, Tailwind CSS v4 and shadcn components. The kits cost ${kitPriceList}, and all three cost $${site.bundlePrice}, as a one-time payment through GitHub Sponsors with lifetime access and weekly updates. Repository access is granted automatically after payment.`,
+    `${site.name} sells four Laravel SaaS starter kits with the same Laravel 13 SaaS features: Vue 3.5, React 19 or Svelte 5 with Inertia v3, TypeScript, Tailwind CSS v4 and shadcn components, or Livewire 4 with Blade, Alpine.js and Flux UI. The kits cost ${kitPriceList}, and all four kits together cost $${site.bundlePrice}, as a one-time payment through GitHub Sponsors with lifetime access and weekly updates. Repository access is granted automatically after payment.`,
     '',
     'Key features: database-per-tenant multi-tenancy (stancl/tenancy), subdomain identification, per-domain app name, language and auth features, Laravel Fortify authentication with two-factor and passkeys, Spatie roles and permissions, queued user invitations, global maintenance mode and workspace suspension, 17 languages, database-driven menus, sidebar or header layouts, Pest tests, Larastan, Pint and Laravel Boost.',
     '',

@@ -17,7 +17,7 @@ function kitSidebar(framework: FrameworkKey): DefaultTheme.SidebarItem {
       { text: 'Components', link: `${base}/components.html` },
       { text: 'Pages', link: `${base}/pages.html` },
       { text: 'Layouts', link: `${base}/layouts.html` },
-      { text: 'Inertia', link: `${base}/inertia.html` },
+      { text: kits[framework].docsBridge.text, link: `${base}/${kits[framework].docsBridge.page}.html` },
       { text: 'Development', link: `${base}/development.html` },
     ],
   };

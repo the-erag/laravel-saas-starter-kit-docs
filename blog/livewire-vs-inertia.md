@@ -229,9 +229,9 @@ Not for typical SaaS screens. Each interaction is a server round trip, so very c
 
 ## Livewire vs Inertia in the SaaS Laravel kits
 
-The [SaaS Laravel starter kits](/) are Inertia-based. There's a [Vue kit](/kits/vue.html), a [React kit](/kits/react.html) and a [Svelte kit](/kits/svelte.html), and all three share the same Laravel 13 backend: stancl/tenancy with a database per tenant, Fortify auth with two-factor and passkeys, spatie/laravel-permission roles, invitations, menus and settings. There is no Livewire kit.
+Three of the [SaaS Laravel starter kits](/) are Inertia-based. There's a [Vue kit](/kits/vue.html), a [React kit](/kits/react.html) and a [Svelte kit](/kits/svelte.html), and all three share the same Laravel 13 backend: stancl/tenancy with a database per tenant, Fortify auth with two-factor and passkeys, spatie/laravel-permission roles, invitations, menus and settings. There is also a [Livewire kit](/kits/livewire.html) with the same features, built with Livewire 4, Blade and Flux UI.
 
-We chose Inertia because it lets one backend serve three frontends. Controllers, Data objects, services and validation are identical in every kit, and only the page components change. With Livewire, the UI layer is the backend code, so we'd be maintaining a separate product. Inertia also makes tenancy simpler for us: every request goes through the same routes and middleware, which is how the kits switch between the central and tenant context (see [Architecture](/docs/core/architecture.html)).
+We built the first three kits on Inertia because it lets one backend serve three frontends. Controllers, Data objects, services and validation are identical in every kit, and only the page components change. With Livewire, the UI layer is the backend code, so the Livewire kit is its own product: it keeps the same modules and services, but uses Livewire components instead of controllers and Form Requests instead of Data objects. Inertia also makes tenancy simpler for us: every request goes through the same routes and middleware, which is how the kits switch between the central and tenant context (see [Architecture](/docs/core/architecture.html)).
 
 That's a choice about how we build the kits, not a verdict on Livewire. If your team is Livewire-first, Laravel's own Livewire starter kit is a good place to begin.
 

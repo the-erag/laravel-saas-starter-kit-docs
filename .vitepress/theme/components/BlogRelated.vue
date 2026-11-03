@@ -32,8 +32,9 @@ const related = computed(() => {
     <p class="blog-related-kits">
       Building this yourself? See the
       <a href="/kits/vue.html">Laravel Vue SaaS starter kit</a>,
-      <a href="/kits/react.html">React starter kit</a> or
-      <a href="/kits/svelte.html">Svelte starter kit</a>, compare
+      <a href="/kits/react.html">React starter kit</a>,
+      <a href="/kits/svelte.html">Svelte starter kit</a> or
+      <a href="/kits/livewire.html">Livewire starter kit</a>, compare
       <a href="/pricing.html">starter kit pricing</a>, or read the
       <a href="/docs.html">documentation</a>.
     </p>

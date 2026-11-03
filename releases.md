@@ -1,6 +1,6 @@
 ---
 title: "Release Notes: Laravel SaaS Kit Updates"
-description: "Release notes for the SaaS Laravel starter kits: new features, improvements and fixes shipped to the Vue, React and Svelte kits in every weekly update."
+description: "Release notes for the SaaS Laravel starter kits: new features, improvements and fixes shipped to the Vue, React, Svelte and Livewire kits in every weekly update."
 ---
 
 # Release Notes
@@ -25,6 +25,16 @@ Improved, Fixed or Removed, and describe anything buyers must do in words as the
 -->
 
 <ReleaseFilter />
+
+<ReleaseCard kit="livewire" version="0.0.1" date="3 November 2026">
+
+- Added the Livewire starter kit: the same SaaS features as the other kits (database-per-tenant multi-tenancy, authentication with two-factor and passkeys, roles and permissions, user and tenant invitations, menus, notifications and 17 languages) with a Livewire 4, Blade, Alpine.js and Flux UI frontend.
+- Added validation with Laravel Form Requests instead of data objects, so every form uses the same rules as a normal HTTP request.
+- Added shared common components for buttons, inputs, selects, checkboxes, modals and tooltips, so the UI library can be changed in one folder.
+- Added Blade formatting checks, run with the lint command next to Pint.
+- Added Pest feature tests for authentication, the dashboard and the profile and security settings, run in CI together with Pint, Blade formatting and Larastan.
+
+</ReleaseCard>
 
 <ReleaseCard kit="vue" version="1.5.1" date="30 October 2026">
 

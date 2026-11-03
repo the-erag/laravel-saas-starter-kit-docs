@@ -5,6 +5,7 @@ const links = [
   { text: 'Vue starter kit', href: '/kits/vue.html', note: 'Laravel + Inertia + Vue 3.5' },
   { text: 'React starter kit', href: '/kits/react.html', note: 'Laravel + Inertia + React 19' },
   { text: 'Svelte starter kit', href: '/kits/svelte.html', note: 'Laravel + Inertia + Svelte 5' },
+  { text: 'Livewire starter kit', href: '/kits/livewire.html', note: 'Laravel + Livewire 4 + Blade' },
   { text: 'Pricing', href: '/pricing.html', note: 'One-time payment, lifetime access' },
 ];
 </script>

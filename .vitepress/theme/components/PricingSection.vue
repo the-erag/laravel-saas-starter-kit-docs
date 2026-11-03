@@ -20,7 +20,7 @@ withDefaults(defineProps<{ primary?: boolean }>(), { primary: false });
         :title="primary ? 'Laravel SaaS Starter Kit Pricing' : 'One-time pricing, no subscription'"
         :lead="
           primary
-            ? 'Pick the Laravel SaaS starter kit for your frontend: Vue, React or Svelte. Every kit includes the same multi-tenant Laravel 13 backend with authentication, roles and permissions. You pay once, keep lifetime access and get every weekly update.'
+            ? 'Pick the Laravel SaaS starter kit for your frontend: Vue, React, Svelte or Livewire. Every kit includes the same multi-tenant Laravel 13 backend with authentication, roles and permissions. You pay once, keep lifetime access and get every weekly update.'
             : 'One payment gets you lifetime access to your kit\'s repository, and every weekly update that lands in it.'
         "
       />
@@ -106,9 +106,9 @@ withDefaults(defineProps<{ primary?: boolean }>(), { primary: false });
 
 .plans {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   align-items: stretch;
-  gap: 20px;
+  gap: 16px;
 }
 
 .plan {
@@ -176,6 +176,7 @@ withDefaults(defineProps<{ primary?: boolean }>(), { primary: false });
 
 .plan-price {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: 8px;
   margin: 18px 0 20px;
@@ -198,6 +199,7 @@ withDefaults(defineProps<{ primary?: boolean }>(), { primary: false });
 
 .plan-term {
   font-size: 14px;
+  white-space: nowrap;
   color: var(--vp-c-text-3);
 }
 

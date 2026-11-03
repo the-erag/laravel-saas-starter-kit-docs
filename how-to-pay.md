@@ -12,4 +12,4 @@ lastUpdated: false
 
 <HowToPay />
 
-<CTASection title="Ready to choose a kit?" text="Compare the Vue, React and Svelte starter kits or save with the All Starter Kits bundle." primary-text="View Pricing" primary-link="/pricing.html" secondary-text="Read Documentation" secondary-link="/docs.html" />
+<CTASection title="Ready to choose a kit?" text="Compare the Vue, React, Svelte and Livewire starter kits or save with the All Starter Kits bundle." primary-text="View Pricing" primary-link="/pricing.html" secondary-text="Read Documentation" secondary-link="/docs.html" />

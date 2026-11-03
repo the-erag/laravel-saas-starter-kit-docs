@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import {
-  backendStack,
   formatPrice,
-  frontendCommon,
   includedFeatures,
   kits,
   plans,
@@ -64,10 +62,10 @@ const savings = computed(() => planKits.value.reduce((total, kit) => total + kit
               <dd>{{ item.value }}</dd>
             </div>
           </dl>
-          <p class="block-sub">Shared by every kit</p>
+          <p class="block-sub">{{ isBundle ? 'Shared by every kit' : 'Tooling and backend' }}</p>
           <div class="tags">
-            <span v-for="item in frontendCommon" :key="item">{{ item }}</span>
-            <span v-for="item in backendStack" :key="item.label">{{ item.value }}</span>
+            <span v-for="item in firstKit.frontendCommon" :key="item">{{ item }}</span>
+            <span v-for="item in firstKit.backendStack" :key="item.label">{{ item.value }}</span>
           </div>
         </section>
 
@@ -176,7 +174,7 @@ const savings = computed(() => planKits.value.reduce((total, kit) => total + kit
           <h2 class="purchase-title">Get the {{ plan.name }} for {{ formatPrice(plan.price) }}</h2>
           <p class="purchase-text">
             {{ site.paymentNote }}. Once you've paid, your GitHub account is invited to
-            {{ isBundle ? 'all three repositories' : 'the repository' }} automatically.
+            {{ isBundle ? 'all four repositories' : 'the repository' }} automatically.
           </p>
         </div>
         <div class="purchase-actions">

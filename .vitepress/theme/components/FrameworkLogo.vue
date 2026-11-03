@@ -1,11 +1,11 @@
 <script setup lang="ts">
 // The logos are symbols in public/sprite.svg (one cached file) instead of inline SVG in every page.
-const props = withDefaults(defineProps<{ name: 'vue' | 'react' | 'svelte' | 'laravel'; size?: number; color?: string }>(), {
+const props = withDefaults(defineProps<{ name: 'vue' | 'react' | 'svelte' | 'livewire' | 'laravel'; size?: number; color?: string }>(), {
   size: 32,
   color: '#ff2d20',
 });
 
-const labels = { vue: 'Vue', react: 'React', svelte: 'Svelte', laravel: 'Laravel' };
+const labels = { vue: 'Vue', react: 'React', svelte: 'Svelte', livewire: 'Livewire', laravel: 'Laravel' };
 </script>
 
 <template>

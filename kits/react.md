@@ -1,6 +1,6 @@
 ---
 title: "Laravel React SaaS Starter Kit with Inertia v3"
-description: "Laravel SaaS starter kit with React 19 function components, Inertia v3 and TypeScript: database-per-tenant multi-tenancy, auth, roles and permissions. $30 one-time, weekly updates."
+description: "Laravel SaaS starter kit with React 19 function components, Inertia v3 and TypeScript: database-per-tenant multi-tenancy, auth, roles and permissions. $69 one-time, weekly updates."
 layout: page
 sidebar: false
 aside: false

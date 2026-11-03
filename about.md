@@ -1,13 +1,13 @@
 ---
 title: "About SaaS Laravel and ERAG"
-description: "SaaS Laravel is a set of Laravel SaaS starter kits for Vue, React and Svelte, built and maintained by ERAG. Who we are, what we make and how to contact us."
+description: "SaaS Laravel is a set of Laravel SaaS starter kits for Vue, React, Svelte and Livewire, built and maintained by ERAG. Who we are, what we make and how to contact us."
 sidebar: false
 editLink: false
 ---
 
 # About SaaS Laravel
 
-SaaS Laravel is a set of Laravel SaaS starter kits for developers and small teams who want to launch a multi-tenant product without building the same foundation from scratch. The three kits share one Laravel 13 and Inertia v3 backend, and you choose the frontend: [Vue](/kits/vue.html), [React](/kits/react.html) or [Svelte](/kits/svelte.html).
+SaaS Laravel is a set of Laravel SaaS starter kits for developers and small teams who want to launch a multi-tenant product without building the same foundation from scratch. The kits share the same Laravel 13 SaaS features, and you choose the frontend: [Vue](/kits/vue.html), [React](/kits/react.html) or [Svelte](/kits/svelte.html) with Inertia v3, or [Livewire](/kits/livewire.html) with Blade.
 
 Each kit comes with database-per-tenant multi-tenancy, authentication with two-factor codes and passkeys, roles and permissions, user invitations and 17 languages. You pay once and keep lifetime access to the kit repository, including the updates we publish every week. The [documentation](/docs.html) explains every part of the code, and the [release notes](/releases.html) list what changed in each update.
 

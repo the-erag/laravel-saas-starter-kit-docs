@@ -29,9 +29,17 @@ const cells: { plan: PlanKey; title: string; stack: string; href: string; color:
     frameworks: ['svelte'],
   },
   {
+    plan: 'livewire',
+    title: kits.livewire.title,
+    stack: 'Livewire 4, Blade, Alpine.js, Flux UI',
+    href: '/kits/livewire.html',
+    color: 'var(--sl-livewire)',
+    frameworks: ['livewire'],
+  },
+  {
     plan: 'all-kits',
     title: plans['all-kits'].name,
-    stack: 'Vue, React and Svelte together, one payment',
+    stack: 'Vue, React, Svelte and Livewire together, one payment',
     href: plans['all-kits'].href,
     color: 'var(--vp-c-brand-1)',
     frameworks: [],
@@ -68,6 +76,10 @@ const cells: { plan: PlanKey; title: string; stack: string; href: string; color:
   grid-template-columns: repeat(2, minmax(0, 1fr));
   border-top: 1px solid var(--sl-border);
   border-left: 1px solid var(--sl-border);
+}
+
+.kit-cell:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 
 .kit-cell {

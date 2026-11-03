@@ -5,14 +5,14 @@ description: "Every relevant .env key with its default from .env.example, what i
 
 # Environment
 
-The defaults on this page come from the Vue kit's `.env.example`. The React and Svelte kits only differ in these keys:
+The defaults on this page come from the Vue kit's `.env.example`. The React, Svelte and Livewire kits only differ in these keys:
 
-| Key | Vue | React | Svelte |
-| --- | --- | --- | --- |
-| `APP_URL` | `http://vue.test` | `https://react.test` | `https://svelte.test` |
-| `APP_DOMAIN` | `vue.test` | `react.test` | `svelte.test` |
-| `DB_DATABASE` | `saas_laravel_vue` | `saas_laravel_recat` | `saas_laravel_svelte` |
-| `DB_PASSWORD` | set to a sample value | empty | empty |
+| Key | Vue | React | Svelte | Livewire |
+| --- | --- | --- | --- | --- |
+| `APP_URL` | `http://vue.test` | `https://react.test` | `https://svelte.test` | `http://livewire.test` |
+| `APP_DOMAIN` | `vue.test` | `react.test` | `svelte.test` | `livewire.test` |
+| `DB_DATABASE` | `saas_laravel_vue` | `saas_laravel_recat` | `saas_laravel_svelte` | `saas_laravel_livewire` |
+| `DB_PASSWORD` | set to a sample value | empty | empty | empty |
 
 ::: tip
 Start with `APP_URL`, `APP_DOMAIN` and the `DB_*` keys. For local development, you can leave most of the other defaults alone.

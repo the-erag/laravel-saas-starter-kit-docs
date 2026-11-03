@@ -1,19 +1,20 @@
 ---
 title: "Laravel SaaS Starter Kit Documentation"
-description: "Documentation for the SaaS Laravel starter kits: a multi-tenant Laravel 13 and Inertia v3 backend shared by the Vue, React and Svelte editions."
+description: "Documentation for the SaaS Laravel starter kits: a multi-tenant Laravel 13 backend shared by the Vue, React and Svelte (Inertia v3) and Livewire editions."
 ---
 
 # Laravel SaaS Starter Kit Documentation
 
-SaaS Laravel gives you a production-ready starting point for multi-tenant SaaS apps on Laravel 13, Inertia v3 and Tailwind CSS v4. It comes as three starter kits. They share the same Laravel backend, and only the frontend changes:
+SaaS Laravel gives you a production-ready starting point for multi-tenant SaaS apps on Laravel 13 and Tailwind CSS v4. It comes as four starter kits. They have the same SaaS features, and only the frontend changes:
 
 | Kit | Frontend | UI components | Docs |
 | --- | --- | --- | --- |
 | <Badge type="tip" text="Vue" /> | Vue 3.5 (`<script setup>` + TypeScript) | shadcn-vue on Reka UI | [/docs/vue](/docs/vue) |
 | <Badge type="tip" text="React" /> | React 19 + TypeScript | shadcn/ui on Radix UI | [/docs/react](/docs/react) |
 | <Badge type="tip" text="Svelte" /> | Svelte 5 (runes) + TypeScript | shadcn-svelte on Bits UI | [/docs/svelte](/docs/svelte) |
+| <Badge type="tip" text="Livewire" /> | Livewire 4 + Blade + Alpine.js | Flux UI (free) | [/docs/livewire](/docs/livewire) |
 
-Everything under `app/`, `Modules/`, `config/`, `database/`, `routes/`, `lang/` and `tests/` works the same in every kit, so the **Core** section of these docs applies to all three. Only `resources/js` changes from one framework to the next.
+Everything under `app/`, `Modules/`, `config/`, `database/`, `routes/`, `lang/` and `tests/` works the same in every kit, so the **Core** section of these docs applies to every kit. In the Vue, React and Svelte kits only `resources/js` changes. The Livewire kit has the same features, but it uses Livewire components instead of Inertia controllers, Form Requests instead of data objects and Blade views in `resources/views`; see the [Livewire guide](/docs/livewire).
 
 ## What is included
 
@@ -38,6 +39,6 @@ Every route is an Inertia (web) route. The kits don't ship an HTTP API, API toke
 2. Get access to your kit's repository: [Repository access](/docs/purchase/repository-access).
 3. Follow [Installation](/docs/getting-started/installation), then [Local development](/docs/getting-started/local-development).
 4. Read [Architecture](/docs/core/architecture) and [Project structure](/docs/getting-started/project-structure) before you add features.
-5. Then move on to the framework guide for your kit: [Vue](/docs/vue), [React](/docs/react) or [Svelte](/docs/svelte).
+5. Then move on to the framework guide for your kit: [Vue](/docs/vue), [React](/docs/react), [Svelte](/docs/svelte) or [Livewire](/docs/livewire).
 
 You'll find pricing and purchase details on the [pricing page](/pricing) and in [How to pay](/how-to-pay).

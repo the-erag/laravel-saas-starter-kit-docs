@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { siInertia } from 'simple-icons';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
-import { frameworkKeys, kits } from '../../site';
+import { inertiaKeys, kits } from '../../site';
 import FrameworkLogo from './FrameworkLogo.vue';
 import SectionHeading from './SectionHeading.vue';
 import SlIcon, { type IconName } from './SlIcon.vue';
@@ -49,7 +49,7 @@ const junction = SPLIT_HEIGHT / 2;
 const stem = computed(() => ({ d: `M ${center.value} 0 V ${junction}`, length: junction }));
 
 const branches = computed(() =>
-  frameworkKeys.map((key, index) => {
+  inertiaKeys.map((key, index) => {
     const x = targets.value[index] ?? center.value;
     const d = Math.abs(x - center.value) < 1 ? `M ${center.value} ${junction} V ${SPLIT_HEIGHT}` : `M ${center.value} ${junction} H ${x} V ${SPLIT_HEIGHT}`;
     const length = Math.abs(x - center.value) + (SPLIT_HEIGHT - junction);
@@ -204,7 +204,7 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="frontends">
-          <a v-for="key in frameworkKeys" :key="key" :href="`/kits/${key}.html`" class="tier tier--front" :class="`tier--${key}`">
+          <a v-for="key in inertiaKeys" :key="key" :href="`/kits/${key}.html`" class="tier tier--front" :class="`tier--${key}`">
             <span class="front-logo"><FrameworkLogo :name="key" :size="26" /></span>
             <strong>{{ kits[key].name }}</strong>
             <span class="front-ui">{{ kits[key].stack[2].value }}</span>

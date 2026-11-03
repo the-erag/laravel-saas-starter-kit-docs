@@ -64,6 +64,8 @@ Before you install, check what changed with `git diff composer.json package.json
 
 In every kit, ESLint runs on `.` and Prettier runs on `resources/`.
 
+The Livewire kit has no TypeScript or ESLint. Its `npm run lint` checks the Blade views with blade-formatter and `npm run format` fixes them; `composer lint` runs Pint and then `npm run format`. See [Livewire development](/docs/livewire/development).
+
 ## Artisan
 
 ### Database

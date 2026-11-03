@@ -9,15 +9,19 @@ description: "Answers to common questions about the SaaS Laravel starter kits: k
 
 ### What is SaaS Laravel?
 
-SaaS Laravel is a Laravel SaaS starter kit for building multi-tenant SaaS applications. It comes as three kits, Vue, React and Svelte, that share one Laravel backend with multi-tenancy, authentication, users, roles and permissions already built. See the [Laravel SaaS starter kit](/) overview.
+SaaS Laravel is a Laravel SaaS starter kit for building multi-tenant SaaS applications. It comes as four kits, Vue, React, Svelte and Livewire, with the same multi-tenancy, authentication, users, roles and permissions already built. See the [Laravel SaaS starter kit](/) overview.
 
 ### Which Laravel version do the kits use?
 
-Laravel 13 (`laravel/framework` `^13.35`) on PHP 8.4 or newer, with Inertia v3 on the frontend. See [Requirements](/docs/getting-started/requirements).
+Laravel 13 (`laravel/framework` `^13.35`) on PHP 8.4 or newer, with Inertia v3 in the Vue, React and Svelte kits and Livewire 4 in the Livewire kit. See [Requirements](/docs/getting-started/requirements).
 
 ### What is the difference between the Vue, React and Svelte kits?
 
 Just the frontend in `resources/js`. The Laravel backend is the same in all three: modules, tenancy, auth, permissions, migrations, translations and tests. Pick the frontend your team already likes working in. See [Introduction](/docs).
+
+### How is the Livewire kit different?
+
+It has the same features, but no Inertia, TypeScript or JavaScript framework. Pages are Livewire 4 components with Blade views, forms are validated with Laravel Form Requests instead of data objects, and the UI uses Flux UI through shared common components. See the [Livewire guide](/docs/livewire).
 
 ### Is there a billing / Stripe integration?
 
@@ -59,7 +63,7 @@ No, but it's the easiest option, because tenant subdomains (`*.vue.test`) just w
 
 ### How much does it cost?
 
-The Vue kit is $29, React is $30 and Svelte is $33. The All Starter Kits bundle (Vue + React + Svelte) costs $79, so you save $13. Every option is a one-time payment with lifetime access. See [Pricing](/pricing).
+The Vue kit is $55, React is $69, Svelte is $59 and Livewire is $49. The All Starter Kits bundle (all four kits) costs $139, so you save $93. Every option is a one-time payment with lifetime access. See [Pricing](/pricing).
 
 ### Is it a subscription?
 
@@ -75,7 +79,7 @@ Right away. As soon as the payment goes through, your GitHub account is invited 
 
 ### What does the bundle include?
 
-Access to all three kit repositories: Vue, React and Svelte.
+Access to all four kit repositories: Vue, React, Svelte and Livewire.
 
 ### How do I get updates?
 

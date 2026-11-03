@@ -5,7 +5,7 @@ import { releaseFilter, type ReleaseKit } from './releaseFilter';
 
 const props = defineProps<{ kit: ReleaseKit; version: string; date?: string }>();
 
-const kitNames: Record<ReleaseKit, string> = { vue: 'Vue', react: 'React', svelte: 'Svelte' };
+const kitNames: Record<ReleaseKit, string> = { vue: 'Vue', react: 'React', svelte: 'Svelte', livewire: 'Livewire' };
 
 const anchor = computed(() => `${props.kit}-${props.version.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`);
 const isoDate = computed(() => (props.date ? new Date(`${props.date} UTC`).toISOString().slice(0, 10) : undefined));

@@ -9,6 +9,7 @@ const columns: { title: string; links: { text: string; href: string; external?: 
       { text: 'Vue Starter Kit', href: '/kits/vue.html' },
       { text: 'React Starter Kit', href: '/kits/react.html' },
       { text: 'Svelte Starter Kit', href: '/kits/svelte.html' },
+      { text: 'Livewire Starter Kit', href: '/kits/livewire.html' },
       { text: 'Pricing', href: '/pricing.html' },
     ],
   },

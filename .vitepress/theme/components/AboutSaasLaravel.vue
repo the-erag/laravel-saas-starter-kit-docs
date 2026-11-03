@@ -6,6 +6,7 @@ const links = [
   { text: 'Laravel Vue SaaS starter kit', href: '/kits/vue.html' },
   { text: 'Laravel React SaaS starter kit', href: '/kits/react.html' },
   { text: 'Laravel Svelte SaaS starter kit', href: '/kits/svelte.html' },
+  { text: 'Laravel Livewire SaaS starter kit', href: '/kits/livewire.html' },
   { text: 'Laravel multi-tenancy docs', href: '/docs/core/multi-tenancy.html' },
   { text: 'How to build a SaaS with Laravel', href: '/blog/multi-tenant-saas-laravel-database-per-tenant.html' },
   { text: 'Starter kit pricing', href: '/pricing.html' },

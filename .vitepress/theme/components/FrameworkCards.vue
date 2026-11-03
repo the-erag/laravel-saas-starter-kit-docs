@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { frameworkKeys, kits, type FrameworkKey } from '../../site';
+import { frameworkKeys, kits } from '../../site';
 import FrameworkLogo from './FrameworkLogo.vue';
 import SectionHeading from './SectionHeading.vue';
 import SlIcon from './SlIcon.vue';
 
 withDefaults(defineProps<{ heading?: boolean }>(), { heading: true });
-
-const versions: Record<FrameworkKey, string> = { vue: 'Vue 3.5', react: 'React 19', svelte: 'Svelte 5' };
 </script>
 
 <template>
@@ -16,13 +14,13 @@ const versions: Record<FrameworkKey, string> = { vue: 'Vue 3.5', react: 'React 1
         v-if="heading"
         eyebrow="Starter kits"
         title="Pick your frontend. Keep the same backend."
-        lead="All three kits run the same Laravel backend. Pick the frontend your team already knows, or get all three."
+        lead="Every kit runs the same Laravel SaaS features. Pick the frontend your team already knows: Vue, React or Svelte with Inertia, or Livewire with Blade."
       />
       <div class="cards">
         <article v-for="key in frameworkKeys" :key="key" class="sl-card card" :class="`card--${key}`">
           <div class="card-top">
             <span class="card-logo"><FrameworkLogo :name="key" :size="30" /></span>
-            <span class="card-version">{{ versions[key] }} · Inertia v3</span>
+            <span class="card-version">{{ kits[key].version }}</span>
           </div>
           <h3 class="sl-h3">{{ kits[key].title }}</h3>
           <p class="sl-text">{{ kits[key].tagline }}</p>
@@ -45,7 +43,7 @@ const versions: Record<FrameworkKey, string> = { vue: 'Vue 3.5', react: 'React 1
 <style scoped>
 .cards {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
 }
 
@@ -77,6 +75,10 @@ const versions: Record<FrameworkKey, string> = { vue: 'Vue 3.5', react: 'React 1
 
 .card--svelte {
   --accent: var(--sl-svelte);
+}
+
+.card--livewire {
+  --accent: var(--sl-livewire);
 }
 
 .card:hover {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { frameworkKeys, kits, type FrameworkKey } from '../../site';
+import { inertiaKeys, kits, type InertiaFrameworkKey } from '../../site';
 import FrameworkLogo from './FrameworkLogo.vue';
 import SectionHeading from './SectionHeading.vue';
 import SlIcon from './SlIcon.vue';
@@ -19,7 +19,7 @@ const frontend = {
   react: { ext: '.tsx', app: 'app.tsx', hooks: 'hooks', hookFiles: ['use-appearance.tsx', 'use-initials.tsx', 'use-two-factor-auth.ts'] },
   svelte: { ext: '.svelte', app: 'app.ts', hooks: 'lib', hookFiles: ['theme.svelte.ts', 'initials.ts', 'twoFactorAuth.svelte.ts'] },
 };
-const framework = ref<FrameworkKey>('vue');
+const framework = ref<InertiaFrameworkKey>('vue');
 
 const tree = computed<Node>(() => {
   const fw = frontend[framework.value];
@@ -184,7 +184,7 @@ const points = [
           <span class="ide-title">my-saas</span>
           <div class="ide-tabs" role="tablist" aria-label="Starter kit">
             <button
-              v-for="key in frameworkKeys"
+              v-for="key in inertiaKeys"
               :key="key"
               type="button"
               role="tab"

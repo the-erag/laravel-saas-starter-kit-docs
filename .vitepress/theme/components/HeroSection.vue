@@ -21,7 +21,7 @@ import SlIcon from './SlIcon.vue';
         <p class="sl-lead">
           Build a multi-tenant Laravel SaaS application without starting from zero. Every kit ships with tenant
           management (a database per tenant with stancl/tenancy), users, roles and permissions, menus, authentication
-          and security, ready from day one. One Laravel 13 backend, with Vue, React or Svelte on the front.
+          and security, ready from day one. One Laravel 13 backend, with Vue, React, Svelte or Livewire on the front.
         </p>
         <div class="sl-actions hero-actions">
           <a class="sl-btn sl-btn--primary sl-btn--lg" href="#features">

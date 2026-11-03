@@ -12,8 +12,9 @@ Every starter kit has its own private GitHub repository:
 | <Badge type="tip" text="Vue" /> | `the-erag/saas-laravel-starter-kit-vue` |
 | <Badge type="tip" text="React" /> | `the-erag/saas-laravel-starter-kit-react` |
 | <Badge type="tip" text="Svelte" /> | `the-erag/saas-laravel-starter-kit-svelte` |
+| <Badge type="tip" text="Livewire" /> | `the-erag/saas-laravel-starter-kit-livewire` |
 
-If you buy the **All Starter Kits** bundle, you get access to all three.
+If you buy the **All Starter Kits** bundle, you get access to all four.
 
 ## What you get
 
@@ -26,7 +27,7 @@ Pay through GitHub Sponsors → your GitHub account is invited automatically →
 ```
 
 1. Pick a kit on the [pricing page](/pricing) and pay through GitHub Sponsors (see [How to pay](/how-to-pay)).
-2. As soon as the payment goes through, your GitHub account is invited to the kit repository automatically, or to all three if you bought the bundle.
+2. As soon as the payment goes through, your GitHub account is invited to the kit repository automatically, or to all four if you bought the bundle.
 3. GitHub sends you the invitation by email. Accept it there, or open the repository URL while you're signed in and accept the banner.
 
 ::: info Automatic access
@@ -51,6 +52,10 @@ git clone https://github.com/the-erag/saas-laravel-starter-kit-react.git react
 
 ```bash [Svelte]
 git clone https://github.com/the-erag/saas-laravel-starter-kit-svelte.git svelte
+```
+
+```bash [Livewire]
+git clone https://github.com/the-erag/saas-laravel-starter-kit-livewire.git livewire
 ```
 
 :::

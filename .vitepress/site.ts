@@ -1,4 +1,6 @@
-export type FrameworkKey = 'vue' | 'react' | 'svelte';
+export type FrameworkKey = 'vue' | 'react' | 'svelte' | 'livewire';
+
+export type InertiaFrameworkKey = Exclude<FrameworkKey, 'livewire'>;
 
 export type PlanKey = FrameworkKey | 'all-kits';
 
@@ -15,8 +17,14 @@ export interface Kit {
   repo: string;
   repoName: string;
   tagline: string;
+  /** Short version label for cards, e.g. "Vue 3.5 · Inertia v3". */
+  version: string;
   summary: string;
   stack: StackItem[];
+  /** Frontend tooling shown as tags next to the stack. */
+  frontendCommon: string[];
+  /** The Laravel backend stack this kit runs on. */
+  backendStack: StackItem[];
   conventions: StackItem[];
   implementation: {
     title: string;
@@ -25,6 +33,11 @@ export interface Kit {
     example: string;
   };
   langImport: string;
+  routesSnippet: { label: string; code: string };
+  translationsNote: string;
+  sharedBackendLead: string;
+  /** The framework-specific docs page next to Architecture, Components, Pages and Layouts. */
+  docsBridge: { text: string; page: string };
   typeCheck: string;
 }
 
@@ -42,20 +55,20 @@ export interface Plan {
 
 const githubOwner = 'https://github.com/the-erag';
 
-export const prices = { vue: 29, react: 30, svelte: 33, bundle: 79 } as const;
+export const prices = { vue: 55, react: 69, svelte: 59, livewire: 49, bundle: 139 } as const;
 
 const sponsorTier = (tierId: number): string => `https://github.com/sponsors/eramitgupta/sponsorships?tier_id=${tierId}`;
 
-export const bundleSavings = prices.vue + prices.react + prices.svelte - prices.bundle;
+export const bundleSavings = prices.vue + prices.react + prices.svelte + prices.livewire - prices.bundle;
 
-export const kitPriceList = `Vue $${prices.vue}, React $${prices.react} or Svelte $${prices.svelte}`;
+export const kitPriceList = `Vue $${prices.vue}, React $${prices.react}, Svelte $${prices.svelte} or Livewire $${prices.livewire}`;
 
 export const site = {
   name: 'SaaS Laravel',
   url: 'https://saas-laravel.com',
-  title: 'Laravel SaaS Starter Kits for Vue, React & Svelte',
+  title: 'Laravel SaaS Starter Kits for Vue, React, Svelte & Livewire',
   description:
-    'Laravel 13 SaaS starter kits for Vue, React and Svelte with database-per-tenant multi-tenancy, auth, roles and permissions. Lifetime access, weekly updates.',
+    'Laravel 13 SaaS starter kits for Vue, React, Svelte and Livewire with database-per-tenant multi-tenancy, auth, roles and permissions. Lifetime access, weekly updates.',
   themeColor: '#4f46e5',
   sponsorUrl: 'https://github.com/sponsors/eramitgupta',
   githubProfile: githubOwner,
@@ -74,11 +87,11 @@ export const site = {
   },
   docsEditPattern: `${githubOwner}/laravel-saas-starter-kit-docs/edit/main/:path`,
   /** The date the current prices took effect (the Offer's validFrom). Update it when prices change. */
-  pricesValidFrom: '2026-09-27',
+  pricesValidFrom: '2026-11-03',
   /** Walkthrough video of the code and the admin panel; the homepage shows a Watch button once this is set. */
   demoVideoUrl: '',
   bundlePrice: prices.bundle,
-  kitPriceFrom: Math.min(prices.vue, prices.react, prices.svelte),
+  kitPriceFrom: Math.min(prices.vue, prices.react, prices.svelte, prices.livewire),
   paymentNote: 'One-time payment · Lifetime access · Weekly updates included · No recurring subscription',
   accessNote: 'Lifetime access with weekly updates.',
   googleSiteVerification: 'U0WTb7Bs263WPTVwQx1JmXhsou5IPxtsBNVhBX2GpFQ',
@@ -142,10 +155,34 @@ export const backendStack: StackItem[] = [
 
 export const frontendCommon: string[] = ['TypeScript 5', 'Tailwind CSS v4', 'Vite 8', 'Wayfinder', 'Lang Sync Inertia', 'ESLint 9 + Prettier 3'];
 
+export const livewireBackendStack: StackItem[] = [
+  { label: 'Framework', value: 'Laravel 13 on PHP 8.4+' },
+  { label: 'Frontend', value: 'Livewire 4 class-based components' },
+  { label: 'Authentication', value: 'Laravel Fortify + passkeys' },
+  { label: 'Multi-tenancy', value: 'stancl/tenancy, database per tenant' },
+  { label: 'Authorization', value: 'spatie/laravel-permission' },
+  { label: 'Validation', value: 'Laravel Form Requests' },
+  { label: 'Translations', value: 'Laravel lang files' },
+  { label: 'Quality', value: 'Pest 5, Larastan, Pint, blade-formatter, Laravel Boost' },
+];
+
+export const livewireFrontendCommon: string[] = ['Blade', 'Alpine.js', 'Tailwind CSS v4', 'Vite+', 'Iconify', 'blade-formatter'];
+
+const inertiaKitDefaults = {
+  frontendCommon,
+  backendStack,
+  routesSnippet: { label: 'Typed routes with Wayfinder', code: "import { index } from '@/routes/tenants'\n\nindex.url()" },
+  translationsNote: '17 languages, with translations synced to the frontend',
+  sharedBackendLead: 'The Vue, React and Svelte kits run exactly the same backend code. Only resources/js is different. The Livewire kit has the same features with a Blade frontend.',
+  docsBridge: { text: 'Inertia', page: 'inertia' },
+};
+
 export const kits: Record<FrameworkKey, Kit> = {
   vue: {
+    ...inertiaKitDefaults,
     key: 'vue',
     name: 'Vue',
+    version: 'Vue 3.5 · Inertia v3',
     title: 'Vue Starter Kit',
     price: prices.vue,
     repo: `${githubOwner}/saas-laravel-starter-kit-vue`,
@@ -181,8 +218,10 @@ export const kits: Record<FrameworkKey, Kit> = {
     typeCheck: 'vue-tsc',
   },
   react: {
+    ...inertiaKitDefaults,
     key: 'react',
     name: 'React',
+    version: 'React 19 · Inertia v3',
     title: 'React Starter Kit',
     price: prices.react,
     repo: `${githubOwner}/saas-laravel-starter-kit-react`,
@@ -218,8 +257,10 @@ export const kits: Record<FrameworkKey, Kit> = {
     typeCheck: 'tsc',
   },
   svelte: {
+    ...inertiaKitDefaults,
     key: 'svelte',
     name: 'Svelte',
+    version: 'Svelte 5 · Inertia v3',
     title: 'Svelte Starter Kit',
     price: prices.svelte,
     repo: `${githubOwner}/saas-laravel-starter-kit-svelte`,
@@ -254,9 +295,58 @@ export const kits: Record<FrameworkKey, Kit> = {
     langImport: "import { svelteLang } from '@erag/lang-sync-inertia/svelte'\n\nconst { __ } = svelteLang()\n\n__('modules.tenant.index.title')",
     typeCheck: 'svelte-check',
   },
+  livewire: {
+    key: 'livewire',
+    name: 'Livewire',
+    title: 'Livewire Starter Kit',
+    price: prices.livewire,
+    repo: `${githubOwner}/saas-laravel-starter-kit-livewire`,
+    repoName: 'saas-laravel-starter-kit-livewire',
+    tagline: 'Livewire 4 with Blade, Alpine.js and Flux UI.',
+    version: 'Livewire 4 · Blade',
+    summary:
+      'Our Laravel SaaS backend with a Livewire 4 frontend. Pages are class-based Livewire components with Blade views, the UI uses Flux UI (free edition) behind shared x-common components, and forms are validated with Laravel Form Requests.',
+    stack: [
+      { label: 'Framework', value: 'Livewire 4, class-based components' },
+      { label: 'Views', value: 'Blade + Alpine.js' },
+      { label: 'UI components', value: 'Flux UI (free) behind x-common wrappers' },
+      { label: 'Icons', value: 'Iconify (iconify-icon)' },
+      { label: 'Toasts', value: 'Flux toasts' },
+      { label: 'Menu drag & drop', value: 'wire:sort' },
+      { label: 'Validation', value: 'Laravel Form Requests' },
+    ],
+    frontendCommon: livewireFrontendCommon,
+    backendStack: livewireBackendStack,
+    conventions: [
+      { label: 'Pages', value: 'resources/views/pages/tenants/index.blade.php' },
+      { label: 'Components', value: 'Modules/Tenant/Livewire/Index.php' },
+      { label: 'Shared UI', value: 'resources/views/components/common/*.blade.php' },
+    ],
+    implementation: {
+      title: 'Livewire components with Laravel validation',
+      lead: 'The Livewire kit keeps everything in PHP and Blade: a Livewire class per page or modal, Form Requests for validation and services for the business logic.',
+      points: [
+        "Register full-page components with Route::livewire and keep each module's components in Modules/<Module>/Livewire.",
+        'Validate with the same Form Request classes as an HTTP request through validateFormRequest(), then call a service.',
+        'Build views from the x-common components, so swapping the UI library means editing one folder.',
+      ],
+      example:
+        "public function save(RoleService $roleService): void\n{\n    $validated = $this->validateFormRequest(RoleRequest::class, ['name' => $this->name]);\n\n    $roleService->createRole($validated);\n\n    Flux::toast(variant: 'success', text: __('modules/role.toasts.created'));\n}",
+    },
+    langImport: "{{ __('modules/tenant.index.title') }}",
+    routesSnippet: { label: 'Named routes in Blade', code: "<a href=\"{{ route('tenants.index') }}\" wire:navigate>" },
+    translationsNote: "17 languages, used straight from Laravel's lang files",
+    sharedBackendLead:
+      'The Livewire kit has the same modules, services, tenancy, authentication and permissions as the other kits. Livewire components replace the Inertia controllers, and Form Requests replace laravel-data.',
+    docsBridge: { text: 'Livewire', page: 'livewire' },
+    typeCheck: 'Larastan',
+  },
 };
 
-export const frameworkKeys: FrameworkKey[] = ['vue', 'react', 'svelte'];
+export const frameworkKeys: FrameworkKey[] = ['vue', 'react', 'svelte', 'livewire'];
+
+/** The kits built on Inertia: they share resources/js conventions and have screenshots on the site. */
+export const inertiaKeys: InertiaFrameworkKey[] = ['vue', 'react', 'svelte'];
 
 export const plans: Record<PlanKey, Plan> = {
   vue: {
@@ -264,7 +354,7 @@ export const plans: Record<PlanKey, Plan> = {
     name: 'Vue Starter Kit',
     price: prices.vue,
     href: '/pricing/vue.html',
-    sponsorUrl: sponsorTier(661330),
+    sponsorUrl: sponsorTier(677489),
     frameworks: ['vue'],
     tagline: 'Laravel SaaS backend + Vue 3.5 frontend.',
     benefits: ['Vue 3.5, TypeScript & shadcn-vue', 'Multi-tenancy, auth, roles & permissions', 'Access to the Vue kit repository'],
@@ -275,7 +365,7 @@ export const plans: Record<PlanKey, Plan> = {
     name: 'React Starter Kit',
     price: prices.react,
     href: '/pricing/react.html',
-    sponsorUrl: sponsorTier(661332),
+    sponsorUrl: sponsorTier(677486),
     frameworks: ['react'],
     tagline: 'Laravel SaaS backend + React 19 frontend.',
     benefits: ['React 19, TypeScript & shadcn/ui', 'Multi-tenancy, auth, roles & permissions', 'Access to the React kit repository'],
@@ -286,10 +376,21 @@ export const plans: Record<PlanKey, Plan> = {
     name: 'Svelte Starter Kit',
     price: prices.svelte,
     href: '/pricing/svelte.html',
-    sponsorUrl: sponsorTier(661333),
+    sponsorUrl: sponsorTier(677494),
     frameworks: ['svelte'],
     tagline: 'Laravel SaaS backend + Svelte 5 frontend.',
     benefits: ['Svelte 5 runes, TypeScript & shadcn-svelte', 'Multi-tenancy, auth, roles & permissions', 'Access to the Svelte kit repository'],
+    featured: false,
+  },
+  livewire: {
+    key: 'livewire',
+    name: 'Livewire Starter Kit',
+    price: prices.livewire,
+    href: '/pricing/livewire.html',
+    sponsorUrl: sponsorTier(677478),
+    frameworks: ['livewire'],
+    tagline: 'Laravel SaaS backend + Livewire 4 frontend.',
+    benefits: ['Livewire 4, Blade, Alpine.js & Flux UI', 'Multi-tenancy, auth, roles & permissions', 'Access to the Livewire kit repository'],
     featured: false,
   },
   'all-kits': {
@@ -297,15 +398,15 @@ export const plans: Record<PlanKey, Plan> = {
     name: 'All Starter Kits',
     price: prices.bundle,
     href: '/pricing/all-kits.html',
-    sponsorUrl: sponsorTier(661334),
-    frameworks: ['vue', 'react', 'svelte'],
-    tagline: 'Vue, React and Svelte together, one payment.',
-    benefits: ['The Vue, React and Svelte kits', 'Access to all three kit repositories', `$${bundleSavings} less than buying them one by one`],
+    sponsorUrl: sponsorTier(677482),
+    frameworks: ['vue', 'react', 'svelte', 'livewire'],
+    tagline: 'All four kits together, one payment.',
+    benefits: ['The Vue, React, Svelte and Livewire kits', 'Access to all four kit repositories', `$${bundleSavings} less than buying them one by one`],
     featured: true,
   },
 };
 
-export const planOrder: PlanKey[] = ['vue', 'react', 'svelte', 'all-kits'];
+export const planOrder: PlanKey[] = ['livewire', 'vue', 'svelte', 'react', 'all-kits'];
 
 export const requirements: StackItem[] = [
   { label: 'PHP', value: '8.4 or newer' },
@@ -466,7 +567,7 @@ export const paymentFaqs: { question: string; answer: string }[] = [
   },
   {
     question: 'Is it a one-time payment?',
-    answer: `Yes. ${kitPriceList} for a single kit, or ${formatPrice(site.bundlePrice)} for all three kits, paid once through GitHub Sponsors.`,
+    answer: `Yes. ${kitPriceList} for a single kit, or ${formatPrice(site.bundlePrice)} for all four kits, paid once through GitHub Sponsors.`,
   },
   {
     question: 'Do I get lifetime access?',
@@ -490,8 +591,8 @@ export const paymentFaqs: { question: string; answer: string }[] = [
     answer: `No. The full source code is yours the moment your payment goes through, so it can't be given back, and GitHub Sponsors doesn't refund sponsorship payments. If you're not sure which kit fits, read the documentation or email ${site.company.email} before you buy. If you were charged twice or by mistake, contact GitHub Support. If you paid but the repository invitation never arrived, email us and we'll sort it out.`,
   },
   {
-    question: 'Can I buy all three kits?',
-    answer: `Yes. The All Starter Kits bundle gives you Vue, React and Svelte for ${formatPrice(site.bundlePrice)}, which is ${formatPrice(bundleSavings)} less than buying them separately.`,
+    question: 'Can I buy all four kits?',
+    answer: `Yes. The All Starter Kits bundle gives you Vue, React, Svelte and Livewire for ${formatPrice(site.bundlePrice)}, which is ${formatPrice(bundleSavings)} less than buying them separately.`,
   },
   {
     question: 'Can I use a kit for client projects?',

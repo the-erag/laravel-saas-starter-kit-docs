@@ -30,7 +30,7 @@ You can deliver a finished application to a client, including the parts of the k
 
 You may use the Software only if you bought it through an official SaaS Laravel purchase, such as a GitHub Sponsors tier listed on the [pricing page](/pricing). "You" means the person or the organization that made the purchase. Members of your team may use the Software only to work on your own End Products.
 
-The "Software" means the SaaS Laravel starter kits (Vue, React and Svelte), including their source code, documentation, designs and updates. The Software is licensed, not sold.
+The "Software" means the SaaS Laravel starter kits (Vue, React, Svelte and Livewire), including their source code, documentation, designs and updates. The Software is licensed, not sold.
 
 ## 2. What you may do
 
@@ -56,7 +56,7 @@ ERAG keeps all rights, title and ownership of the Software. You own the code you
 
 ## 5. Third-party components
 
-The Software includes open-source packages such as Laravel, Inertia, Vue, React, Svelte and Tailwind CSS. Each of these packages remains under its own license, and this license does not change those licenses.
+The Software includes open-source packages such as Laravel, Inertia, Vue, React, Svelte, Livewire, Flux and Tailwind CSS. Each of these packages remains under its own license, and this license does not change those licenses.
 
 ## 6. Termination
 

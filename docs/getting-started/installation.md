@@ -34,6 +34,11 @@ git clone https://github.com/the-erag/saas-laravel-starter-kit-svelte.git svelte
 cd svelte
 ```
 
+```bash [Livewire]
+git clone https://github.com/the-erag/saas-laravel-starter-kit-livewire.git livewire
+cd livewire
+```
+
 :::
 
 ::: tip Keep updates easy

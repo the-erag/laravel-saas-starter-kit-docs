@@ -6,7 +6,7 @@ const steps: { icon: IconName; title: string; text: string }[] = [
   {
     icon: 'wrench',
     title: 'Improvements every week',
-    text: 'We ship fixes, new features and dependency upgrades to Vue, React and Svelte at the same time.',
+    text: 'We ship fixes, new features and dependency upgrades to Vue, React, Svelte and Livewire at the same time.',
   },
   {
     icon: 'refresh',

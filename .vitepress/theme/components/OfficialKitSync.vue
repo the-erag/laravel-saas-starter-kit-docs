@@ -2,10 +2,11 @@
 import FrameworkLogo from './FrameworkLogo.vue';
 import SlIcon, { type IconName } from './SlIcon.vue';
 
-const kits: { kit: 'vue' | 'react' | 'svelte'; name: string }[] = [
+const kits: { kit: 'vue' | 'react' | 'svelte' | 'livewire'; name: string }[] = [
   { kit: 'vue', name: 'laravel/vue-starter-kit' },
   { kit: 'react', name: 'laravel/react-starter-kit' },
   { kit: 'svelte', name: 'laravel/svelte-starter-kit' },
+  { kit: 'livewire', name: 'laravel/livewire-starter-kit' },
 ];
 
 const promises: { icon: IconName; title: string; text: string }[] = [
@@ -47,7 +48,7 @@ const promises: { icon: IconName; title: string; text: string }[] = [
             The official Laravel kit, <span class="sl-gradient-text">with your SaaS already built in</span>
           </h2>
           <p class="sl-lead">
-            Same folders, same conventions, same code you know from Laravel’s <strong>Vue, React and Svelte</strong>
+            Same folders, same conventions, same code you know from Laravel’s <strong>Vue, React, Svelte and Livewire</strong>
             starter kits. When Laravel improves its kits, <strong>your kit gets those updates too</strong>.
           </p>
           <ul class="sync-checks">
@@ -141,6 +142,7 @@ const promises: { icon: IconName; title: string; text: string }[] = [
 
 .sync-official {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
   width: 100%;
   padding: 18px;
@@ -151,6 +153,7 @@ const promises: { icon: IconName; title: string; text: string }[] = [
 }
 
 .sync-label {
+  grid-column: 1 / -1;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -165,11 +168,13 @@ const promises: { icon: IconName; title: string; text: string }[] = [
 .sync-kit {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
+  gap: 8px;
+  min-width: 0;
+  padding: 8px 10px;
   border-radius: 8px;
   font-family: var(--vp-font-family-mono);
-  font-size: 13px;
+  font-size: 12px;
+  white-space: nowrap;
   color: var(--vp-c-text-1);
   background: var(--sl-surface-muted);
 }
@@ -288,6 +293,10 @@ const promises: { icon: IconName; title: string; text: string }[] = [
 
 @media (max-width: 640px) {
   .sync-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sync-official {
     grid-template-columns: 1fr;
   }
 }

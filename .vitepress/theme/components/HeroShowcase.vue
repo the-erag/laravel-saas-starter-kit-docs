@@ -7,6 +7,7 @@ const layers: { kit: FrameworkKey; image: string; path: string; screen: string }
   { kit: 'vue', image: 'vue-tenant-show', path: 'tenants/1', screen: 'Tenant details' },
   { kit: 'react', image: 'react-bell', path: 'dashboard', screen: 'Notifications' },
   { kit: 'svelte', image: 'svelte-menus', path: 'setup/menus', screen: 'Menu builder' },
+  { kit: 'livewire', image: 'livewire-users', path: 'users', screen: 'Users' },
 ];
 
 const active = ref(layers.findIndex((layer) => layer.kit === 'vue'));
@@ -14,7 +15,7 @@ const active = ref(layers.findIndex((layer) => layer.kit === 'vue'));
 const position = (index: number) => {
   const offset = (index - active.value + layers.length) % layers.length;
 
-  return offset === 0 ? 'front' : offset === 1 ? 'middle' : 'back';
+  return ['front', 'middle', 'back', 'far'][offset];
 };
 
 const select = (index: number) => {
@@ -116,6 +117,13 @@ const select = (index: number) => {
   transform: translate3d(140px, -8px, -120px) rotateX(6deg) rotateY(-10deg) rotateZ(2deg);
 }
 
+.layer--far {
+  z-index: 0;
+  opacity: 0.7;
+  filter: saturate(0.7);
+  transform: translate3d(210px, -60px, -180px) rotateX(6deg) rotateY(-10deg) rotateZ(2deg);
+}
+
 .layer-bar {
   display: flex;
   align-items: center;
@@ -194,6 +202,10 @@ const select = (index: number) => {
 
   .layer--back {
     transform: translate3d(36px, 2px, -80px) rotateX(4deg) rotateY(-6deg) rotateZ(1deg);
+  }
+
+  .layer--far {
+    transform: translate3d(54px, -32px, -120px) rotateX(4deg) rotateY(-6deg) rotateZ(1deg);
   }
 
   .layer-url {

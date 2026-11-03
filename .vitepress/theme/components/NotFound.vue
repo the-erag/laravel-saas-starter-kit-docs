@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const links = [
-  { text: 'Home', href: '/', note: 'Laravel SaaS starter kits for Vue, React and Svelte' },
+  { text: 'Home', href: '/', note: 'Laravel SaaS starter kits for Vue, React, Svelte and Livewire' },
   { text: 'Documentation', href: '/docs.html', note: 'Installation, architecture and every feature' },
   { text: 'Vue starter kit', href: '/kits/vue.html', note: 'Laravel + Inertia + Vue 3.5' },
   { text: 'React starter kit', href: '/kits/react.html', note: 'Laravel + Inertia + React 19' },

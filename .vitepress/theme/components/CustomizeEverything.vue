@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { inertiaKeys, kits, type InertiaFrameworkKey } from '../../site';
+import { frameworkKeys, kits, type FrameworkKey } from '../../site';
 import FrameworkLogo from './FrameworkLogo.vue';
 import SectionHeading from './SectionHeading.vue';
 import SlIcon from './SlIcon.vue';
@@ -19,9 +19,79 @@ const frontend = {
   react: { ext: '.tsx', app: 'app.tsx', hooks: 'hooks', hookFiles: ['use-appearance.tsx', 'use-initials.tsx', 'use-two-factor-auth.ts'] },
   svelte: { ext: '.svelte', app: 'app.ts', hooks: 'lib', hookFiles: ['theme.svelte.ts', 'initials.ts', 'twoFactorAuth.svelte.ts'] },
 };
-const framework = ref<InertiaFrameworkKey>('vue');
+const framework = ref<FrameworkKey>('vue');
+
+const blade = (name: string, active = false) => file(`${name}.blade.php`, active);
+
+const livewireTree = (): Node =>
+  dir('my-saas', [
+    dir('app', [
+      dir('Concerns', [file('PasswordValidationRules.php'), file('ProfileValidationRules.php')]),
+      dir('Http', [dir('Middleware', [file('InitializeTenancyIfTenantDomain.php'), file('TenancyAwareAuthenticate.php'), more])]),
+      dir('Livewire', [dir('Concerns', [file('AuthorizesPermissions.php'), file('ThrottlesActions.php'), file('ValidatesFormRequests.php')])]),
+      dir('Models', [file('User.php'), more]),
+      dir('Providers', [file('AppServiceProvider.php'), file('ModuleServiceProvider.php'), more]),
+    ]),
+    dir(
+      'Modules',
+      [
+        dir('Auth', [dir('Actions', [file('CreateNewUser.php'), file('ResetUserPassword.php')]), more]),
+        dir('Tenant', [dir('Http', [dir('Requests', [file('TenantRequest.php'), more])]), dir('Livewire', [file('Index.php'), file('Show.php'), more]), dir('Services', [file('TenantService.php'), more]), more], { saas: true }),
+        saas('User'),
+        saas('RolePermission'),
+        saas('Menu'),
+        saas('Notification'),
+        saas('Settings'),
+        saas('Dashboard'),
+      ],
+      { saas: true, open: true },
+    ),
+    dir('config', [file('app.php'), file('auth.php'), file('database.php'), file('fortify.php'), file('tenancy.php'), file('session.php'), more]),
+    dir('database', [dir('factories', [file('UserFactory.php')]), dir('migrations', [more]), dir('seeders', [file('DatabaseSeeder.php'), more])]),
+    dir('lang', [dir('en', [file('auth.php'), file('pagination.php'), file('passwords.php'), file('validation.php'), saas('modules')]), more]),
+    dir(
+      'resources/views',
+      [
+        dir('components', [blade('app-logo', true), blade('breadcrumbs'), blade('page-heading'), blade('table-card'), blade('user-menu'), saas('common'), more], { open: true }),
+        dir('layouts', [
+          blade('app'),
+          blade('auth'),
+          dir('app', [blade('header'), blade('sidebar'), dir('partials', [blade('navbar'), blade('sidebar-menu')])]),
+          dir('auth', [blade('card'), blade('simple'), blade('split')]),
+          blade('settings'),
+        ]),
+        dir('livewire', [blade('notification-bell'), blade('two-factor-setup-modal'), more]),
+        dir(
+          'pages',
+          [
+            dir('auth', [blade('confirm-password'), blade('forgot-password'), blade('login'), blade('register'), blade('reset-password'), blade('two-factor-challenge'), blade('verify-email'), more], { open: true }),
+            dir('settings', [blade('appearance'), blade('profile'), blade('security'), more]),
+            blade('dashboard'),
+            saas('tenants'),
+            saas('users'),
+            saas('roles'),
+            saas('setup'),
+            saas('notifications'),
+          ],
+          { open: true },
+        ),
+      ],
+      { open: true },
+    ),
+    dir('resources/js', [file('app.js'), file('permission-picker.js')]),
+    dir('routes', [file('console.php'), file('web.php'), more]),
+    dir('tests', [dir('Feature', [dir('Auth', [more]), dir('Settings', [more]), file('DashboardTest.php'), more])]),
+    file('AGENTS.md'),
+    file('composer.json'),
+    file('package.json'),
+    file('vite.config.js'),
+  ], { open: true });
 
 const tree = computed<Node>(() => {
+  if (framework.value === 'livewire') {
+    return livewireTree();
+  }
+
   const fw = frontend[framework.value];
   const page = (base: string, active = false) => file((framework.value === 'react' ? kebab(base) : base) + fw.ext, active);
 
@@ -145,11 +215,12 @@ const setAll = (open: boolean) => {
 };
 
 const fileType = (name: string) => {
+  if (name.endsWith('.blade.php')) return 'livewire';
   if (name.endsWith('.php')) return 'php';
   if (name.endsWith('.vue')) return 'vue';
   if (name.endsWith('.tsx')) return 'react';
   if (name.endsWith('.svelte')) return 'svelte';
-  if (name.endsWith('.ts')) return 'ts';
+  if (name.endsWith('.ts') || name.endsWith('.js')) return 'ts';
   if (name.endsWith('.json')) return 'json';
   return 'md';
 };
@@ -184,7 +255,7 @@ const points = [
           <span class="ide-title">my-saas</span>
           <div class="ide-tabs" role="tablist" aria-label="Starter kit">
             <button
-              v-for="key in inertiaKeys"
+              v-for="key in frameworkKeys"
               :key="key"
               type="button"
               role="tab"
@@ -519,6 +590,10 @@ const points = [
 
 .tree-file-icon.is-svelte {
   background: #ff3e00;
+}
+
+.tree-file-icon.is-livewire {
+  background: var(--sl-livewire);
 }
 
 .tree-file-icon.is-ts {

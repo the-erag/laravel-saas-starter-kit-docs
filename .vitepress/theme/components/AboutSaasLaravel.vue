@@ -19,17 +19,17 @@ const links = [
   <section class="sl-section" aria-labelledby="about-saas-laravel">
     <div class="sl-container about">
       <div class="about-text">
-        <SectionHeading eyebrow="What is SaaS Laravel?" title="A Laravel SaaS starter kit for Vue, React and Svelte" :center="false">
-          <span id="about-saas-laravel">A Laravel SaaS starter kit for Vue, React and Svelte</span>
+        <SectionHeading eyebrow="What is SaaS Laravel?" title="A Laravel SaaS starter kit for Vue, React, Svelte and Livewire" :center="false">
+          <span id="about-saas-laravel">A Laravel SaaS starter kit for Vue, React, Svelte and Livewire</span>
         </SectionHeading>
         <p class="sl-text">
           SaaS Laravel is a set of Laravel SaaS starter kits for developers and small teams who want to launch a
           <a class="sl-link" href="/blog/multi-tenant-saas-laravel-database-per-tenant.html">multi-tenant SaaS application with Laravel</a>
-          without rebuilding the same foundation every time. Every kit runs on Laravel 13 and Inertia v3, and you pick
-          the frontend: Vue 3.5, React 19 or Svelte 5, each with TypeScript and Tailwind CSS v4.
+          without rebuilding the same foundation every time. Every kit runs on Laravel 13 and Tailwind CSS v4, and you pick
+          the frontend: Vue 3.5, React 19 or Svelte 5 with Inertia v3 and TypeScript, or Livewire 4 with Blade and Flux UI.
         </p>
         <p class="sl-text">
-          The backend is the same in all three kits. <a class="sl-link" href="/docs/core/multi-tenancy.html">Laravel multi-tenancy</a>
+          Every kit has the same SaaS features. <a class="sl-link" href="/docs/core/multi-tenancy.html">Laravel multi-tenancy</a>
           runs on stancl/tenancy: each customer gets their own database and subdomain, people sign in
           with two-factor codes or passkeys, you decide exactly who can do what, and the whole interface comes in 17
           languages.

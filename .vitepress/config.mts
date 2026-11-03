@@ -1,8 +1,11 @@
+import { existsSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { defineConfig, type DefaultTheme, type HeadConfig } from 'vitepress';
 import { fileURLToPath } from 'node:url';
-import { seoHead, writeLlmsFiles } from './seo';
+import type { Plugin } from 'vite';
+import { pageMarkdown } from './markdown';
+import { seoHead, writeLlmsFiles, writePageMarkdownFiles } from './seo';
 import { frameworkKeys, kits, site, type FrameworkKey } from './site';
 
 function kitSidebar(framework: FrameworkKey): DefaultTheme.SidebarItem {
@@ -22,6 +25,28 @@ function kitSidebar(framework: FrameworkKey): DefaultTheme.SidebarItem {
     ],
   };
 }
+
+const srcDir = fileURLToPath(new URL('..', import.meta.url));
+
+// In dev, opening or fetching /docs/vue.md returns the page as plain Markdown, like the .md files written next to the HTML
+// on build. Vite's own module requests for the same URL (scripts or ?query) still go to VitePress.
+const pageMarkdownServer: Plugin = {
+  name: 'page-markdown',
+  configureServer(server) {
+    server.middlewares.use(async (req, res, next) => {
+      const [path, query] = decodeURI(req.url ?? '').split('?');
+      const file = join(srcDir, path);
+      const isModuleRequest = query !== undefined || req.headers['sec-fetch-dest'] === 'script';
+
+      if (isModuleRequest || !path.endsWith('.md') || !existsSync(file)) {
+        return next();
+      }
+
+      res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
+      res.end(pageMarkdown(await readFile(file, 'utf8')));
+    });
+  },
+};
 
 const docsSidebar: DefaultTheme.SidebarItem[] = [
   {
@@ -90,6 +115,7 @@ export default defineConfig({
   // Site data and the page hash map go into one cached chunk instead of being inlined in every page.
   metaChunk: true,
   vite: {
+    plugins: [pageMarkdownServer],
     resolve: {
       alias: [
         // Social icon links with a hidden text label (see theme/components/SocialLink.vue).
@@ -137,6 +163,7 @@ export default defineConfig({
   },
   async buildEnd(siteConfig) {
     await writeLlmsFiles(siteConfig.srcDir, siteConfig.outDir, docsSidebar);
+    await writePageMarkdownFiles(siteConfig.srcDir, siteConfig.outDir, siteConfig.pages);
     await writeFile(
       join(siteConfig.srcDir, 'public', 'sitemap.xml'),
       await readFile(join(siteConfig.outDir, 'sitemap.xml'), 'utf8'),

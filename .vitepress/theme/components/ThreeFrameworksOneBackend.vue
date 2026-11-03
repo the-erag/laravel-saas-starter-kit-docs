@@ -137,7 +137,7 @@ onBeforeUnmount(() => {
       <SectionHeading
         eyebrow="Architecture"
         title="Three frameworks. One backend."
-        lead="The Laravel code is the same in every kit. Only the frontend folder changes, so you learn the backend once and can switch frontends whenever you like."
+        lead="The Laravel code is the same in the Vue, React and Svelte kits. Only the frontend folder changes, so you learn the backend once and can switch frontends whenever you like. Prefer PHP and Blade? The Livewire kit has the same features."
       />
       <div ref="diagram" class="diagram">
         <div class="tier tier--backend">
@@ -145,7 +145,7 @@ onBeforeUnmount(() => {
             <span class="tier-logo"><FrameworkLogo name="laravel" :size="24" /></span>
             <div class="tier-heading">
               <strong>Laravel 13 backend</strong>
-              <span>Identical in all three kits</span>
+              <span>Identical in the Vue, React and Svelte kits</span>
             </div>
             <span class="tier-badge">Same code</span>
           </div>
@@ -212,12 +212,63 @@ onBeforeUnmount(() => {
             <span class="front-link">View kit <span class="vpi-arrow-right" /></span>
           </a>
         </div>
+
+        <a href="/kits/livewire.html" class="tier livewire-note">
+          <span class="front-logo"><FrameworkLogo name="livewire" :size="26" /></span>
+          <span class="livewire-copy">
+            <strong>{{ kits.livewire.title }}</strong>
+            <span>The same modules, tenancy, auth and permissions with Livewire 4 components, Blade views and Flux UI instead of Inertia.</span>
+          </span>
+          <code class="front-path">resources/views</code>
+          <span class="front-link">View kit <span class="vpi-arrow-right" /></span>
+        </a>
       </div>
     </div>
   </section>
 </template>
 
 <style scoped>
+.livewire-note {
+  --front-color: var(--sl-livewire);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  padding: 18px 22px;
+  color: inherit;
+  text-decoration: none;
+  border-color: color-mix(in srgb, var(--sl-livewire) 35%, var(--sl-border));
+}
+
+.livewire-note:hover {
+  border-color: var(--sl-livewire);
+}
+
+.livewire-note .front-logo {
+  flex-shrink: 0;
+  margin-bottom: 0;
+}
+
+.livewire-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+}
+
+.livewire-copy strong {
+  font-size: 16px;
+  color: var(--vp-c-text-1);
+}
+
+@media (max-width: 640px) {
+  .livewire-note {
+    flex-wrap: wrap;
+  }
+}
+
 .diagram {
   max-width: 900px;
   margin: 0 auto;

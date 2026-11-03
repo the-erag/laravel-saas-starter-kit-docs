@@ -86,6 +86,8 @@ export const site = {
     xHandle: '@the_erag',
   },
   docsEditPattern: `${githubOwner}/laravel-saas-starter-kit-docs/edit/main/:path`,
+  /** Raw Markdown of each page in the public docs repository, for LLMs. */
+  docsRawBase: 'https://raw.githubusercontent.com/the-erag/laravel-saas-starter-kit-docs/main',
   /** The date the current prices took effect (the Offer's validFrom). Update it when prices change. */
   pricesValidFrom: '2026-11-03',
   /** Walkthrough video of the code and the admin panel; the homepage shows a Watch button once this is set. */

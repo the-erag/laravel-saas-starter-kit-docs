@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { inertiaKeys, kits, site, type InertiaFrameworkKey } from '../../site';
+import { frameworkKeys, kits, site, type FrameworkKey } from '../../site';
 import FrameworkLogo from './FrameworkLogo.vue';
 import SectionHeading from './SectionHeading.vue';
 
@@ -55,7 +55,7 @@ const groups: { key: 'screens' | 'layouts'; label: string; items: Screen[] }[] =
   { key: 'layouts', label: 'Layouts', items: layouts },
 ];
 
-const framework = ref<InertiaFrameworkKey>('vue');
+const framework = ref<FrameworkKey>('vue');
 const screen = ref<ScreenKey>('tenants');
 
 const active = computed(() => [...screens, ...layouts].find((item) => item.key === screen.value) ?? screens[0]);
@@ -69,7 +69,7 @@ const alt = computed(() => `${kits[framework.value].title}: ${active.value.label
       <SectionHeading
         eyebrow="Live preview"
         title="See every kit in action"
-        lead="Real screenshots from the Vue, React and Svelte kits. The same Laravel backend and the same screens, built with the frontend you prefer."
+        lead="Real screenshots from the Vue, React, Svelte and Livewire kits. The same SaaS features and the same screens, built with the frontend you prefer."
       />
 
       <div v-if="site.demoVideoUrl" class="video">
@@ -83,7 +83,7 @@ const alt = computed(() => `${kits[framework.value].title}: ${active.value.label
       <div class="controls">
         <div class="frameworks" role="tablist" aria-label="Starter kit">
           <button
-            v-for="key in inertiaKeys"
+            v-for="key in frameworkKeys"
             :key="key"
             type="button"
             role="tab"

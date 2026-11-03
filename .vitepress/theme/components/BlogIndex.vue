@@ -98,7 +98,7 @@ watch(topic, (key) => {
 
       <div class="blog-panel blog-kit blog-aside-extra">
         <p class="blog-kit-title">Skip the groundwork</p>
-        <p class="blog-kit-text">Multi-tenancy, authentication, roles and 17 languages, ready in Vue, React or Svelte. From ${{ site.kitPriceFrom }}, one-time.</p>
+        <p class="blog-kit-text">Multi-tenancy, authentication, roles and 17 languages, ready in Vue, React, Svelte or Livewire. From ${{ site.kitPriceFrom }}, one-time.</p>
         <a class="sl-btn sl-btn--primary sl-btn--block" href="/#features">Explore the starter kits</a>
       </div>
     </aside>

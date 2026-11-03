@@ -143,7 +143,7 @@ const showcases: Showcase[] = [
       { title: 'Per-domain default', text: 'Each domain decides the language guests see first.' },
       { title: 'Translated everywhere', text: 'Menus, emails, validation messages and notifications.' },
       { title: 'Easy to edit', text: 'Each feature keeps its words in one simple file per language.' },
-      { title: 'Works in every kit', text: 'Vue, React and Svelte all read the same translation files.' },
+      { title: 'Works in every kit', text: 'Vue, React, Svelte and Livewire all read the same translation files.' },
     ],
     docs: '/docs/core/localization.html',
     url: 'saas.com/tenants',
@@ -231,9 +231,9 @@ const showcases: Showcase[] = [
       { title: 'Follows the directory structure', text: 'New code goes into the existing folders and module layout, never a new base folder.' },
       { title: 'Follows your conventions', text: 'It looks at nearby files and reuses the components, names and patterns already there.' },
       { title: 'Project rules first', text: 'AGENTS.md and CLAUDE.md are read before any file is touched.' },
-      { title: 'Skills for every package', text: 'Tenancy, Fortify, Inertia, Wayfinder, laravel-data, Pest and Tailwind.' },
+      { title: 'Skills for every package', text: 'Tenancy, Fortify, Inertia or Livewire and Flux, Wayfinder, laravel-data, Pest and Tailwind.' },
       { title: 'Laravel Boost', text: 'The assistant can look at your database, logs and the Laravel docs while it works.' },
-      { title: 'Works with your agent', text: 'Claude Code, Codex, Junie and Antigravity, set up in Vue, React and Svelte.' },
+      { title: 'Works with your agent', text: 'Claude Code, Codex, Junie and Antigravity, set up in Vue, React, Svelte and Livewire.' },
     ],
     docs: '/docs.html',
     url: '',
@@ -405,7 +405,7 @@ onBeforeUnmount(() => {
 
       <div class="showcase-intro" data-reveal>
         <h2 class="sl-h2">Real screens, not mockups</h2>
-        <p class="sl-lead">Every clip below is the starter kit itself, running locally. The Vue, React and Svelte kits look and work the same.</p>
+        <p class="sl-lead">Every clip below is the starter kit itself, running locally. The Vue, React, Svelte and Livewire kits look and work the same.</p>
       </div>
 
       <div ref="stage" class="tour-stage" :style="{ '--count': scenes.length }">

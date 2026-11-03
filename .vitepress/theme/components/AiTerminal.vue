@@ -4,7 +4,7 @@ import FrameworkLogo from './FrameworkLogo.vue';
 
 const props = withDefaults(defineProps<{ active?: boolean }>(), { active: true });
 
-type Kit = 'vue' | 'react' | 'svelte';
+type Kit = 'vue' | 'react' | 'svelte' | 'livewire';
 type Line = { kind: 'read' | 'create' | 'update' | 'code' | 'run' | 'pass' | 'done'; text: string; meta?: string };
 
 const sessions: { kit: Kit; label: string; prompt: string; lines: Line[] }[] = [
@@ -69,6 +69,27 @@ const sessions: { kit: Kit; label: string; prompt: string; lines: Line[] }[] = [
       { kind: 'run', text: 'php artisan test --filter=Ticket' },
       { kind: 'pass', text: '7 passed' },
       { kind: 'done', text: 'Tickets are ready. Assign them from the tenant workspace.' },
+    ],
+  },
+  {
+    kit: 'livewire',
+    label: 'Livewire',
+    prompt: 'Add an Invoices page where each tenant can create and send invoices',
+    lines: [
+      { kind: 'read', text: 'AGENTS.md' },
+      { kind: 'read', text: '.claude/skills/laravel-tenancy/SKILL.md' },
+      { kind: 'read', text: '.claude/skills/livewire-development/SKILL.md' },
+      { kind: 'create', text: 'Modules/Invoice/Services/InvoiceService.php', meta: '+55' },
+      { kind: 'code', text: '+ final class InvoiceService' },
+      { kind: 'code', text: '+     public function create(array $data): Invoice' },
+      { kind: 'create', text: 'Modules/Invoice/Http/Requests/InvoiceRequest.php', meta: '+29' },
+      { kind: 'create', text: 'Modules/Invoice/Livewire/Index.php', meta: '+61' },
+      { kind: 'create', text: 'resources/views/pages/invoices/index.blade.php', meta: '+88' },
+      { kind: 'update', text: 'config/permissions/tenant/invoices.php', meta: '+10' },
+      { kind: 'update', text: 'lang/*/modules/invoice.php', meta: '17 languages' },
+      { kind: 'run', text: 'php artisan test --filter=Invoice' },
+      { kind: 'pass', text: '7 passed' },
+      { kind: 'done', text: 'Invoices are ready. Page added to the tenant menu.' },
     ],
   },
 ];

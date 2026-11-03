@@ -1,8 +1,9 @@
 import { existsSync } from 'node:fs';
-import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { DefaultTheme, HeadConfig, PageData } from 'vitepress';
+import { cleanMarkdown, pageMarkdown, readFrontmatter } from './markdown';
 import { blogAuthor, blogCategories, frameworkKeys, kitPriceList, kits, paymentFaqs, planOrder, plans, salesCountries, site, type FrameworkKey, type PlanKey } from './site';
 
 type JsonLd = Record<string, unknown>;
@@ -423,22 +424,6 @@ export const seoHead = (pageData: PageData, title: string, description: string, 
   return head;
 };
 
-const readFrontmatter = (source: string): { title?: string; description?: string; body: string } => {
-  const match = source.match(/^---\n([\s\S]*?)\n---\n?/);
-  const field = (name: string): string | undefined =>
-    match?.[1].match(new RegExp(`^${name}:\\s*"?(.*?)"?\\s*$`, 'm'))?.[1];
-
-  return { title: field('title'), description: field('description'), body: match ? source.slice(match[0].length) : source };
-};
-
-const cleanMarkdown = (body: string): string =>
-  body
-    .replace(/<script[\s\S]*?<\/script>/g, '')
-    .replace(/<Badge[^>]*text="([^"]*)"[^>]*\/>/g, '$1')
-    .replace(/<[A-Z][A-Za-z]*[^>]*\/>/g, '')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim();
-
 // Sidebar links end in .html; the Markdown source has the same path with .md.
 const linkToSource = (link: string): string => `${link.replace(/^\//, '').replace(/\.html$/, '')}.md`;
 
@@ -447,6 +432,17 @@ const collectLinks = (items: DefaultTheme.SidebarItem[]): { text: string; link: 
     ...(item.link ? [{ text: item.text ?? item.link, link: item.link }] : []),
     ...(item.items ? collectLinks(item.items) : []),
   ]);
+
+/** Writes every page's Markdown next to its HTML (docs/vue.md beside docs/vue.html), for "View as Markdown" and LLMs. */
+export const writePageMarkdownFiles = async (srcDir: string, outDir: string, pages: string[]): Promise<void> => {
+  await Promise.all(
+    pages.map(async (page) => {
+      const target = join(outDir, page);
+      await mkdir(dirname(target), { recursive: true });
+      await writeFile(target, pageMarkdown(await readFile(join(srcDir, page), 'utf8')));
+    }),
+  );
+};
 
 export const writeLlmsFiles = async (srcDir: string, outDir: string, docsSidebar: DefaultTheme.SidebarItem[]): Promise<void> => {
   const describe = async (link: string): Promise<{ title: string; description: string; body: string }> => {

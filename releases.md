@@ -26,6 +26,13 @@ Improved, Fixed or Removed, and describe anything buyers must do in words as the
 
 <ReleaseFilter />
 
+<ReleaseCard kit="livewire" version="0.0.2" date="4 November 2026">
+
+- Added a README with the setup steps, the default login users and the code quality commands.
+- Added the SaaS Laravel Commercial License file to the kit.
+
+</ReleaseCard>
+
 <ReleaseCard kit="livewire" version="0.0.1" date="3 November 2026">
 
 - Added the Livewire starter kit: the same SaaS features as the other kits (database-per-tenant multi-tenancy, authentication with two-factor and passkeys, roles and permissions, user and tenant invitations, menus, notifications and 17 languages) with a Livewire 4, Blade, Alpine.js and Flux UI frontend.

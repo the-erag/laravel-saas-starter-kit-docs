@@ -59,7 +59,7 @@ const social: { icon: IconName; label: string; href: string; external: boolean }
     <div class="sl-container footer-inner">
       <div class="footer-brand">
         <a href="/" class="footer-logo"><img src="/logo.svg" alt="SaaS Laravel logo" width="28" height="28" />{{ site.name }}</a>
-        <p>Laravel SaaS starter kits for Vue, React and Svelte. {{ site.accessNote }}</p>
+        <p>Laravel SaaS starter kits for Vue, React, Svelte and Livewire. {{ site.accessNote }}</p>
       </div>
       <nav v-for="column in columns" :key="column.title" class="footer-col" :aria-label="column.title">
         <p class="footer-col-title">{{ column.title }}</p>

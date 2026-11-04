@@ -19,9 +19,11 @@ import SlIcon from './SlIcon.vue';
           Laravel 13 SaaS Starter Kits for <span class="sl-gradient-text">Multi-Tenant</span> Apps
         </h1>
         <p class="sl-lead">
-          Build a multi-tenant Laravel SaaS application without starting from zero. Every kit ships with tenant
-          management (a database per tenant with stancl/tenancy), users, roles and permissions, menus, authentication
-          and security, ready from day one. One Laravel 13 backend, with Vue, React, Svelte or Livewire on the front.
+          Build a multi-tenant Laravel SaaS application without starting from zero.
+          <strong class="hero-lead-proof">1,500+ kits shipped</strong>, powering SaaS apps across 4 frontends. Every
+          kit ships with tenant management (a database per tenant with stancl/tenancy), users, roles and permissions,
+          menus, authentication and security, ready from day one. One Laravel 13 backend, with Vue, React, Svelte or
+          Livewire on the front.
         </p>
         <div class="sl-actions hero-actions">
           <a class="sl-btn sl-btn--primary sl-btn--lg" href="#features">
@@ -77,12 +79,18 @@ import SlIcon from './SlIcon.vue';
   pointer-events: none;
 }
 
+/* The hero runs a little wider than other sections so the kit preview has room. */
+.hero-inner,
+.hero-frameworks {
+  max-width: 1320px;
+}
+
 .hero-inner {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
   align-items: center;
-  gap: 56px;
+  gap: 48px;
 }
 
 .hero-pill {
@@ -113,7 +121,8 @@ import SlIcon from './SlIcon.vue';
 }
 
 .hero-tree-link {
-  display: inline-flex;
+  display: flex;
+  width: fit-content;
   align-items: center;
   gap: 8px;
   margin-top: 22px;
@@ -140,6 +149,11 @@ import SlIcon from './SlIcon.vue';
 
 .hero-tree-link:hover .hero-tree-arrow {
   transform: translateX(3px);
+}
+
+.hero-lead-proof {
+  font-weight: 700;
+  color: var(--vp-c-brand-1);
 }
 
 .hero-frameworks {
@@ -246,6 +260,13 @@ import SlIcon from './SlIcon.vue';
 
 
 
+
+@media (max-width: 1180px) {
+  .hero-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 40px;
+  }
+}
 
 @media (max-width: 960px) {
   .hero {

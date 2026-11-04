@@ -1,231 +1,348 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { kits, type FrameworkKey } from '../../site';
 import FrameworkLogo from './FrameworkLogo.vue';
 
-const layers: { kit: FrameworkKey; image: string; path: string; screen: string }[] = [
-  { kit: 'vue', image: 'vue-tenant-show', path: 'tenants/1', screen: 'Tenant details' },
-  { kit: 'react', image: 'react-bell', path: 'dashboard', screen: 'Notifications' },
-  { kit: 'svelte', image: 'svelte-menus', path: 'setup/menus', screen: 'Menu builder' },
-  { kit: 'livewire', image: 'livewire-users', path: 'users', screen: 'Users' },
+// color: the kit's brand color, used for the glow and the active tab.
+const screens: { kit: FrameworkKey; label: string; image: string; path: string; screen: string; color: string }[] = [
+  { kit: 'vue', label: 'Vue', image: 'vue-tenant-show', path: 'tenants/1', screen: 'Tenant details', color: '#42b883' },
+  { kit: 'react', label: 'React', image: 'react-bell', path: 'dashboard', screen: 'Notifications', color: '#58c4dc' },
+  { kit: 'svelte', label: 'Svelte', image: 'svelte-menus', path: 'setup/menus', screen: 'Menu builder', color: '#ff3e00' },
+  { kit: 'livewire', label: 'Livewire', image: 'livewire-users', path: 'users', screen: 'Users', color: '#fb70a9' },
 ];
 
-const active = ref(layers.findIndex((layer) => layer.kit === 'vue'));
+const ROTATE_MS = 4500;
 
-const position = (index: number) => {
-  const offset = (index - active.value + layers.length) % layers.length;
-
-  return ['front', 'middle', 'back', 'far'][offset];
-};
+const active = ref(0);
+const paused = ref(false);
+let timer: ReturnType<typeof setInterval> | undefined;
 
 const select = (index: number) => {
   active.value = index;
+  restart();
 };
+
+const restart = () => {
+  clearInterval(timer);
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  timer = setInterval(() => {
+    if (!paused.value) active.value = (active.value + 1) % screens.length;
+  }, ROTATE_MS);
+};
+
+onMounted(restart);
+onBeforeUnmount(() => clearInterval(timer));
 </script>
 
 <template>
-  <div class="showcase">
-    <div class="stage">
-      <figure
-        v-for="(layer, index) in layers"
-        :key="layer.image"
-        class="layer"
-        :class="`layer--${position(index)}`"
-        @click="select(index)"
-      >
-        <div class="layer-bar">
-          <span class="layer-dots" aria-hidden="true"><i /><i /><i /></span>
-          <span class="layer-kit">
-            <FrameworkLogo :name="layer.kit" :size="14" />
-            {{ kits[layer.kit].title }}
-          </span>
-          <span class="layer-url">{{ layer.kit }}.test/{{ layer.path }}</span>
-        </div>
-        <img
-          class="layer-img layer-img--light"
-          :src="`/screenshots/${layer.image}-light.webp`"
-          :alt="`${kits[layer.kit].title}: ${layer.screen} screen`"
-          width="2880"
-          height="1800"
-          :fetchpriority="index === 0 ? 'high' : 'auto'"
-          :loading="index === 0 ? 'eager' : 'lazy'"
-          decoding="async"
-        />
-        <img
-          class="layer-img layer-img--dark"
-          :src="`/screenshots/${layer.image}-dark.webp`"
-          :alt="`${kits[layer.kit].title}: ${layer.screen} screen`"
-          width="2880"
-          height="1800"
-          loading="lazy"
-          decoding="async"
-        />
-      </figure>
-    </div>
+  <div
+    class="showcase"
+    :style="{ '--kit': screens[active].color }"
+    @mouseenter="paused = true"
+    @mouseleave="paused = false"
+  >
+    <div class="window" :class="{ 'window--paused': paused }" :style="{ '--rotate': `${ROTATE_MS}ms` }">
+      <div class="window-tabs" role="tablist" aria-label="Starter kit previews">
+        <span class="window-dots" aria-hidden="true"><i /><i /><i /></span>
+        <button
+          v-for="(item, index) in screens"
+          :key="item.kit"
+          type="button"
+          role="tab"
+          class="window-tab"
+          :class="{ 'is-active': index === active }"
+          :aria-selected="index === active"
+          @click="select(index)"
+        >
+          <FrameworkLogo :name="item.kit" :size="15" />
+          <span>{{ item.label }}</span>
+          <i v-if="index === active" :key="active" class="window-tab-progress" aria-hidden="true" />
+        </button>
+      </div>
 
+      <div class="window-address">
+        <span class="window-lock" aria-hidden="true" />
+        <span class="window-url">
+          <Transition name="url" mode="out-in">
+            <span :key="active">saas.test/{{ screens[active].path }}</span>
+          </Transition>
+        </span>
+      </div>
+
+      <div class="window-body">
+        <figure
+          v-for="(item, index) in screens"
+          :key="item.image"
+          class="window-screen"
+          :class="{ 'is-active': index === active }"
+          :aria-hidden="index !== active"
+        >
+          <img
+            class="window-img window-img--light"
+            :src="`/screenshots/${item.image}-light.webp`"
+            :alt="`${kits[item.kit].title}: ${item.screen} screen`"
+            width="2880"
+            height="1800"
+            :fetchpriority="index === 0 ? 'high' : 'auto'"
+            :loading="index === 0 ? 'eager' : 'lazy'"
+            decoding="async"
+          />
+          <img
+            class="window-img window-img--dark"
+            :src="`/screenshots/${item.image}-dark.webp`"
+            :alt="`${kits[item.kit].title}: ${item.screen} screen`"
+            width="2880"
+            height="1800"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .showcase {
   position: relative;
-  perspective: 2200px;
 }
 
-.stage {
-  position: relative;
-  height: 560px;
-  transform-style: preserve-3d;
-}
-
-.layer {
+/* Glow behind the window, tinted with the active kit's color. */
+.showcase::before {
+  content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 640px;
-  max-width: 100%;
-  margin: 0;
+  inset: 6% 4% -2%;
+  border-radius: 48px;
+  background: radial-gradient(60% 60% at 70% 30%, var(--kit), transparent 70%),
+    radial-gradient(60% 60% at 25% 80%, #6366f1, transparent 70%);
+  filter: blur(60px);
+  opacity: 0.35;
+  transition: background 0.8s;
+  pointer-events: none;
+}
+
+.window {
+  position: relative;
   overflow: hidden;
   border: 1px solid var(--sl-border-strong);
-  border-radius: 14px;
+  border-radius: 18px;
   background: var(--sl-surface);
-  cursor: pointer;
-  box-shadow: 0 30px 60px -24px rgba(15, 23, 42, 0.4), 0 12px 24px -12px rgba(15, 23, 42, 0.25);
-  transform-origin: top left;
-  transition:
-    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
-    opacity 0.7s,
-    filter 0.7s;
+  box-shadow: var(--sl-shadow-lg), 0 0 0 6px rgba(99, 102, 241, 0.06);
 }
 
-.layer--front {
-  z-index: 3;
-  transform: translate3d(0, 96px, 0) rotateX(6deg) rotateY(-10deg) rotateZ(2deg);
-}
-
-.layer--middle {
-  z-index: 2;
-  opacity: 0.92;
-  filter: saturate(0.9);
-  transform: translate3d(70px, 44px, -60px) rotateX(6deg) rotateY(-10deg) rotateZ(2deg);
-}
-
-.layer--back {
-  z-index: 1;
-  opacity: 0.8;
-  filter: saturate(0.8);
-  transform: translate3d(140px, -8px, -120px) rotateX(6deg) rotateY(-10deg) rotateZ(2deg);
-}
-
-.layer--far {
-  z-index: 0;
-  opacity: 0.7;
-  filter: saturate(0.7);
-  transform: translate3d(210px, -60px, -180px) rotateX(6deg) rotateY(-10deg) rotateZ(2deg);
-}
-
-.layer-bar {
+.window-tabs {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--sl-border);
+  align-items: flex-end;
+  gap: 4px;
+  padding: 6px 10px 0;
   background: var(--vp-c-bg-soft);
-  font-size: 12px;
 }
 
-.layer-dots {
+.window-dots {
   display: inline-flex;
-  gap: 5px;
+  align-self: center;
+  gap: 6px;
+  margin-right: 10px;
+  padding-bottom: 5px;
 }
 
-.layer-dots i {
-  width: 8px;
-  height: 8px;
+.window-dots i {
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: var(--sl-border-strong);
 }
 
-.layer-kit {
+.window-tab {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 2px 10px 2px 6px;
-  border: 1px solid var(--sl-border);
-  border-radius: 999px;
-  background: var(--sl-surface);
+  gap: 7px;
+  min-width: 0;
+  padding: 6px 14px 7px;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  font-size: 13px;
+  line-height: 18px;
   font-weight: 600;
-  color: var(--vp-c-text-1);
-  white-space: nowrap;
+  color: var(--vp-c-text-2);
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    background-color 0.2s;
 }
 
-.layer-url {
+.window-tab:hover {
+  color: var(--vp-c-text-1);
+}
+
+.window-tab:not(.is-active) :deep(svg) {
+  filter: grayscale(1);
+  opacity: 0.6;
+  transition: filter 0.2s, opacity 0.2s;
+}
+
+.window-tab:hover :deep(svg) {
+  filter: none;
+  opacity: 1;
+}
+
+.window-tab.is-active {
+  border-color: var(--sl-border);
+  background: var(--sl-surface);
+  color: var(--vp-c-text-1);
+}
+
+/* Shows how long until the next kit. */
+.window-tab-progress {
+  position: absolute;
+  top: -1px;
+  left: 10px;
+  right: 10px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--kit);
+  transform-origin: left;
+  animation: tab-progress var(--rotate) linear;
+}
+
+.window--paused .window-tab-progress {
+  animation-play-state: paused;
+}
+
+@keyframes tab-progress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.window-address {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 5px 12px;
+  border-top: 1px solid var(--sl-border);
+  border-bottom: 1px solid var(--sl-border);
+  background: var(--sl-surface);
+}
+
+.window-lock {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sl-success);
+  box-shadow: 0 0 0 3px var(--sl-success-soft);
+}
+
+.window-url {
+  flex: 1;
   overflow: hidden;
+  padding: 2px 12px;
+  border-radius: 999px;
+  background: var(--vp-c-bg-soft);
   font-family: var(--vp-font-family-mono);
-  color: var(--vp-c-text-3);
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--vp-c-text-2);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.layer-img {
+.url-enter-active,
+.url-leave-active {
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.url-enter-from {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.url-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+/* Screenshots are 16:10; they stack and cross-fade inside this box. */
+.window-body {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.window-screen {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(10px) scale(0.99);
+  transition:
+    opacity 0.5s ease,
+    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.window-screen.is-active {
+  opacity: 1;
+  transform: none;
+}
+
+.window-img {
   display: block;
   width: 100%;
   height: auto;
 }
 
-.layer-img--dark {
+.window-img--dark {
   display: none;
 }
 
-@media (max-width: 960px) {
-  .stage {
-    height: 580px;
-  }
-}
-
 @media (max-width: 560px) {
-  .stage {
-    height: 380px;
+  .window-dots {
+    display: none;
   }
 
-  .layer {
-    width: 100%;
+  .window-tabs {
+    padding: 8px 8px 0;
+    gap: 2px;
   }
 
-  .layer--front {
-    transform: translate3d(0, 70px, 0) rotateX(4deg) rotateY(-6deg) rotateZ(1deg);
+  .window-tab {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 6px 9px;
+    font-size: 12px;
   }
 
-  .layer--middle {
-    transform: translate3d(18px, 36px, -40px) rotateX(4deg) rotateY(-6deg) rotateZ(1deg);
-  }
-
-  .layer--back {
-    transform: translate3d(36px, 2px, -80px) rotateX(4deg) rotateY(-6deg) rotateZ(1deg);
-  }
-
-  .layer--far {
-    transform: translate3d(54px, -32px, -120px) rotateX(4deg) rotateY(-6deg) rotateZ(1deg);
-  }
-
-  .layer-url {
+  .window-tab:not(.is-active) span {
     display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .layer {
+  .window-screen,
+  .url-enter-active,
+  .url-leave-active {
     transition: none;
+  }
+
+  .window-tab-progress {
+    display: none;
   }
 }
 </style>
 
 <style>
-.dark .showcase .layer-img--light {
+.dark .showcase .window-img--light {
   display: none;
 }
 
-.dark .showcase .layer-img--dark {
+.dark .showcase .window-img--dark {
   display: block;
 }
 </style>

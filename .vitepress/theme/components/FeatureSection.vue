@@ -1012,13 +1012,13 @@ onBeforeUnmount(() => {
   }
 
   .feature {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 32px;
     padding: 56px 0;
   }
 
   .feature--reverse {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .feature--reverse .feature-media {
@@ -1046,7 +1046,11 @@ onBeforeUnmount(() => {
   }
 
   .feature-points {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tour-giant {
+    font-size: 17vw;
   }
 
 }

@@ -495,8 +495,20 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 560px) {
-  .term-title {
+  .term-title,
+  .term-dots {
     display: none;
+  }
+
+  .term-kits {
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .term-kits button {
+    flex-shrink: 0;
+    padding: 3px 7px;
   }
 
   .term-body {

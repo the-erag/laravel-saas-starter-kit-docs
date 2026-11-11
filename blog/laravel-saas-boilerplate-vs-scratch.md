@@ -124,6 +124,6 @@ You can, but it's rarely easy, because both sides own the same core: users, auth
 
 ## Where SaaS Laravel fits
 
-SaaS Laravel is a boilerplate for the common case: database-per-tenant multi-tenancy, Fortify authentication with 2FA and passkeys, roles and permissions, invitations, 17 languages and a modular Laravel 13 backend, with the same backend behind Vue, React and Svelte frontends. It doesn't include billing, so you pick your own payment provider. It's a one-time payment (Vue $29, React $30, Svelte $33, or $79 for all three) with lifetime access and weekly updates that you [merge from the kit repository](/docs/purchase/updates.html). The [pricing page](/pricing.html) has the details.
+SaaS Laravel is a boilerplate for the common case: database-per-tenant multi-tenancy, Fortify authentication with 2FA and passkeys, roles and permissions, invitations, 17 languages and a modular Laravel 13 backend, with the same backend behind Vue, React, Svelte and Livewire frontends. It doesn't include billing, so you pick your own payment provider. It's a one-time payment (Vue $55, React $69, Svelte $59, Livewire $49, or $139 for all four) with lifetime access and weekly updates that you [merge from the kit repository](/docs/purchase/updates.html). The [pricing page](/pricing.html) has the details.
 
 <BlogPostCta />

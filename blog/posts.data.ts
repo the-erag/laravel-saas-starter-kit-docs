@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import { createContentLoader } from 'vitepress';
 
 export interface Post {
@@ -9,10 +10,18 @@ export interface Post {
   tags: string[];
   author: string;
   category: string;
+  /** The post's banner, public/og/blog/<slug>.png, when it has one. */
+  image?: string;
 }
 
 declare const data: Post[];
 export { data };
+
+const banner = (url: string): string | undefined => {
+  const image = `/og/blog/${url.replace(/^\/blog\/|\.html$/g, '')}.png`;
+
+  return existsSync(new URL(`../public${image}`, import.meta.url)) ? image : undefined;
+};
 
 export default createContentLoader('blog/*.md', {
   includeSrc: true,
@@ -27,6 +36,7 @@ export default createContentLoader('blog/*.md', {
         tags: frontmatter.tags ?? [],
         author: frontmatter.author ?? 'erag',
         category: frontmatter.category ?? '',
+        image: banner(url),
       }))
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
 });

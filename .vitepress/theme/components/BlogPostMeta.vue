@@ -31,6 +31,16 @@ const date = computed(() =>
       </template>
     </p>
   </div>
+  <img
+    v-if="post?.image"
+    class="post-banner"
+    :src="post.image"
+    :alt="post.title"
+    width="1200"
+    height="630"
+    fetchpriority="high"
+    decoding="async"
+  />
 </template>
 
 <style scoped>
@@ -65,5 +75,15 @@ const date = computed(() =>
 .post-author {
   font-weight: 600;
   text-decoration: none;
+}
+
+.post-banner {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 0 32px;
+  border: 1px solid var(--sl-border);
+  border-radius: 14px;
+  box-shadow: var(--sl-shadow);
 }
 </style>

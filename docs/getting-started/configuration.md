@@ -5,7 +5,13 @@ description: "The .env keys and config files that control tenancy, authenticatio
 
 # Configuration
 
-Most of the settings are plain Laravel. Here we only cover the keys and files that are specific to the kits. If you want every `.env` key with its default, see the [Environment reference](/docs/reference/environment).
+Most settings are plain Laravel. This page only covers the keys and files that are specific to the kits. For every `.env` key and its default, see the [Environment reference](/docs/reference/environment).
+
+<KeyIdea>
+
+`APP_DOMAIN` is the setting the rest depends on. Requests on that host are the central app. Requests on any other host start tenancy and are matched to a tenant domain such as `acme.vue.test`.
+
+</KeyIdea>
 
 ## Key `.env` values
 
@@ -19,7 +25,7 @@ Most of the settings are plain Laravel. Here we only cover the keys and files th
 | `CACHE_STORE` | `database` | Cache |
 | `MAIL_MAILER` | `log` | Writes emails to the log until you configure a real mailer |
 
-Here's where the database-backed drivers keep their data:
+Where the database drivers store their data:
 
 | Driver | Central domain | Tenant domain |
 | --- | --- | --- |
@@ -29,7 +35,7 @@ Here's where the database-backed drivers keep their data:
 
 ## `config/tenancy.php`
 
-This file reads `APP_DOMAIN` twice. Once as `central_domains` (a single-item array), and once as `domain` (the suffix for tenant subdomains).
+This file reads `APP_DOMAIN` twice: as `central_domains` (a one-item array) and as `domain` (the suffix for tenant subdomains).
 
 | Key | Value | Meaning |
 | --- | --- | --- |
@@ -85,18 +91,22 @@ Each file shows up as one permission group in the UI, and the file name is the g
 
 ## `config/inertia-lang.php`
 
+Vue, React and Svelte kits only. The Livewire kit reads the PHP files in `lang/` directly, so it has no export step.
+
 | Key | Value |
 | --- | --- |
 | `lang_path` | `base_path('lang')` |
 | `output_lang` | `resource_path('js/lang')` |
 
-`php artisan erag:generate-lang` takes the PHP translation files in `lang_path` and exports them as JSON to `output_lang`. See [Localization](/docs/core/localization).
+`php artisan erag:generate-lang` exports the PHP translation files in `lang_path` as JSON to `output_lang`. See [Localization](/docs/core/localization).
 
 ## `config/queue.php`
 
-Every queued job, including jobs dispatched inside a tenant, goes into the **central** `jobs` table. That means one worker can process jobs for every tenant.
+Every queued job, including jobs dispatched inside a tenant, goes into the **central** `jobs` table, so one worker handles jobs for every tenant.
 
-It works because the `database` queue connection reads `DB_QUEUE_CONNECTION`, which falls back to `DB_CONNECTION` (the central connection name, e.g. `mysql`) rather than the tenant connection. When each job runs, stancl's `QueueTenancyBootstrapper` restores the tenant context.
+This works because the `database` queue connection reads `DB_QUEUE_CONNECTION`, which falls back to `DB_CONNECTION` (the central connection name, e.g. `mysql`), not the tenant connection. When a job runs, stancl's `QueueTenancyBootstrapper` restores the tenant context.
+
+<FlowDiagram label="A queued job from a tenant" :nodes="[{ label: 'Job dispatched', note: 'inside a tenant' }, { label: 'Central `jobs` table', note: 'via `DB_CONNECTION`' }, { label: 'One worker', note: 'for every tenant' }, { label: '`QueueTenancyBootstrapper`', note: 'restores the tenant context' }]" />
 
 ::: details View the queue connection
 ```php
@@ -110,14 +120,20 @@ It works because the `database` queue connection reads `DB_QUEUE_CONNECTION`, wh
 ```
 :::
 
-There's more in [Local development → Queue worker](/docs/getting-started/local-development#queue-worker).
+More in [Local development → Queue worker](/docs/getting-started/local-development#queue-worker).
 
 ## Other files
 
 | File | Notes |
 | --- | --- |
 | `config/app.php` | `locale` / `fallback_locale` from `APP_LOCALE` / `APP_FALLBACK_LOCALE` (`en`) |
-| `config/data.php` | spatie/laravel-data defaults |
-| `config/inertia.php` | Inertia server settings |
+| `config/data.php` | spatie/laravel-data defaults (Vue, React and Svelte) |
+| `config/inertia.php` | Inertia server settings (Vue, React and Svelte) |
 | `bootstrap/app.php` | Middleware registration, aliases (`auth`, `guest`, `central.only`, `permission`, `role`) and error page rendering |
 | `bootstrap/providers.php` | App and module service providers |
+
+<RelatedPages :links="[
+  { text: 'Environment', link: '/docs/reference/environment', desc: 'Every .env key with its default.' },
+  { text: 'Multi-tenancy', link: '/docs/core/multi-tenancy', desc: 'How tenants are identified and created.' },
+  { text: 'Database', link: '/docs/core/database#tenant-database-naming', desc: 'Read this before you change the tenant prefix.' },
+]" />

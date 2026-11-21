@@ -5,7 +5,7 @@ description: "Put every tenant workspace into maintenance with a bypass link and
 
 # Maintenance & suspension
 
-There are two ways to block access to tenant workspaces while the central app keeps running. Maintenance mode takes every workspace offline while you do planned work. Suspension locks out one tenant.
+There are two ways to block access to tenant workspaces while the central app stays online. Maintenance mode takes every workspace offline for planned work. Suspension locks out one tenant.
 
 | | Maintenance mode | Suspension |
 | --- | --- | --- |
@@ -16,15 +16,15 @@ There are two ways to block access to tenant workspaces while the central app ke
 | Bypass | Secret link, IP/CIDR allow list | None |
 | Middleware | `EnsureTenantIsNotInMaintenance` | `EnsureTenantIsNotSuspended` |
 
-Neither one affects the central app.
-
 ::: info Laravel's own maintenance mode
-Don't confuse this with `php artisan down`. That command takes the whole application offline, central app and tenants included.
+This is not `php artisan down`. That command takes the whole application offline, central app and tenants included.
 :::
 
 ## Maintenance mode
 
-You'll find it under Setup → Tenant Settings (`/setup/tenant-settings`). It's central only and needs the `Manage Tenant Maintenance` permission.
+It lives under Setup → Tenant Settings (`/setup/tenant-settings`). The page is central only and needs the `Manage Tenant Maintenance` permission.
+
+<DocShot name="vue-tenant-settings" alt="The Tenant Settings page in the Vue kit, with the maintenance toggle, maintenance message, secret bypass link and allowed IP addresses" caption="Setup → Tenant Settings, where maintenance mode for every workspace is turned on." />
 
 | Field | Rules | Purpose |
 | --- | --- | --- |
@@ -44,7 +44,7 @@ anything else                                              → maintenance page 
 
 ### Bypass link
 
-Your team can keep using a workspace during maintenance through this link:
+Your team can keep using a workspace during maintenance with this link:
 
 ```text
 https://acme.vue.test/maintenance/bypass/{secret}
@@ -58,7 +58,7 @@ https://acme.vue.test/maintenance/bypass/{secret}
 
 Requests from a listed IP or CIDR range go straight through. The `IpAddressOrCidr` rule validates each entry, and Symfony's `IpUtils::checkIp()` does the matching.
 
-**Related files**
+Related files:
 
 | File | Role |
 | --- | --- |
@@ -70,8 +70,14 @@ Requests from a listed IP or CIDR range go straight through. The `IpAddressOrCid
 
 ## Suspension
 
-To suspend a tenant, open its edit form and set Workspace status to Suspended. You can add a status message as well (max 500 chars).
+To suspend a tenant, open its edit form and set Workspace status to Suspended. You can also add a status message (max 500 chars).
 
 From then on, every request to that tenant's domains hits `EnsureTenantIsNotSuspended`, which renders `auth/Suspended` with the company name and your message (HTTP 403). `logout` is the only route that still works. To give the tenant access again, set the status back to Active or Trial.
 
 The statuses are listed in [Multi-tenancy → Workspace status](/docs/core/multi-tenancy#workspace-status).
+
+<RelatedPages :links="[
+  { text: 'Multi-tenancy', link: '/docs/core/multi-tenancy#workspace-status', desc: 'Every workspace status and what it allows.' },
+  { text: 'Architecture', link: '/docs/core/architecture#web-middleware', desc: 'Where the maintenance and suspension middleware run.' },
+  { text: 'Domains', link: '/docs/core/domains', desc: 'The tenant domains these checks apply to.' }
+]" />

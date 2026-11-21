@@ -5,6 +5,8 @@ description: "Daily commands for the Livewire kit, step-by-step guides to adding
 
 # Development <Badge type="tip" text="Livewire" />
 
+The commands you run every day in the Livewire kit, and how to add a page, a form or a whole module.
+
 ## Daily workflow
 
 | Command | What it does |
@@ -12,21 +14,17 @@ description: "Daily commands for the Livewire kit, step-by-step guides to adding
 | `composer dev` | Runs `php artisan dev`: Laravel server, queue listener, Pail logs and Vite together |
 | `npm run dev` | Vite dev server (`vp dev`) with hot reload of Blade, CSS and JS |
 | `npm run build` | Production build to `public/build` (`vp build`) |
-| `composer lint` | `pint --parallel`, then `npm run format` (blade-formatter writes the views) |
-| `composer lint:check` | `pint --parallel --test`, then `npm run lint` (blade-formatter checks the views) |
-| `composer types:check` | `phpstan analyse` (Larastan, level 7) |
-| `composer test` | Clears config, then `lint:check`, `types:check` and `php artisan test` |
 | `composer setup` | Install, `.env`, app key, migrations, `npm install`, `npm run build` |
 
-The complete list is in [Commands](/docs/reference/commands).
+Linting and test commands are under [Linting & static analysis](#linting-static-analysis). The complete list is in [Commands](/docs/reference/commands).
 
 ::: tip
-If a change isn't showing up in the browser, make sure `npm run dev` (or `composer dev`) is running, or run `npm run build`. A new Tailwind class only appears once Vite has rebuilt the CSS.
+Change not showing up in the browser? Make sure `npm run dev` (or `composer dev`) is running, or run `npm run build`. A new Tailwind class only appears once Vite has rebuilt the CSS.
 :::
 
 ## Adding a page
 
-Let's say you want a Reports page in the Dashboard module, served at `/reports`. The request goes like this:
+This example adds a Reports page to the Dashboard module, served at `/reports`. The request goes like this:
 
 ```text
 Modules/Dashboard/routes/web.php → Route::livewire('reports', Reports::class)
@@ -39,11 +37,11 @@ Modules/Dashboard/routes/web.php → Route::livewire('reports', Reports::class)
 3. Create the view at `resources/views/pages/reports/index.blade.php` (lowercase, kebab-case). Build it with `x-page-heading` and the `x-common.*` components.
 4. Add the translation keys to `lang/<locale>/modules/dashboard.php` for each locale.
 5. Add `View Reports` to `config/permissions/dashboard.php` and `View Tenant Reports` to `config/permissions/tenant/dashboard.php`, then seed them.
-6. If you want a menu item, add an entry to `database/seeders/MenuSeeder.php` (and `database/seeders/tenant/MenuSeeder.php`) with `'route_name' => 'reports.index'`, the permission and an Iconify `icon` such as `lucide:chart-bar`. This step is optional.
+6. Optional: for a menu item, add an entry to `database/seeders/MenuSeeder.php` (and `database/seeders/tenant/MenuSeeder.php`) with `'route_name' => 'reports.index'`, the permission and an Iconify `icon` such as `lucide:chart-bar`.
 
 There's nothing to generate. The route, the view and the translation keys work as soon as the files are saved.
 
-The component doesn't need much:
+The component is short:
 
 ```php
 namespace Modules\Dashboard\Livewire;
@@ -125,11 +123,11 @@ php artisan tenants:seed --class="Database\Seeders\PermissionSeeder"
 php artisan db:seed --class=MenuSeeder
 ```
 
-In Blade and PHP the keys work the same way: `__('modules/dashboard.reports.title')`. Menu titles are translated separately, from the `nav.<slug>` keys in `lang/<locale>/modules/common.php`.
+Blade and PHP use the same keys: `__('modules/dashboard.reports.title')`. Menu titles are translated separately, from the `nav.<slug>` keys in `lang/<locale>/modules/common.php`.
 
-Anyone who gets a system role from now on receives the permission through `associated_roles`. For users who already exist, grant it from Users → Assign permissions. To hide actions inside the page, use `@canany(['View Reports', 'View Tenant Reports'])` (see [Architecture → Permissions](/docs/livewire/architecture#permissions-on-the-frontend)).
+Users who get a system role from now on receive the permission through `associated_roles`. For existing users, grant it from Users → Assign permissions. To hide actions inside the page, use `@canany(['View Reports', 'View Tenant Reports'])` (see [Architecture → Permissions](/docs/livewire/architecture#permissions-on-the-frontend)).
 
-Roles and tenant seeding are covered in more depth in [Users, roles & permissions](/docs/core/users-roles-permissions).
+Roles and tenant seeding are covered in [Users, roles & permissions](/docs/core/users-roles-permissions).
 :::
 
 ::: details View a feature test
@@ -202,7 +200,7 @@ class Reports extends Component
 </form>
 ```
 
-For create/edit modals, Form objects, events and confirm dialogs, head over to [Livewire → Forms](/docs/livewire/livewire#forms).
+For create/edit modals, Form objects, events and confirm dialogs, see [Livewire → Forms](/docs/livewire/livewire#forms).
 
 ::: details View a component test
 ```php
@@ -239,22 +237,22 @@ The provider loads the routes and registers the `reports` Livewire namespace, so
 
 ## Linting & static analysis
 
-| Command | When |
+| Command | What it does |
 | --- | --- |
-| `composer lint` | Fix PHP style with Pint and format every Blade view. Run before committing |
-| `composer lint:check` | Check both without changing files |
-| `composer types:check` | Run PHPStan with Larastan |
-| `composer test` | Everything above plus the Pest suite. CI runs it through `composer ci:check` in `.github/workflows/tests.yml` |
+| `composer lint` | `pint --parallel`, then `npm run format` (blade-formatter writes the views). Run it before committing |
+| `composer lint:check` | `pint --parallel --test`, then `npm run lint` (blade-formatter checks the views). Changes no files |
+| `composer types:check` | `phpstan analyse` (Larastan, level 7) |
+| `composer test` | Clears config, then runs `lint:check`, `types:check` and `php artisan test`. CI runs it through `composer ci:check` in `.github/workflows/tests.yml` |
 
 Pint uses the Laravel preset with stricter rules in `pint.json` (strict comparison, imported global classes and functions, `mb_*` string functions, ordered class elements).
 
 Blade views are formatted by `blade-formatter`. `.bladeformatterrc.json` sets 4-space indents, a 120-character line length and sorted Tailwind classes. `.bladeformatterignore` skips `resources/views/flux/**`, `vendor/**` and `node_modules/**`.
 
-PHPStan reads `phpstan.neon`, which analyses `app/`, `bootstrap/app.php`, `config/`, `database/` and `routes/` at level 7.
+PHPStan reads `phpstan.neon`, which analyses `app/`, `bootstrap/app.php`, `config/`, `database/` and `routes/`.
 
 ## AI guidelines
 
-The kit ships with Laravel Boost, so AI agents get the project's conventions:
+The kit ships with Laravel Boost, so AI agents know the project's conventions:
 
 | File | Contents |
 | --- | --- |
@@ -274,3 +272,9 @@ The kit ships with Laravel Boost, so AI agents get the project's conventions:
 - Use `route()` for URLs and `wire:navigate` for links between pages.
 - Keep IDs in `#[Locked]` properties and reload models inside each action.
 - Put views in `resources/views/pages/<area>`, page-only modals and Blade pieces in that area's `partials/` folder, and widgets used on several pages in `resources/views/livewire`.
+
+<RelatedPages :links="[
+  { text: 'Livewire', link: '/docs/livewire/livewire', desc: 'Forms, events, modals and toasts in more depth.' },
+  { text: 'Commands', link: '/docs/reference/commands', desc: 'Every artisan, composer and npm command in the kit.' },
+  { text: 'Testing', link: '/docs/core/testing', desc: 'How the test suite is set up and run.' },
+]" />

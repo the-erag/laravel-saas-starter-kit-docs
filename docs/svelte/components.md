@@ -5,9 +5,11 @@ description: "Common form components, the confirm dialog, shadcn-svelte primitiv
 
 # Components <Badge type="tip" text="Svelte" />
 
+A reference for the components you build Svelte pages with: the `Common*` form kit, the confirm dialog, shadcn-svelte primitives, icons, toasts and the app shell.
+
 ## Overview
 
-You'll find the components in `resources/js/components`, split into these folders:
+The components are in `resources/js/components`:
 
 | Folder | What it holds |
 | --- | --- |
@@ -15,15 +17,15 @@ You'll find the components in `resources/js/components`, split into these folder
 | `components/ui/` | shadcn-svelte primitives built on bits-ui (`button`, `dialog`, `select`, `sidebar`, …) |
 | `components/` | App shell and feature components (`AppHead`, `AppSidebar`, `AppHeader`, `UserMenuContent`, `ErrorStatus`, …) |
 
-When you build a page, reach for the `Common*` components before anything else. They handle the label, the `id`, the `aria-*` attributes and the error message, which keeps your pages short and makes them all look the same.
+When you build a page, use the `Common*` components first. They handle the label, the `id`, the `aria-*` attributes and the error message, so pages stay short and look the same.
 
 ::: tip
-If a component is only used by one page, put it in a `Partials/` folder next to that page (for example `pages/tenants/Partials/DomainModal.svelte`) rather than in `components/`.
+If only one page uses a component, put it in a `Partials/` folder next to that page (for example `pages/tenants/Partials/DomainModal.svelte`), not in `components/`.
 :::
 
 ## Common form components
 
-Every file listed here sits in `components/common/`.
+All of these are in `components/common/`.
 
 | Component | Purpose |
 | --- | --- |
@@ -40,9 +42,9 @@ Every file listed here sits in `components/common/`.
 | `CommonTooltip` | Tooltip that passes trigger props to its `children` snippet |
 | `ConfirmDialog` | Global confirm modal, opened with `useConfirmDialog()` (see below) |
 
-A few things all the input components have in common:
+All the input components work the same way:
 
-- They accept `label`, `error`, `required` and `disabled`. If you leave out the `id`, they make one up.
+- They accept `label`, `error`, `required` and `disabled`. Without an `id`, they generate one.
 - Any other attributes (`autofocus`, `tabindex`, `data-test`, …) go straight to the underlying element.
 - Inside an Inertia `<Form>`, set `name` and `error`, and use `defaultValue` when you want to prefill a field.
 - Outside a `<Form>`, use `bind:value` instead (or `bind:checked` for the checkbox).
@@ -80,12 +82,12 @@ import type { SelectOption } from '@/components/common/CommonSelect.svelte';
 :::
 
 ::: details Label and error props: CommonLabel, CommonError
-- `CommonLabel`: `for`, `label`, `required`, `optional`, `hint`, `disabled`, `class`, and a `children` snippet. Under the hood it wraps the `Label` primitive.
+- `CommonLabel`: `for`, `label`, `required`, `optional`, `hint`, `disabled`, `class`, and a `children` snippet. It wraps the `Label` primitive.
 - `CommonError`: `message`, `id`, `class`.
 :::
 
 ::: details Button props: CommonButton, CommonButtonRow
-**CommonButton.** As long as `loading` is true, the button is disabled and you see a spinner in place of its content. Anything else you pass (`onclick`, `tabindex`, …) goes through to the button.
+**CommonButton.** While `loading` is true, the button is disabled and shows a spinner instead of its content. Anything else you pass (`onclick`, `tabindex`, …) goes through to the button.
 
 | Prop | Type | Default |
 | --- | --- | --- |
@@ -95,7 +97,7 @@ import type { SelectOption } from '@/components/common/CommonSelect.svelte';
 | `disabled`, `loading` | `boolean` | `false` |
 | `class` | `string` | `''` |
 
-**CommonButtonRow.** In its default `bottom-pop` position, the bar only slides in once the form is dirty. Clicking Save calls `requestSubmit()` on the nearest `<form>`, which means it works inside `<Form>` with nothing extra to wire up.
+**CommonButtonRow.** In its default `bottom-pop` position, the bar only slides in once the form is dirty. Save calls `requestSubmit()` on the nearest `<form>`, so it works inside `<Form>` with no extra wiring.
 
 | Prop | Type | Default |
 | --- | --- | --- |
@@ -109,7 +111,7 @@ import type { SelectOption } from '@/components/common/CommonSelect.svelte';
 :::
 
 ::: details Tooltip props: CommonTooltip
-Props: `content` (`string` or snippet), `side` (default `top`), `delayDuration` (default `200`), `disabled`, `contentClass`. Your `children` snippet gets `{ props }`, and you spread those onto the element that triggers the tooltip.
+Props: `content` (`string` or snippet), `side` (default `top`), `delayDuration` (default `200`), `disabled`, `contentClass`. Your `children` snippet gets `{ props }`; spread them onto the element that triggers the tooltip.
 
 ```svelte
 <CommonTooltip content={__('modules.user.index.actions.edit')}>
@@ -124,11 +126,11 @@ Props: `content` (`string` or snippet), `side` (default `top`), `delayDuration` 
 
 ### Confirm dialog
 
-For anything destructive, ask with `ConfirmDialog` rather than `window.confirm`.
+For anything destructive, ask with `ConfirmDialog`, not `window.confirm`.
 
 - Each app layout mounts it once, so you don't render it yourself.
 - It keeps its state in a module-level `$state` inside `lib/confirmDialog.svelte.ts`.
-- Calling `confirm(options)` gives you back a `Promise<boolean>`.
+- `confirm(options)` returns a `Promise<boolean>`.
 
 ```ts
 const { confirm } = useConfirmDialog();
@@ -143,7 +145,7 @@ if (isConfirmed) {
 }
 ```
 
-You can also pass any of these: `warning`, `itemDetails`, `confirmText`, `icon` (`danger`, `warning`, `info`, `question`, `success`), `size` (`sm`–`xl`), `warningVariant`, `highlight`, `confirmationKeyword` (the user has to type it before the button turns on), `closeOnBackdrop`, `closeOnEscape`, `showCancelButton`. To put a spinner on the confirm button, call `setLoading(true)`.
+Other options: `warning`, `itemDetails`, `confirmText`, `icon` (`danger`, `warning`, `info`, `question`, `success`), `size` (`sm`–`xl`), `warningVariant`, `highlight`, `confirmationKeyword` (the user has to type it before the button turns on), `closeOnBackdrop`, `closeOnEscape`, `showCancelButton`. To put a spinner on the confirm button, call `setLoading(true)`.
 
 ::: warning
 Only `AppSidebarLayout.svelte` and `AppHeaderLayout.svelte` mount `ConfirmDialog`. On pages that use `AuthLayout`, or no layout at all, `confirm()` won't work.
@@ -178,7 +180,7 @@ async function handleDeleteUser(user: UserManagementUser): Promise<void> {
 
 ## UI primitives (shadcn)
 
-The shadcn-svelte components sit in `components/ui/<name>/`. They use the new-york-v4 style, set in `components.json` at the project root. These are included:
+The shadcn-svelte components are in `components/ui/<name>/`. They use the new-york-v4 style, set in `components.json` at the project root. The kit includes:
 
 `alert`, `avatar`, `badge`, `breadcrumb`, `button`, `card`, `checkbox`, `collapsible`, `dialog`, `dropdown-menu`, `input`, `input-otp`, `label`, `navigation-menu`, `select`, `separator`, `sheet`, `sidebar`, `skeleton`, `sonner`, `spinner`, `tooltip`.
 
@@ -198,13 +200,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 | Toast from the server | `Inertia::flash('toast', …)`; see [Inertia → Flash toasts](/docs/svelte/inertia#flash-toasts) |
 | Toast from the client | `import { toast } from 'svelte-sonner'` |
 
-Give `CommonIcon` a PascalCase name and it turns it into a Lucide one (`LayoutGrid` → `lucide:layout-grid`). Names that already carry a prefix are left alone. Props: `icon`, `class`, `click` (click handler).
+`CommonIcon` turns a PascalCase name into a Lucide one (`LayoutGrid` → `lucide:layout-grid`). Names that already have a prefix are left as they are. Props: `icon`, `class`, `click` (click handler).
 
-The `Toaster` (`components/ui/sonner`) lives in the two app layouts only (`AppSidebarLayout`, `AppHeaderLayout`). You won't see toasts on auth pages or on pages without a layout.
+Only the two app layouts (`AppSidebarLayout`, `AppHeaderLayout`) mount the `Toaster` (`components/ui/sonner`), so toasts don't show on auth pages or on pages without a layout.
 
 ## Usage example
 
-Here's a settings form with one prefilled input and the Save / Discard bar:
+A settings form with one prefilled input and the Save / Discard bar:
 
 ```svelte
 <Form {...ProfileController.update.form()} setDefaultsOnSuccess>
@@ -267,6 +269,8 @@ Here's a settings form with one prefilled input and the Save / Discard bar:
 
 ## App shell components
 
+<DocShot name="svelte-app-header" alt="The Svelte kit with the header app layout: top navigation, breadcrumbs, notification bell, language switcher and user menu" />
+
 | Component | Purpose |
 | --- | --- |
 | `AppHead` | Sets `<title>` as `"{title} - {VITE_APP_NAME}"` through `<svelte:head>`. Props: `title`, `children` snippet for extra head tags |
@@ -287,4 +291,10 @@ Here's a settings form with one prefilled input and the Save / Discard bar:
 | `ManageTwoFactor`, `TwoFactorSetupModal`, `TwoFactorRecoveryCodes` | Two-factor setup on the security page |
 | `ManagePasskeys`, `PasskeyRegister`, `PasskeyItem`, `PasskeyVerify` | Passkey management and passkey login |
 
-No page uses `InputError.svelte` or `PasswordInput.svelte`. Go with `CommonError` and `CommonPassword` instead.
+No page uses `InputError.svelte` or `PasswordInput.svelte`. Use `CommonError` and `CommonPassword` instead.
+
+<RelatedPages :links="[
+  { text: 'Inertia', link: '/docs/svelte/inertia', desc: 'How these components work inside an Inertia `Form`.' },
+  { text: 'Layouts', link: '/docs/svelte/layouts', desc: 'The app layouts that mount the toaster and confirm dialog.' },
+  { text: 'Pages', link: '/docs/svelte/pages', desc: 'Where each page uses these components.' },
+]" />

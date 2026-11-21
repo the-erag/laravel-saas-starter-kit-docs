@@ -5,21 +5,28 @@ description: "Every Inertia page in the Svelte kit with its route, access rules,
 
 # Pages <Badge type="tip" text="Svelte" />
 
-You'll find the pages in `resources/js/pages`. To get the Inertia page name, take the file path and drop `.svelte`:
+Every Inertia page in the Svelte kit, with its route, permission and purpose. Pages are in `resources/js/pages`, and the Inertia page name is the file path without `.svelte`:
 
-```text
-Inertia::render('users/Index') → resources/js/pages/users/Index.svelte
-```
+<FlowDiagram label="Page name to file" :nodes="['`Inertia::render(\'users/Index\')`', '`resources/js/pages/users/Index.svelte`']" />
 
 The controllers that render them are in `Modules/<Module>/Http/Controllers`.
 
+<FeatureCards :cols="3" :items="[
+  { title: 'Public and auth', text: 'Home, sign-in, registration, 2FA, invitations, maintenance.', link: '/docs/svelte/pages#public-and-auth-pages' },
+  { title: 'App', text: 'Dashboard, users, roles, notifications, tenants.', link: '/docs/svelte/pages#app-pages' },
+  { title: 'Settings', text: 'Profile, security, appearance, layout.', link: '/docs/svelte/pages#settings-pages' },
+  { title: 'Setup', text: 'Menus, global layout, tenant maintenance.', link: '/docs/svelte/pages#setup-pages' },
+  { title: 'Error', text: '403, 404, 500 and 503 responses.', link: '/docs/svelte/pages#error-page' },
+  { title: 'Partials', text: 'Modals and sections used by a single page.', link: '/docs/svelte/pages#partials' },
+]" />
+
 ::: info
-A route marked **central** is only available on the central domain (`APP_DOMAIN`, `central.only` middleware). All the others work on both the central domain and tenant domains, which is why their permission names list both variants (for example `View Users|View Tenant Users`).
+Routes marked **central** exist only on the central domain (`APP_DOMAIN`, `central.only` middleware). The rest work on both central and tenant domains, so their permissions list both names (for example `View Users|View Tenant Users`).
 :::
 
 ## Public and auth pages
 
-The auth pages render inside `AuthLayout`, in its card, simple or split design. Fortify registers the auth routes, and `Modules/Auth/Providers/AuthServiceProvider.php` connects them to the pages below.
+Auth pages render inside `AuthLayout` (card, simple or split design). Fortify registers the auth routes, and `Modules/Auth/Providers/AuthServiceProvider.php` connects them to the pages below.
 
 | Page file | Route | Purpose |
 | --- | --- | --- |
@@ -37,13 +44,14 @@ The auth pages render inside `AuthLayout`, in its card, simple or split design. 
 
 ## App pages
 
-These pages render inside `AppLayout`, and you need `auth` + `verified` to reach them.
+These pages render inside `AppLayout` and need `auth` + `verified`.
 
 | Page file | Route | Permission | Purpose |
 | --- | --- | --- | --- |
 | `Dashboard.svelte` | `GET /dashboard` (`dashboard`, `Route::inertia`) | `View Analytics Dashboard\|View Tenant Dashboard` | Dashboard placeholder grid |
 | `users/Index.svelte` | `GET /users` (`users.index`) | `View Users\|View Tenant Users` | User list with search, stats, pagination, create/edit/delete, invitations, permission assignment |
 | `roles/Index.svelte` | `GET /roles` (`roles.index`) | `View Roles\|View Tenant Roles` | Role list and create/edit/delete (system roles protected) |
+| `notifications/Index.svelte` | `GET /notifications` (`notifications.index`) | None | All notifications with a filter, mark as read, delete and clear all. See [Notifications](/docs/core/notifications) |
 | `tenants/Index.svelte` | `GET /tenants` (`tenants.index`), central | `View Tenants` | Tenant list with search, status filter and stats |
 | `tenants/Create.svelte` | `GET /tenants/create` (`tenants.create`), central | `Create Tenant` | Create a tenant (company, subdomain, admin, profile data, status) |
 | `tenants/Show.svelte` | `GET /tenants/{tenant}` (`tenants.show`), central | `View Tenants` | Tenant detail: edit, domains, reset admin password, resend invitation, delete |
@@ -51,7 +59,7 @@ These pages render inside `AppLayout`, and you need `auth` + `verified` to reach
 
 ## Settings pages
 
-Anything under `settings/*` renders inside `AppLayout` plus `layouts/settings/Layout.svelte`, which adds the Profile / Security / Appearance / Layout sub-navigation. Visiting `GET /settings` sends you on to `/settings/profile`.
+Pages under `settings/*` render inside `AppLayout` plus `layouts/settings/Layout.svelte`, which adds the Profile / Security / Appearance / Layout sub-navigation. `GET /settings` redirects to `/settings/profile`.
 
 | Page file | Route | Purpose |
 | --- | --- | --- |
@@ -62,7 +70,7 @@ Anything under `settings/*` renders inside `AppLayout` plus `layouts/settings/La
 
 ## Setup pages
 
-The `setup/*` pages use `AppLayout` with nothing extra. While the URL starts with `/setup`, the sidebar shows `setupMenus` instead of the usual menu. `GET /setup` redirects to `/setup/menus`.
+The `setup/*` pages use the plain `AppLayout`. While the URL starts with `/setup`, the sidebar shows `setupMenus` instead of the usual menu. `GET /setup` redirects to `/setup/menus`.
 
 | Page file | Route | Permission | Purpose |
 | --- | --- | --- | --- |
@@ -76,11 +84,11 @@ The `setup/*` pages use `AppLayout` with nothing extra. While the URL starts wit
 | --- | --- | --- |
 | `errors/Error.svelte` | Exception handler in `bootstrap/app.php` | 403, 404, 500 and 503 responses. Uses `AppLayout` for signed-in users and `AuthLayout` for guests. |
 
-In the `local` and `testing` environments, only a 403 uses this page. Any other status shows Laravel's debug page so you can see what went wrong.
+In the `local` and `testing` environments, only a 403 uses this page. Other statuses show Laravel's debug page so you can see what went wrong.
 
 ## Partials
 
-Modals and sections that belong to a single page sit in a `Partials/` folder beside it:
+Modals and sections used by a single page sit in a `Partials/` folder next to it:
 
 | File | Used by |
 | --- | --- |
@@ -98,3 +106,9 @@ Modals and sections that belong to a single page sit in a `Partials/` folder bes
 ::: tip
 Building a new page? The steps are in [Development → Adding a page](/docs/svelte/development#adding-a-page).
 :::
+
+<RelatedPages :links="[
+  { text: 'Development', link: '/docs/svelte/development#adding-a-page', desc: 'Add your own page, from route to test.' },
+  { text: 'Layouts', link: '/docs/svelte/layouts', desc: 'How each page gets its layout.' },
+  { text: 'Users, roles & permissions', link: '/docs/core/users-roles-permissions', desc: 'The permissions listed in these tables.' },
+]" />

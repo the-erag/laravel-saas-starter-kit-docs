@@ -5,10 +5,10 @@ description: "Composer scripts, npm scripts and Artisan commands available in ev
 
 # Commands
 
-Every kit has the same Composer scripts and Artisan commands. If one kit does something differently, the table tells you.
+Every Composer script, npm script and Artisan command you will use with a kit, in one place. The kits share the same Composer scripts and most Artisan commands. Where a kit is different, the table or a note below it says so.
 
 ::: tip Most used
-Day to day you'll mostly reach for `composer dev` to run everything locally, `composer lint` before you commit, and `php artisan tenants:migrate` after you add a tenant migration.
+Day to day you'll mostly use `composer dev` to run everything locally, `composer lint` before you commit, and `php artisan tenants:migrate` after you add a tenant migration.
 :::
 
 ## Composer scripts
@@ -19,8 +19,8 @@ Day to day you'll mostly reach for `composer dev` to run everything locally, `co
 | `composer dev` | `php artisan dev`: `serve`, `queue:listen --tries=1 --timeout=0`, `pail --timeout=0` (when `pcntl` is available), `npm run dev` |
 | `composer test` | `config:clear`, `lint:check`, `types:check`, `php artisan test` |
 | `composer ci:check` | `composer test` without a process timeout |
-| `composer lint` | `pint --parallel`, `typescript:transform`, `npm run lint:fix`. Vue also runs `wayfinder:generate --with-form` first. |
-| `composer lint:check` | `pint --parallel --test`, `npm run lint`. Vue also runs `wayfinder:generate --with-form` first. |
+| `composer lint` | `pint --parallel`, `typescript:transform`, `npm run lint:fix`. Vue also runs `wayfinder:generate --with-form` after Pint. |
+| `composer lint:check` | `pint --parallel --test`, `npm run lint`. Vue also runs `wayfinder:generate --with-form` after Pint. |
 | `composer types:check` | `phpstan analyse` |
 | `composer update:requirements` | `composer bump`, `npx npm-check-updates -u`. See [Updating dependencies](#updating-dependencies). |
 
@@ -28,19 +28,19 @@ When you run `composer update`, the `post-update-cmd` hook publishes Laravel's a
 
 ## Updating dependencies
 
-`composer update:requirements` raises the version numbers in `composer.json` and `package.json`. It only edits those two files and doesn't install anything:
+`composer update:requirements` raises the version constraints in `composer.json` and `package.json`. It only edits those two files. It doesn't install anything:
 
 - `composer bump` sets the minimum version of each PHP package in `composer.json` to the version you have installed, for example `"laravel/pint": "^1.27"` becomes `"^1.30.5"` when 1.30.5 is installed.
 - `npx npm-check-updates -u` changes every package in `package.json` to its newest release, including new major versions.
 
-Do it on its own branch, then install and test before you commit:
+Do this on its own branch, and install and test before you commit:
 
 ```bash
 git switch -c update-dependencies
-composer update:requirements   # raise the versions in composer.json and package.json
-composer update                # install the PHP packages and refresh composer.lock
-npm install                    # install the npm packages and refresh package-lock.json
-composer test                  # Pint, ESLint, Prettier, type check, Larastan and Pest
+composer update:requirements
+composer update                # refreshes composer.lock
+npm install                    # refreshes package-lock.json
+composer test                  # lint, Larastan and Pest
 npm run build                  # make sure the frontend still builds
 ```
 
@@ -64,7 +64,7 @@ Before you install, check what changed with `git diff composer.json package.json
 
 In every kit, ESLint runs on `.` and Prettier runs on `resources/`.
 
-The Livewire kit has no TypeScript or ESLint. Its `npm run lint` checks the Blade views with blade-formatter and `npm run format` fixes them; `composer lint` runs Pint and then `npm run format`. See [Livewire development](/docs/livewire/development).
+The Livewire kit has no TypeScript, ESLint or `build:ssr`. Its `npm run dev` and `npm run build` run Vite+ (`vp dev`, `vp build`). `npm run lint` checks the Blade views with blade-formatter and `npm run format` fixes them. `composer lint` runs Pint and then `npm run format`. See [Livewire development](/docs/livewire/development).
 
 ## Artisan
 
@@ -93,6 +93,8 @@ The Livewire kit has no TypeScript or ESLint. Its `npm run lint` checks the Blad
 
 ### Code generation
 
+Vue, React and Svelte kits only. The Livewire kit has no generated frontend files.
+
 | Command | Output |
 | --- | --- |
 | `php artisan wayfinder:generate --with-form` | `resources/js/routes`, `resources/js/actions`, `resources/js/wayfinder` |
@@ -116,9 +118,15 @@ The Livewire kit has no TypeScript or ESLint. Its `npm run lint` checks the Blad
 
 ## Herd
 
-Use the site name that matches your `APP_DOMAIN`. By default that's `vue`, `react` or `svelte`.
+Use the site name that matches your `APP_DOMAIN`. By default that's `vue`, `react`, `svelte` or `livewire`.
 
 | Command | Purpose |
 | --- | --- |
 | `herd link vue` | Serve the current folder as `vue.test` (and `*.vue.test`) |
 | `herd secure vue` | Enable HTTPS for the site |
+
+<RelatedPages :links="[
+  { text: 'Local development', link: '/docs/getting-started/local-development', desc: 'These commands in the order you run them the first time.' },
+  { text: 'Packages', link: '/docs/reference/packages', desc: 'The packages behind these commands, with versions.' },
+  { text: 'Troubleshooting', link: '/docs/reference/troubleshooting', desc: 'When a command does not do what you expect.' },
+]" />

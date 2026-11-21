@@ -604,3 +604,113 @@
     padding-right: 170px;
   }
 }
+
+/*
+ * Docs only (pages with the docs sidebar): inline code and badges use neutral greys instead of the brand colour.
+ * Links, the active sidebar item and buttons keep the brand colour. Marketing pages and blog posts don't change.
+ */
+.VPDoc.has-sidebar {
+  --vp-code-color: var(--vp-c-text-1);
+  --vp-code-bg: var(--vp-c-default-soft);
+  --vp-badge-tip-border: transparent;
+  --vp-badge-tip-text: var(--vp-c-text-1);
+  --vp-badge-tip-bg: var(--vp-c-default-soft);
+}
+
+/* Code inside info and tip boxes: neutral too, unless it's part of a link. */
+.VPDoc.has-sidebar .custom-block.info code,
+.VPDoc.has-sidebar .custom-block.tip code {
+  color: var(--vp-c-text-1);
+  background-color: var(--vp-c-default-soft);
+}
+
+.VPDoc.has-sidebar .custom-block.info a > code,
+.VPDoc.has-sidebar .custom-block.tip a > code {
+  color: var(--vp-c-brand-1);
+}
+
+.VPDoc.has-sidebar .custom-block.info a:hover > code,
+.VPDoc.has-sidebar .custom-block.tip a:hover > code {
+  color: var(--vp-c-brand-2);
+}
+
+/* Docs only: calm, consistent callouts, tables and code blocks. */
+.VPDoc.has-sidebar {
+  --vp-custom-block-tip-bg: var(--vp-c-default-soft);
+  --vp-custom-block-tip-border: transparent;
+  --vp-custom-block-tip-text: var(--vp-c-text-2);
+}
+
+.VPDoc.has-sidebar .custom-block {
+  border-left-width: 3px;
+  border-radius: 8px;
+}
+
+.VPDoc.has-sidebar .custom-block.info {
+  border-left-color: var(--vp-c-text-3);
+}
+
+.VPDoc.has-sidebar .custom-block.tip {
+  border-left-color: var(--vp-c-text-2);
+}
+
+.VPDoc.has-sidebar .custom-block.warning {
+  border-left-color: var(--vp-c-warning-1);
+}
+
+.VPDoc.has-sidebar .custom-block.danger,
+.VPDoc.has-sidebar .custom-block.caution {
+  border-left-color: var(--vp-c-danger-1);
+}
+
+.VPDoc.has-sidebar .custom-block-title {
+  color: var(--vp-c-text-1);
+}
+
+.VPDoc.has-sidebar .vp-doc table {
+  font-size: 14px;
+}
+
+.VPDoc.has-sidebar .vp-doc th {
+  background-color: var(--vp-c-bg-soft);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+}
+
+.VPDoc.has-sidebar .vp-doc tr:nth-child(2n) {
+  background-color: transparent;
+}
+
+@media (min-width: 640px) {
+  .VPDoc.has-sidebar .vp-doc div[class*='language-'],
+  .VPDoc.has-sidebar .vp-code-group .tabs {
+    border-radius: 8px;
+  }
+
+  .VPDoc.has-sidebar .vp-code-group .tabs {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .VPDoc.has-sidebar .vp-code-group div[class*='language-'] {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+/* Tables written with an empty header row ("| | |") don't show a blank grey bar. */
+.VPDoc.has-sidebar .vp-doc thead:not(:has(th:not(:empty))) {
+  display: none;
+}
+
+/* The sidebar uses the page background (same as the content and top nav), with a thin line on its right. */
+:root {
+  --vp-sidebar-bg-color: var(--vp-c-bg);
+}
+
+@media (min-width: 960px) {
+  .VPSidebar {
+    border-right: 1px solid var(--vp-c-divider);
+  }
+}

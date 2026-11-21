@@ -5,14 +5,18 @@ description: "Central and tenant databases in the kits: migrations, seeders, ten
 
 # Database
 
-The kits use two kinds of database on the same server. Each tenant gets its own database, so tenant data is physically separate and one tenant can't query another tenant's rows.
+This page shows where migrations and seeders go, how tenant databases are named, and which tables live where.
 
-| | Central database | Tenant database |
-| --- | --- | --- |
-| Name | `DB_DATABASE` | `tenant<id>`, one per tenant |
-| Holds | Tenants, domains, central users, global settings, the queue | That tenant's users, roles, menus and sessions |
-| Migrations | `database/migrations` | `database/migrations/tenant` |
-| Seeder | `DatabaseSeeder` | `tenant\TenantDatabaseSeeder` |
+<KeyIdea>
+
+The kits use two kinds of database on the same server: one central database, plus one database per tenant. Tenant data is physically separate, so one tenant can't query another tenant's rows.
+
+</KeyIdea>
+
+<CompareColumns :columns="[
+  { title: 'Central database', subtitle: '`DB_DATABASE`', items: ['Holds tenants, domains, central users, global settings and the queue', 'Migrations in `database/migrations`', 'Seeder: `DatabaseSeeder`'] },
+  { title: 'Tenant database', subtitle: '`tenant<id>`, one per tenant', items: ['Holds that tenant’s users, roles, menus and sessions', 'Migrations in `database/migrations/tenant`', 'Seeder: `tenant\\TenantDatabaseSeeder`'] }
+]" />
 
 ## Migrations
 
@@ -24,7 +28,7 @@ Central and tenant migrations live in different folders and run with different c
 | `database/migrations/tenant` | Every tenant database | `php artisan tenants:migrate` (also runs automatically when a tenant is created) |
 
 ::: warning Put migrations in the right folder
-A migration in `database/migrations` never reaches the tenant databases, and it works the same the other way round. Tables that both contexts need (users, menus, permissions, cache, jobs) exist in both folders.
+A migration in `database/migrations` never reaches the tenant databases, and a tenant migration never reaches the central database. Tables that both contexts need (users, menus, permissions, cache, jobs) exist in both folders.
 :::
 
 For example, to add a tenant table:
@@ -34,7 +38,7 @@ php artisan make:migration create_projects_table --path=database/migrations/tena
 php artisan tenants:migrate
 ```
 
-There are a few more tenant commands. Each one accepts `--tenants=<id>` if you only want to target specific tenants:
+Other tenant commands. Each one accepts `--tenants=<id>` to target specific tenants:
 
 | Command | Does |
 | --- | --- |
@@ -59,16 +63,16 @@ The tenant migration path comes from `migration_parameters` in `config/tenancy.p
 
 stancl builds each tenant database name from prefix + tenant id + suffix. Tenant IDs are auto-increment integers (`App\Models\Tenant`), so you get `tenant1`, `tenant2` and so on.
 
-| Key in `config/tenancy.php` | Vue, Svelte | React |
+| Key in `config/tenancy.php` | Vue, Svelte, Livewire | React |
 | --- | --- | --- |
 | `database.prefix` | `'tenant'` | `env('TENANCY_DB_PREFIX', 'tenant')` |
 | `database.suffix` | `''` | `''` |
 
 ::: warning Sharing a MySQL server
-If two apps on one server use the same prefix, both will try to create `tenant1`. Pick a unique prefix per app (for example `acme_tenant`) **before** the first tenant is created. In the React kit, set `TENANCY_DB_PREFIX`. In Vue and Svelte, edit `config/tenancy.php`.
+If two apps on one server use the same prefix, both will try to create `tenant1`. Pick a unique prefix per app (for example `acme_tenant`) **before** the first tenant is created. In the React kit, set `TENANCY_DB_PREFIX`. In the other kits, edit `config/tenancy.php`.
 :::
 
-What drops a tenant database, and what doesn't:
+What drops a tenant database:
 
 | Action | Tenant database |
 | --- | --- |
@@ -89,6 +93,7 @@ What drops a tenant database, and what doesn't:
 | `settings` | `App\Models\Setting` | Key/JSON value store (e.g. `tenant_maintenance`) |
 | `roles`, `permissions`, `model_has_*`, `role_has_permissions` | spatie | Guard `web` |
 | `passkeys` | Fortify | |
+| `notifications` | Laravel | Database notifications for central users |
 | `sessions`, `cache`, `cache_locks`, `password_reset_tokens` | Laravel | |
 | `jobs`, `job_batches`, `failed_jobs` | Laravel | Used by all tenants (see [Configuration](/docs/getting-started/configuration#config-queue-php)) |
 
@@ -98,6 +103,7 @@ What drops a tenant database, and what doesn't:
 | --- | --- |
 | `users`, `password_reset_tokens`, `sessions` | Tenant accounts |
 | `passkeys` | |
+| `notifications` | Database notifications for tenant users |
 | `menus`, `layout_settings` | Tenant navigation and layouts |
 | `roles`, `permissions`, pivots | Guard `tenant` |
 | `cache`, `cache_locks` | |
@@ -106,3 +112,9 @@ What drops a tenant database, and what doesn't:
 ## Testing database
 
 Tests never touch MySQL. `phpunit.xml` uses SQLite in memory (`DB_CONNECTION=sqlite`, `DB_DATABASE=:memory:`), and Pest applies `RefreshDatabase` to `tests/Feature`. There's more in [Testing](/docs/core/testing).
+
+<RelatedPages :links="[
+  { text: 'Multi-tenancy', link: '/docs/core/multi-tenancy#creating-a-tenant', desc: 'How a new tenant database is created, migrated and seeded.' },
+  { text: 'Local development', link: '/docs/getting-started/local-development#seeded-data', desc: 'The users, roles and menus the seeders create.' },
+  { text: 'Configuration', link: '/docs/getting-started/configuration#config-tenancy-php', desc: 'The database prefix and other tenancy settings.' }
+]" />

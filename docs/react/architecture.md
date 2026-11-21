@@ -5,11 +5,17 @@ description: "How resources/js is organised in the React kit: folder map, page a
 
 # Architecture <Badge type="tip" text="React" />
 
-All the React-specific code sits in `resources/js`. For the Laravel side (modules, tenancy, auth), see [Core architecture](/docs/core/architecture).
+This page explains how the React side of the kit is put together. All the React-specific code sits in `resources/js`. For the Laravel side (modules, tenancy, auth), see [Core architecture](/docs/core/architecture).
+
+<KeyIdea>
+
+Laravel decides which page to show and what data it gets. React only renders it: `app.tsx` finds the page file from its name, wraps it in a layout and the app-wide providers. There is no API layer in between.
+
+</KeyIdea>
 
 ## Overview
 
-Every request hits Laravel first. Your controller returns an Inertia response, then the React app finds the matching page and renders it inside a default layout.
+Every request hits Laravel first. The controller returns an Inertia response, and the React app renders the matching page inside a default layout:
 
 ```text
 Controller → Inertia::render('users/index', props)
@@ -18,10 +24,10 @@ Controller → Inertia::render('users/index', props)
   → page renders with its props + shared props
 ```
 
-The app is created in `resources/js/app.tsx`. A few things to know about it:
+The app starts in `resources/js/app.tsx`:
 
-- There's no `resolve` callback. The `@inertiajs/vite` plugin in `vite.config.ts` finds pages in `resources/js/pages` for you.
-- The `layout` callback chooses a default layout from the page name, as shown in the table below.
+- It has no `resolve` callback, because the `@inertiajs/vite` plugin in `vite.config.ts` finds pages in `resources/js/pages` for you.
+- The `layout` callback picks a default layout from the page name (see the table below).
 - `withApp` wraps every page in `TooltipProvider` and the sonner `Toaster`.
 - It runs with `strictMode: true`, and the Vite React plugin runs the React Compiler.
 - `initializeTheme()` (from `hooks/use-appearance.tsx`) applies light, dark or system mode when the page loads.
@@ -32,7 +38,7 @@ The app is created in `resources/js/app.tsx`. A few things to know about it:
 | `settings/` | `AppLayout` wrapping `settings/layout.tsx` |
 | anything else | `AppLayout` |
 
-Any page can override this with a static `layout` property, which [Layouts](/docs/react/layouts) explains.
+Any page can override this with a static `layout` property. See [Layouts](/docs/react/layouts).
 
 ::: details View app.tsx
 ```tsx
@@ -92,7 +98,7 @@ initializeTheme();
 | Hook | `use-x.ts` exporting `useX()` | `hooks/use-permission.ts` |
 | UI primitive | shadcn/ui file | `components/ui/dialog.tsx` |
 
-ESLint checks these for you. It wants `import type` for type-only imports, alphabetised import groups, the React Hooks rules, 1TBS braces and a blank line around control statements.
+ESLint checks for `import type` on type-only imports, alphabetised import groups, the React Hooks rules, 1TBS braces and blank lines around control statements.
 
 ### Hooks
 
@@ -107,6 +113,7 @@ ESLint checks these for you. It wants `import type` for type-only imports, alpha
 | `use-initials.tsx` | `getInitials()`, `useInitials()` |
 | `use-language.ts` | `useLanguage()`, `DEFAULT_LANGUAGE_VALUE`, `toLocaleValue()`, `transformLocale()` |
 | `use-mobile.tsx`, `use-mobile-navigation.ts` | `useIsMobile()`, `useMobileNavigation()` |
+| `use-notifications.ts` | `useNotifications()` → unread count, latest items and the open/read/delete actions; `formatUnreadCount()`. See [Notifications](/docs/core/notifications) |
 | `use-permission.ts` | `usePermission()` → `can(...permissions)` |
 | `use-secret.ts` | `generateSecret()`, `useSecret()` |
 | `use-slug.ts` | `slugify()`, `useSlug()` |
@@ -123,17 +130,17 @@ ESLint checks these for you. It wants `import type` for type-only imports, alpha
 | `php artisan typescript:transform` | `types/Modules/<Module>/Data` and `.../Enums` | `import type { DomainData } from '@/types/Modules/Tenant/Data'` |
 | `php artisan erag:generate-lang` | `lang/<locale>/modules/<feature>.json` | through `reactLang()` |
 
-Because Wayfinder runs with `formVariants: true`, each route function also gets a `.form()` variant. You'll find usage in [Inertia → Wayfinder routes](/docs/react/inertia#wayfinder-routes).
+Wayfinder runs with `formVariants: true`, so each route function also has a `.form()` variant. For how to call them, see [Inertia → Wayfinder routes](/docs/react/inertia#wayfinder-routes).
 
-Page prop types that we wrote by hand sit next to the generated ones (`types/Tenants/tenants.ts`, `types/Users/users.ts`, `types/Roles/roles.ts`) and you can import them from `@/types`. For pagination, use `LengthAwarePaginator` from `@/types/Illuminate`.
+Hand-written page prop types live next to the generated ones, in `types/Tenants/tenants.ts`, `types/Users/users.ts` and `types/Roles/roles.ts`. Import them from `@/types`. For pagination, use `LengthAwarePaginator` from `@/types/Illuminate`.
 
 ::: tip
-`composer lint` runs `typescript:transform` before the frontend linters. That keeps the generated types in step with your PHP classes.
+`composer lint` runs `typescript:transform` before the frontend linters, so the generated types always match your PHP classes.
 :::
 
 ## Shared props
 
-Every page gets the props below from `HandleInertiaRequests`. Their type is `SharedData` in `types/global.d.ts`.
+Every page gets these props from `HandleInertiaRequests`. Their type is `SharedData`, in `types/global.d.ts`.
 
 | Prop | Type | Content |
 | --- | --- | --- |
@@ -146,20 +153,21 @@ Every page gets the props below from `HandleInertiaRequests`. Their type is `Sha
 | `sidebarOpen` | `boolean` | Sidebar cookie state |
 | `appUrl`, `domain` | `string`, `string \| null` | App URL and central domain |
 | `permissionsConfig` | `PermissionGroup[]` | Grouped permissions for the permission dialogs |
+| `notifications` | `NotificationSummary \| null` | Unread count and latest notifications for the bell, `null` for guests |
 
-`permissionsConfig` isn't declared on `SharedData`. It falls under the type's `[key: string]: unknown` index signature, so you have to cast it where you read it (`hooks/users/use-assign-user-permissions.ts` casts it to `PermissionGroup[]`).
+`permissionsConfig` isn't declared on `SharedData`. It falls under the type's `[key: string]: unknown` index signature, so cast it where you read it (`hooks/users/use-assign-user-permissions.ts` casts it to `PermissionGroup[]`).
 
-Since `SharedData` is registered with Inertia, `usePage().props` is typed without passing a generic:
+`SharedData` is registered with Inertia, so `usePage().props` is typed without a generic:
 
 ```tsx
 const { auth } = usePage().props;
 ```
 
-Props that belong to one page come in as the component's own props. Type them with a local `Props` type and destructure them in the signature, like `Login({ status, canResetPassword }: Props)` in `pages/auth/login.tsx`.
+Props for a single page come in as the component's own props. Type them with a local `Props` type and destructure them in the signature, like `Login({ status, canResetPassword }: Props)` in `pages/auth/login.tsx`.
 
 ## Permissions on the frontend
 
-Menus arrive already filtered by permission from the backend. Inside a page, you hide buttons and actions yourself with `usePermission()`:
+The backend already removes menu items the user can't see. Inside a page, hide buttons and actions with `usePermission()`:
 
 ```tsx
 const { can } = usePermission();
@@ -169,15 +177,15 @@ const { can } = usePermission();
 
 - `can()` returns `true` when the user has **any** of the permissions you pass.
 - For super admins (`auth.isSuperAdmin`) it's always `true`.
-- Pass the central and the tenant permission name together, and the same page works on both domains.
+- Pass both the central and the tenant permission name, so the same check works on every domain.
 
 ::: warning
-Hiding a button doesn't protect anything on its own. The route still has to check the permission with `permission:` middleware.
+Hiding a button doesn't secure anything. The route still needs the `permission:` middleware. See [Users, roles & permissions](/docs/core/users-roles-permissions).
 :::
 
 ## Translations
 
-Each string the user sees goes through `__()` from `reactLang()`. Import it from the **React subpath**, because the root import breaks the build.
+Every string the user sees goes through `__()` from `reactLang()`. Import it from the **React subpath**. The root import breaks the build.
 
 ```tsx
 import { reactLang } from '@erag/lang-sync-inertia/react';
@@ -193,7 +201,7 @@ const { __ } = reactLang();
 - Besides `__`, `reactLang()` returns `trans`, `transChoice` and `trans_choice`.
 - `useLanguage()` (`languages`, `changeLanguage`) lists the languages and switches between them.
 
-[Localization](/docs/core/localization) has the rest.
+See [Localization](/docs/core/localization) for the rest.
 
 ## Related files
 
@@ -203,3 +211,9 @@ const { __ } = reactLang();
 - `resources/js/types/global.d.ts`: `SharedData`, global `PageProps<T>`, Inertia type registration
 - `resources/js/hooks/use-permission.ts`, `use-language.ts`: permission and language helpers
 - `eslint.config.js`, `tsconfig.json`: lint and type-check rules
+
+<RelatedPages :links="[
+  { text: 'Core architecture', link: '/docs/core/architecture', desc: 'Modules, services and tenancy on the Laravel side.' },
+  { text: 'Layouts', link: '/docs/react/layouts', desc: 'How the default layout is picked and how a page overrides it.' },
+  { text: 'Inertia', link: '/docs/react/inertia', desc: 'Forms, visits and Wayfinder routes in practice.' },
+]" />

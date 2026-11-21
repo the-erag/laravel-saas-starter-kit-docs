@@ -7,6 +7,12 @@ description: "How Laravel multi-tenancy works in the SaaS Laravel kits: stancl/t
 
 The kits run stancl/tenancy (`^3.10`) in multi-database mode. Each tenant (workspace) gets **its own database**, and the request's domain tells the app which tenant it's dealing with. Because the data is split at the database level, your tenant code doesn't need `where tenant_id = ...` filters.
 
+<KeyIdea>
+
+The domain picks the tenant, and the tenant picks the database. Once a request is identified as a tenant request, your normal Eloquent code reads and writes that tenant's own database.
+
+</KeyIdea>
+
 New to multi-tenant Laravel apps? [How to build a multi-tenant SaaS with Laravel](/blog/multi-tenant-saas-laravel-database-per-tenant.html) compares the single-database, schema and database-per-tenant models, and [single vs multi-database tenancy in Laravel](/blog/single-vs-multi-database-tenancy-laravel.html) helps you decide which one your product needs.
 
 ```text
@@ -14,6 +20,11 @@ vue.test            → central app  (central DB: saas_laravel_vue)
 acme.vue.test       → tenant 1     (DB: tenant1)
 globex.vue.test     → tenant 2     (DB: tenant2)
 ```
+
+<CompareColumns :columns="[
+  { title: 'Central app', subtitle: '`vue.test` (`APP_DOMAIN`)', items: ['Central database', 'Tenant screens in `Modules/Tenant` (`central.only`)', 'Tenants and their domains are stored here', 'Its own users, roles and menus (guard `web`)'] },
+  { title: 'Tenant workspace', subtitle: '`acme.vue.test`', items: ['Its own database (`tenant<id>`)', 'Cache tagged per tenant', 'Storage paths suffixed per tenant', 'Its own users, roles and menus (guard `tenant`)'] }
+]" />
 
 ## Identification
 
@@ -57,7 +68,7 @@ The tenant screens live in `Modules/Tenant` and only exist in the central app (`
 
 ### Tenant data
 
-Tenants live in the central `tenants` table (`App\Models\Tenant`). A few attributes are real columns, and stancl's virtual columns put the rest in the `data` JSON column. You don't have to care which is which: `$tenant->industry` reads and writes the same way.
+Tenants live in the central `tenants` table (`App\Models\Tenant`). A few attributes are real columns, and stancl's virtual columns put the rest in the `data` JSON column. You don't need to know which is which: `$tenant->industry` reads and writes like any other attribute.
 
 | Stored as | Attributes |
 | --- | --- |
@@ -111,7 +122,7 @@ Events\TenantCreated::class => [
 :::
 
 ::: warning Queuing the pipeline
-The pipeline runs inside the request, so it gets slow once you have a lot of migrations. You can change `shouldBeQueued(false)` to `true`, but then the tenant isn't usable until the worker is done. There's a catch: `CreateTenantUserJob` reads the admin password and the invitation flag from the current request, and a queue worker doesn't have that request. Change the job before you queue it.
+The pipeline runs inside the request, so it gets slow once you have a lot of migrations. You can change `shouldBeQueued(false)` to `true`, but then the tenant isn't usable until the worker is done. Change `CreateTenantUserJob` first: it reads the admin password and the invitation flag from the current request, and a queue worker has no request.
 :::
 
 ## Workspace status
@@ -194,3 +205,9 @@ These blog guides cover each part of a multi-tenant Laravel app in more depth:
 - [Testing multi-tenant Laravel apps with Pest](/blog/test-multi-tenant-laravel-pest.html)
 - [Deleting tenants safely in Laravel](/blog/delete-tenant-laravel-safely.html)
 - [stancl/tenancy vs Spatie Multitenancy](/blog/stancl-tenancy-vs-spatie-multitenancy.html)
+
+<RelatedPages :links="[
+  { text: 'Domains', link: '/docs/core/domains', desc: 'How tenant subdomains are stored and managed.' },
+  { text: 'Database', link: '/docs/core/database', desc: 'Central and tenant migrations, seeders and commands.' },
+  { text: 'Maintenance & suspension', link: '/docs/core/maintenance-and-suspension', desc: 'What a suspended tenant can and cannot do.' }
+]" />

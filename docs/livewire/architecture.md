@@ -5,11 +5,26 @@ description: "How the Livewire kit is organised: backend-only modules with Livew
 
 # Architecture <Badge type="tip" text="Livewire" />
 
-The Livewire kit splits the work in two. Modules in `Modules/` hold PHP only (components, services, Form Requests, routes), and every Blade view lives in `resources/views`. For the shared backend pieces (tenancy, auth, roles), see [Core architecture](/docs/core/architecture).
+The Livewire kit splits the code in two. Modules in `Modules/` hold PHP only (components, services, Form Requests, routes), and every Blade view lives in `resources/views`. For the shared backend (tenancy, auth, roles), see [Core architecture](/docs/core/architecture). This page shows how a request reaches a component, where each file goes, and how permissions and translations work.
+
+<KeyIdea>
+
+PHP in the module, Blade in `resources/views`. A full-page Livewire component handles the request, hands real work to a service, and renders a view by name into the app layout.
+
+</KeyIdea>
 
 ## Overview
 
 A request goes through a Livewire component in a module and comes out as a Blade view wrapped in a layout:
+
+<FlowDiagram label="Livewire request flow" :nodes="[
+  '`Route::livewire()`',
+  { label: '`mount()`', note: 'component in the module' },
+  { label: '`render()`', note: 'services do the queries' },
+  { label: 'Blade view', note: 'inside `layouts::app`' },
+]" />
+
+With the file paths:
 
 ```text
 Route::livewire('users', Index::class)
@@ -21,7 +36,7 @@ Route::livewire('users', Index::class)
 
 After the first page load, clicks, form submits and `wire:model` updates go back to the same component over Livewire's own requests. Links use `wire:navigate`, so moving between pages swaps the content without a full reload.
 
-A component stays thin. It validates through a Form Request, checks a permission, calls a service and sets UI state (a toast, a redirect, a modal). Queries and transactions belong in the module's `Services` or `Repositories`.
+Keep components thin. A component validates through a Form Request, checks a permission, calls a service and sets UI state (a toast, a redirect, a modal). Queries and transactions belong in the module's `Services` or `Repositories`.
 
 ```php
 public function save(UserService $userService): void
@@ -43,7 +58,7 @@ public function save(UserService $userService): void
 }
 ```
 
-There's more on forms, events and modals in [Livewire](/docs/livewire/livewire).
+Forms, events and modals are covered in [Livewire](/docs/livewire/livewire).
 
 ## Folder map
 
@@ -77,7 +92,7 @@ The kit ships these modules: `Auth`, `Dashboard`, `Menu`, `Notification`, `RoleP
 | `resources/js` | `app.js`, `permission-picker.js`, `passkeys.js` |
 | `resources/css/app.css` | Tailwind 4, Flux styles and the theme tokens |
 
-The views mirror the Vue kit's `resources/js/pages`, so `pages/users/index.blade.php` here is `pages/users/Index.vue` there.
+The views mirror the Vue kit's `resources/js/pages`: `pages/users/index.blade.php` here is `pages/users/Index.vue` there.
 
 ### `app/`
 
@@ -88,8 +103,6 @@ The views mirror the Vue kit's `resources/js/pages`, so `pages/users/index.blade
 | `app/Livewire/Concerns/ValidatesFormRequests.php` | `validateFormRequest()` |
 | `app/Livewire/Concerns/AuthorizesPermissions.php` | `authorizePermission()` |
 | `app/Livewire/Concerns/ThrottlesActions.php` | `throttled()` |
-
-We don't write code comments; that's a project rule in `.ai/rules/general.md`.
 
 ## Module registration
 
@@ -109,10 +122,10 @@ protected function registerLivewireComponents(): void
 
 That's why tags carry the module name. `Modules\Tenant\Livewire\EditTenantModal` is `<livewire:tenant::edit-tenant-modal />`, and `Modules\RolePermission\Livewire\RoleFormModal` is `<livewire:role-permission::role-form-modal />`.
 
-Providers are listed in `bootstrap/providers.php`. A provider can still add its own `register()` or `boot()` code. `TenantServiceProvider` binds `TenantAuthFeatureService` as a singleton, and `AuthServiceProvider` points Fortify at the views in `pages/auth`.
+Providers are listed in `bootstrap/providers.php`. A provider can still add its own `register()` or `boot()` code: `TenantServiceProvider` binds `TenantAuthFeatureService` as a singleton, and `AuthServiceProvider` points Fortify at the views in `pages/auth`.
 
 ::: tip
-Most providers are empty classes, e.g. `class DashboardServiceProvider extends ModuleServiceProvider {}`. Routes and components are picked up for you.
+Most providers are empty classes, e.g. `class DashboardServiceProvider extends ModuleServiceProvider {}`. Routes and components are picked up automatically.
 :::
 
 ## Blade namespaces
@@ -141,7 +154,7 @@ There are no shared props. A component passes its own data to its view from `ren
 | Languages | `<livewire:settings::language-switcher />` in the header |
 | Unread notifications | `<livewire:notification::bell />` in the header |
 
-The menu items come back already filtered by permission and marked `active`. How they're built is covered in [Navigation & layouts](/docs/core/navigation-and-layouts).
+The menu items come back already filtered by permission and marked `active`. How they're built is in [Navigation & layouts](/docs/core/navigation-and-layouts).
 
 ## Permissions on the frontend
 
@@ -155,7 +168,7 @@ Route::livewire('users', Index::class)
     ->name('users.index');
 ```
 
-`AppServiceProvider` adds the auth, central-only and permission middleware to Livewire's persistent middleware. Livewire re-applies them on every later request a page makes, so a click on a page you can no longer access fails as well.
+`AppServiceProvider` adds the auth, central-only and permission middleware to Livewire's persistent middleware. Livewire runs them again on every later request a page makes, so once a user loses access, their next click on that page fails too.
 
 **Blade directives** hide buttons the user can't use. Pass both the central and the tenant permission name, so the same check works on every domain:
 
@@ -167,7 +180,7 @@ Route::livewire('users', Index::class)
 @endcanany
 ```
 
-**`authorizePermission()`** guards actions that need a different permission from the page itself. It aborts with a 403 unless the user has **any** of the names you pass:
+**`authorizePermission()`** guards actions that need a different permission from the page. It aborts with a 403 unless the user has **any** of the names you pass:
 
 ```php
 public function confirmDelete(int $userId): void
@@ -183,7 +196,7 @@ public function confirmDelete(int $userId): void
 Super admins pass every check through `Gate::before` in `AppServiceProvider`.
 
 ::: warning
-Hiding a button doesn't secure anything, because anyone can call a public component method from the browser. Every action that changes data needs `authorizePermission()` (or a route permission that covers it). See [Users, roles & permissions](/docs/core/users-roles-permissions).
+Hiding a button doesn't secure anything: anyone can call a public component method from the browser. Every action that changes data needs `authorizePermission()` (or a route permission that covers it). See [Users, roles & permissions](/docs/core/users-roles-permissions).
 :::
 
 ## Translations
@@ -202,7 +215,7 @@ lang/<locale>/modules/<feature>.php → __('modules/<feature>.<key>')
 Flux::toast(variant: 'success', text: __('modules/user.toasts.deleted'));
 ```
 
-Breadcrumbs, page titles, toasts and confirm dialogs all go through `__()`. Language resolution and adding a language are covered in [Localization](/docs/core/localization).
+Breadcrumbs, page titles, toasts and confirm dialogs all go through `__()`. How the language is picked, and how to add one, is in [Localization](/docs/core/localization).
 
 ## Related files
 
@@ -213,3 +226,9 @@ Breadcrumbs, page titles, toasts and confirm dialogs all go through `__()`. Lang
 - `bootstrap/app.php`: middleware aliases (`auth`, `guest`, `central.only`, `permission`, `role`)
 - `resources/views/layouts/app.blade.php`: the app layout every full-page component renders into
 - `.ai/rules/livewire.md`: the kit's conventions in one page
+
+<RelatedPages :links="[
+  { text: 'Livewire', link: '/docs/livewire/livewire', desc: 'Forms, events, modals and toasts inside a component.' },
+  { text: 'Layouts', link: '/docs/livewire/layouts', desc: 'The layouts every page renders into.' },
+  { text: 'Core architecture', link: '/docs/core/architecture', desc: 'Tenancy, auth and roles shared by all kits.' },
+]" />

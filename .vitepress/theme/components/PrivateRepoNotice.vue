@@ -11,34 +11,38 @@ import SlIcon from './SlIcon.vue';
       </svg>
       Important
     </p>
-    <p class="notice-text">
-      Keep your copy of the kit in a <b>private</b> repository. Push it to a public one and anyone can read the full
-      source code of a paid starter kit. Publishing it also isn't allowed under the
-      <a href="/license.html">SaaS Laravel Commercial License</a>.
-    </p>
-    <p class="notice-text notice-small">
-      Pick <b>Private</b> when you create the repository. Already made it public? Go to the repository's
-      <b>Settings → General → Danger Zone → Change visibility</b> and switch it to private.
-    </p>
+    <div class="notice-body">
+      <div class="notice-copy">
+        <p class="notice-text">
+          Keep your copy of the kit in a <b>private</b> repository. Push it to a public one and anyone can read the full
+          source code of a paid starter kit. Publishing it also isn't allowed under the
+          <a href="/license.html">SaaS Laravel Commercial License</a>.
+        </p>
+        <p class="notice-text notice-small">
+          Pick <b>Private</b> when you create the repository. Already made it public? Go to the repository's
+          <b>Settings → General → Danger Zone → Change visibility</b> and switch it to private.
+        </p>
+      </div>
 
-    <div class="mock" aria-hidden="true">
-      <span class="mock-trigger"><SlIcon name="lock" :size="14" /> Private <SlIcon name="chevron-down" :size="14" /></span>
-      <div class="mock-menu">
-        <div class="mock-option">
-          <span class="mock-check" />
-          <SlIcon name="globe" :size="16" />
-          <span>
-            <strong>Public</strong>
-            <small>Anyone on the internet can see this repository.</small>
-          </span>
-        </div>
-        <div class="mock-option mock-option--active">
-          <span class="mock-check"><SlIcon name="check" :size="14" /></span>
-          <SlIcon name="lock" :size="16" />
-          <span>
-            <strong>Private</strong>
-            <small>You choose who can see and commit to this repository.</small>
-          </span>
+      <div class="mock" aria-hidden="true">
+        <span class="mock-trigger"><SlIcon name="lock" :size="14" /> Private <SlIcon name="chevron-down" :size="14" /></span>
+        <div class="mock-menu">
+          <div class="mock-option">
+            <span class="mock-check" />
+            <SlIcon name="globe" :size="16" />
+            <span>
+              <strong>Public</strong>
+              <small>Anyone on the internet can see this repository.</small>
+            </span>
+          </div>
+          <div class="mock-option mock-option--active">
+            <span class="mock-check"><SlIcon name="check" :size="14" /></span>
+            <SlIcon name="lock" :size="16" />
+            <span>
+              <strong>Private</strong>
+              <small>You choose who can see and commit to this repository.</small>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -47,6 +51,7 @@ import SlIcon from './SlIcon.vue';
 
 <style scoped>
 .notice {
+  container-type: inline-size;
   --notice-bg: color-mix(in srgb, var(--sl-warning-soft) 100%, var(--vp-c-bg));
   margin: 24px 0;
   padding: 18px 22px 22px;
@@ -85,9 +90,9 @@ import SlIcon from './SlIcon.vue';
 }
 
 .mock {
-  max-width: 420px;
-  margin-top: 18px;
-  padding: 16px;
+  max-width: 280px;
+  margin-top: 16px;
+  padding: 12px;
   border: 1px solid var(--sl-border);
   border-radius: 12px;
   background: var(--vp-c-bg);
@@ -151,5 +156,19 @@ import SlIcon from './SlIcon.vue';
   font-size: 12px;
   line-height: 1.5;
   color: var(--vp-c-text-2);
+}
+
+/* Wide enough: the GitHub visibility menu sits beside the text instead of under it. */
+@container (min-width: 620px) {
+  .notice-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    align-items: start;
+    gap: 24px;
+  }
+
+  .mock {
+    margin-top: 12px;
+  }
 }
 </style>

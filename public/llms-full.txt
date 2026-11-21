@@ -6486,7 +6486,7 @@ No, but it's the easiest option, because tenant subdomains (`*.vue.test`) just w
 
 ### How much does it cost?
 
-The Vue kit is $29, React is $30 and Svelte is $33. The All Starter Kits bundle (Vue + React + Svelte) costs $79, so you save $13. Every option is a one-time payment with lifetime access. See [Pricing](https://saas-laravel.com/pricing.html).
+The Vue kit is $55, React is $69, Svelte is $59 and Livewire is $49. The All Starter Kits bundle (all four kits) costs $139, so you save $93. Every option is a one-time payment with lifetime access. See [Pricing](https://saas-laravel.com/pricing.html).
 
 ### Is it a subscription?
 

@@ -5,11 +5,26 @@ description: "How resources/js is organised in the Svelte kit: folder map, page 
 
 # Architecture <Badge type="tip" text="Svelte" />
 
-All the Svelte-specific code is in `resources/js`. For the Laravel side (modules, tenancy, auth), see [Core architecture](/docs/core/architecture).
+All the Svelte-specific code is in `resources/js`. This page shows how a controller response becomes a Svelte page, where each file lives, and what every page gets for free. For the Laravel side (modules, tenancy, auth), see [Core architecture](/docs/core/architecture).
+
+<KeyIdea>
+
+A controller calls `Inertia::render('users/Index', $props)`, and that name is the path of the page under `resources/js/pages`. `app.ts` wraps the page in a layout picked from the name, and the page reads its own props with `$props()` and the shared ones from `page`.
+
+</KeyIdea>
 
 ## Overview
 
-Here's the path a request takes from a Laravel controller to a Svelte page:
+The path from a Laravel controller to a Svelte page:
+
+<FlowDiagram label="Svelte request flow" :nodes="[
+  { label: 'Controller', note: '`Inertia::render()`' },
+  { label: 'Page file', note: 'resolved by `@inertiajs/vite`' },
+  { label: 'Default layout', note: 'picked in `app.ts`' },
+  { label: 'Props', note: '`$props()` and `page`' },
+]" />
+
+With the file paths:
 
 ```text
 Controller: Inertia::render('users/Index', $props)
@@ -18,7 +33,7 @@ Controller: Inertia::render('users/Index', $props)
   → page reads its own props with $props() and shared props from `page`
 ```
 
-The app is created in `resources/js/app.ts`. You won't find a `resolve` callback there, because the `@inertiajs/vite` plugin in `vite.config.ts` handles page resolution. What `app.ts` does have is a `layout` callback, which picks a default layout based on the page name:
+The app is created in `resources/js/app.ts`. It has no `resolve` callback, because the `@inertiajs/vite` plugin in `vite.config.ts` resolves pages. It does have a `layout` callback, which picks a default layout from the page name:
 
 | Page name starts with | Default layout |
 | --- | --- |
@@ -26,9 +41,9 @@ The app is created in `resources/js/app.ts`. You won't find a `resolve` callback
 | `settings/` | `AppLayout` wrapping `settings/Layout.svelte` |
 | anything else | `AppLayout` |
 
-Any page can override that default from its `<script module>` block (more on this in [Layouts](/docs/svelte/layouts)).
+Any page can override that default from its `<script module>` block (see [Layouts](/docs/svelte/layouts)).
 
-After that, `app.ts` runs two setup functions:
+Then `app.ts` runs two setup functions:
 
 - `initializeTheme()` from `lib/theme.svelte.ts`, which applies light, dark or system mode.
 - `initializeFlashToast()` from `lib/flash-toast.ts`, which turns flash data from the server into toasts.
@@ -60,7 +75,7 @@ initializeFlashToast();
 | Folder | Purpose |
 | --- | --- |
 | `app.ts` | `createInertiaApp`, default layouts, theme, flash toasts |
-| `pages/` | Inertia pages (PascalCase `.svelte`): `auth/`, `errors/`, `roles/`, `settings/`, `setup/`, `tenants/`, `users/`, plus `Dashboard.svelte` and `Home.svelte` |
+| `pages/` | Inertia pages (PascalCase `.svelte`): `auth/`, `errors/`, `notifications/`, `roles/`, `settings/`, `setup/`, `tenants/`, `users/`, plus `Dashboard.svelte` and `Home.svelte` |
 | `layouts/` | `AppLayout.svelte`, `AuthLayout.svelte`, their variants in `app/` and `auth/`, and `settings/Layout.svelte` |
 | `components/common/` | The `Common*` form kit and `ConfirmDialog` |
 | `components/ui/` | shadcn-svelte primitives (bits-ui) |
@@ -82,9 +97,9 @@ initializeFlashToast();
 | Shared logic | camelCase module in `lib/`; `.svelte.ts` when it uses runes | `lib/permission.ts`, `lib/confirmDialog.svelte.ts` |
 | UI primitive | shadcn-svelte folder with `index.ts` | `components/ui/dialog` |
 
-Every component uses `<script lang="ts">` with runes (`$props()`, `$state`, `$derived`, `$effect`). Where you'd reach for slots in older Svelte, we use snippets (`{#snippet}` / `{@render}`).
+Every component uses `<script lang="ts">` with runes (`$props()`, `$state`, `$derived`, `$effect`). Snippets (`{#snippet}` / `{@render}`) replace the slots of older Svelte.
 
-Linting runs through ESLint with `eslint-plugin-svelte`. It expects type-only imports, import groups in alphabetical order, 1TBS braces and a blank line before and after control statements.
+ESLint with `eslint-plugin-svelte` expects type-only imports, import groups in alphabetical order, 1TBS braces and a blank line before and after control statements.
 
 ### `lib` modules
 
@@ -96,6 +111,7 @@ Linting runs through ESLint with `eslint-plugin-svelte`. It expects type-only im
 | `flash-toast.ts` | `initializeFlashToast()` |
 | `initials.ts` | `getInitials()`, `useInitials()` |
 | `language.ts` | `useLanguage()`, `DEFAULT_LANGUAGE_VALUE`, `languageLabel()`, `toLocaleValue()`, `transformLocale()`, `changeLanguage()` |
+| `notifications.ts` | `openNotification()`, `markNotificationAsRead()`, `markAllNotificationsAsRead()`, `deleteNotification()`, `clearNotifications()`, plus icon, level and unread-count helpers |
 | `permission.ts` | `can()`, `usePermission()` |
 | `secret.ts` | `generateSecret()`, `useSecret()` |
 | `slug.ts` | `slugify()`, `useSlug()` |
@@ -114,10 +130,10 @@ Linting runs through ESLint with `eslint-plugin-svelte`. It expects type-only im
 | `php artisan typescript:transform` | `types/Modules/<Module>/Data` and `.../Enums` from Spatie Data classes and enums in `app/` and `Modules/` | `import type { DomainData } from '@/types/Modules/Tenant/Data'` |
 | `php artisan erag:generate-lang` | `lang/<locale>/…json` | Read by `svelteLang()` |
 
-The page prop types we wrote by hand live alongside the generated ones (`types/Tenants/tenants.ts`, `types/Users/users.ts`, `types/Roles/roles.ts`), and `@/types` re-exports them. For how to call the Wayfinder functions, see [Inertia](/docs/svelte/inertia#wayfinder-routes).
+Hand-written page prop types sit next to the generated ones (`types/Tenants/tenants.ts`, `types/Users/users.ts`, `types/Roles/roles.ts`), and `@/types` re-exports them. For how to call the Wayfinder functions, see [Inertia](/docs/svelte/inertia#wayfinder-routes).
 
 ::: tip
-`composer lint` runs `typescript:transform` before it starts the frontend linters. That way the generated types never drift away from the PHP classes.
+`composer lint` runs `typescript:transform` before the frontend linters, so the generated types stay in sync with the PHP classes.
 :::
 
 ## Shared props
@@ -134,9 +150,10 @@ Every page receives the props below from `HandleInertiaRequests`. Their type is 
 | `layout` | `LayoutSettings` | `app_layout`, `sidebar_variant`, `sidebar_collapsible`, `auth_layout` |
 | `sidebarOpen` | `boolean` | Sidebar cookie state |
 | `appUrl`, `domain` | `string` (`domain` can be `null`) | App URL and central domain |
+| `notifications` | `NotificationSummary \| null` | Unread count and latest notifications for the bell (`null` for guests) |
 | `permissionsConfig` | not declared in `SharedData` (`unknown`) | Grouped permissions used by the permission dialogs |
 
-Shared props come from the reactive `page` object. Props that belong to one page come from `$props()`:
+Read shared props from the reactive `page` object, and the page's own props from `$props()`:
 
 ```svelte
 <script lang="ts">
@@ -152,7 +169,7 @@ Because `types/global.d.ts` registers `SharedData` with Inertia, `page.props` is
 
 ## Permissions on the frontend
 
-Rather than digging through `page.props.auth` yourself, call `usePermission()` from `lib/permission.ts`.
+Don't read `page.props.auth` yourself. Call `usePermission()` from `lib/permission.ts`.
 
 - `can(...names)` returns `true` for a super admin, or when the user holds **any** of the permissions you pass.
 - The same page runs on central and tenant domains, so pass both permission names together.
@@ -170,10 +187,10 @@ Rather than digging through `page.props.auth` yourself, call `usePermission()` f
 ```
 
 ::: info
-Hiding a button just keeps the UI tidy. The real protection is the `permission:` middleware on the server routes. See [Users, roles & permissions](/docs/core/users-roles-permissions).
+Hiding a button only keeps the UI tidy. The real protection is the `permission:` middleware on the server routes. See [Users, roles & permissions](/docs/core/users-roles-permissions).
 :::
 
-Language works the same way. `useLanguage()` from `lib/language.ts` gives you getters (`language.languages`, `language.userLocale`) and `changeLanguage()`. Read the reactive values through the object and don't destructure them.
+For languages, `useLanguage()` from `lib/language.ts` works the same way. It gives you getters (`language.languages`, `language.userLocale`) and `changeLanguage()`. Read the reactive values through the object; don't destructure them.
 
 ## Translations
 
@@ -191,10 +208,10 @@ Always import the helper from the Svelte subpath, `@erag/lang-sync-inertia/svelt
 
 - Each key points to `lang/<locale>/modules/<feature>.php`.
 - Running `php artisan erag:generate-lang` exports them to `resources/js/lang/<locale>/modules/<feature>.json`.
-- Placeholders behave just like they do in Laravel: `__('modules.user.index.delete_confirm.message', { name: user.name })`.
+- Placeholders work as in Laravel: `__('modules.user.index.delete_confirm.message', { name: user.name })`.
 - You also get `trans`, `transChoice` and `trans_choice` from `svelteLang()`.
 
-[Localization](/docs/core/localization) has the full story.
+See [Localization](/docs/core/localization) for the details.
 
 ## Related files
 
@@ -206,5 +223,11 @@ Always import the helper from the Svelte subpath, `@erag/lang-sync-inertia/svelt
 - `eslint.config.js`: lint rules
 
 ::: info
-When `svelte-check` loads `vite.config.ts`, the config sets `LARAVEL_BYPASS_ENV_CHECK`. This lets you type check without a running Laravel environment.
+When `svelte-check` loads `vite.config.ts`, the config sets `LARAVEL_BYPASS_ENV_CHECK`, so you can type check without a running Laravel environment.
 :::
+
+<RelatedPages :links="[
+  { text: 'Layouts', link: '/docs/svelte/layouts', desc: 'How the default layout is picked and how a page overrides it.' },
+  { text: 'Inertia', link: '/docs/svelte/inertia', desc: 'Forms, visits and Wayfinder routes on top of this structure.' },
+  { text: 'Core architecture', link: '/docs/core/architecture', desc: 'Modules, tenancy and auth on the Laravel side.' },
+]" />

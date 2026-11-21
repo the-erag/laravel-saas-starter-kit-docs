@@ -5,9 +5,11 @@ description: "The x-common Blade wrappers around Flux, the confirm dialog, modal
 
 # Components <Badge type="tip" text="Livewire" />
 
+A reference for the Blade components you build Livewire pages with: the `x-common.*` wrappers around Flux, the confirm dialog, icons, toasts, the shared list-page pieces and the app shell.
+
 ## Overview
 
-The components are Blade components in `resources/views/components`, split like this:
+The components are Blade components in `resources/views/components`:
 
 | Folder | What it holds |
 | --- | --- |
@@ -16,7 +18,7 @@ The components are Blade components in `resources/views/components`, split like 
 | `pages/<area>/partials/` | Components that belong to one area, used as `<x-pages::tenants.partials.status-badge />` |
 | `views/livewire/` | Views of the shared Livewire widgets (`notification-bell`, `language-switcher`, …) |
 
-Pages and feature components never use Flux tags directly. Every control goes through `x-common.*`, so the rest of the code doesn't know which UI library is underneath.
+Pages and feature components never use Flux tags directly. Every control goes through `x-common.*`, so the rest of the code doesn't depend on the UI library underneath.
 
 ## Common components
 
@@ -45,7 +47,7 @@ Pages and feature components never use Flux tags directly. Every control goes th
 | `x-common.form-section` | Own markup | Card with an icon, title, description and step tag (Create tenant) |
 | `x-common.icon` | `<iconify-icon>` | See [Icons](#icons) |
 
-The field components (`input`, `textarea`, `select`, `checkbox`) work out three things from `wire:model` (or `name` when there's no `wire:model`):
+The field components (`input`, `textarea`, `select`, `checkbox`) derive three things from `wire:model` (or from `name` when there's no `wire:model`):
 
 - the `id`, with dots replaced by underscores, so `wire:model="form.company"` gets `id="form_company"`
 - the label's `for`, pointing at that `id`
@@ -59,19 +61,29 @@ So a field with its label and error fits on one line:
 
 Any other attribute (`autocomplete`, `placeholder`, `class`, `wire:model.live`, `x-model`, `data-test`, …) is passed through to the Flux component.
 
+::: warning
+Inside a component tag, use <code v-pre>{{ Js::from($value) }}</code> instead of `@js($value)`. Blade doesn't compile directives inside component attributes, so `@js()` would reach the browser as plain text.
+:::
+
+```blade
+<x-common.checkbox id="{{ $permissionId }}"
+    x-bind:checked="has({{ Js::from($permission['name']) }})"
+    x-on:change="toggle({{ Js::from($permission['name']) }})" />
+```
+
 ### Swapping the UI library
 
-Most wrappers are a single line. `button.blade.php`, for example, is just this:
+Most wrappers are a single line. For example, `button.blade.php` is just:
 
 ```blade
 <flux:button {{ $attributes }}>{{ $slot }}</flux:button>
 ```
 
-If you want to move to Flux Pro or another library, edit the files in `components/common` and leave the pages alone. Flux is used directly only in the app shell: `layouts/base.blade.php` (toasts), `layouts/app/sidebar.blade.php`, `layouts/app/header.blade.php`, `layouts/app/partials/sidebar-menu.blade.php` and `components/app-logo.blade.php`.
+To move to Flux Pro or another library, edit the files in `components/common` and leave the pages alone. Flux is used directly only in the app shell: `layouts/base.blade.php` (toasts), `layouts/app/sidebar.blade.php`, `layouts/app/header.blade.php`, `layouts/app/partials/sidebar-menu.blade.php` and `components/app-logo.blade.php`.
 
 ### Button row
 
-`x-common.button-row` uses `wire:dirty`, so it only slides in once a `wire:model` value has changed. With no `save` prop the Save button submits the surrounding form; `discard` names the component method to call.
+`x-common.button-row` uses `wire:dirty`, so it only slides in once a `wire:model` value has changed. Without a `save` prop, the Save button submits the surrounding form. `discard` names the component method to call.
 
 ```blade
 <form wire:submit="save" class="space-y-6" novalidate>
@@ -95,7 +107,7 @@ If you want to move to Flux Pro or another library, edit the files in `component
     ]" />
 ```
 
-Props: `name`, `title`, `action` (required), `message`, `warning`, `details` (label ⇒ value), `confirmText`, `cancelText` and `keyword`. With a `keyword`, the user has to type it before the confirm button enables.
+Props: `name`, `title`, `action` (required), `message`, `warning`, `details` (label ⇒ value), `confirmText`, `cancelText` and `keyword`. With a `keyword`, the user must type it before the confirm button turns on.
 
 The full flow (pick the record, open the dialog, delete) is in [Livewire → Confirm and delete](/docs/livewire/livewire#confirm-and-delete).
 
@@ -110,7 +122,7 @@ The full flow (pick the record, open the dialog, delete) is in [Livewire → Con
 
 ### Icons
 
-`x-common.icon` renders the `iconify-icon` web component, which `resources/js/app.js` imports. Pass any Iconify name with a prefix (`lucide:building-2`, `flowbite:users-group-solid`, `logos:laravel`). A name without a prefix is turned into a Lucide name, so `LayoutGrid` becomes `lucide:layout-grid`.
+`x-common.icon` renders the `iconify-icon` web component, which `resources/js/app.js` imports. Pass any Iconify name with a prefix (`lucide:building-2`, `flowbite:users-group-solid`, `logos:laravel`). A name without a prefix becomes a Lucide name, so `LayoutGrid` turns into `lucide:layout-grid`.
 
 ```blade
 <x-common.icon name="lucide:building-2" class="size-4" />
@@ -138,7 +150,9 @@ Menu icons are stored the same way in the `menus` table (`'icon' => 'lucide:layo
 | `x-passkey-registration`, `x-passkey-verify` | | Passkey enrolment and passkey sign-in (load `resources/js/passkeys.js` with `@assets`) |
 | `x-placeholder-pattern` | | Striped placeholder on the dashboard |
 
-A typical list page puts them together like this:
+A typical list page combines them like this:
+
+<DocShot name="livewire-users" alt="The Users page in the Livewire kit: page heading with an Add user button, stat cards, and a table card with search and pagination" />
 
 ```blade
 <x-page-heading :title="__('modules/user.index.title')" :description="__('modules/user.index.description')">
@@ -175,6 +189,8 @@ Blade components used by one area live in `pages/<area>/partials` and are called
 
 ## App shell components
 
+<DocShot name="livewire-app-header" alt="The Livewire kit with the header app layout: top navigation, language switcher, notification bell and user menu" />
+
 | Component | Purpose |
 | --- | --- |
 | `layouts/app/partials/sidebar-menu.blade.php` | Sidebar menu tree (`flux:sidebar.*`), or the setup menu under `/setup` |
@@ -185,12 +201,8 @@ Blade components used by one area live in `pages/<area>/partials` and are called
 | `x-user-menu` | User dropdown: settings link and logout |
 | `x-app-logo`, `x-app-logo-icon` | Branding (`sidebar` prop for the sidebar brand) |
 
-::: warning
-Inside a component tag, use <code v-pre>{{ Js::from($value) }}</code> instead of `@js($value)`. Blade doesn't compile directives inside component attributes, so `@js()` would reach the browser as plain text.
-:::
-
-```blade
-<x-common.checkbox id="{{ $permissionId }}"
-    x-bind:checked="has({{ Js::from($permission['name']) }})"
-    x-on:change="toggle({{ Js::from($permission['name']) }})" />
-```
+<RelatedPages :links="[
+  { text: 'Livewire', link: '/docs/livewire/livewire', desc: 'Validation, modals, confirm dialogs and toasts in components.' },
+  { text: 'Layouts', link: '/docs/livewire/layouts', desc: 'The app and auth layouts these pieces sit in.' },
+  { text: 'Pages', link: '/docs/livewire/pages', desc: 'Every page and the component behind it.' },
+]" />

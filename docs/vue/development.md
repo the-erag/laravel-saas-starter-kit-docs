@@ -5,7 +5,11 @@ description: "Daily commands for the Vue kit and step-by-step guides to adding a
 
 # Development <Badge type="tip" text="Vue" />
 
+This page covers the commands you run every day, then walks through adding a page and a form from start to finish.
+
 ## Daily workflow
+
+Run `composer dev` to start everything, then work in `resources/js` and `Modules/`. While you edit, Vite reloads the browser and keeps the Wayfinder files up to date.
 
 | Command | What it does |
 | --- | --- |
@@ -13,34 +17,33 @@ description: "Daily commands for the Vue kit and step-by-step guides to adding a
 | `npm run dev` | Vite dev server with HMR (also regenerates Wayfinder files) |
 | `npm run build` | Production build to `public/build` |
 | `npm run build:ssr` | Client and SSR bundle (`vite build && vite build --ssr`) |
-| `npm run lint` | `eslint .` + `prettier --check resources/` + `vue-tsc --noEmit` |
-| `npm run lint:fix` | `eslint . --fix` + `prettier --write resources/` + `vue-tsc --noEmit` |
-| `composer lint` | Pint, `wayfinder:generate --with-form`, `typescript:transform`, `npm run lint:fix` |
-| `composer test` | Lint check, PHPStan (Larastan), then `php artisan test` |
 | `php artisan erag:generate-lang` | Export `lang/*` to `resources/js/lang/*.json` |
+| `php artisan wayfinder:generate --with-form` | Regenerate Wayfinder files without Vite running |
 
-The complete list is in [Commands](/docs/reference/commands).
+The full list is on the [Commands](/docs/reference/commands) page. Lint and type-check commands are under [Type checking & linting](#type-checking-linting).
 
 ::: tip
-If a change isn't showing up in the browser, make sure `npm run dev` (or `composer dev`) is running, or run `npm run build`.
+Change not showing up in the browser? Make sure `npm run dev` (or `composer dev`) is running, or run `npm run build`.
 :::
 
 ## Adding a page
 
-Let's say you want a Reports page in the Dashboard module, served at `/reports`. The request goes like this:
+Say you want a Reports page in the Dashboard module, served at `/reports`:
 
-```text
-Modules/Dashboard/routes/web.php → ReportController@index
-  → Inertia::render('reports/Index') → resources/js/pages/reports/Index.vue
-```
+<FlowDiagram label="Adding a page" :nodes="[
+  { label: 'Route', note: '`Modules/Dashboard/routes/web.php`' },
+  { label: 'Controller', note: '`ReportController@index`' },
+  { label: '`Inertia::render()`', note: '`reports/Index`' },
+  { label: 'Page', note: '`resources/js/pages/reports/Index.vue`' },
+]" />
 
 1. Add the route to `Modules/Dashboard/routes/web.php`, inside the `auth` + `verified` group, with `->middleware('permission:View Reports|View Tenant Reports')` and `->name('reports.index')`.
-2. Create the controller at `Modules/Dashboard/Http/Controllers/ReportController.php` and have it return `Inertia::render('reports/Index', [...])`. Keep it thin; any business logic belongs in `Modules/<Module>/Services`.
-3. Create the page at `resources/js/pages/reports/Index.vue` (the file is PascalCase, the folder lowercase). Breadcrumbs go in `defineOptions({ layout: { breadcrumbs } })`, and the title goes in `<Head>`.
-4. Once Wayfinder has run, you can import `@/routes/reports`. `npm run dev` regenerates it for you; if that isn't running, use `php artisan wayfinder:generate --with-form`.
+2. Create the controller at `Modules/Dashboard/Http/Controllers/ReportController.php` and return `Inertia::render('reports/Index', [...])`. Keep it thin: business logic belongs in `Modules/<Module>/Services`.
+3. Create the page at `resources/js/pages/reports/Index.vue` (PascalCase file, lowercase folder). Set the breadcrumbs in `defineOptions({ layout: { breadcrumbs } })` and the title in `<Head>`.
+4. Once Wayfinder has run, you can import `@/routes/reports`. `npm run dev` regenerates it for you. If that isn't running, use `php artisan wayfinder:generate --with-form`.
 5. Add the translation keys to `lang/<locale>/modules/dashboard.php` for each locale, then run `php artisan erag:generate-lang`.
 6. Add `View Reports` to `config/permissions/dashboard.php` and `View Tenant Reports` to `config/permissions/tenant/dashboard.php`, then seed them.
-7. If you want a menu item, add an entry to `database/seeders/MenuSeeder.php` (and `database/seeders/tenant/MenuSeeder.php`) with `'route_name' => 'reports.index'` and the permission. This step is optional.
+7. Optional: for a menu item, add an entry to `database/seeders/MenuSeeder.php` (and `database/seeders/tenant/MenuSeeder.php`) with `'route_name' => 'reports.index'` and the permission.
 
 The page itself doesn't need much:
 
@@ -158,9 +161,9 @@ php artisan tenants:seed --class="Database\Seeders\PermissionSeeder"
 php artisan db:seed --class=MenuSeeder
 ```
 
-After that, the keys work as `__('modules.dashboard.reports.title')` in Vue. In PHP you use the slash form: `__('modules/dashboard.reports.title')`. Menu titles are translated separately, from the `nav.<slug>` keys in `lang/<locale>/modules/common.php`.
+In Vue you then write `__('modules.dashboard.reports.title')`. In PHP, use the slash form: `__('modules/dashboard.reports.title')`. Menu titles come from the `nav.<slug>` keys in `lang/<locale>/modules/common.php`.
 
-Anyone who gets a system role from now on receives the permission through `associated_roles`. For users who already exist, grant it from Users → Assign permissions. To hide actions inside the page, use `usePermission().can('View Reports', 'View Tenant Reports')` (see [Architecture → Permissions](/docs/vue/architecture#permissions-on-the-frontend)).
+Anyone who gets a system role after this gets the permission through `associated_roles`. For existing users, grant it from **Users → Assign permissions**. To hide actions inside the page, use `usePermission().can('View Reports', 'View Tenant Reports')` (see [Architecture → Permissions](/docs/vue/architecture#permissions-on-the-frontend)).
 
 Roles and tenant seeding are covered in more depth in [Users, roles & permissions](/docs/core/users-roles-permissions).
 :::
@@ -185,17 +188,20 @@ test('users with the permission can visit the reports page', function () {
 php artisan test --compact --filter=reports
 ```
 
-Because `testing.ensure_pages_exist` is turned on in `config/inertia.php`, this test fails when `reports/Index.vue` doesn't exist.
+Since `config/inertia.php` turns on `testing.ensure_pages_exist`, the test fails if `reports/Index.vue` doesn't exist.
 :::
 
 ## Adding a form
 
-A form posts to a controller through Inertia. If validation fails you get the messages back in `errors`; if it succeeds, the controller usually redirects with a flash toast.
+A form posts straight to a Laravel route through Inertia. If validation fails, the messages come back in `errors`. If it succeeds, the controller usually redirects with a flash toast.
 
-```text
-<Form v-bind="store.form()"> → Controller (Form Request or Data class validates)
-  → Service → Inertia::flash('toast', …) → redirect
-```
+<FlowDiagram label="Form submit" :nodes="[
+  { label: '`<Form>`', note: '`v-bind` with `store.form()`' },
+  { label: 'Controller', note: 'Form Request or Data class validates' },
+  'Service',
+  { label: 'Flash toast', note: '`Inertia::flash(\'toast\', …)`' },
+  'Redirect',
+]" />
 
 1. On the backend, add a route and a controller action. Validate with a Form Request or a Data class (`UserController::store` uses `UserData`, for example), then call a service, flash a toast and redirect.
 2. Import the Wayfinder function for the route: `import { store } from '@/routes/reports'`.
@@ -211,18 +217,19 @@ A form posts to a controller through Inertia. If validation fails you get the me
 </Form>
 ```
 
-For edit forms, create/edit modals and `useForm`, head over to [Inertia → Forms](/docs/vue/inertia#forms).
+For edit forms, create/edit modals and `useForm`, see [Inertia → Forms](/docs/vue/inertia#forms).
 
 ## Type checking & linting
 
-| Command | When |
+| Command | What it does |
 | --- | --- |
+| `npm run lint` | `eslint .` + `prettier --check resources/` + `vue-tsc --noEmit` |
+| `npm run lint:fix` | `eslint . --fix` + `prettier --write resources/` + `vue-tsc --noEmit` |
 | `npx vue-tsc --noEmit` | Type check only |
-| `npm run lint` | Check ESLint, Prettier and types without changing files |
-| `npm run lint:fix` | Fix what can be fixed, then type check. Run before committing |
-| `composer lint` | Regenerate Wayfinder and TypeScript types, then run all PHP and frontend fixers |
+| `composer lint` | Pint, `wayfinder:generate --with-form`, `typescript:transform`, `npm run lint:fix` |
+| `composer test` | Lint check, PHPStan (Larastan), then `php artisan test` |
 
-ESLint wants `import type` for type-only imports, ordered imports, 1TBS braces and blank lines around control statements. The types for Data classes come from `@/types/Modules/<Module>/Data`, which `php artisan typescript:transform` generates.
+Run `npm run lint:fix` before you commit. The ESLint rules are listed in [Architecture → Folder map](/docs/vue/architecture#folder-map).
 
 ::: warning
 Until Wayfinder has generated `@/routes` and `@/actions`, `vue-tsc` will fail on those imports. Run `npm run dev`, `npm run build` or `composer lint` first.
@@ -231,8 +238,14 @@ Until Wayfinder has generated `@/routes` and `@/actions`, `vue-tsc` will fail on
 ## Conventions
 
 - Don't hard-code text. Every string the user sees goes through `__()` with a `modules.<feature>.<key>` key, and that includes breadcrumbs, placeholders, toasts and confirm dialogs.
-- Don't write code comments; give things clear names instead (`.ai/rules/general.md`).
+- Don't write code comments. Use clear names instead (`.ai/rules/general.md`).
 - Build fields and buttons with the `Common*` components, and ask before destructive actions with `useConfirmDialog()`.
-- Use Wayfinder rather than hard-coded URLs, and `.form()` with `<Form>`.
-- Type everything. Take generated types from `@/types/Modules/...` and use `import type` for type-only imports.
+- Get URLs from Wayfinder rather than typing them out, and pair `.form()` with `<Form>`.
+- Type everything. Data objects use the generated types from `@/types/Modules/...` (from `php artisan typescript:transform`), and type-only imports use `import type`.
 - Put composables in `composables/useX.ts`, and page-only components in that page's `Partials/` folder.
+
+<RelatedPages :links="[
+  { text: 'Inertia', link: '/docs/vue/inertia', desc: 'Form props, visits, flash toasts and Wayfinder routes.' },
+  { text: 'Architecture → Generated files', link: '/docs/vue/architecture#generated-files', desc: 'What Wayfinder, typescript:transform and erag:generate-lang write for you.' },
+  { text: 'Testing', link: '/docs/core/testing', desc: 'More on feature tests like the one for the Reports page.' },
+]" />

@@ -5,7 +5,9 @@ description: "How the Livewire kit picks app and sign-in layouts from Setup defa
 
 # Layouts <Badge type="tip" text="Livewire" />
 
-The layouts are anonymous Blade components in `resources/views/layouts`, used with the `layouts::` prefix. `layouts/app.blade.php` and `layouts/auth.blade.php` each decide at render time which design to show, from the layout settings.
+The layouts are anonymous Blade components in `resources/views/layouts`, used with the `layouts::` prefix. `layouts/app.blade.php` and `layouts/auth.blade.php` each pick a design at render time, based on the layout settings. This page shows how that choice is made and how a page sets its title, breadcrumbs or a different layout.
+
+<DocShot name="livewire-setup-layout" alt="The Setup → Layout page in the Livewire kit, with pickers for the app layout, sidebar variant and sign-in layout" />
 
 ## Layout selection flow
 
@@ -20,7 +22,7 @@ The layouts are anonymous Blade components in `resources/views/layouts`, used wi
      layouts::auth → auth_layout → card | simple | split
 ```
 
-The settings come from these sources:
+The settings come from:
 
 | Setting | Source |
 | --- | --- |
@@ -69,16 +71,16 @@ The browser title is built in `partials/head.blade.php` as `"<title> - <app name
 ```
 :::
 
-The sidebar shell looks at two extra settings:
+The sidebar shell reads two extra settings:
 
 | Setting | Values | Default |
 | --- | --- | --- |
 | `sidebar_variant` | `inset`, `sidebar`, `floating` | `inset` |
 | `sidebar_collapsible` | `icon`, `offcanvas`, `none` | `icon` |
 
-`icon` makes the Flux sidebar collapsible on desktop. The other two values keep it collapsible on mobile only.
+`icon` makes the Flux sidebar collapsible on desktop. With the other two values it only collapses on mobile.
 
-Both shells share their pieces:
+Both shells share these pieces:
 
 | Partial | Used by | Purpose |
 | --- | --- | --- |
@@ -87,7 +89,7 @@ Both shells share their pieces:
 | `x-app-header-actions` | Both | Language switcher, notification bell, user menu |
 
 ::: tip
-The header shell doesn't render breadcrumbs; only the sidebar shell passes them to `x-breadcrumbs`. If you add something app-wide, like a banner, put it in both `sidebar.blade.php` and `header.blade.php`, or it disappears when someone switches layout.
+The header shell doesn't render breadcrumbs. Only the sidebar shell passes them to `x-breadcrumbs`. If you add something app-wide, like a banner, put it in both `sidebar.blade.php` and `header.blade.php`, or it disappears when someone switches layout.
 :::
 
 ## Page title and breadcrumbs
@@ -119,6 +121,8 @@ return view('pages.tenants.index', [...])
 | `simple` | `layouts/auth/simple.blade.php` | Logo, title and form on a plain background |
 | `split` | `layouts/auth/split.blade.php` | Dark left panel with logo and app name, form on the right |
 
+<DocShot name="livewire-auth-card" alt="The Livewire kit sign-in page with the default card auth layout: logo above a centred card" />
+
 The Fortify pages in `pages/auth` wrap themselves in it:
 
 ```blade
@@ -128,11 +132,11 @@ The Fortify pages in `pages/auth` wrap themselves in it:
 </x-layouts::auth>
 ```
 
-The maintenance and suspended pages use `<x-layouts::base>` directly, without any auth chrome.
+The maintenance and suspended pages use `<x-layouts::base>` directly, with no auth layout around them.
 
 ## Settings layout
 
-Settings pages render into the normal app layout and wrap their content in `<x-layouts::settings>`. That adds the page heading and the Profile / Security / Appearance / Layout sub-navigation, highlighted with `request()->routeIs()`:
+Settings pages render into the normal app layout and wrap their content in `<x-layouts::settings>`. It adds the page heading and the Profile / Security / Appearance / Layout sub-navigation, with the active item found through `request()->routeIs()`:
 
 ```blade
 <x-layouts::settings>
@@ -151,3 +155,9 @@ The navigation items are defined at the top of `layouts/settings.blade.php`. To 
 ## Error pages
 
 `resources/views/errors/403.blade.php`, `404`, `500` and `503` render `<x-error-status :status="…" />`. That component picks the layout per request: `layouts::app` for signed-in users and `layouts::base` for guests.
+
+<RelatedPages :links="[
+  { text: 'Navigation & layouts', link: '/docs/core/navigation-and-layouts', desc: 'How menus and layout settings work on the server.' },
+  { text: 'Components', link: '/docs/livewire/components#app-shell-components', desc: 'The sidebar menu, navbar and header actions.' },
+  { text: 'Pages', link: '/docs/livewire/pages', desc: 'Which layout each page renders into.' },
+]" />

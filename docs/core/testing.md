@@ -5,7 +5,7 @@ description: "The Pest test suite, Larastan static analysis, Pint and frontend l
 
 # Testing
 
-Each kit comes with a test suite and code quality checks. One command, `composer test`, runs them all, either locally or in CI.
+Each kit comes with a test suite and code quality checks. `composer test` runs them all, locally or in CI.
 
 | Tool | Purpose |
 | --- | --- |
@@ -49,21 +49,19 @@ Tests use an in-memory SQLite database, so they never touch your MySQL data. The
 
 ## Commands
 
-```bash
-php artisan test --compact                                  # all Pest tests
-php artisan test --compact tests/Feature/Auth               # one folder
-php artisan test --compact --filter="users can authenticate" # one test
-composer test                                               # full CI check
-```
+| To run | Command |
+| --- | --- |
+| All Pest tests | `php artisan test --compact` |
+| One folder | `php artisan test --compact tests/Feature/Auth` |
+| One test | `php artisan test --compact --filter="users can authenticate"` |
+| The full CI check | `composer test` |
 
 `composer test` runs these steps in order:
 
-```text
-config:clear → lint:check (Pint + npm run lint) → types:check (PHPStan) → php artisan test
-```
+<FlowDiagram label="composer test steps" :nodes="['`config:clear`', { label: '`lint:check`', note: 'Pint + `npm run lint`' }, { label: '`types:check`', note: 'PHPStan' }, '`php artisan test`']" />
 
 - In the Vue kit, `lint:check` also runs `wayfinder:generate --with-form`.
-- `composer ci:check` does the same as `composer test`, just without a process timeout.
+- `composer ci:check` runs `composer test` without a process timeout.
 
 Frontend type checking happens inside `npm run lint` (`eslint . && prettier --check resources/ && <type checker>`). Each kit uses its framework's checker:
 
@@ -95,21 +93,24 @@ test('users with permission can view the users page', function () {
 });
 ```
 
-To test tenant behaviour, create a tenant, switch into it with `tenancy()->initialize($tenant)` or `$tenant->run(...)`, and end tenancy in `afterEach`. You'll find examples in `tests/Feature/Tenancy` in the React or Svelte kit.
+To test tenant behaviour, create a tenant, switch into it with `tenancy()->initialize($tenant)` or `$tenant->run(...)`, and end tenancy in `afterEach`. The React and Svelte kits have examples in `tests/Feature/Tenancy`.
 
 ## AI agent rules about tests
 
-The kits include Laravel Boost guidelines for AI coding agents. Watch out: the two guideline files **don't agree** on tests.
+The kits include Laravel Boost guidelines for AI coding agents: `CLAUDE.md` for Claude Code and `AGENTS.md` for Codex, Junie and other agents. Both files have the same Test Enforcement rules:
 
-| File | Used by | Test rule |
-| --- | --- | --- |
-| `CLAUDE.md` | Claude Code | Test Enforcement: every change must be tested; write or update a test and run the affected tests with `php artisan test --compact` |
-| `AGENTS.md` | Codex, Junie and other agents | Testing Policy: do not create tests or run the suite unless the user asks |
-
-They do agree on the basics: use Pest (`php artisan make:test --pest`), use factories, and never delete tests without approval.
+- Add or update tests for behaviour and logic changes when a test gives real regression coverage. Copy, styling and layout-only changes don't need tests.
+- Run the affected tests with `php artisan test --compact` and make sure they pass.
+- Use Pest (`php artisan make:test --pest`), use factories, and never delete tests without approval.
 
 ::: tip Align the rules with your team
 Edit both files so they match how your team works. Keep in mind that `php artisan boost:update` may regenerate them, and it runs after `composer update`.
 :::
 
-Project rules for agents are in `.ai/rules/`. For example, `.ai/rules/general.md` says new code shouldn't contain code comments.
+The Vue kit also has project rules for agents in `.ai/rules/`. For example, `.ai/rules/general.md` says new code shouldn't contain code comments.
+
+<RelatedPages :links="[
+  { text: 'Commands', link: '/docs/reference/commands#composer-scripts', desc: 'Every Composer, npm and Artisan command in one place.' },
+  { text: 'Local development', link: '/docs/getting-started/local-development#tests-and-checks', desc: 'Running the tests and checks during your first setup.' },
+  { text: 'Multi-tenancy', link: '/docs/core/multi-tenancy#working-in-tenant-context-from-code', desc: 'Running code inside a tenant, which tenant tests also need.' }
+]" />

@@ -5,7 +5,9 @@ description: "How the React kit picks app and sign-in layouts from Setup default
 
 # Layouts <Badge type="tip" text="React" />
 
-The layouts are in `resources/js/layouts`. `AppLayout` and `AuthLayout` are wrappers that choose the real design at runtime, so a page never has to import a specific variant.
+This page shows how a page ends up in the sidebar, header or sign-in layout, and how a single page can change that.
+
+The layouts are in `resources/js/layouts`. `AppLayout` and `AuthLayout` are wrappers that pick the real design at runtime from the shared `layout` prop, so a page never imports a specific variant.
 
 ## Layout selection flow
 
@@ -22,18 +24,20 @@ Setup → Layout (global default)
 3. The backend sends the result to the frontend as the `layout` prop (`LayoutSettings`).
 4. In `app.tsx`, `auth/*` pages get `AuthLayout`, `settings/*` pages get `[AppLayout, SettingsLayout]` and the rest get `AppLayout` (see [Architecture → Overview](/docs/react/architecture#overview)).
 
-For the backend side, read [Navigation & layouts](/docs/core/navigation-and-layouts).
+For the backend side, see [Navigation & layouts](/docs/core/navigation-and-layouts).
 
 ## App layouts
 
-`app-layout.tsx` accepts `breadcrumbs?: BreadcrumbItem[]` and, depending on `layout.app_layout`, renders one of two shells:
+<DocShot name="react-app-sidebar" alt="The Users page in the React kit with the sidebar app layout: menu on the left, breadcrumbs and header actions along the top" caption="The default sidebar app layout." />
+
+`app-layout.tsx` takes one prop, `breadcrumbs?: BreadcrumbItem[]`, and renders one of two shells, based on `layout.app_layout`:
 
 | `app_layout` | Component | Structure |
 | --- | --- | --- |
 | `sidebar` (default) | `app/app-sidebar-layout.tsx` | `AppSidebar` + `AppSidebarHeader` (breadcrumbs) + content |
 | `header` | `app/app-header-layout.tsx` | `AppHeader` top navigation (menus + breadcrumbs) + content |
 
-Each shell mounts the global `ConfirmDialog`. The sonner `Toaster` and `TooltipProvider` don't live here: `app.tsx` adds them once for every page in `withApp`.
+Each shell mounts the global `ConfirmDialog`. The sonner `Toaster` and `TooltipProvider` aren't here: `app.tsx` adds them once for every page in `withApp`.
 
 The sidebar shell has two extra settings:
 
@@ -42,9 +46,9 @@ The sidebar shell has two extra settings:
 | `sidebar_variant` | `inset`, `sidebar`, `floating` | `inset` |
 | `sidebar_collapsible` | `icon`, `offcanvas`, `none` | `icon` |
 
-Normally the sidebar shows `menus`. As soon as the URL starts with `/setup`, it shows `setupMenus` instead.
+Normally the sidebar shows `menus`. When the URL starts with `/setup`, it shows `setupMenus` instead.
 
-The settings pages add one more layer. `settings/layout.tsx` draws the Profile / Security / Appearance / Layout sub-navigation inside the app shell and uses `useCurrentUrl().isCurrentOrParentUrl` to highlight the active item.
+Settings pages add one more layer. `settings/*` pages get `[AppLayout, SettingsLayout]`, so `settings/layout.tsx` draws the Profile / Security / Appearance / Layout sub-navigation inside the app shell. It highlights the active item with `useCurrentUrl().isCurrentOrParentUrl`.
 
 ::: tip
 Want something on every app page, like a banner? Add it to both `app-sidebar-layout.tsx` and `app-header-layout.tsx`. If it should show on auth pages too, put it in `withApp` in `app.tsx` instead.
@@ -52,7 +56,9 @@ Want something on every app page, like a banner? Add it to both `app-sidebar-lay
 
 ## Auth layouts
 
-`auth-layout.tsx` takes `title` and `description` as translation keys and translates them itself. Which of the three designs it renders depends on `layout.auth_layout`:
+<DocShot name="react-auth-split" alt="The React kit login page in the split auth layout: dark panel with the logo on the left, sign-in form on the right" caption="The split auth layout on the login page." />
+
+`auth-layout.tsx` takes `title` and `description` as translation keys and translates them itself. It renders one of three designs, based on `layout.auth_layout`:
 
 | `auth_layout` | Component | Look |
 | --- | --- | --- |
@@ -71,7 +77,7 @@ Each page can control its layout with a static `layout` property:
 | No layout (full screen) | `[] as never[]` | `home.tsx`, `auth/maintenance.tsx`, `auth/suspended.tsx` |
 | Pick a layout from props | A function returning a layout | `errors/error.tsx` |
 
-This is how an app page sets its breadcrumbs. The titles are translation keys, and `breadcrumbs.tsx` translates them:
+An app page sets its breadcrumbs like this. The titles are translation keys, and `breadcrumbs.tsx` translates them:
 
 ```tsx
 UsersIndex.layout = {
@@ -92,7 +98,7 @@ Login.layout = {
 };
 ```
 
-Changing the title at runtime with `setLayoutProps`. When the user switches to a recovery code, `two-factor-challenge.tsx` swaps the title. `accept-invitation.tsx` does the same thing when `mode === 'user'`, so the wording fits a user invitation.
+Changing the title at runtime with `setLayoutProps`. `two-factor-challenge.tsx` uses it to swap the title when the user switches to a recovery code. `accept-invitation.tsx` does the same when `mode === 'user'`, so the wording fits a user invitation.
 
 ```tsx
 import { setLayoutProps } from '@inertiajs/react';
@@ -111,7 +117,7 @@ Turning the layout off:
 Home.layout = [] as never[];
 ```
 
-Choosing the layout per request. Signed-in users see the error page in the app shell, while guests get the auth layout:
+Choosing the layout per request. Signed-in users see the error page in the app shell, and guests get the auth layout:
 
 ```tsx
 import AppLayout from '@/layouts/app-layout';
@@ -137,3 +143,9 @@ layouts/
 └── settings/layout.tsx    # Profile / Security / Appearance / Layout sub-navigation
 ```
 :::
+
+<RelatedPages :links="[
+  { text: 'Navigation & layouts', link: '/docs/core/navigation-and-layouts', desc: 'The backend side: LayoutService, menus and the layout settings.' },
+  { text: 'Pages', link: '/docs/react/pages', desc: 'Which layout each page uses.' },
+  { text: 'Components', link: '/docs/react/components#app-shell-components', desc: 'The sidebar, header and breadcrumb components inside the shells.' },
+]" />

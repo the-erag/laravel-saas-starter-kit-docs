@@ -18,10 +18,12 @@ permission middleware / can() → checks the user's permissions
 
 ## Users
 
-The users page is at `/users` (module `Modules/User`). It lists users with search, pagination and stats (total, verified, unverified). You can create, edit and delete users (but not yourself), and pick a role while creating or editing. Two more things live here:
+<DocShot name="vue-users" alt="The Users page in the Vue kit, with user stats, a search box and a list of users with their roles and verification status" />
 
-- Send invitation email, so the user sets their own password instead of you setting one.
-- The Assign permissions dialog, which groups permissions by config file and has a role selector that checks that role's default permissions.
+The users page is at `/users` (module `Modules/User`). It lists users with search, pagination and stats (total, verified, unverified). You can create, edit and delete users (but not yourself), and pick a role on the create and edit forms. You'll also find:
+
+- Send invitation email, covered in [Invitations](#invitations).
+- The Assign permissions dialog. It groups permissions by config file, and its role selector checks that role's default permissions.
 
 | Action | Central permission | Tenant permission |
 | --- | --- | --- |
@@ -33,7 +35,7 @@ The users page is at `/users` (module `Modules/User`). It lists users with searc
 
 ### Invitations
 
-An invitation lets the new user choose their own password. With Send invitation email turned on, this is what happens:
+An invitation lets the new user choose their own password, so you don't have to set one. With Send invitation email turned on:
 
 ```text
 UserService::createUser()
@@ -121,7 +123,7 @@ return [
 
 ### How permissions are assigned
 
-Permissions are given **directly to users**, not to roles. That way you can adjust one person's access without creating a new role just for them. Here's what `PermissionService::assignRole($user, $roleName)` does:
+Permissions are given **directly to users**, not to roles. That way you can change one person's access without creating a role just for them. `PermissionService::assignRole($user, $roleName)` works like this:
 
 | Role type | Result |
 | --- | --- |
@@ -207,3 +209,9 @@ export default function UsersToolbar() {
 ::: tip Hiding is not securing
 A frontend check only hides things in the UI. The route still needs `permission:` middleware to actually block access.
 :::
+
+<RelatedPages :links="[
+  { text: 'Navigation & layouts', link: '/docs/core/navigation-and-layouts#database-driven-menus', desc: 'Menu items that only show for users with a permission.' },
+  { text: 'Authentication', link: '/docs/core/authentication#central-and-tenant-guards', desc: 'The web and tenant guards behind each side.' },
+  { text: 'Multi-tenancy', link: '/docs/core/multi-tenancy', desc: 'Why every tenant has its own users, roles and permissions.' }
+]" />

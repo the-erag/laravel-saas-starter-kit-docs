@@ -5,7 +5,9 @@ description: "Fortify-based authentication with separate central and tenant guar
 
 # Authentication
 
-Authentication runs on Laravel Fortify (headless) with Inertia pages. Fortify handles the routes and the logic, and the `Modules/Auth` module connects it to the kit's pages, actions and rate limits.
+Authentication runs on Laravel Fortify (headless) with Inertia pages. Fortify handles the routes and logic. The `Modules/Auth` module connects it to the kit's pages, actions and rate limits. This page covers what is turned on, how central and tenant sign-in stay apart, and how to change each feature.
+
+<DocShot name="vue-security" alt="The Security settings page in the Vue kit, with password change, two-factor authentication and passkeys sections" caption="Settings → Security: change password, two-factor authentication and passkeys." />
 
 ## Features
 
@@ -32,7 +34,7 @@ Signed-in users also get these settings pages:
 
 ## How it is wired
 
-`AuthServiceProvider` in the Auth module tells Fortify which actions and Inertia pages to use and registers the rate limiters. On tenant domains it also points Fortify at the `tenant` guard, so users get logged into the right database.
+`AuthServiceProvider` in the Auth module tells Fortify which actions and Inertia pages to use, and registers the rate limiters. On tenant domains it also points Fortify at the `tenant` guard, so users sign in against the right database.
 
 | Rate limiter | Limit |
 | --- | --- |
@@ -58,7 +60,7 @@ Central users and tenant users live in different databases, so each context gets
 | `web` | `central_users` | Central |
 | `tenant` | `tenant_users` | Tenant |
 
-You don't switch guards yourself. On every request the kit sets the Laravel and Fortify guard for the current context, and inside a tenant the `auth` / `guest` middleware aliases map `web` to `tenant`. Just write `->middleware('auth')` in both contexts.
+You don't switch guards yourself. On every request the kit sets the Laravel and Fortify guard for the current context, and inside a tenant the `auth` and `guest` middleware aliases map `web` to `tenant`. Write `->middleware('auth')` in both contexts.
 
 ::: info Separate accounts
 A central user and a tenant user are separate records in separate databases, even if they share an email address. Sessions are per host too.
@@ -68,9 +70,9 @@ Related files: `config/auth.php`, `App\Http\Middleware\InitializeTenancyIfTenant
 
 ## Per-domain features
 
-Each tenant domain can switch Fortify features off without any code changes. You might use this to stop self-registration for one customer, for example. Open **Tenants → Domains → Authentication features** and you'll see every feature from `config/fortify.php` with a toggle.
+Each tenant domain can switch Fortify features off without code changes, for example to stop self-registration for one customer. **Tenants → Domains → Authentication features** lists every feature from `config/fortify.php` with a toggle.
 
-Here's what happens:
+How it works:
 
 ```text
 domains.auth_features (JSON)   → stored per domain; missing keys count as enabled
@@ -80,7 +82,7 @@ request to a disabled feature  → EnsureTenantAuthFeatureEnabled returns 404
 
 Blocked route names include `register`, `password.request`, `verification.*`, `two-factor.*` and `passkey.*`.
 
-The central domain always uses the full `config/fortify.php` list. If you want a feature gone everywhere, remove it from that list.
+The central domain always uses the full `config/fortify.php` list. To remove a feature everywhere, remove it from that list.
 
 ## Registration and permissions
 
@@ -90,7 +92,7 @@ The central domain always uses the full `config/fortify.php` list. If you want a
 A freshly registered user gets a **403** on the dashboard until an admin gives them a role.
 :::
 
-You can handle this in two ways:
+Two ways to handle this:
 
 - Assign a role in `Modules\Auth\Actions\CreateNewUser::create()` (example below). `RoleEnum::USER` doesn't have a dashboard permission by default, so pick a role that fits your app, or edit `config/permissions/*.php`.
 - Turn registration off for that domain (see above).
@@ -112,7 +114,7 @@ return $user;
 
 `Features::emailVerification()` is enabled, but `App\Models\User` doesn't implement `MustVerifyEmail` (the import is commented out). That means the `verified` middleware lets unverified users through.
 
-If you want to require verification, uncomment the `MustVerifyEmail` import in `app/Models/User.php` and add it to the class:
+To require verification, uncomment the `MustVerifyEmail` import in `app/Models/User.php` and add it to the class:
 
 ```php
 class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
@@ -144,9 +146,15 @@ Browsers only allow WebAuthn on secure origins, so run `herd secure` before you 
 
 ## Invitations
 
-There are two invitation flows that let admins create accounts without choosing a password:
+Admins can invite people instead of setting a password for them. There are two flows:
 
 - Tenant admin invitations: see [Multi-tenancy](/docs/core/multi-tenancy#invitations).
 - User invitations: see [Users, roles & permissions](/docs/core/users-roles-permissions#invitations).
 
-Both send queued emails with a signed link that's valid for 7 days, so you'll need a [queue worker](/docs/getting-started/local-development#queue-worker) running.
+Both send queued emails with a signed link that's valid for 7 days, so you need a [queue worker](/docs/getting-started/local-development#queue-worker) running.
+
+<RelatedPages :links="[
+  { text: 'Domains', link: '/docs/core/domains#per-domain-settings', desc: 'Where the per-domain auth feature toggles live.' },
+  { text: 'Users, roles & permissions', link: '/docs/core/users-roles-permissions', desc: 'Give new users a role so they can open the dashboard.' },
+  { text: 'Configuration', link: '/docs/getting-started/configuration#config-fortify-php', desc: 'The Fortify and auth config files.' }
+]" />

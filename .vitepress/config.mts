@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -111,6 +112,27 @@ export default defineConfig({
   cleanUrls: false,
   sitemap: {
     hostname: site.url,
+    // Pages with `lastUpdated: false` (home, pricing, kits, ...) only hide the date on the page, but VitePress then
+    // leaves lastmod out of the sitemap too. Give them their last git commit date. Never-committed files get none.
+    transformItems(items) {
+      const srcDir = fileURLToPath(new URL('..', import.meta.url));
+
+      return items.map((item) => {
+        if (item.lastmod) {
+          return item;
+        }
+
+        const file = item.url === '' ? 'index.md' : item.url.replace(/\.html$/, '.md');
+
+        try {
+          const date = execFileSync('git', ['log', '-1', '--format=%cI', '--', file], { cwd: srcDir, encoding: 'utf8' }).trim();
+
+          return date ? { ...item, lastmod: new Date(date).toISOString() } : item;
+        } catch {
+          return item;
+        }
+      });
+    },
   },
   // Site data and the page hash map go into one cached chunk instead of being inlined in every page.
   metaChunk: true,

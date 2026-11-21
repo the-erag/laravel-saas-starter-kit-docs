@@ -5,7 +5,7 @@ description: "How your GitHub account is invited to the starter kit repository a
 
 # Repository access
 
-Every starter kit has its own private GitHub repository:
+This page shows how you get into your kit's private GitHub repository after you pay, and how to clone it. Every starter kit has its own repository:
 
 | Kit | Repository |
 | --- | --- |
@@ -14,27 +14,33 @@ Every starter kit has its own private GitHub repository:
 | <Badge type="tip" text="Svelte" /> | `the-erag/saas-laravel-starter-kit-svelte` |
 | <Badge type="tip" text="Livewire" /> | `the-erag/saas-laravel-starter-kit-livewire` |
 
-If you buy the **All Starter Kits** bundle, you get access to all four.
+The **All Starter Kits** bundle gives you access to all four.
+
+<KeyIdea title="What you'll have at the end">
+
+Access to your kit's private repository on your GitHub account, and a local clone of it, ready for [Installation](/docs/getting-started/installation).
+
+</KeyIdea>
 
 ## What you get
 
-You get the full source of the kit: the Laravel backend plus the frontend for your framework. Access is for life, weekly updates are pushed to the same repository, and there's no recurring subscription.
+You get the full source of the kit: the Laravel backend and the frontend for your framework. Access is lifetime, weekly updates go to the same repository, and there's no subscription.
+
+<DocSteps>
 
 ## How access is granted
 
-```text
-Pay through GitHub Sponsors → your GitHub account is invited automatically → accept the invitation
-```
+<FlowDiagram label="How access is granted" :nodes="['Pay through GitHub Sponsors', 'Your GitHub account is invited automatically', 'Accept the invitation']" />
 
 1. Pick a kit on the [pricing page](/pricing) and pay through GitHub Sponsors (see [How to pay](/how-to-pay)).
-2. As soon as the payment goes through, your GitHub account is invited to the kit repository automatically, or to all four if you bought the bundle.
+2. Once the payment goes through, your GitHub account is invited to the kit repository automatically (or to all four if you bought the bundle).
 3. GitHub sends you the invitation by email. Accept it there, or open the repository URL while you're signed in and accept the banner.
 
 ::: info Automatic access
 Access goes to the GitHub account that made the sponsorship. Sponsor from the account you want to use with the kit.
 :::
 
-If the invitation doesn't turn up, open an issue or contact the maintainer through GitHub.
+No invitation? Open an issue or contact the maintainer through GitHub.
 
 ## Clone the repository
 
@@ -61,10 +67,22 @@ git clone https://github.com/the-erag/saas-laravel-starter-kit-livewire.git live
 :::
 
 ::: tip Authentication
-To clone a private repository over HTTPS, Git has to authenticate with GitHub. Use GitHub CLI (`gh auth login`), a credential helper or a personal access token. SSH works as well, for example `git@github.com:the-erag/saas-laravel-starter-kit-vue.git`.
+To clone a private repository over HTTPS, Git has to authenticate with GitHub. Use GitHub CLI (`gh auth login`), a credential helper or a personal access token. SSH works too, for example `git@github.com:the-erag/saas-laravel-starter-kit-vue.git`.
 :::
 
-What to do next:
+</DocSteps>
 
-- Set up your own `origin` and keep the kit as `upstream`, so you can pull in updates later. See [Updates → Recommended remote setup](/docs/purchase/updates#recommended-remote-setup).
+<DocDone>
+
+**Done.** You have the code. Next:
+
+- Set up your own `origin` and keep the kit as `upstream`, so you can pull updates later. See [Updates → Recommended remote setup](/docs/purchase/updates#recommended-remote-setup).
 - Carry on with [Installation](/docs/getting-started/installation).
+
+</DocDone>
+
+<RelatedPages :links="[
+  { text: 'Installation', link: '/docs/getting-started/installation', desc: 'Install and configure the kit you just cloned.' },
+  { text: 'Updates', link: '/docs/purchase/updates', desc: 'Pull the weekly kit updates into your project.' },
+  { text: 'FAQ', link: '/docs/reference/faq#purchase-and-access', desc: 'Pricing, payment and access questions.' },
+]" />

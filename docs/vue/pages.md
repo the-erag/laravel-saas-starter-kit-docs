@@ -5,21 +5,23 @@ description: "Every Inertia page in the Vue kit with its route, access rules, la
 
 # Pages <Badge type="tip" text="Vue" />
 
-All pages are in `resources/js/pages`, and a page's Inertia name is just its path without `.vue`:
+Use this page to find which file renders a URL, who can open it and which layout it gets.
+
+All pages are in `resources/js/pages`. A page's Inertia name is its path without `.vue`:
 
 ```text
 Inertia::render('users/Index') → resources/js/pages/users/Index.vue
 ```
 
-The controllers that render them are in `Modules/<Module>/Http/Controllers`. For how default layouts are picked, see [Layouts](/docs/vue/layouts).
+The controllers behind them are in `Modules/<Module>/Http/Controllers`. For how default layouts are picked, see [Layouts](/docs/vue/layouts).
 
 ::: info
-Routes marked **central** exist only on the central domain (`APP_DOMAIN`, `central.only` middleware). The rest work on both the central domain and tenant domains, which is why their permission names list both variants (for example `View Users|View Tenant Users`).
+Routes marked **central** exist only on the central domain (`APP_DOMAIN`, `central.only` middleware). The rest work on central and tenant domains, which is why their permissions name both variants (for example `View Users|View Tenant Users`).
 :::
 
 ## Public and auth pages
 
-Auth pages render inside `AuthLayout` (card, simple or split). Fortify registers the auth routes, and `Modules/Auth/Providers/AuthServiceProvider.php` points them at these pages.
+Auth pages render inside `AuthLayout` (card, simple or split). The routes come from Fortify, and `Modules/Auth/Providers/AuthServiceProvider.php` connects each one to its page.
 
 | Page file | Route | Purpose |
 | --- | --- | --- |
@@ -37,7 +39,9 @@ Auth pages render inside `AuthLayout` (card, simple or split). Fortify registers
 
 ## App pages
 
-App pages render inside `AppLayout`, and you need to pass `auth` + `verified` to reach them.
+These pages use `AppLayout` and sit behind the `auth` and `verified` middleware.
+
+<DocShot name="vue-tenants" alt="The Tenants page in the Vue kit: status counts, filter tabs, a search box and the tenant list" caption="tenants/Index.vue, a central-only page." />
 
 | Page file | Route | Permission | Purpose |
 | --- | --- | --- | --- |
@@ -51,7 +55,7 @@ App pages render inside `AppLayout`, and you need to pass `auth` + `verified` to
 
 ## Settings pages
 
-`settings/*` pages render inside `AppLayout` + `layouts/settings/Layout.vue`, which adds the Profile / Security / Appearance / Layout sub-navigation. Visiting `GET /settings` sends you to `/settings/profile`.
+`settings/*` pages render inside `AppLayout` + `layouts/settings/Layout.vue`, which adds the Profile / Security / Appearance / Layout sub-navigation. `GET /settings` redirects to `/settings/profile`.
 
 | Page file | Route | Purpose |
 | --- | --- | --- |
@@ -62,7 +66,7 @@ App pages render inside `AppLayout`, and you need to pass `auth` + `verified` to
 
 ## Setup pages
 
-`setup/*` pages use the plain `AppLayout`, but the sidebar shows `setupMenus` for as long as the URL starts with `/setup`. `GET /setup` redirects to `/setup/menus`.
+`setup/*` pages use the plain `AppLayout`. On any URL starting with `/setup`, the sidebar shows `setupMenus` instead of the main menu. `GET /setup` redirects to `/setup/menus`.
 
 | Page file | Route | Permission | Purpose |
 | --- | --- | --- | --- |
@@ -76,7 +80,7 @@ App pages render inside `AppLayout`, and you need to pass `auth` + `verified` to
 | --- | --- | --- |
 | `errors/Error.vue` | Exception handler in `bootstrap/app.php` | 403, 404, 500 and 503 responses. Uses `AppLayout` for signed-in users and `AuthLayout` for guests. |
 
-While you're in `local` or `testing`, only a 403 uses this page. Any other status shows Laravel's debug page instead.
+In `local` and `testing`, only a 403 uses this page. Any other status shows Laravel's debug page.
 
 ## Partials
 
@@ -96,5 +100,11 @@ Modals and sections that belong to a single page sit in a `Partials/` folder nex
 | `tenants/Partials/MaintenanceModeForm.vue` | Maintenance message, secret bypass link, allowed IPs |
 
 ::: tip
-Want to add your own page? Follow [Development → Adding a page](/docs/vue/development#adding-a-page).
+Building a new page? [Development → Adding a page](/docs/vue/development#adding-a-page) takes you through it step by step.
 :::
+
+<RelatedPages :links="[
+  { text: 'Layouts', link: '/docs/vue/layouts', desc: 'How each page gets its layout, and how to change it.' },
+  { text: 'Users, roles & permissions', link: '/docs/core/users-roles-permissions', desc: 'Where the permissions in these tables come from.' },
+  { text: 'Multi-tenancy', link: '/docs/core/multi-tenancy', desc: 'Central and tenant domains, and why some routes are central only.' },
+]" />

@@ -5,21 +5,23 @@ description: "Every Inertia page in the React kit with its route, access rules, 
 
 # Pages <Badge type="tip" text="React" />
 
-All pages are in `resources/js/pages`. A page is a function component exported as the default, and you refer to it in Inertia by its kebab-case path minus the `.tsx`:
+Use this page to find which file renders a URL, who can open it and which layout it gets.
+
+All pages are in `resources/js/pages`. Each page is a default-exported function component. Its Inertia name is its kebab-case path without `.tsx`:
 
 ```text
 Inertia::render('users/index') → resources/js/pages/users/index.tsx
 ```
 
-The controllers behind them are in `Modules/<Module>/Http/Controllers`.
+The controllers behind them are in `Modules/<Module>/Http/Controllers`. For how default layouts are picked, see [Layouts](/docs/react/layouts).
 
 ::: info
-A route marked **central** exists only on the central domain (`APP_DOMAIN`, `central.only` middleware). The rest work on central and tenant domains alike, which is why their permissions name both variants (for example `View Users|View Tenant Users`).
+Routes marked **central** exist only on the central domain (`APP_DOMAIN`, `central.only` middleware). The rest work on central and tenant domains, which is why their permissions name both variants (for example `View Users|View Tenant Users`).
 :::
 
 ## Public and auth pages
 
-Auth pages are shown inside `AuthLayout` (card, simple or split). The routes come from Fortify, and `Modules/Auth/Providers/AuthServiceProvider.php` connects each one to its page.
+Auth pages render inside `AuthLayout` (card, simple or split). The routes come from Fortify, and `Modules/Auth/Providers/AuthServiceProvider.php` connects each one to its page.
 
 | Page file | Route | Purpose |
 | --- | --- | --- |
@@ -37,7 +39,9 @@ Auth pages are shown inside `AuthLayout` (card, simple or split). The routes com
 
 ## App pages
 
-These pages use `AppLayout`, and the user has to pass `auth` + `verified` to reach them.
+These pages use `AppLayout` and sit behind the `auth` and `verified` middleware.
+
+<DocShot name="react-tenants" alt="The Tenants page in the React kit: status counts, filter tabs, a search box and the tenant list" caption="tenants/index.tsx, a central-only page." />
 
 | Page file | Route | Permission | Purpose |
 | --- | --- | --- | --- |
@@ -51,7 +55,7 @@ These pages use `AppLayout`, and the user has to pass `auth` + `verified` to rea
 
 ## Settings pages
 
-Pages under `settings/*` get `AppLayout` with the settings sub-navigation (`layouts/settings/layout.tsx`) on top. Visiting `GET /settings` sends you to `/settings/profile`.
+`settings/*` pages render inside `AppLayout` + `layouts/settings/layout.tsx`, which adds the Profile / Security / Appearance / Layout sub-navigation. `GET /settings` redirects to `/settings/profile`.
 
 | Page file | Route | Purpose |
 | --- | --- | --- |
@@ -62,7 +66,7 @@ Pages under `settings/*` get `AppLayout` with the settings sub-navigation (`layo
 
 ## Setup pages
 
-Pages under `setup/*` use the plain `AppLayout`. On any URL starting with `/setup`, the sidebar swaps the main menu for `setupMenus`. `GET /setup` redirects to `/setup/menus`.
+`setup/*` pages use the plain `AppLayout`. On any URL starting with `/setup`, the sidebar shows `setupMenus` instead of the main menu. `GET /setup` redirects to `/setup/menus`.
 
 | Page file | Route | Permission | Purpose |
 | --- | --- | --- | --- |
@@ -76,11 +80,11 @@ Pages under `setup/*` use the plain `AppLayout`. On any URL starting with `/setu
 | --- | --- | --- |
 | `errors/error.tsx` | Exception handler in `bootstrap/app.php` | 403, 404, 500 and 503 responses. Uses `AppLayout` for signed-in users and `AuthLayout` for guests. |
 
-In `local` and `testing` you'll only see this page for a 403. Any other status shows Laravel's debug page.
+In `local` and `testing`, only a 403 uses this page. Any other status shows Laravel's debug page.
 
 ## Partials
 
-Modals and sections that belong to a single page sit in a `partials/` folder beside it:
+Modals and sections that belong to a single page sit in a `partials/` folder next to it:
 
 | File | Used by |
 | --- | --- |
@@ -98,3 +102,9 @@ Modals and sections that belong to a single page sit in a `partials/` folder bes
 ::: tip
 Building a new page? [Development → Adding a page](/docs/react/development#adding-a-page) takes you through it step by step.
 :::
+
+<RelatedPages :links="[
+  { text: 'Layouts', link: '/docs/react/layouts', desc: 'How each page gets its layout, and how to change it.' },
+  { text: 'Users, roles & permissions', link: '/docs/core/users-roles-permissions', desc: 'Where the permissions in these tables come from.' },
+  { text: 'Multi-tenancy', link: '/docs/core/multi-tenancy', desc: 'Central and tenant domains, and why some routes are central only.' },
+]" />

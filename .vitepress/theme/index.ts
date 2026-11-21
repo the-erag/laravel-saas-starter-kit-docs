@@ -31,6 +31,14 @@ import SiteFooter from './components/SiteFooter.vue';
 import TechStack from './components/TechStack.vue';
 import ThreeFrameworksOneBackend from './components/ThreeFrameworksOneBackend.vue';
 import WeeklyUpdates from './components/WeeklyUpdates.vue';
+import CompareColumns from './components/doc/CompareColumns.vue';
+import DocDone from './components/doc/DocDone.vue';
+import DocShot from './components/doc/DocShot.vue';
+import DocSteps from './components/doc/DocSteps.vue';
+import FeatureCards from './components/doc/FeatureCards.vue';
+import FlowDiagram from './components/doc/FlowDiagram.vue';
+import KeyIdea from './components/doc/KeyIdea.vue';
+import RelatedPages from './components/doc/RelatedPages.vue';
 import Layout from './Layout.vue';
 import './style.css';
 
@@ -38,6 +46,15 @@ export default {
   extends: DefaultTheme,
   Layout,
   enhanceApp({ app }) {
+    // Docs page building blocks (see components/doc).
+    app.component('CompareColumns', CompareColumns);
+    app.component('DocDone', DocDone);
+    app.component('DocShot', DocShot);
+    app.component('DocSteps', DocSteps);
+    app.component('FeatureCards', FeatureCards);
+    app.component('FlowDiagram', FlowDiagram);
+    app.component('KeyIdea', KeyIdea);
+    app.component('RelatedPages', RelatedPages);
     app.component('HeroSection', HeroSection);
     app.component('HomeFaq', HomeFaq);
     app.component('KitPreview', KitPreview);

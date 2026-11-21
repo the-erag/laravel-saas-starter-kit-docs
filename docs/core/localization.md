@@ -5,7 +5,7 @@ description: "17 languages with one translation file per feature, per-user and p
 
 # Localization
 
-The kits come with 17 languages. You write translations once, as Laravel PHP files, and they're shared with the frontend, so your backend and your components always use the same strings.
+The kits come with 17 languages. You write translations once, as Laravel PHP files. In the Vue, React and Svelte kits they're also shared with the frontend, so the backend and your components use the same strings. The Livewire kit renders Blade, which reads the PHP files directly.
 
 ```text
 lang/<locale>/*.php
@@ -44,9 +44,9 @@ lang/<locale>/
 ├── auth.php  pagination.php  passwords.php  validation.php     # Laravel core
 └── modules/                                                    # one file per feature
     ├── auth.php  common.php  dashboard.php  domain.php  errors.php  home.php  layout.php
-    └── maintenance.php  menu.php  role.php  security.php  settings.php  tenant.php  user.php
+    └── maintenance.php  menu.php  notification.php  role.php  security.php  settings.php  tenant.php  user.php
 
-resources/js/lang/<locale>/        # generated JSON, same structure
+resources/js/lang/<locale>/        # generated JSON, same structure (Inertia kits)
 ```
 
 ## How the locale is resolved
@@ -57,7 +57,9 @@ resources/js/lang/<locale>/        # generated JSON, same structure
 2. Domain default: `domains.locale` of the current tenant domain (tenant context only)
 3. App default: `APP_LOCALE` (`en`)
 
-Users can change their language on their Profile or from the user menu (`PATCH /settings/language`, route `language.update`). Picking **Default** stores `null`, which means the user follows the domain or app default.
+Users change their language on the Profile page or from the user menu (`PATCH /settings/language`, route `language.update`). Picking **Default** stores `null`, so the user follows the domain or app default.
+
+<DocShot name="vue-profile" alt="The Profile settings page in the Vue kit, with name, email address and a Display language select" caption="The Display language select on the Profile page." />
 
 | Shared prop | Content |
 | --- | --- |
@@ -79,7 +81,7 @@ A key is the file path plus the array path. PHP uses `/` for sub-folders, while 
 
 Placeholders work the way they do in Laravel, on both sides: `__('modules/user.notifications.invitation.expires', ['days' => 7])` in PHP, `__('...', { name: user.name })` in components. For pluralization there's `transChoice`.
 
-Translations also get used in two places where you don't call them yourself:
+Two places use translations without you calling them:
 
 - Data objects translate validation attribute names and messages in `attributes()` and `messages()`.
 - Menu titles use `modules/common.nav.<slug>` (dots and dashes in the slug become underscores) and fall back to the `title` column.
@@ -132,7 +134,7 @@ Import from `@erag/lang-sync-inertia/vue`, `/react` or `/svelte`. Importing from
 
 ## Generating frontend JSON
 
-The frontend reads the generated JSON, not the PHP files. Whenever you edit a file in `lang/`, regenerate it and commit the output:
+The frontend reads the generated JSON, not the PHP files. Whenever you edit a file in `lang/`, regenerate the JSON and commit it:
 
 ```bash
 php artisan erag:generate-lang
@@ -143,7 +145,7 @@ php artisan erag:generate-lang
 | `lang_path` (source) | `lang/` |
 | `output_lang` (output) | `resources/js/lang/` |
 
-What the backend shares is this generated JSON merged with any translations loaded at runtime.
+The backend shares this generated JSON merged with any translations loaded at runtime.
 
 ## Adding a translation key
 
@@ -161,4 +163,10 @@ If it's a new feature, create `lang/<locale>/modules/<feature>.php` in every loc
 3. Run `php artisan erag:generate-lang`.
 4. Run `php artisan typescript:transform` so the enum type in `resources/js/types` gets updated.
 
-After that, the new language shows up in the language selects on the profile, the user menu and the domain settings.
+The new language then shows up in the language selects on the profile, the user menu and the domain settings.
+
+<RelatedPages :links="[
+  { text: 'Domains', link: '/docs/core/domains#default-language', desc: 'Set a default language for one tenant domain.' },
+  { text: 'Configuration', link: '/docs/getting-started/configuration#config-inertia-lang-php', desc: 'Where the translation source and output paths are set.' },
+  { text: 'Commands', link: '/docs/reference/commands', desc: 'Composer, npm and Artisan commands, including erag:generate-lang.' }
+]" />

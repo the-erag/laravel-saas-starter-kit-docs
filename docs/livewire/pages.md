@@ -5,7 +5,7 @@ description: "Every page in the Livewire kit with its Livewire component, view, 
 
 # Pages <Badge type="tip" text="Livewire" />
 
-All page views are in `resources/views/pages`, and the component that renders a page is in `Modules/<Module>/Livewire`:
+Every page in the Livewire kit, with its component, route, permission and purpose. Page views are in `resources/views/pages`. The component that renders each page is in `Modules/<Module>/Livewire`:
 
 ```text
 Route::livewire('users', Modules\User\Livewire\Index::class)
@@ -14,8 +14,17 @@ Route::livewire('users', Modules\User\Livewire\Index::class)
 
 Routes are in each module's `routes/web.php` (and `routes/tenant.php` for tenant-only routes). For how layouts are picked, see [Layouts](/docs/livewire/layouts).
 
+<FeatureCards :cols="3" :items="[
+  { title: 'Public and auth', text: 'Home, Fortify sign-in pages, invitations, maintenance.', link: '/docs/livewire/pages#public-and-auth-pages' },
+  { title: 'App', text: 'Dashboard, users, roles, notifications, tenants.', link: '/docs/livewire/pages#app-pages' },
+  { title: 'Settings', text: 'Profile, security, appearance, layout.', link: '/docs/livewire/pages#settings-pages' },
+  { title: 'Setup', text: 'Menus, global layout, tenant maintenance.', link: '/docs/livewire/pages#setup-pages' },
+  { title: 'Error', text: '403, 404, 500 and 503 pages.', link: '/docs/livewire/pages#error-pages' },
+  { title: 'Partials', text: 'Modals and pieces that belong to one area.', link: '/docs/livewire/pages#partials' },
+]" />
+
 ::: info
-Routes marked **central** exist only on the central domain (`APP_DOMAIN`, `central.only` middleware). The rest work on both the central domain and tenant domains, which is why their permission names list both variants (for example `View Users|View Tenant Users`).
+Routes marked **central** exist only on the central domain (`APP_DOMAIN`, `central.only` middleware). The rest work on both central and tenant domains, so their permissions list both names (for example `View Users|View Tenant Users`).
 :::
 
 ## Public and auth pages
@@ -39,7 +48,7 @@ Fortify registers the auth routes, and `Modules/Auth/Providers/AuthServiceProvid
 
 ## App pages
 
-App pages render inside `layouts::app`, and you need to pass `auth` + `verified` to reach them.
+App pages render inside `layouts::app` and need `auth` + `verified`.
 
 | View | Component | Route | Permission | Purpose |
 | --- | --- | --- | --- | --- |
@@ -65,7 +74,7 @@ Settings views wrap their content in `<x-layouts::settings>`, which adds the Pro
 
 ## Setup pages
 
-Setup pages use the plain app layout, but the sidebar shows the setup menu for as long as the URL starts with `/setup`. `GET /setup` redirects to `/setup/menus`.
+Setup pages use the plain app layout. While the URL starts with `/setup`, the sidebar shows the setup menu instead of the usual one. `GET /setup` redirects to `/setup/menus`.
 
 | View | Component | Route | Permission | Purpose |
 | --- | --- | --- | --- | --- |
@@ -99,8 +108,14 @@ Modals and pieces that belong to one area sit in a `partials/` folder next to it
 | `settings/partials/option-cards.blade.php`, `layout-preview` | Blade components | Settings → Layout and Setup → Layout |
 | `notifications/partials/item.blade.php`, `icon`, `empty` | Blade components | Notifications page and the notification bell |
 
-The shared widgets that more than one page uses live in `resources/views/livewire` instead: `delete-account`, `passkeys`, `two-factor-setup-modal`, `two-factor-recovery-codes`, `language-switcher` and `notification-bell`.
+Widgets used on more than one page live in `resources/views/livewire` instead: `delete-account`, `passkeys`, `two-factor-setup-modal`, `two-factor-recovery-codes`, `language-switcher` and `notification-bell`.
 
 ::: tip
 Want to add your own page? Follow [Development → Adding a page](/docs/livewire/development#adding-a-page).
 :::
+
+<RelatedPages :links="[
+  { text: 'Development', link: '/docs/livewire/development#adding-a-page', desc: 'Add your own page, from component to menu item.' },
+  { text: 'Layouts', link: '/docs/livewire/layouts', desc: 'How each page gets its layout, title and breadcrumbs.' },
+  { text: 'Users, roles & permissions', link: '/docs/core/users-roles-permissions', desc: 'The permissions listed in these tables.' },
+]" />

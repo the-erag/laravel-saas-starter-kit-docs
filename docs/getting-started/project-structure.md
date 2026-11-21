@@ -5,19 +5,29 @@ description: "Folder layout of a SaaS Laravel kit: app, Modules, config, databas
 
 # Project structure
 
+This page shows where things live in a kit, so you know where to look and where your own code should go.
+
+<KeyIdea>
+
+Features live in `Modules/`, not in `app/`. Each module has its own routes, controllers, services and service provider. To add a feature, you usually add a module and leave `app/` alone.
+
+</KeyIdea>
+
 ## Kit layout
 
-Each kit is a standard Laravel app with one difference: features live in `Modules/` rather than being spread across `app/`. We explain why in [Architecture → Why a module-based structure](/docs/core/architecture#why-a-module-based-structure). The React and Svelte kits have the same backend folders as Vue. Only `resources/js` is different, and the framework guides cover it: [Vue](/docs/vue/architecture), [React](/docs/react/architecture), [Svelte](/docs/svelte/architecture).
+Each kit is a standard Laravel app with one difference: features live in `Modules/` instead of being spread across `app/`. [Architecture → Why a module-based structure](/docs/core/architecture#why-a-module-based-structure) explains why.
+
+The React and Svelte kits have the same backend folders as Vue. Only `resources/js` is different, and the framework guides cover it: [Vue](/docs/vue/architecture), [React](/docs/react/architecture), [Svelte](/docs/svelte/architecture). The Livewire kit has no `resources/js` pages. Its pages are Livewire components inside the modules, with Blade views in `resources/views`. See [Livewire → Architecture](/docs/livewire/architecture).
 
 | Folder | What lives there |
 | --- | --- |
 | `app/` | Shared infrastructure: middleware, tenancy listeners, models, providers |
-| `Modules/` | Feature modules (`Auth`, `Dashboard`, `Menu`, `RolePermission`, `Settings`, `Tenant`, `User`) |
+| `Modules/` | Feature modules (`Auth`, `Dashboard`, `Menu`, `Notification`, `RolePermission`, `Settings`, `Tenant`, `User`) |
 | `bootstrap/` | `app.php` (middleware, aliases, error pages), `providers.php` (app and module providers) |
 | `config/` | Laravel config plus `tenancy.php`, `fortify.php`, `inertia-lang.php` and the `permissions/` files |
 | `database/` | Central migrations and seeders, with `tenant/` subfolders for tenant databases |
 | `lang/` | 17 locales; kit strings in `lang/<locale>/modules/` |
-| `resources/js/` | Inertia pages, components, layouts, generated types, translations and routes |
+| `resources/js/` | Inertia pages, components, layouts, generated types, translations and routes (Vue, React and Svelte) |
 | `routes/` | `web.php` is empty; routes live in modules |
 | `tests/` | Pest feature and unit tests |
 | `.agents/`, `.claude/`, `.ai/`, `boost.json`, `AGENTS.md`, `CLAUDE.md` | Laravel Boost AI tooling |
@@ -37,6 +47,7 @@ vue/
 │   ├── Auth/                      # Fortify actions + views
 │   ├── Dashboard/                 # Home page + dashboard
 │   ├── Menu/                      # DB-driven navigation
+│   ├── Notification/              # Notification bell and page
 │   ├── RolePermission/            # Roles, permission config loader
 │   ├── Settings/                  # Profile, security, language, layout
 │   ├── Tenant/                    # Tenants, domains, maintenance, invitations
@@ -87,9 +98,9 @@ vue/
 
 ## Inside a module
 
-A module keeps everything it needs in one place. It has its own routes, controllers, Data objects, services and enums, and it registers its routes from its own service provider (listed in `bootstrap/providers.php`). So when you add a feature, you'll usually add a module and leave `app/` alone.
+A module keeps everything it needs in one place: its own routes, controllers, Data objects, services and enums. It registers its routes from its own service provider, listed in `bootstrap/providers.php`. To add a feature, you usually add a module and leave `app/` alone.
 
-`Modules/Tenant` is the fullest example, so it's a good one to read:
+`Modules/Tenant` is the most complete example:
 
 | Folder | Contains | Examples |
 | --- | --- | --- |
@@ -117,3 +128,9 @@ To see how a request moves through these pieces, read [Architecture](/docs/core/
 | Pages | `pages/tenants/Index.vue` | `pages/tenants/index.tsx` | `pages/tenants/Index.svelte` |
 | Shared logic | `composables/usePermission.ts` | `hooks/use-permission.ts` | `lib/permission.ts` |
 | Type check | `vue-tsc` | `tsc` | `svelte-check` |
+
+<RelatedPages :links="[
+  { text: 'Architecture', link: '/docs/core/architecture', desc: 'How a request moves through a module.' },
+  { text: 'Configuration', link: '/docs/getting-started/configuration', desc: 'What the kit-specific config files control.' },
+  { text: 'Updates', link: '/docs/purchase/updates#pulling-an-update', desc: 'Why new modules mean fewer merge conflicts.' },
+]" />

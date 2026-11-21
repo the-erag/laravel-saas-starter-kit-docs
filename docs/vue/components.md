@@ -5,19 +5,25 @@ description: "Common form components, the confirm dialog, shadcn-vue primitives,
 
 # Components <Badge type="tip" text="Vue" />
 
+Look here before you build a new component: the kit probably has one for the job already.
+
 ## Overview
 
-You'll find the components in `resources/js/components`, split into these folders:
+The components live in `resources/js/components`, in three groups:
 
-| Folder | What it holds |
-| --- | --- |
-| `components/common/` | The kit's own form kit: `Common*` inputs, buttons, tooltip, icon and `ConfirmDialog` |
-| `components/ui/` | shadcn-vue primitives built on reka-ui |
-| `components/` | App shell and feature components (`AppSidebar`, `AppHeader`, `UserMenuContent`, …) |
+<FeatureCards :cols="3" :items="[
+  { title: 'components/common/', text: 'The kit’s own form kit: `Common*` inputs, buttons, tooltip, icon and `ConfirmDialog`.', link: '/docs/vue/components#common-form-components' },
+  { title: 'components/ui/', text: 'shadcn-vue primitives built on reka-ui.', link: '/docs/vue/components#ui-primitives-shadcn' },
+  { title: 'components/', text: 'App shell and feature components (`AppSidebar`, `AppHeader`, `UserMenuContent`, …).', link: '/docs/vue/components#app-shell-components' },
+]" />
 
-When you build a page, reach for the `Common*` components first. They take care of the label, the `id`, the `aria-*` attributes and the error message, so most fields fit on one line.
+Start with the `Common*` components. They handle the label, `id`, `aria-*` attributes and error message for you, so most fields fit on one line.
 
-If a component is only used by one page, keep it in a `Partials/` folder next to that page (for example `pages/tenants/Partials/DomainModal.vue`) rather than in `components/`.
+<DocShot name="vue-profile" alt="The Profile settings page in the Vue kit: name and email inputs with required markers, a display language select and the delete account section" caption="Settings → Profile is built from CommonInput, CommonSelect and CommonButtonRow." />
+
+::: tip
+If a component is only used by one page, put it in a `Partials/` folder next to that page (for example `pages/tenants/Partials/DomainModal.vue`) rather than in `components/`.
+:::
 
 ## Common form components
 
@@ -36,9 +42,13 @@ If a component is only used by one page, keep it in a `Partials/` folder next to
 | `CommonTooltip` | Wraps its slot in a tooltip (`content`, `side`) |
 | `ConfirmDialog` | Global confirm dialog, opened with `useConfirmDialog()` |
 
-The input components behave the same way. They share the props `name`, `id`, `label`, `error`, `required` and `disabled`, and if you leave out the `id`, one is generated for you. Any other attribute you add (`autofocus`, `class`, `data-test`, …) is passed through to the underlying element.
+The input components all work the same way:
 
-Inside an Inertia `<Form>`, `name` and `error` are all you need, and you can prefill a field with `:default-value`. Outside a `<Form>`, bind the value with `v-model` instead.
+- Each one takes `name`, `id`, `label`, `error`, `required` and `disabled`.
+- If you leave out `id`, one is generated for you.
+- Any other attribute (`autofocus`, `class`, `data-test`, …) is passed to the underlying element.
+- In an Inertia `<Form>`, `name` and `error` are all you need. Prefill a field with `:default-value`.
+- Outside a `<Form>`, bind the value with `v-model`.
 
 ::: details View props reference
 | Component | Props |
@@ -58,7 +68,7 @@ Inside an Inertia `<Form>`, `name` and `error` are all you need, and you can pre
 
 ### CommonButtonRow
 
-In the default `bottom-pop` position, the bar only slides in once `isDirty` is true. Clicking Save calls `requestSubmit()` on the nearest `<form>`, so you don't have to wire anything up inside `<Form>`.
+In the default `bottom-pop` position, the bar only slides in once `isDirty` is true. Save calls `requestSubmit()` on the nearest `<form>`, so inside a `<Form>` there's nothing to wire up.
 
 ```vue
 <Form v-bind="ProfileController.update.form()" set-defaults-on-success
@@ -70,7 +80,7 @@ In the default `bottom-pop` position, the bar only slides in once `isDirty` is t
 
 ### Confirm dialog
 
-The app layouts mount `ConfirmDialog` once. From any page you call `confirm()`, which returns a `Promise<boolean>`.
+The app layouts mount `ConfirmDialog` once. From any page, call `confirm()` from `useConfirmDialog()` and await the `Promise<boolean>` it returns.
 
 ```ts
 const { confirm } = useConfirmDialog();
@@ -80,7 +90,7 @@ if (await confirm({ title, message, confirmVariant: 'destructive' })) {
 }
 ```
 
-You can also pass any of these: `warning`, `itemDetails`, `confirmText`, `icon` (`danger`, `warning`, `info`, `question`, `success`), `size` (`sm` to `xl`), `warningVariant`, `highlight`, `confirmationKeyword` (the user has to type it before the button enables), `closeOnBackdrop`, `closeOnEscape` and `showCancelButton`. To put a spinner on the confirm button, call `setLoading(true)`.
+Other options, all optional: `warning`, `itemDetails`, `confirmText`, `icon` (`danger`, `warning`, `info`, `question`, `success`), `size` (`sm` to `xl`), `warningVariant`, `highlight`, `confirmationKeyword` (the user has to type it before the button enables), `closeOnBackdrop`, `closeOnEscape` and `showCancelButton`. Call `setLoading(true)` to put a spinner on the confirm button.
 
 ::: warning
 Only `AppSidebarLayout` and `AppHeaderLayout` mount `ConfirmDialog`. On pages that use `AuthLayout`, or no layout at all, `confirm()` won't work.
@@ -109,16 +119,14 @@ if (isConfirmed) {
 
 ## UI primitives (shadcn)
 
-The shadcn-vue components are in `components/ui/<name>/`, using the new-york-v4 style set in `components.json`. Every folder has an `index.ts`. These are included:
+The shadcn-vue components are in `components/ui/<name>/`, in the new-york-v4 style set in `components.json`. Every folder has an `index.ts`. Use them directly for things the `Common*` wrappers don't cover, like cards, badges and dialogs. For form fields, use the `Common*` wrappers.
 
-`alert`, `avatar`, `badge`, `breadcrumb`, `button`, `card`, `checkbox`, `collapsible`, `dialog`, `dropdown-menu`, `input`, `input-otp`, `label`, `navigation-menu`, `select`, `separator`, `sheet`, `sidebar`, `skeleton`, `sonner`, `spinner`, `tooltip`.
+These are included: `alert`, `avatar`, `badge`, `breadcrumb`, `button`, `card`, `checkbox`, `collapsible`, `dialog`, `dropdown-menu`, `input`, `input-otp`, `label`, `navigation-menu`, `select`, `separator`, `sheet`, `sidebar`, `skeleton`, `sonner`, `spinner`, `tooltip`.
 
 ```ts
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 ```
-
-Use them as they are for layout and display, like cards, badges and dialogs. For form fields, the `Common*` wrappers are the better choice.
 
 ## Icons & toasts
 
@@ -129,19 +137,19 @@ Use them as they are for layout and display, like cards, badges and dialogs. For
 | Toast from the server | `Inertia::flash('toast', …)`, see [Inertia → Flash toasts](/docs/vue/inertia#flash-toasts) |
 | Toast from the client | `import { toast } from 'vue-sonner'` |
 
-`CommonIcon` accepts `icon`, `class` and `click`. A PascalCase name is turned into a Lucide icon (`LayoutGrid` → `lucide:layout-grid`), and a name that already has a prefix is used unchanged.
+`CommonIcon` renders Iconify icons and takes `icon`, `class` and `click`. A name with a prefix (`lucide:…`) is used unchanged. A PascalCase name becomes a Lucide icon (`LayoutGrid` → `lucide:layout-grid`).
 
 ```vue
 <CommonIcon icon="lucide:building-2" class="size-4" />
 ```
 
 ::: warning
-The `Toaster` lives in `AppSidebarLayout` and `AppHeaderLayout` only, so you won't see toasts on auth pages or on pages without a layout.
+Only `AppSidebarLayout` and `AppHeaderLayout` mount the `Toaster`, so toasts don't show on auth pages or on pages without a layout.
 :::
 
 ## Usage example
 
-Here's a typical field, an action button with a tooltip, and a submit button:
+A typical field, an icon button with a tooltip, and a submit button:
 
 ```vue
 <CommonInput name="email" type="email" :label="__('modules.auth.common.email_address')"
@@ -207,3 +215,9 @@ defineProps<{ roleOptions: SelectOption[] }>();
 | `DeleteUser` | Delete-account section on the profile page |
 | `ManageTwoFactor`, `TwoFactorSetupModal`, `TwoFactorRecoveryCodes` | Two-factor setup on the security page |
 | `ManagePasskeys`, `PasskeyRegister`, `PasskeyItem`, `PasskeyVerify` | Passkey management and passkey login |
+
+<RelatedPages :links="[
+  { text: 'Inertia → Forms', link: '/docs/vue/inertia#forms', desc: 'How the Common* fields plug into the Inertia Form component.' },
+  { text: 'Layouts', link: '/docs/vue/layouts', desc: 'The app shells that mount the Toaster and the confirm dialog.' },
+  { text: 'Notifications', link: '/docs/core/notifications', desc: 'The bell in the header and the notifications page.' },
+]" />

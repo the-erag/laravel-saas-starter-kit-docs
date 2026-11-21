@@ -5,7 +5,13 @@ description: "Inertia v3 patterns in the React kit: how pages receive data, the 
 
 # Inertia <Badge type="tip" text="React" />
 
-The kit runs on Inertia v3 (`@inertiajs/react` ^3, `inertiajs/inertia-laravel` ^3). We don't use Axios or a separate API. A request is always an Inertia visit, a `<Form>` submit or a `useHttp` call.
+This page shows the Inertia patterns the kit uses, with examples taken from its code. The kit runs on Inertia v3 (`@inertiajs/react` ^3, `inertiajs/inertia-laravel` ^3). There's no Axios and no separate API. Every request is an Inertia visit, a `<Form>` submit or a `useHttp` call.
+
+<KeyIdea>
+
+Laravel sends props down to the page. Anything that changes data goes back up through `<Form>`, `router` or `useHttp`, and Wayfinder gives you the URLs so you don't type them by hand.
+
+</KeyIdea>
 
 ## How pages receive data
 
@@ -16,9 +22,9 @@ Controller → Inertia::render('users/index', props)
   → Page.layout / setLayoutProps  (breadcrumbs, titles for the layout)
 ```
 
-- Page props come in as the component's props and you destructure them in the signature. Type them with a local `Props` type or one from `@/types` (for example `UserIndexProps` in `types/Users/users.ts`).
-- Shared props (user, permissions, menus, locale, layout settings) are read from `usePage().props`, covered under [Shared props](#shared-props).
-- Layout props are either set statically on `Page.layout` or changed at runtime with `setLayoutProps()`. [Layouts](/docs/react/layouts#per-page-layout-override) has the details.
+- Page props come from the controller as the component's props. Destructure them in the signature and type them with a local `Props` type or one from `@/types` (for example `UserIndexProps` in `types/Users/users.ts`).
+- Shared props (user, permissions, menus, layout settings, locale) reach every page through `usePage().props`. See [Shared props](#shared-props).
+- Layout props, like breadcrumbs or an auth page title, go the other way: the page sets them on `Page.layout` or with `setLayoutProps()`. See [Layouts](/docs/react/layouts#per-page-layout-override).
 
 ```tsx
 import type { UserIndexProps } from '@/types';
@@ -46,7 +52,7 @@ For most forms you'll use the Inertia `<Form>` component:
 </Form>
 ```
 
-A handful of other `<Form>` props show up across the kit:
+The `<Form>` props used across the kit:
 
 | Prop | Use | Example |
 | --- | --- | --- |
@@ -114,7 +120,7 @@ const formAction = selectedUser ? update.form(selectedUser.id) : store.form();
 
 ### `useForm` for custom inputs
 
-If a form isn't made of native inputs, switch to `useForm`. That's what the card pickers on Settings → Layout and Setup → Layout do. Clicking a card calls `setData()`, and saving submits with `patch(update.url(), { onSuccess: () => setDefaults() })`.
+If a form isn't made of native inputs, use `useForm`. The card pickers on Settings → Layout and Setup → Layout do this: clicking a card calls `setData()`, and saving submits with `patch(update.url(), { onSuccess: () => setDefaults() })`.
 
 ::: details View useForm example (settings/layout.tsx)
 ```tsx
@@ -140,7 +146,7 @@ const submit = (event: FormEvent<HTMLFormElement>) => {
 
 ## Visits, links and requests
 
-Forms go through `<Form>`. For everything else, pick one of the calls below. Each of them accepts Wayfinder routes (see [Wayfinder routes](#wayfinder-routes)).
+Forms go through `<Form>`. For everything else, use one of these. They all accept Wayfinder routes (see [Wayfinder routes](#wayfinder-routes)).
 
 | Need | Use | Example in the kit |
 | --- | --- | --- |
@@ -164,23 +170,26 @@ const debouncedSearch = useDebounceFn((value: string) => {
 
 ## Shared props
 
-`HandleInertiaRequests` sends the same set of props to every page. The full list is in [Architecture → Shared props](/docs/react/architecture#shared-props).
+`HandleInertiaRequests` sends the same props to every page. The full list is in [Architecture → Shared props](/docs/react/architecture#shared-props).
 
 ```tsx
 const { auth, locale } = usePage().props;
 ```
 
-In `types/global.d.ts` we register `SharedData` with Inertia (`InertiaConfig.sharedPageProps`), which is why `usePage().props` is typed without a generic. The same file declares a global `PageProps<T>` (`T & SharedData`) that you'll see in layout callbacks like `ErrorPage.layout = (props: PageProps) => …`.
+`types/global.d.ts` registers `SharedData` with Inertia (`InertiaConfig.sharedPageProps`), so `usePage().props` is typed without a generic. The same file declares a global `PageProps<T>` (`T & SharedData`) for layout callbacks like `ErrorPage.layout = (props: PageProps) => …`.
 
 Where a hook exists, use it instead of reading the shared props directly: `usePermission()` for `auth.permissions` and `useLanguage()` for languages and locale.
 
 ## Flash toasts
 
-Flash a toast from a controller and it appears on the next page. You don't write any frontend code for it.
+Flash a toast from a controller just before it redirects, and it shows on the next page. You don't write any frontend code for it.
 
-```text
-Inertia::flash('toast', [...]) → router 'flash' event → useFlashToast() → sonner toast
-```
+<FlowDiagram label="Flash toast" :nodes="[
+  { label: 'Controller', note: '`Inertia::flash(\'toast\', [...])`' },
+  'Router `flash` event',
+  '`useFlashToast()`',
+  'sonner toast',
+]" />
 
 ```php
 Inertia::flash('toast', ['type' => 'success', 'message' => __('modules/tenant.toasts.created')]);
@@ -211,7 +220,7 @@ export function useFlashToast(): void {
 
 ## Wayfinder routes
 
-Wayfinder writes typed functions for your named routes (`@/routes/<name>`) and controller actions (`@/actions/Modules/<Module>/Http/Controllers/<Controller>`). Use those rather than hard-coding URLs.
+Wayfinder writes typed functions for your named routes (`@/routes/<name>`) and controller actions (`@/actions/Modules/<Module>/Http/Controllers/<Controller>`). Use them rather than hard-coding URLs. The Vite plugin runs with `formVariants: true`, so every function also has a `.form()`.
 
 | Call | Returns | Use with |
 | --- | --- | --- |
@@ -229,3 +238,9 @@ ProfileController.update.form();  // { action: '/settings/profile?_method=PATCH'
 ::: tip
 Added a route but the import isn't there? Leave `npm run dev` running, since the Vite plugin regenerates the files when PHP changes. Or run `php artisan wayfinder:generate --with-form`.
 :::
+
+<RelatedPages :links="[
+  { text: 'Development → Adding a form', link: '/docs/react/development#adding-a-form', desc: 'The backend and frontend steps for a new form.' },
+  { text: 'Components → Common form components', link: '/docs/react/components#common-form-components', desc: 'The fields you put inside a Form.' },
+  { text: 'Architecture → Shared props', link: '/docs/react/architecture#shared-props', desc: 'Every prop that reaches every page, with its type.' },
+]" />

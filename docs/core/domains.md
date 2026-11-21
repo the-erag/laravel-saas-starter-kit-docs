@@ -5,15 +5,13 @@ description: "Tenant subdomains, primary and secondary domains, and per-domain s
 
 # Domains
 
-Domains are how a request finds its tenant. A tenant can have one or more, all stored in the central `domains` table (`App\Models\Domain`). Each domain also has its own branding, language and auth settings.
+A request finds its tenant through the domain. A tenant can have one or more domains, all stored in the central `domains` table (`App\Models\Domain`). Each domain also has its own app name, language and auth settings.
 
-```text
-acme.vue.test  → domains table → tenant 1 → per-domain App name, language, auth features
-```
+<FlowDiagram label="How a host finds its tenant" :nodes="['`acme.vue.test`', { label: '`domains` table', note: 'central database' }, 'tenant 1', { label: 'Per-domain settings', note: 'App name, language, auth features' }]" />
 
 ## Domain format
 
-Every domain is a **subdomain of `APP_DOMAIN`**. You only type the subdomain, and the kit adds the central domain for you:
+Every domain is a **subdomain of `APP_DOMAIN`**. You type only the subdomain and the kit adds the central domain:
 
 ```text
 input: acme      → stored: acme.vue.test
@@ -35,9 +33,9 @@ input: acme-eu   → stored: acme-eu.vue.test
 
 `/tenants/domains` lists every domain across all tenants. It's central only and needs `View Tenants`.
 
-The list is paginated and comes with stats cards. You can search by domain or tenant and filter by primary or secondary. Adding a domain, setting the primary, deleting, and editing settings or authentication features all need `Manage Tenant Domains`.
+The list is paginated, with stats cards at the top. You can search by domain or tenant and filter by primary or secondary. Every change (add, set primary, delete, edit settings or authentication features) needs `Manage Tenant Domains`.
 
-You'll find the same actions for a single tenant on its detail page.
+A tenant's detail page has the same actions for that tenant's domains.
 
 | Action | Route |
 | --- | --- |
@@ -49,14 +47,14 @@ You'll find the same actions for a single tenant on its detail page.
 
 ## Primary domain
 
-Each tenant has exactly one primary domain, and that's the one invitation links and tenant links use.
+Each tenant has exactly one primary domain. Invitation links and tenant links use it.
 
 - A tenant's first domain is always primary. If you add a domain with primary checked, the flag moves to the new one.
 - You **can't delete** the primary domain. Make another domain primary first.
 
 ## Per-domain settings
 
-Each domain can override three settings. They're stored as columns on `domains` and validated by `Modules\Tenant\Data\DomainSettingsData` (auth features go through their own request).
+Each domain can override three settings, stored as columns on `domains`. App name and language are validated by `Modules\Tenant\Data\DomainSettingsData`. Auth features have their own request.
 
 | Setting | Column | Effect |
 | --- | --- | --- |
@@ -74,13 +72,13 @@ domain app_name → tenant company → central APP_NAME
 
 ### Default language
 
-Pick one of the 17 `LanguageEnum` values, or leave it empty to use the app default. [Localization](/docs/core/localization#how-the-locale-is-resolved) explains how the final locale is chosen.
+Pick one of the 17 `LanguageEnum` values, or leave it empty to use the app default. [Localization](/docs/core/localization#how-the-locale-is-resolved) explains how the final locale is picked.
 
 ### Authentication features
 
 Registration, password reset, email verification, two-factor and passkeys can each be switched off for a single domain. Details are in [Authentication → Per-domain features](/docs/core/authentication#per-domain-features).
 
-## Local DNS
+## DNS
 
 Every tenant domain has to resolve to your app.
 
@@ -88,3 +86,9 @@ Every tenant domain has to resolve to your app.
 | --- | --- |
 | Local with Herd | All `*.vue.test` subdomains work automatically once the site is linked |
 | Production | A wildcard DNS record (`*.your-domain.com`) plus a wildcard virtual host and TLS certificate |
+
+<RelatedPages :links="[
+  { text: 'Multi-tenancy', link: '/docs/core/multi-tenancy#identification', desc: 'How tenancy starts once the domain is found.' },
+  { text: 'Authentication', link: '/docs/core/authentication#per-domain-features', desc: 'Turn sign-in features on or off per domain.' },
+  { text: 'Localization', link: '/docs/core/localization#how-the-locale-is-resolved', desc: 'How the domain language fits into the locale order.' }
+]" />

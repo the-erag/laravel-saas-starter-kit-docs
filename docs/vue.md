@@ -5,31 +5,39 @@ description: "Overview and installation of the Vue 3.5 edition of SaaS Laravel: 
 
 # Vue Starter Kit <Badge type="tip" text="Vue" />
 
+This page covers what the Vue kit adds, the packages and naming it uses, and how to get it running. The guide pages linked at the bottom go deeper.
+
 ## What's in the kit
 
-You get the whole SaaS Laravel backend (multi-tenancy, auth, users, roles, domains, localization) plus a Vue 3 + TypeScript frontend in `resources/js`.
+You get the full SaaS Laravel backend (multi-tenancy, auth, users, roles, domains, localization) plus a Vue 3 + TypeScript frontend in `resources/js`.
 
-The Laravel code is the same in all three kits; only the frontend changes. Every page is a Vue single-file component using `<script setup lang="ts">`, and Inertia v3 renders it, so you don't need a separate API. For the UI we built our own `Common*` form components on top of shadcn-vue.
+<KeyIdea>
+
+The Laravel code is the same in the Vue, React and Svelte kits. Only the frontend changes.
+
+</KeyIdea>
+
+Every page is a Vue single-file component with `<script setup lang="ts">`, rendered by Inertia v3, so there's no separate API. The forms use our own `Common*` components, built on top of shadcn-vue.
 
 ## Tech stack
 
 | Package | Version | Used for |
 | --- | --- | --- |
 | `vue` | ^3.5 | Single-file components |
-| `@inertiajs/vue3` | ^3.0 | Inertia client: `Form`, `Link`, `router`, `usePage`, `useForm`, `useHttp`, `setLayoutProps` |
-| `@inertiajs/vite` | ^3.0 | Resolves pages from `resources/js/pages` |
-| `reka-ui` | ^2.9 | Primitives behind the shadcn-vue components |
-| `@lucide/vue` | ^1.17 | Icons as components |
+| `@inertiajs/vue3` | ^3.9 | Inertia client: `Form`, `Link`, `router`, `usePage`, `useForm`, `useHttp`, `setLayoutProps` |
+| `@inertiajs/vite` | ^3.9 | Resolves pages from `resources/js/pages` |
+| `reka-ui` | ^2.11 | Primitives behind the shadcn-vue components |
+| `@lucide/vue` | ^1.56 | Icons as components |
 | `@iconify/vue` | ^5.0 | String icons (`CommonIcon`, menu icons) |
 | `vue-sonner` | ^2.0 | Toasts |
 | `vue-draggable-plus` | ^0.6 | Drag and drop on Setup → Menus |
-| `@vueuse/core` | ^12.8 | Utilities used by the UI primitives |
-| `vue-input-otp` | ^0.3 | Two-factor code input |
+| `@vueuse/core` | ^15.0 | Utilities used by the UI primitives |
+| `vue-input-otp` | ^0.4 | Two-factor code input |
 | `@erag/lang-sync-inertia` | ^3.1 | `vueLang()` translation helper |
-| `@laravel/passkeys` | ^0.2 | Passkey registration and login |
+| `@laravel/passkeys` | ^0.4 | Passkey registration and login |
 | `@laravel/vite-plugin-wayfinder` | ^0.1 | Typed route and controller functions |
 | `vite` / `tailwindcss` | ^8 / ^4.1 | Build and styling |
-| `vue-tsc` | ^2.2 | Type checking |
+| `vue-tsc` | ^3.3 | Type checking |
 | `vite-plugin-vue-devtools` | ^8.2 | Vue DevTools in development |
 
 ## Conventions
@@ -47,7 +55,7 @@ The Laravel code is the same in all three kits; only the frontend changes. Every
 
 ## Get the code
 
-Once you've bought the kit, you'll get access to the private repository `the-erag/saas-laravel-starter-kit-vue` (see [Repository access](/docs/purchase/repository-access)). Clone it like this:
+After you buy the kit, you get access to the private repository `the-erag/saas-laravel-starter-kit-vue` (see [Repository access](/docs/purchase/repository-access)). Clone it:
 
 ```bash
 git clone https://github.com/the-erag/saas-laravel-starter-kit-vue.git vue
@@ -56,7 +64,7 @@ cd vue
 
 ## Install
 
-The full setup (PHP, database, Herd domains, tenancy) is covered in [Local development](/docs/getting-started/local-development). Here's the short version:
+[Local development](/docs/getting-started/local-development) covers the full setup (PHP, database, Herd domains, tenancy). Here's the short version:
 
 ::: code-group
 
@@ -76,21 +84,29 @@ npm run build
 
 :::
 
-`composer setup` runs the migrations but doesn't seed, so run `php artisan db:seed` once. That creates the roles, permissions and menus, plus one default user for each role.
+`composer setup` runs the migrations but doesn't seed. Run `php artisan db:seed` once to create the roles, permissions, menus and one default user for each role.
 
-As shipped, `.env.example` has `APP_URL=http://vue.test` and `APP_DOMAIN=vue.test`. Change both to your own domain.
+`.env.example` ships with `APP_URL=http://vue.test` and `APP_DOMAIN=vue.test`. Change both to your own domain.
 
-To start everything, run `composer dev`. You'll find the rest of the frontend commands in [Development](/docs/vue/development#daily-workflow).
+Run `composer dev` to start everything. The other frontend commands are in [Development](/docs/vue/development#daily-workflow).
 
 ::: tip
-The Vite plugin generates the Wayfinder files in `resources/js/routes` and `resources/js/actions`, and git ignores them. Run `npm run dev` or `npm run build` once before you type check, or the imports won't resolve.
+The Vite plugin generates the Wayfinder files in `resources/js/routes` and `resources/js/actions`. Git ignores them. Run `npm run dev` or `npm run build` once before you type check, or the imports won't resolve.
 :::
 
 ## Next steps
 
-- [Architecture](/docs/vue/architecture): how a request flows, the folders, shared props, permissions and translations
-- [Components](/docs/vue/components): the `Common*` form kit, the shadcn-vue primitives and the app shell
-- [Pages](/docs/vue/pages): every page and the route it lives on
-- [Layouts](/docs/vue/layouts): the sidebar/header app layout and the card/simple/split auth layout
-- [Inertia](/docs/vue/inertia): forms, visits, flash toasts and Wayfinder
-- [Development](/docs/vue/development): the commands, and how to add a page and a form
+<FeatureCards :cols="3" :items="[
+  { title: 'Architecture', text: 'How a request flows, the folders, shared props, permissions and translations.', link: '/docs/vue/architecture' },
+  { title: 'Components', text: 'The `Common*` form kit, the shadcn-vue primitives and the app shell.', link: '/docs/vue/components' },
+  { title: 'Pages', text: 'Every page and the route it lives on.', link: '/docs/vue/pages' },
+  { title: 'Layouts', text: 'The sidebar/header app layout and the card/simple/split auth layout.', link: '/docs/vue/layouts' },
+  { title: 'Inertia', text: 'Forms, visits, flash toasts and Wayfinder.', link: '/docs/vue/inertia' },
+  { title: 'Development', text: 'The commands, and how to add a page and a form.', link: '/docs/vue/development' },
+]" />
+
+<RelatedPages :links="[
+  { text: 'Local development', link: '/docs/getting-started/local-development', desc: 'The full first run: PHP, database, Herd domains and tenancy.' },
+  { text: 'Core architecture', link: '/docs/core/architecture', desc: 'The Laravel side that every kit shares.' },
+  { text: 'Updates', link: '/docs/purchase/updates', desc: 'How to pull kit updates into your own project.' },
+]" />

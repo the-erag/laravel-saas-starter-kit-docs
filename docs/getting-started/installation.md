@@ -5,15 +5,17 @@ description: "Clone your SaaS Laravel kit repository, configure .env and run com
 
 # Installation
 
-This page gets the code onto your machine. For the full first run (database, seeding, tenants, dev server), [Local development](/docs/getting-started/local-development) goes into more detail.
+This page gets the code onto your machine in four steps: get repository access, clone the kit, install and configure it, then open it in the browser. [Local development](/docs/getting-started/local-development) covers the full first run in more detail (database, seeding, tenants, dev server).
 
-```text
-Repository access → clone → composer install + .env → migrate and seed → npm install → open APP_URL
-```
+<KeyIdea title="What you'll have at the end">
+The kit cloned, its dependencies installed, the central database migrated and seeded, and the app open in your browser.
+</KeyIdea>
+
+<DocSteps>
 
 ## 1. Get repository access
 
-Once you've bought a kit, your GitHub account gets an automatic invite to its repository. See [Repository access](/docs/purchase/repository-access).
+After you buy a kit, your GitHub account gets an automatic invite to its repository. See [Repository access](/docs/purchase/repository-access).
 
 ## 2. Clone the kit
 
@@ -42,7 +44,7 @@ cd livewire
 :::
 
 ::: tip Keep updates easy
-Rename the kit remote to `upstream` straight away and push to your own repository as `origin`. Weekly updates then come down to a simple merge. See [Updates](/docs/purchase/updates).
+Rename the kit remote to `upstream` right away and push to your own repository as `origin`. Weekly updates are then a simple merge. See [Updates](/docs/purchase/updates).
 
 ```bash
 git remote rename origin upstream
@@ -69,9 +71,9 @@ npm install
 
 [Local development](/docs/getting-started/local-development) walks through each of these steps.
 
-## One-command setup
+### Shortcut: one command
 
-`composer setup` handles most of the steps above in one go:
+`composer setup` runs most of the steps above for you:
 
 | Step | Command |
 | --- | --- |
@@ -85,7 +87,7 @@ npm install
 `composer setup` does **not** seed the database, and it migrates with whatever is in `.env` at the time. So create and edit `.env` first, create the database, run `composer setup`, and then run `php artisan db:seed`.
 :::
 
-## Open the app
+## 4. Open the app
 
 If you use Herd, link the project to the domain you set in `APP_DOMAIN`:
 
@@ -94,3 +96,17 @@ herd link vue   # serves this folder as vue.test and *.vue.test
 ```
 
 Now open `APP_URL` (for example `http://vue.test`) and sign in as a [seeded user](/docs/getting-started/local-development#seeded-data).
+
+</DocSteps>
+
+<DocDone>
+
+**Done.** The central app is running. Next, create your first tenant in [Local development](/docs/getting-started/local-development#create-your-first-tenant).
+
+</DocDone>
+
+<RelatedPages :links="[
+  { text: 'Local development', link: '/docs/getting-started/local-development', desc: 'The full first run, step by step.' },
+  { text: 'Configuration', link: '/docs/getting-started/configuration', desc: 'What each .env key and config file does.' },
+  { text: 'Updates', link: '/docs/purchase/updates', desc: 'Pull weekly updates into your copy.' },
+]" />

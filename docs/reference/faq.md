@@ -5,11 +5,19 @@ description: "Answers to common questions about the SaaS Laravel starter kits: k
 
 # FAQ
 
+Short answers to the questions we get most often. Each answer links to the page with the details.
+
+<FeatureCards :cols="3" :items="[
+  { title: 'Product', text: 'Kit differences, features, databases, languages and Herd.', link: '/docs/reference/faq#product' },
+  { title: 'Purchase and access', text: 'Pricing, payment, repository access and updates.', link: '/docs/reference/faq#purchase-and-access' },
+  { title: 'Development', text: 'Adding features and tenant pages, default logins and AI agents.', link: '/docs/reference/faq#development' },
+]" />
+
 ## Product
 
 ### What is SaaS Laravel?
 
-SaaS Laravel is a Laravel SaaS starter kit for building multi-tenant SaaS applications. It comes as four kits, Vue, React, Svelte and Livewire, with the same multi-tenancy, authentication, users, roles and permissions already built. See the [Laravel SaaS starter kit](/) overview.
+A Laravel starter kit for multi-tenant SaaS apps. It comes as four kits (Vue, React, Svelte and Livewire) with the same multi-tenancy, authentication, users, roles and permissions already built. See the [Laravel SaaS starter kit](/) overview.
 
 ### Which Laravel version do the kits use?
 
@@ -17,7 +25,7 @@ Laravel 13 (`laravel/framework` `^13.35`) on PHP 8.4 or newer, with Inertia v3 i
 
 ### What is the difference between the Vue, React and Svelte kits?
 
-Just the frontend in `resources/js`. The Laravel backend is the same in all three: modules, tenancy, auth, permissions, migrations, translations and tests. Pick the frontend your team already likes working in. See [Introduction](/docs).
+Only the frontend in `resources/js`. The Laravel backend is the same in all three: modules, tenancy, auth, permissions, migrations, translations and tests. Pick the frontend your team prefers. See [Introduction](/docs).
 
 ### How is the Livewire kit different?
 
@@ -25,11 +33,11 @@ It has the same features, but no Inertia, TypeScript or JavaScript framework. Pa
 
 ### Is there a billing / Stripe integration?
 
-No. The kits don't include billing, subscriptions or payment processing for your customers.
+No. The kits don't include billing, subscriptions or payment processing for your customers. [Laravel Stripe subscriptions for a SaaS](/blog/laravel-saas-stripe-billing) shows one way to add it with Cashier.
 
 ### Is there a REST API?
 
-No. Every route is an Inertia web route. You won't find API tokens (Sanctum) or API endpoints.
+No. Every route is a web route: Inertia pages in the Vue, React and Svelte kits, Livewire components in the Livewire kit. There are no API tokens (Sanctum) or API endpoints.
 
 ### Does it support teams?
 
@@ -37,7 +45,7 @@ Not as a separate feature. Each tenant is its own workspace with its own users, 
 
 ### Can tenants use their own custom domains?
 
-By default, tenant domains are subdomains of `APP_DOMAIN`, like `acme.your-domain.com`. A tenant can have several subdomains, with one set as primary. See [Domains](/docs/core/domains).
+By default, tenant domains are subdomains of `APP_DOMAIN`, like `acme.your-domain.com`. A tenant can have several subdomains, one of them primary. See [Domains](/docs/core/domains).
 
 ### Single database or one database per tenant?
 
@@ -49,15 +57,15 @@ There are 17: English, Hindi, Spanish, French, German, Italian, Portuguese, Russ
 
 ### Is SSR enabled?
 
-No. There's a `build:ssr` npm script, but by default the kits run as client-rendered Inertia apps.
+No. The Vue, React and Svelte kits have a `build:ssr` npm script, but by default they run as client-rendered Inertia apps.
 
 ### Do I have to use Laravel Herd?
 
-No, but it's the easiest option, because tenant subdomains (`*.vue.test`) just work. Any setup that serves the central domain and its wildcard subdomains will do. See [Requirements](/docs/getting-started/requirements).
+No, but it's the easiest option, because tenant subdomains (`*.vue.test`) work with no setup. Any setup that serves the central domain and its wildcard subdomains will do. See [Requirements](/docs/getting-started/requirements).
 
 ### Can I use SQLite or PostgreSQL?
 
-`config/tenancy.php` registers database managers for SQLite, MySQL, MariaDB and PostgreSQL, and the test suite runs on in-memory SQLite. That said, the kits are built and run on MySQL, and that's what we recommend.
+`config/tenancy.php` registers database managers for SQLite, MySQL, MariaDB and PostgreSQL, and the test suite runs on in-memory SQLite. But the kits are built and run on MySQL, and that's what we recommend.
 
 ## Purchase and access
 
@@ -75,7 +83,7 @@ Through GitHub Sponsors. The steps are on [How to pay](/how-to-pay).
 
 ### How quickly do I get access?
 
-Right away. As soon as the payment goes through, your GitHub account is invited to the repository automatically. See [Repository access](/docs/purchase/repository-access).
+Right away. Once the payment goes through, your GitHub account is invited to the repository automatically. See [Repository access](/docs/purchase/repository-access).
 
 ### What does the bundle include?
 
@@ -87,13 +95,13 @@ We push updates to your kit repository every week. Add it as your `upstream` rem
 
 ### Where do I get help?
 
-Have a look at [Troubleshooting](/docs/reference/troubleshooting) first. If that doesn't sort it out, open an issue on your kit's GitHub repository.
+Check [Troubleshooting](/docs/reference/troubleshooting) first. If that doesn't help, open an issue on your kit's GitHub repository.
 
 ## Development
 
 ### Where do I add a new feature?
 
-Create a module in `Modules/<Name>/` with its own service provider, routes, controllers, Data classes and services, then register the provider in `bootstrap/providers.php`. Pages go in `resources/js/pages`. See [Architecture](/docs/core/architecture).
+Create a module in `Modules/<Name>/` with its own service provider, routes, controllers, Data classes and services, then register the provider in `bootstrap/providers.php`. In the Vue, React and Svelte kits, pages go in `resources/js/pages`. In the Livewire kit, pages are Livewire components in the module, with Blade views in `resources/views`. See [Architecture](/docs/core/architecture).
 
 ### How do I add a page that only tenants see?
 
@@ -121,4 +129,10 @@ Change or remove these users before you go to production.
 
 ### Do the kits work with AI coding agents?
 
-Yes. Every kit comes with Laravel Boost guidelines (`AGENTS.md`, `CLAUDE.md`), skills in `.agents/skills` and `.claude/skills`, and an MCP configuration (`.mcp.json`). The Vue kit also has project rules in `.ai/rules`.
+Yes. Every kit comes with Laravel Boost guidelines (`AGENTS.md`, `CLAUDE.md`), skills in `.agents/skills` and `.claude/skills`, and an MCP configuration (`.mcp.json`). The Vue and Livewire kits also have project rules in `.ai/rules`.
+
+<RelatedPages :links="[
+  { text: 'Troubleshooting', link: '/docs/reference/troubleshooting', desc: 'Fixes for the most common errors.' },
+  { text: 'Requirements', link: '/docs/getting-started/requirements', desc: 'What you need before you install a kit.' },
+  { text: 'Repository access', link: '/docs/purchase/repository-access', desc: 'What happens after you pay.' },
+]" />

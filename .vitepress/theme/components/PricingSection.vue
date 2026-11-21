@@ -50,13 +50,23 @@ withDefaults(defineProps<{ primary?: boolean }>(), { primary: false });
               <SlIcon name="check" :size="16" class="plan-check" />{{ benefit }}
             </li>
           </ul>
-          <a
-            class="sl-btn sl-btn--block"
-            :class="plans[key].featured ? 'sl-btn--primary' : 'sl-btn--secondary'"
-            :href="plans[key].href"
-          >
-            View details<span class="sl-sr-only"> for the {{ plans[key].name }}</span> <span class="vpi-arrow-right" />
-          </a>
+          <div class="plan-actions">
+            <a
+              class="sl-btn sl-btn--block"
+              :class="plans[key].featured ? 'sl-btn--primary' : 'sl-btn--secondary'"
+              :href="plans[key].sponsorUrl"
+              target="_blank"
+              rel="noopener"
+            >
+              <SlIcon name="github" :size="16" /> Buy now<span class="sl-sr-only">
+                the {{ plans[key].name }} on GitHub Sponsors (opens in a new tab)</span
+              >
+            </a>
+            <a class="plan-details" :href="plans[key].href">
+              View details<span class="sl-sr-only"> for the {{ plans[key].name }}</span>
+              <span class="vpi-arrow-right" aria-hidden="true" />
+            </a>
+          </div>
         </article>
       </div>
       <p class="pricing-note">
@@ -228,6 +238,39 @@ withDefaults(defineProps<{ primary?: boolean }>(), { primary: false });
 .plan-list b {
   font-weight: 600;
   color: var(--vp-c-text-1);
+}
+
+.plan-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.plan-details {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vp-c-text-2);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.plan-details:hover {
+  color: var(--vp-c-brand-1);
+}
+
+.plan-details:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.plan-details .vpi-arrow-right {
+  width: 14px;
+  height: 14px;
 }
 
 .plan-check {

@@ -5,17 +5,16 @@ description: "Every relevant .env key with its default from .env.example, what i
 
 # Environment
 
-The defaults on this page come from the Vue kit's `.env.example`. The React, Svelte and Livewire kits only differ in these keys:
+Every `.env` key the kits use, with its default and what it controls. The defaults on this page come from the Vue kit's `.env.example`. The other kits only differ in these keys:
 
 | Key | Vue | React | Svelte | Livewire |
 | --- | --- | --- | --- | --- |
 | `APP_URL` | `http://vue.test` | `https://react.test` | `https://svelte.test` | `http://livewire.test` |
 | `APP_DOMAIN` | `vue.test` | `react.test` | `svelte.test` | `livewire.test` |
 | `DB_DATABASE` | `saas_laravel_vue` | `saas_laravel_recat` | `saas_laravel_svelte` | `saas_laravel_livewire` |
-| `DB_PASSWORD` | set to a sample value | empty | empty | empty |
 
 ::: tip
-Start with `APP_URL`, `APP_DOMAIN` and the `DB_*` keys. For local development, you can leave most of the other defaults alone.
+Start with `APP_URL`, `APP_DOMAIN` and the `DB_*` keys. For local development, the other defaults are usually fine.
 :::
 
 ## Application
@@ -23,10 +22,10 @@ Start with `APP_URL`, `APP_DOMAIN` and the `DB_*` keys. For local development, y
 | Key | Default | Notes |
 | --- | --- | --- |
 | `APP_NAME` | `Laravel` | Name of the central app. On tenant domains, the domain's App name or company takes its place. |
-| `APP_ENV` | `local` | In `production`: strict password rules, destructive DB commands prohibited, full error pages |
-| `APP_KEY` | empty | `php artisan key:generate`. Also signs maintenance bypass cookies and is the default passkey user handle secret. |
+| `APP_ENV` | `local` | In `production`: strict password rules, destructive DB commands blocked, full error pages |
+| `APP_KEY` | empty | Set with `php artisan key:generate`. Also signs maintenance bypass cookies and is the default passkey user handle secret. |
 | `APP_DEBUG` | `true` | `false` in production |
-| `APP_URL` | `http://vue.test` | Central URL. Scheme is reused for tenant links; host is the passkey relying party. |
+| `APP_URL` | `http://vue.test` | Central URL. Its scheme is reused for tenant links, and its host is the passkey relying party. |
 | `APP_DOMAIN` | `vue.test` | Central domain; tenant domains are `<sub>.APP_DOMAIN` |
 | `APP_LOCALE` | `en` | Default language when neither the user nor the domain sets one |
 | `APP_FALLBACK_LOCALE` | `en` | |
@@ -38,7 +37,7 @@ Start with `APP_URL`, `APP_DOMAIN` and the `DB_*` keys. For local development, y
 
 | Key | Default | Notes |
 | --- | --- | --- |
-| `TENANCY_DB_PREFIX` | `tenant` | **React kit only** (`config/tenancy.php`). Vue and Svelte hardcode `'prefix' => 'tenant'`, so edit the config there or switch it to `env()`. If several apps share one MySQL server, give each one its own prefix. |
+| `TENANCY_DB_PREFIX` | `tenant` | **React kit only** (`config/tenancy.php`). Vue, Svelte and Livewire hardcode `'prefix' => 'tenant'`, so edit the config there or switch it to `env()`. If several apps share one MySQL server, give each its own prefix. |
 
 ## Database
 
@@ -49,13 +48,13 @@ Start with `APP_URL`, `APP_DOMAIN` and the `DB_*` keys. For local development, y
 | `DB_PORT` | `3306` | |
 | `DB_DATABASE` | `saas_laravel_vue` | Central database; create it before migrating |
 | `DB_USERNAME` | `root` | Needs `CREATE DATABASE` rights for tenants |
-| `DB_PASSWORD` | sample value (Vue), empty (React, Svelte) | Replace with your own |
+| `DB_PASSWORD` | empty | Set your own |
 
 ## Session, cache, queue
 
 | Key | Default | Notes |
 | --- | --- | --- |
-| `SESSION_DRIVER` | `database` | Stored in the current context's DB (tenant sessions in tenant DBs) |
+| `SESSION_DRIVER` | `database` | Stored in the current context's database (tenant sessions in tenant databases) |
 | `SESSION_LIFETIME` | `120` | Minutes |
 | `SESSION_ENCRYPT` | `false` | |
 | `SESSION_PATH` | `/` | |
@@ -70,7 +69,7 @@ Start with `APP_URL`, `APP_DOMAIN` and the `DB_*` keys. For local development, y
 
 | Key | Default | Notes |
 | --- | --- | --- |
-| `MAIL_MAILER` | `log` | Emails go to `storage/logs/laravel.log`. Use `smtp` (or another transport) to deliver. |
+| `MAIL_MAILER` | `log` | Emails go to `storage/logs/laravel.log`. Use `smtp` (or another transport) to send them. |
 | `MAIL_SCHEME` | `null` | |
 | `MAIL_HOST` | `127.0.0.1` | |
 | `MAIL_PORT` | `2525` | |
@@ -111,3 +110,9 @@ Start with `APP_URL`, `APP_DOMAIN` and the `DB_*` keys. For local development, y
 - Point `*.your-domain.com` at the app with wildcard DNS and a wildcard TLS certificate.
 - Remove the seeded default users, or change their details.
 :::
+
+<RelatedPages :links="[
+  { text: 'Configuration', link: '/docs/getting-started/configuration', desc: 'The config files that read these keys.' },
+  { text: 'Requirements', link: '/docs/getting-started/requirements#production', desc: 'What the server needs before you deploy.' },
+  { text: 'Troubleshooting', link: '/docs/reference/troubleshooting', desc: 'Fixes for wrong domains, queues and mail.' },
+]" />

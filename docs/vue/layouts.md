@@ -5,7 +5,9 @@ description: "How the Vue kit picks app and sign-in layouts from Setup defaults 
 
 # Layouts <Badge type="tip" text="Vue" />
 
-The layouts are in `resources/js/layouts`. There are two wrappers, `AppLayout.vue` and `AuthLayout.vue`, and each one decides at runtime which design to show, based on the shared `layout` prop.
+This page shows how a page ends up in the sidebar, header or sign-in layout, and how a single page can change that.
+
+The layouts are in `resources/js/layouts`. `AppLayout.vue` and `AuthLayout.vue` are wrappers that pick the real design at runtime from the shared `layout` prop, so a page never imports a specific variant.
 
 ## Layout selection flow
 
@@ -20,7 +22,7 @@ The layouts are in `resources/js/layouts`. There are two wrappers, `AppLayout.vu
      AuthLayout → auth_layout → card | simple | split
 ```
 
-The `layout` values are built by `LayoutService::getLayoutSettings()` from these sources:
+`LayoutService::getLayoutSettings()` builds the `layout` values from these sources:
 
 | Setting | Source |
 | --- | --- |
@@ -28,9 +30,11 @@ The `layout` values are built by `LayoutService::getLayoutSettings()` from these
 | `app_layout`, `sidebar_variant`, `sidebar_collapsible` | The user's own Settings → Layout if they've saved one, otherwise the global default |
 | `auth_layout` | Always the global default |
 
-The backend side is explained in [Navigation & layouts](/docs/core/navigation-and-layouts).
+For the backend side, see [Navigation & layouts](/docs/core/navigation-and-layouts).
 
 ## App layouts
+
+<DocShot name="vue-app-sidebar" alt="The Users page in the Vue kit with the sidebar app layout: menu on the left, breadcrumbs and header actions along the top" caption="The default sidebar app layout." />
 
 `AppLayout.vue` has a single prop, `breadcrumbs?: BreadcrumbItem[]`, and renders one of two shells:
 
@@ -41,24 +45,26 @@ The backend side is explained in [Navigation & layouts](/docs/core/navigation-an
 
 Each shell also mounts the `Toaster` (vue-sonner) and the global `ConfirmDialog`.
 
-The sidebar shell looks at two extra settings:
+The sidebar shell has two extra settings:
 
 | Setting | Values | Default |
 | --- | --- | --- |
 | `sidebar_variant` | `inset`, `sidebar`, `floating` | `inset` |
 | `sidebar_collapsible` | `icon`, `offcanvas`, `none` | `icon` |
 
-It shows `menus` in the sidebar, switching to `setupMenus` while you're under `/setup`.
+Normally the sidebar shows `menus`. When the URL starts with `/setup`, it shows `setupMenus` instead.
 
-Settings pages are a special case. `settings/*` pages get `[AppLayout, SettingsLayout]`, so `layouts/settings/Layout.vue` adds the Profile / Security / Appearance / Layout sub-navigation inside the app shell. It works out the active item with `useCurrentUrl().isCurrentOrParentUrl`.
+Settings pages add one more layer. `settings/*` pages get `[AppLayout, SettingsLayout]`, so `layouts/settings/Layout.vue` draws the Profile / Security / Appearance / Layout sub-navigation inside the app shell. It highlights the active item with `useCurrentUrl().isCurrentOrParentUrl`.
 
 ::: tip
-If you add something app-wide, like a banner, put it in both `AppSidebarLayout.vue` and `AppHeaderLayout.vue`. Otherwise it disappears when someone switches between sidebar and header mode.
+Want something on every app page, like a banner? Add it to both `AppSidebarLayout.vue` and `AppHeaderLayout.vue`. Otherwise it disappears when someone switches between sidebar and header mode.
 :::
 
 ## Auth layouts
 
-`AuthLayout.vue` takes `title` and `description` as translation keys and translates them itself. It renders one of three designs:
+<DocShot name="vue-auth-split" alt="The Vue kit login page in the split auth layout: dark panel with the logo on the left, sign-in form on the right" caption="The split auth layout on the login page." />
+
+`AuthLayout.vue` takes `title` and `description` as translation keys and translates them itself. It renders one of three designs, based on `auth_layout`:
 
 | `auth_layout` | Component | Look |
 | --- | --- | --- |
@@ -68,7 +74,7 @@ If you add something app-wide, like a banner, put it in both `AppSidebarLayout.v
 
 ## Per-page layout override
 
-With `defineOptions`, a page can pass props to its default layout or swap the layout out entirely:
+With `defineOptions`, a page can pass props to its default layout or replace the layout:
 
 ```vue
 <script setup lang="ts">
@@ -92,7 +98,7 @@ defineOptions({
 
 ### Changing layout props at runtime
 
-`defineOptions` can't change after the page loads. If a value depends on state, call `setLayoutProps()` instead. `TwoFactorChallenge.vue` does this to change the title when the user switches to a recovery code, and `AcceptInvitation.vue` calls it once when `mode === 'user'` so the user-invitation wording shows.
+`defineOptions` is fixed once the page loads. If a value depends on state, call `setLayoutProps()` instead. `TwoFactorChallenge.vue` uses it to swap the title when the user switches to a recovery code. `AcceptInvitation.vue` calls it once when `mode === 'user'`, so the wording fits a user invitation.
 
 ::: details View setLayoutProps example
 ```ts
@@ -120,3 +126,9 @@ defineOptions({
 </script>
 ```
 :::
+
+<RelatedPages :links="[
+  { text: 'Navigation & layouts', link: '/docs/core/navigation-and-layouts', desc: 'The backend side: LayoutService, menus and the layout settings.' },
+  { text: 'Pages', link: '/docs/vue/pages', desc: 'Which layout each page uses.' },
+  { text: 'Components', link: '/docs/vue/components#app-shell-components', desc: 'The sidebar, header and breadcrumb components inside the shells.' },
+]" />

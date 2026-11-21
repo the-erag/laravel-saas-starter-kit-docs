@@ -5,7 +5,13 @@ description: "Inertia v3 patterns in the Vue kit: how pages receive data, the Fo
 
 # Inertia <Badge type="tip" text="Vue" />
 
-The kit runs on Inertia v3 (`@inertiajs/vue3` ^3, `inertiajs/inertia-laravel` ^3). We don't use Axios or a separate API. Every request is either an Inertia visit, a `<Form>` submit or a `useHttp` call.
+This page shows the Inertia patterns the kit uses, with examples taken from its code. The kit runs on Inertia v3 (`@inertiajs/vue3` ^3, `inertiajs/inertia-laravel` ^3). There's no Axios and no separate API. Every request is an Inertia visit, a `<Form>` submit or a `useHttp` call.
+
+<KeyIdea>
+
+Laravel sends props down to the page. Anything that changes data goes back up through `<Form>`, `router` or `useHttp`, and Wayfinder gives you the URLs so you don't type them by hand.
+
+</KeyIdea>
 
 ## How pages receive data
 
@@ -15,13 +21,17 @@ Controller → Inertia::render('users/Index', props)
   → pages/users/Index.vue via defineProps
 ```
 
-A page gets data from three places. Its own props come from the controller, and you declare them with `defineProps<{ ... }>()`. On top of that, every page receives the shared props: the user, permissions, menus, layout settings and locale (see [Shared props](#shared-props)).
-
-Layout props such as breadcrumbs or an auth page title work the other way round. The page sets them itself, with `defineOptions({ layout })` or `setLayoutProps()`. See [Layouts](/docs/vue/layouts#per-page-layout-override).
+- Page props come from the controller. Declare them with `defineProps<{ ... }>()`.
+- Shared props (user, permissions, menus, layout settings, locale) reach every page. See [Shared props](#shared-props).
+- Layout props, like breadcrumbs or an auth page title, go the other way: the page sets them with `defineOptions({ layout })` or `setLayoutProps()`. See [Layouts](/docs/vue/layouts#per-page-layout-override).
 
 ## Forms
 
-Most forms in the kit are built with the `<Form>` component. You spread a Wayfinder `.form()` object into it and give each input a `name`, without any `v-model`. Then you read `errors`, `processing` and the rest from the default slot.
+For most forms you'll use the Inertia `<Form>` component:
+
+1. Spread a Wayfinder `.form()` object into it, which fills in `action` and `method`.
+2. Give every input a `name`. You don't need `v-model`.
+3. Read `errors`, `processing` and the rest from the default slot.
 
 ```vue
 <Form v-bind="store.form()" :reset-on-success="['password']" v-slot="{ errors, processing }">
@@ -33,7 +43,7 @@ Most forms in the kit are built with the `<Form>` component. You spread a Wayfin
 </Form>
 ```
 
-These are the `<Form>` props the kit uses:
+The `<Form>` props used across the kit:
 
 | Prop / event | Used for | Example |
 | --- | --- | --- |
@@ -79,7 +89,7 @@ These are the `<Form>` props the kit uses:
 
 ### `useForm`
 
-Reach for `useForm` when a form isn't made of native inputs. The card pickers on Settings → Layout and Setup → Layout are an example.
+If a form isn't made of native inputs, use `useForm`. The card pickers on Settings → Layout and Setup → Layout do this.
 
 ```ts
 const form = useForm({ app_layout: props.layoutSettings?.app_layout || 'sidebar' });
@@ -117,9 +127,9 @@ const { svg } = (await http.submit(qrCode())) as { svg: string; url: string };
 
 ## Shared props
 
-Because `types/global.d.ts` registers `SharedData` with Inertia, `usePage().props` is typed in every file. The same file declares a global `PageProps<T>` (`T & SharedData`) that you can use with `usePage<PageProps>()` and in layout callbacks.
+`types/global.d.ts` registers `SharedData` with Inertia, so `usePage().props` is typed in every file. The same file declares a global `PageProps<T>` (`T & SharedData`) for `usePage<PageProps>()` and layout callbacks.
 
-You'll find every shared prop listed in [Architecture → Shared props](/docs/vue/architecture#shared-props).
+The full list is in [Architecture → Shared props](/docs/vue/architecture#shared-props).
 
 ::: details View the type registration
 ```ts
@@ -133,18 +143,22 @@ declare module '@inertiajs/core' {
 
 ## Flash toasts
 
-```text
-Inertia::flash('toast', [...]) → router 'flash' event
-  → lib/flashToast.ts → vue-sonner toast[type](message)
-```
+<FlowDiagram label="Flash toast" :nodes="[
+  { label: 'Controller', note: '`Inertia::flash(\'toast\', [...])`' },
+  'Router `flash` event',
+  '`lib/flashToast.ts`',
+  { label: 'vue-sonner', note: '`toast[type](message)`' },
+]" />
 
-A controller flashes the toast just before it redirects:
+Flash a toast from a controller just before it redirects, and it shows on the next page. You don't write any frontend code for it.
 
 ```php
 Inertia::flash('toast', ['type' => 'success', 'message' => __('modules/tenant.toasts.created')]);
 ```
 
-`type` can be `success`, `info`, `warning` or `error` (see `FlashToast` in `types/ui.ts`). The listener is `initializeFlashToast()`, which `app.ts` starts. If you need a toast from the client side, use `import { toast } from 'vue-sonner'`.
+- `type` can be `success`, `info`, `warning` or `error` (see `FlashToast` in `types/ui.ts`).
+- `initializeFlashToast()` listens for the flash, and `app.ts` starts it.
+- To show a toast from the client instead, `import { toast } from 'vue-sonner'`.
 
 ::: warning
 Only the app layouts mount the `Toaster`, so toasts won't appear on auth pages.
@@ -169,7 +183,7 @@ export function initializeFlashToast(): void {
 
 ## Wayfinder routes
 
-Wayfinder turns your named routes and controller methods into typed functions. We run the Vite plugin with `formVariants: true`, which gives every function a `.form()` as well.
+Wayfinder writes typed functions for your named routes and controller methods. Use them rather than hard-coding URLs. The Vite plugin runs with `formVariants: true`, so every function also has a `.form()`.
 
 | Call | Returns | Use with |
 | --- | --- | --- |
@@ -184,5 +198,11 @@ Wayfinder turns your named routes and controller methods into typed functions. W
 | `@/actions/Modules/<Module>/Http/Controllers/<Controller>` | Controller methods, e.g. `ProfileController.update.form()` |
 
 ::: tip
-Added a route and the import isn't there? Leave `npm run dev` running, since the Vite plugin regenerates when PHP files change, or run `php artisan wayfinder:generate --with-form`.
+Added a route but the import isn't there? Leave `npm run dev` running, since the Vite plugin regenerates the files when PHP changes. Or run `php artisan wayfinder:generate --with-form`.
 :::
+
+<RelatedPages :links="[
+  { text: 'Development → Adding a form', link: '/docs/vue/development#adding-a-form', desc: 'The backend and frontend steps for a new form.' },
+  { text: 'Components → Common form components', link: '/docs/vue/components#common-form-components', desc: 'The fields you put inside a Form.' },
+  { text: 'Architecture → Shared props', link: '/docs/vue/architecture#shared-props', desc: 'Every prop that reaches every page, with its type.' },
+]" />

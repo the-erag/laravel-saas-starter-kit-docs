@@ -5,7 +5,13 @@ description: "Inertia v3 patterns in the Svelte kit: how pages receive data, the
 
 # Inertia <Badge type="tip" text="Svelte" />
 
-We built the kit on Inertia v3 (`@inertiajs/svelte` ^3, `inertiajs/inertia-laravel` ^3). You won't find Axios or a REST API anywhere. Each request is either an Inertia visit, a `<Form>` submit or a `useHttp` call.
+The kit uses Inertia v3 (`@inertiajs/svelte` ^3, `inertiajs/inertia-laravel` ^3). This page shows how data gets to a page and how a page talks back to Laravel: forms, visits, toasts and typed routes.
+
+<KeyIdea>
+
+There's no Axios and no REST API. Each request is an Inertia visit, a `<Form>` submit or a `useHttp` call, and Wayfinder gives you the URL and method for each one.
+
+</KeyIdea>
 
 ## How pages receive data
 
@@ -17,22 +23,22 @@ Controller → Inertia::render('users/Index', [...page props])
                shared props → page.props (from @inertiajs/svelte)
 ```
 
-- Page props are whatever the controller passes in. You type them where you destructure `$props()`, usually with a type from `@/types`.
+- Page props are what the controller passes in. Type them where you destructure `$props()`, usually with a type from `@/types`.
 - Shared props reach every page. See [Shared props](#shared-props).
-- Flash data (the toasts) comes along with the response, and `app.ts` deals with it in one place. See [Flash toasts](#flash-toasts).
+- Flash data (the toasts) comes with the response, and `app.ts` handles it in one place. See [Flash toasts](#flash-toasts).
 
 ### Page title and layout props
 
-- For the title, we skip Inertia's `Head`. A page renders `<AppHead title={__('modules.user.index.title')} />` instead, and that writes the `<title>` through `<svelte:head>`.
+- For the title, the kit doesn't use Inertia's `Head`. A page renders `<AppHead title={__('modules.user.index.title')} />`, which writes the `<title>` through `<svelte:head>`.
 - For layout props, put fixed values in `export const layout = { … }` inside `<script module>`. Anything that depends on state goes through `setLayoutProps()`. See [Layouts → Per-page layout override](/docs/svelte/layouts#per-page-layout-override).
 
 ## Forms
 
-In most places we use Inertia's `<Form>` component. The pattern looks like this:
+Most forms use Inertia's `<Form>` component:
 
 - You spread a Wayfinder `.form()` object into it, so the URL and method are taken from the Laravel route.
 - The `children` snippet hands you `errors`, `processing`, `isDirty` and `reset`.
-- An input just needs a `name`, and the `Common*` components take care of showing `error`.
+- An input only needs a `name`. The `Common*` components show the `error`.
 
 ```svelte
 <Form {...store.form()} resetOnSuccess={['password']} class="flex flex-col gap-6">
@@ -44,7 +50,7 @@ In most places we use Inertia's `<Form>` component. The pattern looks like this:
 </Form>
 ```
 
-You'll see these variations around the kit:
+Variations used in the kit:
 
 | Pattern | Where | How |
 | --- | --- | --- |
@@ -142,7 +148,7 @@ The form you get back is reactive, so you can read and assign its fields directl
 | Clear cached pages on logout | `router.flushAll()` | `UserMenuContent.svelte` |
 | JSON without a page visit | `useHttp()` | `lib/twoFactorAuth.svelte.ts` (QR code, setup key, recovery codes) |
 
-On the users page, the search input is debounced with `useDebounce` and sent from an `$effect`. The example below is trimmed down: the real page also skips the request if the value is the same as last time.
+On the users page, the search input is debounced with `useDebounce` and sent from an `$effect`. The example below is trimmed: the real page also skips the request when the value hasn't changed.
 
 ::: details View search and useHttp examples
 ```ts
@@ -178,7 +184,7 @@ const { svg } = (await http.submit(qrCode())) as { svg: string; url: string };
 
 ## Shared props
 
-`HandleInertiaRequests` provides the shared props, and you read them from the reactive `page` object:
+`HandleInertiaRequests` provides the shared props. Read them from the reactive `page` object:
 
 ```svelte
 <script lang="ts">
@@ -188,13 +194,13 @@ const { svg } = (await http.submit(qrCode())) as { svg: string; url: string };
 </script>
 ```
 
-Since `types/global.d.ts` augments Inertia (`InertiaConfig.sharedPageProps = SharedData`), `page.props` has types wherever you use it. That file also declares a global `PageProps<T>` (`T & SharedData`), which layout callbacks use, for example the error page's `export const layout = (props: PageProps) => …`.
+`types/global.d.ts` augments Inertia (`InertiaConfig.sharedPageProps = SharedData`), so `page.props` is typed everywhere. The same file declares a global `PageProps<T>` (`T & SharedData`), which layout callbacks use, for example the error page's `export const layout = (props: PageProps) => …`.
 
 For every shared prop and its type, see [Architecture → Shared props](/docs/svelte/architecture#shared-props).
 
 ## Flash toasts
 
-The controller flashes a toast and redirects, and the toast appears on the page that loads next.
+The controller flashes a toast and redirects. The toast appears on the next page.
 
 ```text
 Inertia::flash('toast', ['type' => 'success', 'message' => …])
@@ -209,7 +215,7 @@ Inertia::flash('toast', ['type' => 'success', 'message' => __('modules/tenant.to
 
 - `type` can be `success`, `info`, `warning` or `error` (see `FlashToast` in `types/ui.ts`).
 - For a toast triggered in the browser, `import { toast } from 'svelte-sonner'`.
-- Only the app layouts mount the `Toaster`, which is why flash toasts don't appear on auth pages.
+- Only the app layouts mount the `Toaster`, so flash toasts don't appear on auth pages.
 
 ::: details View lib/flash-toast.ts
 ```ts
@@ -230,7 +236,7 @@ export function initializeFlashToast(): void {
 
 ## Wayfinder routes
 
-Wayfinder gives you typed functions for named routes (`@/routes/<name>`) and for controller actions (`@/actions/Modules/<Module>/Http/Controllers/<Controller>`). We run the Vite plugin with `formVariants: true`, so each function comes with a `.form()` too.
+Wayfinder gives you typed functions for named routes (`@/routes/<name>`) and for controller actions (`@/actions/Modules/<Module>/Http/Controllers/<Controller>`). The Vite plugin runs with `formVariants: true`, so each function also has a `.form()`.
 
 | Call | Returns | Use with |
 | --- | --- | --- |
@@ -248,5 +254,11 @@ ProfileController.update.form();  // { action: '/settings/profile?_method=PATCH'
 ```
 
 ::: tip
-Added a route and the import can't be found? Keep `npm run dev` running, since the Vite plugin regenerates the files when PHP changes. You can also run `php artisan wayfinder:generate --with-form`.
+Added a route and the import can't be found? Keep `npm run dev` running: the Vite plugin regenerates the files when PHP changes. Or run `php artisan wayfinder:generate --with-form`.
 :::
+
+<RelatedPages :links="[
+  { text: 'Components', link: '/docs/svelte/components', desc: 'The `Common*` inputs and buttons used inside `Form`.' },
+  { text: 'Layouts', link: '/docs/svelte/layouts#per-page-layout-override', desc: 'Static layout props and `setLayoutProps()`.' },
+  { text: 'Development', link: '/docs/svelte/development#adding-a-form', desc: 'Add a form from the route to the page.' },
+]" />

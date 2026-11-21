@@ -5,13 +5,15 @@ description: "Database-driven menus with permission checks and drag-and-drop ord
 
 # Navigation & layouts
 
+This page covers how the sidebar and header menus are built, how admins and users pick a layout, and how light and dark mode are stored.
+
+<DocShot name="vue-menus" alt="The Setup → Menus page in the Vue kit, listing menu items with drag handles, slugs, parents and sort order" />
+
 ## Database-driven menus
 
-Menus live in the database, not hard-coded in components. That lets admins reorder them from the UI, and any item can require a permission. The central app and each tenant get their own menus, because there's a `menus` table in the central database and in every tenant database.
+Menus live in the database instead of being hard-coded in components. Admins can reorder them from the UI, and any item can require a permission. There's a `menus` table in the central database and in every tenant database, so the central app and each tenant have their own menus.
 
-```text
-menus table → MenuService (filters by permission) → `menus` / `setupMenus` props → sidebar or header
-```
+<FlowDiagram label="How a menu reaches the page" :nodes="['`menus` table', { label: '`MenuService`', note: 'filters by permission' }, '`menus` / `setupMenus` props', 'Sidebar or header']" />
 
 | Column | Purpose |
 | --- | --- |
@@ -41,7 +43,7 @@ menus table → MenuService (filters by permission) → `menus` / `setupMenus` p
 
 1. Add an entry to the menu seeder (central, tenant or both).
 2. Run the seeder again.
-3. If you want the label translated, add a `nav.projects` key to `lang/<locale>/modules/common.php`.
+3. To translate the label, add a `nav.projects` key to `lang/<locale>/modules/common.php`.
 
 ```php
 [
@@ -81,6 +83,8 @@ Each kit uses its own drag and drop library: `vue-draggable-plus` (Vue), `sortab
 
 Admins pick a default look for everyone, and each user can override it for their own account.
 
+<DocShot name="vue-setup-layout" alt="The Setup → Layout Settings page in the Vue kit, with cards for the default auth layout and the default app layout" />
+
 | Setting | Options | Default |
 | --- | --- | --- |
 | `app_layout` | `sidebar`, `header` (top navigation) | `sidebar` |
@@ -94,7 +98,7 @@ Admins pick a default look for everyone, and each user can override it for their
 | Global default | Setup → Layout Settings (`/setup/layout`) | Users with `Update Layout Settings` or `Update Tenant Layout` | Guests and users without a personal setting |
 
 ::: info Auth pages always use the global default
-`auth_layout` always comes from the global default. Auth pages are shown before anyone signs in, so there's no personal setting to use yet.
+Auth pages are shown before anyone signs in, so there's no personal setting to use yet.
 :::
 
 Both levels live in `layout_settings`. The row with `user_id = null` is the global default, and rows with a `user_id` are personal overrides. `LayoutService::getLayoutSettings()` works out which settings apply and shares them as the `layout` prop.
@@ -127,3 +131,9 @@ Users switch between light, dark and system under Settings → Appearance (`/set
 | `appearance` cookie (not encrypted) | `HandleAppearance` shares it with the Blade root view, so the right theme is applied before the page renders |
 
 Whether the sidebar is open or closed is kept in the `sidebar_state` cookie and shared as `sidebarOpen`.
+
+<RelatedPages :links="[
+  { text: 'Users, roles & permissions', link: '/docs/core/users-roles-permissions#checking-permissions', desc: 'How permissions decide which menu items a user sees.' },
+  { text: 'Localization', link: '/docs/core/localization', desc: 'Translate menu labels and other UI text.' },
+  { text: 'Vue layouts', link: '/docs/vue/layouts', desc: 'The Vue layout files in detail. React and Svelte have their own guides.' }
+]" />

@@ -5,46 +5,52 @@ description: "How a request flows through the kits: modules, central vs tenant c
 
 # Architecture
 
-All three kits run on the same Laravel backend. The frontend is an Inertia v3 single-page app, so there's no separate API.
+The Vue, React and Svelte kits run on the same Laravel backend. The frontend is an Inertia v3 single-page app, so there's no separate API. The Livewire kit shares the tenancy, auth and roles setup described here but uses Livewire components and Blade views instead of Inertia pages. See [Livewire architecture](/docs/livewire/architecture).
 
-Here's the path a request takes:
+<KeyIdea>
 
-```text
-Request
-  → Tenancy check (central or tenant context, decided by host)
-  → web middleware (locale, shared props, tenant status checks)
-  → Module route
-  → Controller → Data object → Service → Model / Repository
-  → Inertia page, or redirect with a toast
-```
+The **host name** decides everything else. Before any route runs, the kit checks the host and puts the request in the central or a tenant context. That switches the database, the auth guard and the default permissions and menus. From there, every request takes the same path: module route, controller, Data object, service.
+
+</KeyIdea>
+
+The path a request takes:
+
+<FlowDiagram label="The path a request takes" :nodes="[
+  { label: 'Tenancy check', note: 'central or tenant context, decided by host' },
+  { label: 'web middleware', note: 'locale, shared props, tenant status checks' },
+  'Module route',
+  { label: 'Controller → Data object → Service', note: 'then Model / Repository' },
+  { label: 'Inertia page', note: 'or redirect with a toast' },
+]" />
 
 ## Why a module-based structure
 
-A SaaS app gets complicated quickly. Tenants, domains, authentication, roles and permissions, invitations, settings, menus and maintenance all live in one codebase. In a default Laravel app all of that ends up mixed together in `app/Http/Controllers`, `app/Models` and `app/Services`, and every new feature makes it a little harder to find your way around and change things.
+A SaaS app has a lot of moving parts in one codebase: tenants, domains, authentication, roles and permissions, invitations, settings, menus and maintenance. In a default Laravel app all of that ends up mixed together in `app/Http/Controllers`, `app/Models` and `app/Services`, and each new feature makes the code harder to find and change.
 
-So we split the backend into modules. Each module keeps everything for one feature in a single folder under `Modules/`: its routes, controllers, Data objects, services, repositories, enums and jobs.
+So the backend is split into modules. Each module keeps one feature in a single folder under `Modules/`: its routes, controllers, Data objects, services, repositories, enums and jobs.
 
 | Benefit | What it means for your project |
 | --- | --- |
 | Readable | Everything about a feature is in one folder. To understand tenants, open `Modules/Tenant`. |
-| Well structured | Every module uses the same layout (`Data`, `Enums`, `Http`, `Services`, `Repositories`, `routes`), so the project stays predictable as it grows. |
-| Safe to change | A change to one module stays inside it and doesn't spill into the rest of the app. |
+| Well structured | Modules share the same folder layout (`Data`, `Enums`, `Http`, `Services`, `Repositories`, `routes`), so the project stays predictable as it grows. |
+| Safe to change | A change to one module stays inside it. |
 | Easy to extend | Add your own feature (for example `Modules/Billing`) as a new module without touching the existing ones. |
-| Easy to work on in a team | People can work on different modules with fewer merge conflicts. |
+| Team friendly | People can work on different modules with fewer merge conflicts. |
 
 ### How modules depend on each other
 
-We keep modules loosely coupled:
+Modules are loosely coupled:
 
-- Most modules don't depend on anything. `Auth`, `Dashboard`, `RolePermission` and `Settings` don't use any other module.
-- When a module does need another one, it only uses that module's services, enums and Data objects. It never reaches into the other module's tables or internals.
-- Dependencies only point one way, towards the two foundation modules `RolePermission` and `Settings`. Those never depend on feature modules, so you won't end up with circular dependencies.
+- `Auth`, `Dashboard`, `RolePermission` and `Settings` don't use any other module.
+- When a module needs another one, it only uses that module's services, enums and Data objects. It never reaches into the other module's tables or internals.
+- Dependencies only point one way. The foundation modules `RolePermission` and `Settings` never depend on feature modules, so there are no circular dependencies.
 
 ```text
 Auth, Dashboard, RolePermission, Settings   →  no module dependencies
 Menu                                        →  Settings (layout settings)
+Notification                                →  RolePermission (super-admin role)
 Tenant                                      →  RolePermission (tenant admin role), Settings (languages)
-User                                        →  RolePermission (roles and permissions)
+User                                        →  RolePermission (roles and permissions), Notification (invitation notices)
 ```
 
 ::: tip Adding your own module
@@ -53,13 +59,14 @@ Keep it self-contained, with its own routes, Data objects, services and service 
 
 ## Modules
 
-Each feature lives in its own module under `Modules/<Module>/` (PSR-4 namespace `Modules\`). The module owns its routes, controllers, Data objects, services and enums, and registers them through its own service provider.
+Modules use the PSR-4 namespace `Modules\`, and each one registers its routes and bindings through its own service provider.
 
 | Module | Responsibility |
 | --- | --- |
 | `Auth` | Fortify actions, Inertia auth views, rate limiters |
 | `Dashboard` | Landing page (`/`) and `/dashboard` |
 | `Menu` | Database-driven navigation, reorder and reset |
+| `Notification` | In-app notifications, the bell and the notifications page |
 | `RolePermission` | Roles CRUD, `RoleEnum`, `PermissionService` |
 | `Settings` | Profile, security, language, appearance and layout settings, `SetUserLocale` middleware |
 | `Tenant` | Tenants, domains, auth features per domain, maintenance, suspension, tenant invitations |
@@ -73,7 +80,7 @@ The folder layout is covered in [Project structure → Inside a module](/docs/ge
 
 ## Layered code
 
-Every layer does one job. Controllers stay small, and the business logic can be reused and tested on its own.
+Each layer does one job. Controllers stay small, and business logic can be reused and tested on its own.
 
 ```text
 Controller   → receives validated input → calls a service → returns Inertia page or redirect
@@ -83,7 +90,7 @@ Repository   → complex queries (only where needed)
 ```
 
 - Data objects use `spatie/laravel-data`. Their `rules()`, `attributes()` and `messages()` are translated, and any class marked `#[TypeScript]` gets exported to the frontend.
-- Toasts go through flash data. After a successful action the controller flashes a `toast` with `Inertia::flash()`, and the frontend picks it up and shows it with the kit's toast library.
+- Toasts go through flash data. After a successful action the controller flashes a `toast` with `Inertia::flash()`, and the frontend shows it with the kit's toast library.
 
 ::: details View implementation example
 ```php
@@ -99,7 +106,7 @@ public function store(TenantRegisterData $data): RedirectResponse
 ```
 :::
 
-Where you'll find each layer in the kit:
+Examples of each layer in the kit:
 
 | Layer | Classes |
 | --- | --- |
@@ -145,7 +152,7 @@ When the `TenancyInitialized` event fires, these listeners run in order. `Tenanc
 
 ### Routes in each context
 
-Each module registers its routes once, which is why most pages (users, roles, menus, settings, dashboard) work in both contexts. If a route should only exist on one side, add the middleware for it:
+Each module registers its routes once, so most pages (users, roles, menus, settings, dashboard) work in both contexts. If a route should only exist on one side, add the middleware for it:
 
 | Route should work on | Add middleware |
 | --- | --- |
@@ -160,7 +167,7 @@ Related files:
 - `app/Listeners/` (`ConfigureTenantAuth`, `RevertTenantAuth`, `ApplyTenantAppName`, `RestoreCentralAppName`)
 - `Modules/Tenant/Listeners/` (`ApplyTenantFortifyFeatures`, `RestoreCentralFortifyFeatures`)
 
-There's more on this in [Multi-tenancy](/docs/core/multi-tenancy).
+More in [Multi-tenancy](/docs/core/multi-tenancy).
 
 ## Web middleware
 
@@ -176,7 +183,7 @@ There's more on this in [Multi-tenancy](/docs/core/multi-tenancy).
 | `EnsureTenantIsNotSuspended` | Renders `auth/Suspended` (403) for suspended tenants |
 | `EnsureTenantIsNotInMaintenance` | Renders `auth/Maintenance` (503) during tenant maintenance |
 
-And these are the middleware aliases:
+Middleware aliases:
 
 | Alias | Class | Note |
 | --- | --- | --- |
@@ -200,6 +207,7 @@ Every page gets these props from `HandleInertiaRequests::share()`:
 | `locale`, `userLocale`, `defaultLocale`, `languages` | Localization state |
 | `sidebarOpen` | From the `sidebar_state` cookie |
 | `menus`, `setupMenus` | Permission-filtered navigation trees |
+| `notifications` | Unread count and latest notifications (`null` for guests) |
 | `layout` | Active layout settings |
 | `permissionsConfig` | Grouped permissions from `config/permissions` |
 | `lang` | Translations (shared by `erag/laravel-lang-sync-inertia`) |
@@ -223,3 +231,9 @@ An unknown host throws a `TenantCouldNotBeIdentifiedException`, which turns into
 | TypeScript transformer | Data and enum types in `resources/js/types/Modules/...` | `@/types/Modules/...` |
 
 Regenerate both after you change the backend (see [Local development](/docs/getting-started/local-development#generated-files)).
+
+<RelatedPages :links="[
+  { text: 'Multi-tenancy', link: '/docs/core/multi-tenancy', desc: 'Tenants, identification and working in tenant context from code.' },
+  { text: 'Project structure', link: '/docs/getting-started/project-structure#inside-a-module', desc: 'The folder layout inside a module.' },
+  { text: 'Domains', link: '/docs/core/domains', desc: 'How a host is mapped to a tenant.' }
+]" />

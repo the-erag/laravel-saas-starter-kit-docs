@@ -7,6 +7,8 @@ description: "Database notifications with a header bell, unread badge and a noti
 
 Every kit ships in-app notifications. They're stored with Laravel's database notifications, so the central app and every tenant keep their own list. Users see them in the header bell and on the Notifications page.
 
+<DocShot name="vue-notifications" alt="The Notifications page in the Vue kit, with All and Unread tabs, a list of notifications and Mark all as read and Clear all buttons" />
+
 | | |
 | --- | --- |
 | Module | `Modules/Notification` |
@@ -30,10 +32,10 @@ The bell sits on the right of the breadcrumb bar in the sidebar layout, and next
 
 ### Language switcher and profile menu
 
-They sit next to the bell, so users can change their language or open their settings from any page.
+Both sit next to the bell, so users can change their language or open their settings from any page.
 
 - **Language switcher**: the same list as the language submenu in the user menu, including "Default (English)". Both use one shared component.
-- **Profile menu**: the avatar opens the usual user menu (settings and log out). The header layout already had an avatar, so it isn't added twice.
+- **Profile menu**: the avatar opens the usual user menu (settings and log out). The header layout keeps its existing avatar instead of adding a second one.
 
 ### Notifications page
 
@@ -44,7 +46,7 @@ They sit next to the bell, so users can change their language or open their sett
 - **Mark all as read**, and **Clear all** with a confirmation dialog.
 - An empty state when there's nothing to show.
 
-Every user only ever sees and changes their own notifications.
+Users only see and change their own notifications.
 
 ## Default notification
 
@@ -58,7 +60,7 @@ It's sent from `Modules/User/Http/Controllers/UserInvitationController.php`. Rem
 
 ## Send your own notification
 
-Inject `NotificationService` and call one of its methods. That's all you need. The bell and the page pick the notification up on the next page load.
+Inject `NotificationService` and call one of its methods. The bell and the page pick up the notification on the next page load.
 
 ```php
 use Modules\Notification\Enums\NotificationLevelEnum;
@@ -189,7 +191,7 @@ All paths are under `resources/js/`.
 | DELETE | `/notifications/{id}` | `notifications.destroy` | Delete one |
 | DELETE | `/notifications` | `notifications.clear` | Delete all |
 
-All routes need a signed-in, verified user, and they only touch that user's own notifications.
+All routes need a signed-in, verified user and only touch that user's notifications.
 
 ## Clean up old notifications
 
@@ -209,10 +211,16 @@ This prunes the central database. For tenants, run the same query inside `tenanc
 
 ## After updating
 
-Run the new migrations for the central database and every tenant, and reinstall the frontend packages:
+If you're updating from a release without notifications, install the frontend packages and run the new migrations for the central database and every tenant:
 
 ```bash
 npm install
 php artisan migrate
 php artisan tenants:migrate
 ```
+
+<RelatedPages :links="[
+  { text: 'Users, roles & permissions', link: '/docs/core/users-roles-permissions#invitations', desc: 'The invitation flow that sends the default notification.' },
+  { text: 'Localization', link: '/docs/core/localization', desc: 'Translation files and generating the frontend strings.' },
+  { text: 'Multi-tenancy', link: '/docs/core/multi-tenancy', desc: 'Why central and tenant notifications are kept apart.' }
+]" />

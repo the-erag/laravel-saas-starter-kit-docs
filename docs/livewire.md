@@ -5,11 +5,15 @@ description: "Overview and installation of the Livewire 4 edition of SaaS Larave
 
 # Livewire Starter Kit <Badge type="tip" text="Livewire" />
 
+This page covers what the Livewire kit ships with, the conventions it follows, and how to get it running.
+
+<DocShot name="livewire-app-sidebar" alt="The Livewire kit dashboard with the sidebar app layout, light theme" />
+
 ## What's in the kit
 
 You get the whole SaaS Laravel backend (multi-tenancy, auth, users, roles, domains, localization) plus a frontend built with Livewire 4, Blade and Alpine.js. There's no Inertia, no TypeScript and no separate JavaScript framework.
 
-Every page is a class-based Livewire component in a Laravel module, and its Blade view sits in `resources/views`. For the UI we wrapped the free edition of Flux in our own `x-common.*` components, styled with Tailwind CSS 4. Validation goes through regular Laravel Form Requests.
+Every page is a class-based Livewire component in a Laravel module, with its Blade view in `resources/views`. The UI is the free edition of Flux, wrapped in our own `x-common.*` components and styled with Tailwind CSS 4. Validation uses regular Laravel Form Requests.
 
 ## Tech stack
 
@@ -46,7 +50,7 @@ Every page is a class-based Livewire component in a Laravel module, and its Blad
 
 ## Get the code
 
-Once you've bought the kit, you'll get access to the private repository `the-erag/saas-laravel-starter-kit-livewire` (see [Repository access](/docs/purchase/repository-access)). Clone it like this:
+After purchase, your GitHub account gets access to the private repository `the-erag/saas-laravel-starter-kit-livewire` (see [Repository access](/docs/purchase/repository-access)).
 
 ```bash
 git clone https://github.com/the-erag/saas-laravel-starter-kit-livewire.git livewire
@@ -55,7 +59,7 @@ cd livewire
 
 ## Install
 
-The full setup (PHP, database, Herd domains, tenancy) is covered in [Local development](/docs/getting-started/local-development). Here's the short version:
+The short version is below. PHP, the database, Herd domains and tenancy are covered in [Local development](/docs/getting-started/local-development).
 
 ::: code-group
 
@@ -77,19 +81,27 @@ npm run build
 
 `composer setup` runs the migrations but doesn't seed, so run `php artisan db:seed` once. That creates the roles, permissions and menus, plus one default user for each role.
 
-As shipped, `.env.example` has `APP_URL=http://livewire.test` and `APP_DOMAIN=livewire.test`. Change both to your own domain.
+`.env.example` has `APP_URL=http://livewire.test` and `APP_DOMAIN=livewire.test`. Set both to the domain you serve the app on.
 
-To start everything, run `composer dev`. You'll find the rest of the commands in [Development](/docs/livewire/development#daily-workflow).
+Run `composer dev` to start everything. The other commands are in [Development](/docs/livewire/development#daily-workflow).
 
 ::: tip
-There's no code generation step in this kit. No Wayfinder, no TypeScript types and no translation JSON: Blade calls `route()` and `__()` directly, so a new route or translation key works as soon as you save the file.
+This kit has no code generation step: no Wayfinder, no TypeScript types and no translation JSON. Blade calls `route()` and `__()` directly, so a new route or translation key works as soon as you save the file.
 :::
 
 ## Next steps
 
-- [Architecture](/docs/livewire/architecture): how a request flows, the folders, module registration, permissions and translations
-- [Components](/docs/livewire/components): the `x-common.*` wrappers, shared Blade components and the app shell
-- [Pages](/docs/livewire/pages): every page, its component and the route it lives on
-- [Layouts](/docs/livewire/layouts): the sidebar/header app layout, the card/simple/split auth layout and the settings layout
-- [Livewire](/docs/livewire/livewire): full-page and nested components, Form Request validation, events, modals and toasts
-- [Development](/docs/livewire/development): the commands, and how to add a page and a form
+<FeatureCards :cols="2" :items="[
+  { title: 'Architecture', text: 'How a request flows, the folders, module registration, permissions and translations.', link: '/docs/livewire/architecture' },
+  { title: 'Components', text: 'The `x-common.*` wrappers, shared Blade components and the app shell.', link: '/docs/livewire/components' },
+  { title: 'Pages', text: 'Every page, its component and the route it lives on.', link: '/docs/livewire/pages' },
+  { title: 'Layouts', text: 'The sidebar/header app layout, the card/simple/split auth layout and the settings layout.', link: '/docs/livewire/layouts' },
+  { title: 'Livewire', text: 'Full-page and nested components, Form Request validation, events, modals and toasts.', link: '/docs/livewire/livewire' },
+  { title: 'Development', text: 'The commands, and how to add a page and a form.', link: '/docs/livewire/development' },
+]" />
+
+<RelatedPages :links="[
+  { text: 'Local development', link: '/docs/getting-started/local-development', desc: 'PHP, the database, Herd domains and tenancy for the first run.' },
+  { text: 'Core architecture', link: '/docs/core/architecture', desc: 'The shared backend: tenancy, auth and roles.' },
+  { text: 'Repository access', link: '/docs/purchase/repository-access', desc: 'How you get access to the private repository.' },
+]" />

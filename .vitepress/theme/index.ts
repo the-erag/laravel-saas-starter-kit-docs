@@ -6,7 +6,6 @@ import BlogPostCta from './components/BlogPostCta.vue';
 import BlogPostMeta from './components/BlogPostMeta.vue';
 import CTASection from './components/CTASection.vue';
 import AboutSaasLaravel from './components/AboutSaasLaravel.vue';
-import AppOutOfTheBox from './components/AppOutOfTheBox.vue';
 import CustomizeEverything from './components/CustomizeEverything.vue';
 import DeveloperExperience from './components/DeveloperExperience.vue';
 import PaymentGateway from './components/PaymentGateway.vue';
@@ -17,6 +16,7 @@ import FeatureGrid from './components/FeatureGrid.vue';
 import FeatureSection from './components/FeatureSection.vue';
 import FrameworkCards from './components/FrameworkCards.vue';
 import HeroSection from './components/HeroSection.vue';
+import HomeFaq from './components/HomeFaq.vue';
 import KitCells from './components/KitCells.vue';
 import OfficialKitSync from './components/OfficialKitSync.vue';
 import KitPreview from './components/KitPreview.vue';
@@ -39,6 +39,7 @@ export default {
   Layout,
   enhanceApp({ app }) {
     app.component('HeroSection', HeroSection);
+    app.component('HomeFaq', HomeFaq);
     app.component('KitPreview', KitPreview);
     app.component('KitCells', KitCells);
     app.component('OfficialKitSync', OfficialKitSync);
@@ -53,7 +54,6 @@ export default {
     app.component('FeatureGrid', FeatureGrid);
     app.component('ThreeFrameworksOneBackend', ThreeFrameworksOneBackend);
     app.component('AboutSaasLaravel', AboutSaasLaravel);
-    app.component('AppOutOfTheBox', AppOutOfTheBox);
     app.component('CustomizeEverything', CustomizeEverything);
     app.component('DeveloperExperience', DeveloperExperience);
     app.component('PaymentGateway', PaymentGateway);

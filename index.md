@@ -19,8 +19,6 @@ lastUpdated: false
 
 <AboutSaasLaravel />
 
-<AppOutOfTheBox />
-
 <ReadyToBuild />
 
 <FeatureSection />
@@ -36,3 +34,5 @@ lastUpdated: false
 <TestimonialsSection />
 
 <PricingSection />
+
+<HomeFaq />

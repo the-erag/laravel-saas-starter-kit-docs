@@ -116,6 +116,6 @@ It's the best place to start. Our guide to [vibe coding a Laravel SaaS](/blog/vi
 
 ## How SaaS Laravel scores on this checklist
 
-We built [SaaS Laravel](/) on Laravel's official Vue, React and Svelte starter kits. Every kit includes `AGENTS.md` and `CLAUDE.md`, Laravel Boost with its MCP server, and skills for tenancy, Fortify, Inertia, Wayfinder, laravel-data, Pest and Tailwind. Every feature lives in its own module with the same structure, controllers stay thin, data is typed from PHP to TypeScript, and 35+ feature tests plus Larastan and Pint check every change. It's set up for Claude Code, Codex, Junie and Antigravity from the first install.
+We built [SaaS Laravel](/) on Laravel's official Vue, React and Svelte starter kits. Every kit includes `AGENTS.md` and `CLAUDE.md`, Laravel Boost with its MCP server, and skills for tenancy, Fortify, Inertia, Wayfinder, laravel-data, Pest and Tailwind. Every feature lives in its own module with the same structure, controllers stay thin, data is typed from PHP to TypeScript, and 30+ feature tests plus Larastan and Pint check every change. It's set up for Claude Code, Codex, Junie and Antigravity from the first install.
 
 <BlogPostCta title="An AI-ready Laravel SaaS starter kit" text="SaaS Laravel gives your coding agent rules, skills, an MCP server and one clear module structure to copy, in Vue, React or Svelte." />

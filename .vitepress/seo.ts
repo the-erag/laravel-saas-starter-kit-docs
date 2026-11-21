@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import type { DefaultTheme, HeadConfig, PageData } from 'vitepress';
 import { cleanMarkdown, pageMarkdown, readFrontmatter } from './markdown';
 import { blogAuthor, blogCategories, frameworkKeys, kitPriceList, kits, paymentFaqs, planOrder, plans, salesCountries, site, type FrameworkKey, type PlanKey } from './site';
+import { faqPlainText, homeFaqs } from './data/home-faqs';
 
 type JsonLd = Record<string, unknown>;
 
@@ -228,6 +229,7 @@ const structuredData = (pageData: PageData, url: string, title: string, descript
       organization(),
       website(),
       kitList('Laravel SaaS starter kits', (key) => (key === 'all-kits' ? `${site.url}${plans[key].href}` : `${site.url}/kits/${key}.html`)),
+      faqPage(homeFaqs.map((item) => ({ question: item.question, answer: faqPlainText(item.answer) }))),
     );
 
     return graph;

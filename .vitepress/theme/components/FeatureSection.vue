@@ -34,10 +34,14 @@ const overview: { icon: IconName; title: string; text: string }[] = [
   { icon: 'moon', title: 'Light & dark', text: 'Light, dark and system appearance, remembered per browser.' },
   { icon: 'bot', title: 'AI-ready', text: 'Your AI coding assistant already knows how the project is built.' },
   { icon: 'code', title: 'Typed end to end', text: 'Your editor knows every route and field, so mistakes show up early.' },
-  { icon: 'flask', title: 'Tested & linted', text: 'Tests and code-style checks run on every push.' },
+  { icon: 'flask', title: 'Tested & linted', text: '30+ tests and code-style checks run on every push.' },
   { icon: 'shield', title: 'Error pages', text: 'Designed 403, 404, 500 and 503 pages that match the app.' },
   { icon: 'layout-grid', title: 'Landing page', text: 'A marketing home page on the central domain.' },
   { icon: 'building', title: 'Tenant workspaces', text: 'Each customer gets users, roles and settings of their own.' },
+  { icon: 'users', title: 'Demo users for every role', text: 'Sign in as super admin, admin, manager, employee or user.' },
+  { icon: 'terminal', title: 'One-command setup', text: 'composer setup installs, creates .env, migrates and builds.' },
+  { icon: 'package', title: '25+ finished screens', text: 'Sign-in, dashboard, tenants, users and settings, built from shared form parts.' },
+  { icon: 'book', title: 'Docs for every feature', text: 'Step-by-step guides for setup and every core feature.' },
 ];
 
 const showcases: Showcase[] = [
@@ -361,11 +365,11 @@ onBeforeUnmount(() => {
 <template>
   <section ref="root" class="sl-section tour" aria-labelledby="showcase-title">
     <div class="sl-container tour-inner">
-      <div class="showcase-heading" data-reveal>
+      <div id="features" class="showcase-heading" data-reveal>
         <p class="sl-eyebrow">Everything included</p>
         <h2 id="showcase-title" class="sl-h2">Every feature a SaaS needs, already built</h2>
         <p class="sl-lead">
-          Twenty features that usually take months, wired together and working from the first install.
+          Features that usually take months, wired together and working from the first install.
         </p>
       </div>
 

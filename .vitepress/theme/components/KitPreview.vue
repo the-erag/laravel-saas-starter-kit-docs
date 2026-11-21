@@ -147,6 +147,10 @@ const alt = computed(() => `${kits[framework.value].title}: ${active.value.label
 </template>
 
 <style scoped>
+.kit-preview {
+  padding-top: 56px;
+}
+
 .video {
   display: flex;
   flex-wrap: wrap;

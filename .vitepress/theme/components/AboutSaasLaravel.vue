@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import SectionHeading from './SectionHeading.vue';
-import SlIcon from './SlIcon.vue';
+import SlIcon, { type IconName } from './SlIcon.vue';
+
+const facts: { icon: IconName; title: string; text: string }[] = [
+  { icon: 'layers', title: '4 frontends', text: 'Vue, React, Svelte or Livewire.' },
+  { icon: 'layout-grid', title: '25+ screens', text: 'Finished and ready to use.' },
+  { icon: 'languages', title: '17 languages', text: 'Translations included.' },
+  { icon: 'database', title: 'Central + tenant databases', text: 'A central one for tenants and your admin users, plus one per customer.' },
+];
 
 const links = [
   { text: 'Laravel Vue SaaS starter kit', href: '/kits/vue.html' },
@@ -23,21 +30,19 @@ const links = [
           <span id="about-saas-laravel">A Laravel SaaS starter kit for Vue, React, Svelte and Livewire</span>
         </SectionHeading>
         <p class="sl-text">
-          SaaS Laravel is a set of Laravel SaaS starter kits for developers and small teams who want to launch a
-          <a class="sl-link" href="/blog/multi-tenant-saas-laravel-database-per-tenant.html">multi-tenant SaaS application with Laravel</a>
-          without rebuilding the same foundation every time. Every kit runs on Laravel 13 and Tailwind CSS v4, and you pick
-          the frontend: Vue 3.5, React 19 or Svelte 5 with Inertia v3 and TypeScript, or Livewire 4 with Blade and Flux UI.
+          SaaS Laravel is a Laravel 13 starter kit for building a
+          <a class="sl-link" href="/blog/multi-tenant-saas-laravel-database-per-tenant.html">multi-tenant SaaS</a>, where every
+          customer gets their own database. It's for developers and small teams who are tired of rebuilding the same
+          foundation for every new project and would rather start on their own product. It's built and maintained by
+          <a class="sl-link" href="/about.html">ERAG</a>.
         </p>
-        <p class="sl-text">
-          Every kit has the same SaaS features. <a class="sl-link" href="/docs/core/multi-tenancy.html">Laravel multi-tenancy</a>
-          runs on stancl/tenancy: each customer gets their own database and subdomain, people sign in
-          with two-factor codes or passkeys, you decide exactly who can do what, and the whole interface comes in 17
-          languages.
-        </p>
-        <p class="sl-text">
-          You pay once through GitHub Sponsors and keep lifetime access to the kit repository, including the updates we push
-          every week. SaaS Laravel is built and maintained by <a class="sl-link" href="/about.html">ERAG</a>.
-        </p>
+        <ul class="about-facts">
+          <li v-for="fact in facts" :key="fact.title" class="about-fact">
+            <span class="about-fact-icon"><SlIcon :name="fact.icon" :size="17" /></span>
+            <span class="about-fact-title">{{ fact.title }}</span>
+            <span class="about-fact-text">{{ fact.text }}</span>
+          </li>
+        </ul>
       </div>
       <nav class="about-links" aria-label="Start here">
         <p class="about-links-title">Start here</p>
@@ -70,6 +75,61 @@ const links = [
 
 .about-text .sl-text + .sl-text {
   margin-top: 14px;
+}
+
+.about-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-fact {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-content: start;
+  gap: 2px 12px;
+  padding: 16px;
+  border: 1px solid var(--sl-border);
+  border-radius: var(--sl-radius);
+  background: var(--sl-surface);
+}
+
+.about-fact-icon {
+  display: grid;
+  place-items: center;
+  grid-row: span 2;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
+}
+
+.about-fact-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+}
+
+.about-fact-text {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--vp-c-text-2);
+}
+
+@media (max-width: 560px) {
+  .about-fact {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 14px;
+  }
+
+  .about-fact-icon {
+    grid-row: auto;
+    margin-bottom: 6px;
+  }
 }
 
 .about-links {

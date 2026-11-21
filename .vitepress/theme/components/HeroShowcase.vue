@@ -11,6 +11,11 @@ const screens: { kit: FrameworkKey; label: string; image: string; path: string; 
   { kit: 'livewire', label: 'Livewire', image: 'livewire-users', path: 'users', screen: 'Users', color: '#fb70a9' },
 ];
 
+// Phones get the 800px screenshot, desktops the 1440px one; the 2880px original is only for very dense screens.
+const srcset = (name: string) =>
+  `/screenshots/${name}-800.webp 800w, /screenshots/${name}-1440.webp 1440w, /screenshots/${name}.webp 2880w`;
+const sizes = '(max-width: 960px) calc(100vw - 48px), 700px';
+
 const ROTATE_MS = 4500;
 
 const active = ref(0);
@@ -79,7 +84,9 @@ onBeforeUnmount(() => clearInterval(timer));
         >
           <img
             class="window-img window-img--light"
-            :src="`/screenshots/${item.image}-light.webp`"
+            :src="`/screenshots/${item.image}-light-1440.webp`"
+            :srcset="srcset(`${item.image}-light`)"
+            :sizes="sizes"
             :alt="`${kits[item.kit].title}: ${item.screen} screen`"
             width="2880"
             height="1800"
@@ -89,7 +96,9 @@ onBeforeUnmount(() => clearInterval(timer));
           />
           <img
             class="window-img window-img--dark"
-            :src="`/screenshots/${item.image}-dark.webp`"
+            :src="`/screenshots/${item.image}-dark-1440.webp`"
+            :srcset="srcset(`${item.image}-dark`)"
+            :sizes="sizes"
             :alt="`${kits[item.kit].title}: ${item.screen} screen`"
             width="2880"
             height="1800"

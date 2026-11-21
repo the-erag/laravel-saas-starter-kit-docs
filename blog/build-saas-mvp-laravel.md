@@ -130,7 +130,7 @@ Yes, even if it's a small amount. Paying customers give you honest feedback that
 - Complete login with two-factor and passkeys.
 - Users, invitations, roles and permissions.
 - Menus, settings and layouts.
-- 17 languages and 35+ tests.
+- 17 languages and 30+ tests.
 
 It comes in Vue, React or Svelte. Payments are left open on purpose, so you can add the provider that fits your market. Your first day goes into the feature that makes your product yours.
 

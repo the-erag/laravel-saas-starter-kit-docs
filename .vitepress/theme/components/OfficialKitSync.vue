@@ -22,18 +22,8 @@ const promises: { icon: IconName; title: string; text: string }[] = [
   },
   {
     icon: 'code',
-    title: 'Clean, readable code',
-    text: 'High-quality code with no duplication, easy to change.',
-  },
-  {
-    icon: 'lock',
-    title: 'One sign-in for everything',
-    text: 'Stay signed in to your SaaS and a tenant in one browser.',
-  },
-  {
-    icon: 'wrench',
-    title: 'Customise anything',
-    text: 'Every file is yours. Change any page, rule or flow.',
+    title: 'Organised by module',
+    text: 'Each feature is its own module, with thin controllers and service classes.',
   },
 ];
 </script>
@@ -87,6 +77,7 @@ const promises: { icon: IconName; title: string; text: string }[] = [
 
 <style scoped>
 .sync {
+  padding-bottom: 40px;
   border-top: 1px solid var(--sl-border);
 }
 
@@ -228,14 +219,15 @@ const promises: { icon: IconName; title: string; text: string }[] = [
   opacity: 0.85;
 }
 
+/* The 1px gaps show the grid's background, so the lines between cards stay even at any column count. */
 .sync-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  border-top: 1px solid var(--sl-border);
-  border-left: 1px solid var(--sl-border);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--sl-border);
   border-radius: var(--sl-radius);
   overflow: hidden;
-  background: var(--sl-surface);
+  background: var(--sl-border);
 }
 
 .sync-card {
@@ -243,8 +235,7 @@ const promises: { icon: IconName; title: string; text: string }[] = [
   align-content: start;
   gap: 8px;
   padding: 22px 20px 24px;
-  border-right: 1px solid var(--sl-border);
-  border-bottom: 1px solid var(--sl-border);
+  background: var(--sl-surface);
 }
 
 .sync-icon {

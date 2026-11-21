@@ -1,130 +1,11 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { testimonials } from '../../data/testimonials';
 import SectionHeading from './SectionHeading.vue';
 
-interface Testimonial {
-  name: string;
-  role: string;
-  review: string;
-  location?: string;
-  avatar?: string;
-  accent: string;
-  rating: number;
-  sample: boolean;
-}
-
-const testimonials: Testimonial[] = [
-  {
-    name: 'Ashish Sharma',
-    role: 'Full Stack Developer',
-    review: 'The module structure is exactly how I would organise a Laravel app myself. Thin controllers, services, Data classes — I felt at home on day one.',
-    location: 'India',
-    accent: '#6366f1',
-    rating: 5,
-    sample: true,
-  },
-  {
-    name: 'James Wilson',
-    role: 'SaaS Founder',
-    review: 'Database-per-tenant used to take me weeks. Here it was working before lunch.',
-    location: 'United Kingdom',
-    accent: '#0ea5e9',
-    rating: 5,
-    sample: true,
-  },
-  {
-    name: 'Akash Nisad',
-    role: 'Laravel Developer',
-    review: 'Our team is split between Vue and React. Having the same backend in both kits made the choice painless.',
-    location: 'India',
-    accent: '#f59e0b',
-    rating: 5,
-    sample: true,
-  },
-  {
-    name: 'Emma Taylor',
-    role: 'Full Stack Developer',
-    review: 'I picked the Svelte kit and the components feel native, not like a port. Clean runes code everywhere.',
-    location: 'Australia',
-    accent: '#ec4899',
-    rating: 5,
-    sample: true,
-  },
-  {
-    name: 'Daniel Carter',
-    role: 'Tech Lead',
-    review: 'The docs explain the why, not just the how. Onboarding a new developer took an afternoon.',
-    location: 'United States',
-    accent: '#10b981',
-    rating: 5,
-    sample: true,
-  },
-  {
-    name: 'Aditya Singh',
-    role: 'Freelance Developer',
-    review: 'composer setup, composer dev and I had a running multi-tenant app. The setup is genuinely that simple.',
-    location: 'India',
-    accent: '#8b5cf6',
-    rating: 5,
-    sample: true,
-  },
-  {
-    name: 'Michael Brown',
-    role: 'Backend Developer',
-    review: 'Roles, permissions and invitations are already wired. That alone saved us a full sprint.',
-    location: 'Canada',
-    accent: '#ef4444',
-    rating: 5,
-    sample: true,
-  },
-  {
-    name: 'Sophie Miller',
-    role: 'Product Engineer',
-    review: 'The reusable form components keep every page consistent. I stopped rewriting inputs and buttons.',
-    location: 'Germany',
-    accent: '#14b8a6',
-    rating: 5,
-    sample: true,
-  },
-  {
-    name: 'Annu Gupta',
-    role: 'Software Engineer',
-    review: 'Per-domain branding and languages worked out of the box for our clients. Very thoughtful details.',
-    location: 'India',
-    accent: '#d946ef',
-    rating: 5,
-    sample: true,
-  },
-  {
-    name: 'Alex Martin',
-    role: 'Indie Hacker',
-    review: 'Typed routes with Wayfinder and generated TypeScript types — refactoring no longer scares me.',
-    location: 'France',
-    accent: '#3b82f6',
-    rating: 5,
-    sample: true,
-  },
-  {
-    name: 'Rahul Mehta',
-    role: 'SaaS Founder',
-    review: 'I launched my MVP weeks earlier than planned. Maintenance mode and suspension were a nice bonus.',
-    location: 'India',
-    accent: '#f97316',
-    rating: 5,
-    sample: true,
-  },
-  {
-    name: 'Lucas Anderson',
-    role: 'Laravel Developer',
-    review: 'Great developer experience overall. Pest tests, Larastan and Pint are already set up and passing.',
-    location: 'Sweden',
-    accent: '#22c55e',
-    rating: 5,
-    sample: true,
-  },
-];
-
 const hasSamples = computed(() => testimonials.some((testimonial) => testimonial.sample));
+const heading = computed(() => `Trusted by ${testimonials.filter((testimonial) => !testimonial.team).length} developers`);
+const showStars = computed(() => !testimonials.every((testimonial) => testimonial.rating === 5));
 const isMounted = ref(false);
 const loop = computed(() => (isMounted.value ? [...testimonials, ...testimonials] : testimonials));
 
@@ -194,6 +75,10 @@ const onMouseLeave = () => {
 };
 
 const onPointerDown = (event: PointerEvent) => {
+  // Capturing the pointer would swallow clicks on profile links.
+  if ((event.target as HTMLElement).closest('a')) {
+    return;
+  }
   dragging = true;
   startX = event.clientX;
   startOffset = offset;
@@ -254,8 +139,8 @@ onBeforeUnmount(() => {
 <template>
   <section class="sl-section testimonials" aria-labelledby="testimonials-title">
     <div class="sl-container">
-      <SectionHeading eyebrow="Testimonials" title="Trusted by 12+ Developers" lead="Developers building faster with SaaS Laravel starter kits.">
-        <span id="testimonials-title">Trusted by 12+ Developers</span>
+      <SectionHeading eyebrow="Testimonials" :title="heading" lead="Developers building faster with SaaS Laravel starter kits.">
+        <span id="testimonials-title">{{ heading }}</span>
       </SectionHeading>
       <p v-if="hasSamples" class="sample-note">Sample testimonials</p>
     </div>
@@ -287,7 +172,7 @@ onBeforeUnmount(() => {
               fill="currentColor"
             />
           </svg>
-          <div class="stars" :aria-label="`${testimonial.rating} out of 5 stars`" role="img">
+          <div v-if="showStars" class="stars" :aria-label="`${testimonial.rating} out of 5 stars`" role="img">
             <svg v-for="star in 5" :key="star" viewBox="0 0 20 20" :class="{ off: star > testimonial.rating }" aria-hidden="true">
               <path
                 d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5Z"
@@ -295,12 +180,17 @@ onBeforeUnmount(() => {
               />
             </svg>
           </div>
-          <p class="review">{{ testimonial.review }}</p>
+          <p class="review" :class="{ 'review--no-stars': !showStars }">{{ testimonial.review }}</p>
           <div class="person">
             <img v-if="testimonial.avatar" :src="testimonial.avatar" :alt="testimonial.name" class="avatar" width="40" height="40" loading="lazy" />
             <span v-else class="avatar" :style="{ '--avatar-accent': testimonial.accent }" aria-hidden="true">{{ initials(testimonial.name) }}</span>
             <div class="person-meta">
-              <span class="person-name">{{ testimonial.name }}</span>
+              <span class="person-name">
+                <a v-if="testimonial.link" :href="testimonial.link" target="_blank" rel="noopener noreferrer">{{ testimonial.name }}</a>
+                <template v-else>{{ testimonial.name }}</template>
+                <span v-if="testimonial.kit" class="badge">{{ testimonial.kit }}</span>
+                <span v-if="testimonial.team" class="badge badge--team">Team</span>
+              </span>
               <span>{{ testimonial.role }}<template v-if="testimonial.location"> · {{ testimonial.location }}</template></span>
             </div>
           </div>
@@ -448,6 +338,11 @@ onBeforeUnmount(() => {
   color: var(--vp-c-text-1);
 }
 
+.review--no-stars {
+  margin-top: 0;
+  padding-right: 36px;
+}
+
 .person-meta span {
   overflow: hidden;
   font-size: 12.5px;
@@ -455,6 +350,41 @@ onBeforeUnmount(() => {
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--vp-c-text-2);
+}
+
+.person-meta .person-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: visible;
+}
+
+.person-name a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.person-name a:hover {
+  color: var(--vp-c-brand-1);
+  text-decoration: underline;
+}
+
+.person-meta .badge {
+  flex-shrink: 0;
+  padding: 1px 7px;
+  border: 1px solid var(--sl-border);
+  border-radius: 999px;
+  background: var(--vp-c-default-soft);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--vp-c-text-2);
+}
+
+.person-meta .badge--team {
+  border-color: color-mix(in srgb, var(--vp-c-brand-1) 35%, transparent);
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
 }
 
 @container (max-width: 960px) {

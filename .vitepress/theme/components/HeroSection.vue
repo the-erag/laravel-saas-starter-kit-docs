@@ -1,8 +1,23 @@
 <script setup lang="ts">
-import { site } from '../../site';
+import { formatPrice, site } from '../../site';
 import HeroShowcase from './HeroShowcase.vue';
 import HeroStack from './HeroStack.vue';
 import SlIcon from './SlIcon.vue';
+
+// VitePress jumps to same-page anchors; these two buttons scroll smoothly instead (the router skips prevented clicks).
+const scrollToSection = (event: MouseEvent, id: string) => {
+  const target = document.getElementById(id);
+
+  if (!target) {
+    return;
+  }
+
+  event.preventDefault();
+  const navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--vp-nav-height'), 10) || 64;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - navHeight, behavior: reduceMotion ? 'auto' : 'smooth' });
+  history.pushState(null, '', `#${id}`);
+};
 </script>
 
 <template>
@@ -19,18 +34,17 @@ import SlIcon from './SlIcon.vue';
           Laravel 13 SaaS Starter Kits for <span class="sl-gradient-text">Multi-Tenant</span> Apps
         </h1>
         <p class="sl-lead">
-          Build a multi-tenant Laravel SaaS application without starting from zero.
-          <strong class="hero-lead-proof">1,500+ kits shipped</strong>, powering SaaS apps across 4 frontends. Every
-          kit ships with tenant management (a database per tenant with stancl/tenancy), users, roles and permissions,
-          menus, authentication and security, ready from day one. One Laravel 13 backend, with Vue, React, Svelte or
-          Livewire on the front.
+          A Laravel 13 multi-tenant SaaS starter kit where every customer gets their own database, with sign-in, users,
+          roles and permissions already working. It's for developers and small teams building a SaaS with Vue, React,
+          Svelte or Livewire who don't want to build that foundation from scratch.
         </p>
         <div class="sl-actions hero-actions">
-          <a class="sl-btn sl-btn--primary sl-btn--lg" href="#features">
-            Explore Features <span class="vpi-arrow-right" />
+          <a class="sl-btn sl-btn--primary sl-btn--lg" href="/pricing.html">
+            Get the kit — from {{ formatPrice(site.kitPriceFrom) }} <span class="vpi-arrow-right" />
           </a>
-          <a class="sl-btn sl-btn--secondary sl-btn--lg" href="#preview">See It Live</a>
+          <a class="sl-btn sl-btn--secondary sl-btn--lg" href="#preview" @click="scrollToSection($event, 'preview')">See it live</a>
         </div>
+        <p class="hero-note"><span>One-time payment</span> · <span>Lifetime access</span> · <span>Weekly updates</span></p>
         <a class="hero-tree-link" href="#customize">
           <SlIcon name="code" :size="15" />
           See the folder structure and how easy it is to customize
@@ -151,9 +165,14 @@ import SlIcon from './SlIcon.vue';
   transform: translateX(3px);
 }
 
-.hero-lead-proof {
-  font-weight: 700;
-  color: var(--vp-c-brand-1);
+.hero-note {
+  margin: 14px 0 0;
+  font-size: 13.5px;
+  color: var(--vp-c-text-3);
+}
+
+.hero-note span {
+  white-space: nowrap;
 }
 
 .hero-frameworks {
@@ -282,6 +301,10 @@ import SlIcon from './SlIcon.vue';
 @media (max-width: 480px) {
   .hero-actions .sl-btn {
     width: 100%;
+  }
+
+  .hero-note {
+    text-align: center;
   }
 }
 

@@ -26,8 +26,8 @@ const scrollToSection = (event: MouseEvent, id: string) => {
     <div class="hero-grid-bg" />
     <div class="sl-container hero-inner">
       <div class="hero-copy sl-reveal">
-        <a href="/pricing.html" class="sl-pill hero-pill">
-          <span class="hero-pill-dot" />{{ site.accessNote }}
+        <a href="/releases.html" class="sl-pill hero-pill">
+          <span class="hero-pill-dot" />Now on Laravel 13
           <span class="vpi-arrow-right hero-pill-arrow" />
         </a>
         <h1 class="sl-h1">

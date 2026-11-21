@@ -104,17 +104,25 @@ withDefaults(defineProps<{ primary?: boolean }>(), { primary: false });
   position: relative;
 }
 
+/* Five cards need more room than the usual 1200px container, so the row runs wider. */
+.plans {
+  width: min(1360px, calc(100vw - 48px));
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
 .plans {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   align-items: stretch;
-  gap: 16px;
+  gap: 20px;
 }
 
 .plan {
   display: flex;
   flex-direction: column;
-  padding: 28px 24px 24px;
+  padding: 32px 26px 26px;
+  container-type: inline-size;
   transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
 }
 
@@ -161,8 +169,11 @@ withDefaults(defineProps<{ primary?: boolean }>(), { primary: false });
 }
 
 .plan-name {
-  font-size: 18px;
+  /* Shrinks a little on narrower cards so "Livewire Starter Kit" stays on one line. */
+  font-size: min(18px, 8.6cqi);
   font-weight: 700;
+  line-height: 1.35;
+  white-space: nowrap;
   color: var(--vp-c-text-1);
 }
 
@@ -248,8 +259,11 @@ withDefaults(defineProps<{ primary?: boolean }>(), { primary: false });
   color: var(--vp-c-text-2);
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1240px) {
   .plans {
+    width: auto;
+    margin-left: 0;
+    transform: none;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 28px 20px;
   }

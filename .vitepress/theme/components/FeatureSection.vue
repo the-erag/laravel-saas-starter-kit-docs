@@ -369,7 +369,7 @@ onBeforeUnmount(() => {
         <p class="sl-eyebrow">Everything included</p>
         <h2 id="showcase-title" class="sl-h2">Every feature a SaaS needs, already built</h2>
         <p class="sl-lead">
-          Features that usually take months, wired together and working from the first install.
+          All of this works from the first install. You can skip the setup work and start on your own product.
         </p>
       </div>
 

@@ -123,6 +123,11 @@ export default defineConfig({
           find: /^.*\/VPSocialLink\.vue$/,
           replacement: fileURLToPath(new URL('./theme/components/SocialLink.vue', import.meta.url)),
         },
+        // A <main> landmark on pages with `layout: page`, like the home page (see theme/components/PageMain.vue).
+        {
+          find: /^.*\/VPPage\.vue$/,
+          replacement: fileURLToPath(new URL('./theme/components/PageMain.vue', import.meta.url)),
+        },
         // Sidebar group titles as text instead of headings (see theme/components/SidebarItem.vue).
         {
           find: /^.*\/VPSidebarItem\.vue$/,

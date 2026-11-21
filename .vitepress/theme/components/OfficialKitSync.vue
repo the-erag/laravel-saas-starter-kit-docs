@@ -77,7 +77,7 @@ const promises: { icon: IconName; title: string; text: string }[] = [
 
 <style scoped>
 .sync {
-  padding-bottom: 40px;
+  padding-bottom: 24px;
   border-top: 1px solid var(--sl-border);
 }
 

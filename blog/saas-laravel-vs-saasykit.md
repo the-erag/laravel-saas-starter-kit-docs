@@ -12,13 +12,13 @@ tags: [SaaSykit, Filament, Comparison]
 
 <BlogPostMeta />
 
-SaaSykit and SaaS Laravel are both paid Laravel 13 starter kits, both sold as a one-time payment, and both offer multi-tenancy. That's where the overlap ends. SaaSykit is a TALL-stack kit with Filament at its core and billing built in. SaaS Laravel is built on Laravel's official starter kits, gives you a choice of four frontends, puts each tenant in its own database, and leaves billing to you.
+SaaSykit and SaaS Laravel are both paid Laravel 13 starter kits, both sold as a one-time payment. SaaS Laravel is multi-tenant out of the box; SaaSykit offers multi-tenancy through its separate Tenancy kit. That's where the overlap ends. SaaSykit is a TALL-stack kit with Filament at its core and billing built in. SaaS Laravel is built on Laravel's official starter kits, gives you a choice of four frontends, puts each tenant in its own database, and leaves billing to you.
 
 This post compares the two on the things that are hard to change later: how tenants are stored, how admin screens are built, which frontend you write, what billing you get, and what the license covers. We make SaaS Laravel. Every fact about SaaSykit below comes from [saasykit.com](https://saasykit.com) and [its docs](https://saasykit.com/docs), checked in November 2026. Where we couldn't confirm something, we leave it out.
 
 ## The two products in short
 
-**SaaSykit** is sold as a few products. There's the base **SaaSykit** kit, a separate **SaaSykit Tenancy** kit for multi-tenant apps, and **SaaSykit Complete**, described as "SaaSykit + SaaSykit Tenancy (2 repos)". The stack is TALL: Laravel, Tailwind CSS, Livewire, Alpine.js and Filament, with DaisyUI for Tailwind components. The requirements page lists Laravel 13 and PHP 8.4+. Filament is used "for admin panel & customer dashboard".
+**SaaSykit** is sold as a few products. There's the base **SaaSykit** kit, a separate **SaaSykit Tenancy** kit for multi-tenant apps, and **SaaSykit Complete**, described as "SaaSykit + SaaSykit Tenancy (2 repos)". The stack is TALL: Laravel, Tailwind CSS, Livewire, Alpine.js and Filament, with DaisyUI for Tailwind components. The [requirements page](https://saasykit.com/docs/getting-started/requirements) lists Laravel 13 and PHP 8.4+. Filament is used "for admin panel & customer dashboard".
 
 Its feature list includes a stats page with MRR, churn and ARPU, a roadmap for user feedback, a blog with SEO tools, social login and 2FA, site-wide announcements, and one-command deployment with PHP Deployer and Laravel Forge. The docs also cover multi-currency, referrals, discounts, invoices and SMS verification.
 
@@ -28,7 +28,7 @@ Its feature list includes a stats page with MRR, churn and ARPU, a roadmap for u
 
 This is the most important difference, so it comes first.
 
-The base SaaSykit kit doesn't state multi-tenancy. **SaaSykit Tenancy** adds it: team management, invitations, roles and permissions, and custom domains or subdomains for tenant workspaces. On the database model, the [multi-tenancy docs](https://saasykit.com/docs/multi-tenancy) recommend that you "stick with single-database tenancy". For teams that need more, SaaSykit Tenancy includes a plugin for multi-database tenancy, `saasykit/filament-tenancy-for-laravel`, a private package that the docs say integrates the Tenancy for Laravel package with Filament ([multi-database tenancy docs](https://saasykit.com/docs/multi-tenancy/multi-database-tenancy)). So both modes are available in SaaSykit Tenancy, with single-database as the recommended path.
+The base SaaSykit kit doesn't state multi-tenancy. **SaaSykit Tenancy** adds it: team management, invitations, roles and permissions, and custom domains or subdomains for tenant workspaces. On the database model, the [multi-database tenancy docs](https://saasykit.com/docs/multi-tenancy/multi-database-tenancy) recommend that you "stick with single-database tenancy". For teams that need more, SaaSykit Tenancy includes a plugin for multi-database tenancy, `saasykit/filament-tenancy-for-laravel`, a private package that the docs say integrates the Tenancy for Laravel package with Filament ([multi-database tenancy docs](https://saasykit.com/docs/multi-tenancy/multi-database-tenancy)). So both modes are available in SaaSykit Tenancy, with single-database as the recommended path.
 
 SaaS Laravel only does one thing here: **multi-database mode is the design**, not an option. There's a central database for your side of the app, and each tenant gets its own database (`tenant1`, `tenant2` and so on). Tenants are found by subdomain, with separate guards for central and tenant users, per-tenant cache and files, and queued jobs that remember their tenant. It uses stancl/tenancy, which is the same Tenancy for Laravel package SaaSykit's plugin is built on.
 
@@ -83,7 +83,7 @@ Both are one-time payments with no subscription.
 | | SaaSykit / SaaSykit Tenancy | SaaS Laravel |
 | --- | --- | --- |
 | Tenancy | Tenancy product: single database recommended, multi-database plugin included | Database per tenant (stancl/tenancy) |
-| Tenant domains | Custom domains or subdomains | Subdomains of your app domain |
+| Tenant domains | Custom domains or subdomains | Subdomains of your app domain ([custom domains guide](/blog/laravel-tenant-custom-domains.html)) |
 | Admin | Filament (admin and customer dashboard) | Built in the kit's own frontend |
 | Frontend | Livewire, Alpine.js, Filament, DaisyUI | Vue, React, Svelte (Inertia) or Livewire |
 | Billing | Stripe, Paddle, Creem, Polar, Lemon Squeezy | Not included |

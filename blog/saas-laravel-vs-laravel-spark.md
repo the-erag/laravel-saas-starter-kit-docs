@@ -34,7 +34,7 @@ Spark is the official, paid billing package from the Laravel team. It's built on
 
 You define plans in a config file. It supports per-seat billing, PDF and emailed invoices, and PayPal through Paddle. The portal is isolated from your app, with its own CSS and JavaScript, so it sits next to whatever frontend you use. Its homepage gives Blade with Bootstrap and Inertia with Vue as examples.
 
-What Spark doesn't do is just as important. It doesn't include login or registration; its docs point you to a Laravel starter kit for that. It doesn't give you an admin area for your own staff. It doesn't separate customer data into tenants. And it only supports its two providers: the docs say you can't add your own custom payment provider.
+What Spark doesn't do is just as important. It doesn't include login or registration; its [docs](https://spark.laravel.com/docs/introduction.md) point you to a starter kit such as Jetstream or Breeze for that. It doesn't give you an admin area for your own staff. It doesn't separate customer data into tenants. And it only supports its two providers: the docs say you can't add your own custom payment provider.
 
 As of November 2026, Spark is listed at **$99 per project** (one deployed application) or **$199 for unlimited projects**. Each license includes one year of updates. The docs say that if your license expires and you don't renew, you pin Spark to the last version released before it expired. The renewal price isn't stated on the site.
 
@@ -62,13 +62,13 @@ What it doesn't include is billing. That's a deliberate choice: you might want S
 | **Updates** | One year per license | Lifetime access, weekly updates |
 | **Projects** | One app ($99) or unlimited ($199) | Unlimited projects for you or clients |
 
-The table makes the point clearer than any paragraph: almost every row where one says "included", the other says "not included".
+The table makes the point clearer than any paragraph: on billing, auth, tenancy and staff admin, one has what the other lacks.
 
 ## Where they overlap
 
 There's one place they touch: the idea of a "customer account".
 
-Spark can bill a model other than `User`, such as a team or an organization. The Stripe edition supports a single billable model per application. So you have to decide up front what a customer is.
+Spark can bill a model other than `User`, such as a team or an organization. The Stripe edition supports a single billable model per application ([Spark Stripe configuration](https://spark.laravel.com/docs/spark-stripe/configuration.md)). So you have to decide up front what a customer is.
 
 In SaaS Laravel, a customer is a tenant. The `Tenant` model lives in the central database and has an email and a company name, which is exactly what a billing provider needs. Each tenant's users live in that tenant's own database. That makes the tenant the natural thing to bill, not the individual user.
 
@@ -126,7 +126,7 @@ Spark can bill a team or organization instead of a user, but it doesn't separate
 
 ### Does Spark include authentication?
 
-No. Spark's docs point you to a Laravel starter kit for login and registration. SaaS Laravel includes Fortify auth for both the central app and each tenant.
+No. Spark's docs point you to a starter kit such as Jetstream or Breeze for login and registration. SaaS Laravel includes Fortify auth for both the central app and each tenant.
 
 ### Is Spark a subscription?
 

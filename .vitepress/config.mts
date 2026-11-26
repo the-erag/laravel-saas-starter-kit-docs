@@ -1,7 +1,7 @@
 import { execFileSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { join, relative } from 'node:path';
 import { defineConfig, type DefaultTheme, type HeadConfig } from 'vitepress';
 import { fileURLToPath } from 'node:url';
 import type { Plugin } from 'vite';
@@ -112,25 +112,85 @@ export default defineConfig({
   cleanUrls: false,
   sitemap: {
     hostname: site.url,
-    // Pages with `lastUpdated: false` (home, pricing, kits, ...) only hide the date on the page, but VitePress then
-    // leaves lastmod out of the sitemap too. Give them their last git commit date. Never-committed files get none.
+    // Pages with `lastUpdated: false` (home, pricing, kits, blog, authors, ...) only hide the date on the page,
+    // but VitePress then leaves lastmod out of the sitemap too. These pages are mostly built from components, so
+    // their lastmod is the newest git commit date of the page, the components it uses and those components'
+    // direct imports (site.ts, home-faqs.ts, posts.data.ts, ...). The blog index also counts its newest post.
+    // Only committed files have a git date; never-committed files are ignored.
     transformItems(items) {
       const srcDir = fileURLToPath(new URL('..', import.meta.url));
+      const componentsDir = join(srcDir, '.vitepress/theme/components');
+      const gitDates = new Map<string, number>();
+
+      const gitDate = (file: string): number => {
+        if (!gitDates.has(file)) {
+          let time = 0;
+
+          try {
+            const out = execFileSync('git', ['log', '-1', '--format=%cI', '--', file], { cwd: srcDir, encoding: 'utf8' }).trim();
+            time = out ? new Date(out).getTime() : 0;
+          } catch {
+            time = 0;
+          }
+
+          gitDates.set(file, time);
+        }
+
+        return gitDates.get(file) ?? 0;
+      };
+
+      // A component file plus the local files it imports directly (other components, site.ts, data loaders).
+      const componentFiles = (name: string): string[] => {
+        const file = join(componentsDir, `${name}.vue`);
+
+        if (!existsSync(file)) {
+          return [];
+        }
+
+        const imports = [...readFileSync(file, 'utf8').matchAll(/from '(\.{1,2}\/[^']+)'/g)].flatMap(([, spec]) => {
+          const base = join(componentsDir, spec);
+
+          return [base, `${base}.ts`, `${base}.vue`].filter((candidate) => existsSync(candidate) && !candidate.endsWith('/'));
+        });
+
+        return [file, ...imports];
+      };
+
+      const newestPostDate = (): number =>
+        Math.max(
+          0,
+          ...readdirSync(join(srcDir, 'blog'))
+            .filter((name) => name.endsWith('.md'))
+            .map((name) => {
+              const date = readFileSync(join(srcDir, 'blog', name), 'utf8').match(/^date:\s*(\S+)/m)?.[1];
+
+              return date && gitDate(join('blog', name)) ? new Date(date).getTime() : 0;
+            }),
+        );
 
       return items.map((item) => {
         if (item.lastmod) {
           return item;
         }
 
-        const file = item.url === '' ? 'index.md' : item.url.replace(/\.html$/, '.md');
+        const page = item.url === '' ? 'index.md' : item.url.replace(/\.html$/, '.md');
+        const pagePath = join(srcDir, page);
 
-        try {
-          const date = execFileSync('git', ['log', '-1', '--format=%cI', '--', file], { cwd: srcDir, encoding: 'utf8' }).trim();
-
-          return date ? { ...item, lastmod: new Date(date).toISOString() } : item;
-        } catch {
+        if (!existsSync(pagePath)) {
           return item;
         }
+
+        const components = [...new Set([...readFileSync(pagePath, 'utf8').matchAll(/<([A-Z][A-Za-z]+)/g)].map(([, name]) => name))];
+        const files = [page, ...components.flatMap(componentFiles).map((file) => relative(srcDir, file))];
+        const times = files.map(gitDate);
+
+        if (page === 'blog.md') {
+          times.push(gitDate('blog/posts.data.ts'), newestPostDate());
+        }
+
+        const newest = Math.max(0, ...times);
+
+        return newest ? { ...item, lastmod: new Date(newest).toISOString() } : item;
       });
     },
   },
@@ -178,6 +238,16 @@ export default defineConfig({
       ? ([['meta', { name: 'google-site-verification', content: site.googleSiteVerification }]] as HeadConfig[])
       : []),
   ],
+  // Blog posts with long titles drop the " | SaaS Laravel" suffix, so the rendered <title> stays at 60
+  // characters or less and isn't cut off in search results. og:title and twitter:title already use the bare title.
+  transformPageData(pageData) {
+    const title = pageData.frontmatter.title as string | undefined;
+
+    if (pageData.relativePath.startsWith('blog/') && title && title.length + ` | ${site.name}`.length > 60) {
+      pageData.titleTemplate = false;
+      pageData.frontmatter.titleTemplate = false;
+    }
+  },
   transformHead({ pageData, title, description, content }): HeadConfig[] {
     return seoHead(pageData, title, description, content);
   },

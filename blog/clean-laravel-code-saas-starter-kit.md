@@ -195,7 +195,7 @@ When you check a kit, read the `paths` as well as the level. A high level only c
 
 Formatting is Laravel Pint. In the Vue kit it uses the `laravel` preset plus stricter rules such as `strict_comparison`, `no_unused_imports` and `ordered_class_elements`. The Inertia kits add ESLint and Prettier; the Livewire kit uses blade-formatter. The point isn't the exact rules. It's that nobody argues about style in code review. More in [Larastan and Pint](/blog/laravel-larastan-pint.html).
 
-## 7. Tests and CI on every push
+## 7. Tests and CI on pushes and pull requests
 
 The kits use Pest. In the Vue kit, the feature tests cover authentication, settings and the dashboard. One Composer script runs every check, and the GitHub Actions workflow in `.github/workflows/tests.yml` runs it (through `composer ci:check`) on every push to `main` and every pull request:
 
@@ -235,7 +235,7 @@ Each kit ships Laravel Boost guidelines (`AGENTS.md`, `CLAUDE.md`) and skills fo
 - [ ] Are there guidelines for AI agents, and do they match the code?
 - [ ] Does the kit look like Laravel's official kits, or invent its own conventions?
 
-If the kit has a public repo, a demo repo or docs with code samples, you can tick most of these in half an hour.
+If the kit has a public repo, a demo repo or docs with code samples, you can check most of these before you buy.
 
 For the wider picture, see [Best Laravel SaaS starter kits in 2026, compared](/blog/best-laravel-saas-starter-kits.html).
 
@@ -255,12 +255,12 @@ There's no official number. Higher levels catch more type mistakes but need more
 
 ### Should a kit include tests for every feature?
 
-Ideally the risky parts are covered: auth, permissions, tenant separation. Look at what a kit tests rather than counting files.
+Ideally the risky parts are covered: auth, permissions, tenant separation. Look at what a kit actually tests rather than counting files. In ours, every kit has feature tests for sign-in, registration, password reset, email verification, two-factor auth, profile and security settings, and the dashboard. The React and Svelte kits also test tenant creation and tenant sign-in. None of the kits has permission tests yet.
 
 ## Where SaaS Laravel fits
 
-SaaS Laravel follows the patterns above in all four kits: modules, thin controllers, service classes, Data objects (Inertia) or Form Requests (Livewire), Wayfinder, Larastan level 7, Pint, Pest, a CI workflow and Boost guidelines. It's built on Laravel's official starter kits, so the folders and conventions will look familiar. The [architecture docs](/docs/core/architecture.html) and [project structure](/docs/getting-started/project-structure.html) show the layout, and [testing](/docs/core/testing.html) shows how the tests are set up.
+SaaS Laravel follows the patterns above in all four kits: modules, thin controllers, service classes, Data objects (Inertia) or Form Requests (Livewire), Wayfinder (Inertia kits), Larastan level 7, Pint, Pest, a CI workflow and Boost guidelines. It's built on Laravel's official starter kits, so the folders and conventions will look familiar. The [architecture docs](/docs/core/architecture.html) and [project structure](/docs/getting-started/project-structure.html) show the layout, and [testing](/docs/core/testing.html) shows how the tests are set up.
 
 It's not the right pick if you want a Filament admin with generated CRUD screens, or a single-database app. We explain the first in [why we didn't use Filament](/blog/why-no-filament-multi-tenant-saas-kit.html) and the second in [single database vs database-per-tenant kits](/blog/single-database-vs-database-per-tenant-starter-kit.html). And if you'd rather start from the official kits and add your own structure, read [official starter kits vs a SaaS boilerplate](/blog/laravel-official-starter-kits-vs-saas-boilerplate.html). Prices are on the [pricing page](/pricing.html), and the [Vue](/kits/vue.html), [React](/kits/react.html), [Svelte](/kits/svelte.html) and [Livewire](/kits/livewire.html) pages show each kit.
 
-<BlogPostCta title="Read the code before you buy" text="SaaS Laravel uses modules, thin controllers, services, typed routes, Larastan level 7, Pint and Pest in Vue, React, Svelte and Livewire." />
+<BlogPostCta title="Read the code before you buy" text="SaaS Laravel uses modules, thin controllers, services, Larastan level 7, Pint and Pest in Vue, React, Svelte and Livewire, with typed routes in the Inertia kits." />

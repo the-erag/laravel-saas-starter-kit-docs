@@ -12,11 +12,9 @@ tags: [Wave, Starter Kits, Comparison]
 
 <BlogPostMeta />
 
-Wave from DevDojo is one of the best-known free Laravel SaaS kits. SaaS Laravel is our paid kit. People often look at both, and they're built for different kinds of products, so a feature-by-feature race doesn't help much. This post explains what each one gives you and who each one suits.
+Wave from DevDojo is one of the best-known free Laravel SaaS kits. SaaS Laravel is our paid kit. The short version: Wave is free, MIT-licensed and ships billing, a blog and a Filament admin panel on a Livewire stack. SaaS Laravel is paid, has no billing, and is built around a separate database for each tenant, with a choice of Vue, React, Svelte or Livewire. People often look at both, and they're built for different kinds of products, so a feature-by-feature race doesn't help much. This post explains what each one gives you and who each one suits.
 
 We make SaaS Laravel, so keep that in mind. To stay fair, every fact about Wave below comes from Wave's own website, docs and GitHub repository, checked in November 2026. Where we couldn't confirm something, we say so instead of guessing.
-
-The short version: Wave is free, MIT-licensed and ships billing, a blog and a Filament admin panel on a Livewire stack. SaaS Laravel is paid, has no billing, and is built around a separate database for each tenant, with a choice of Vue, React, Svelte or Livewire.
 
 ## What Wave is
 
@@ -29,7 +27,7 @@ The feature list on Wave's site and README is long:
 - Roles and permissions (Spatie)
 - Notifications, a changelog, a blog and pages
 - An API
-- A Filament-powered admin that manages users, posts, plans and settings
+- A Filament-powered admin panel
 - Themes and plugins
 
 The stack is Livewire, Alpine.js, Tailwind CSS and Filament. Its `composer.json` also pulls in Livewire Volt and Laravel Folio, and the docs have a guide on using Filament with Volt.
@@ -38,7 +36,7 @@ Billing works with Stripe or Paddle. You pick the provider with `BILLING_PROVIDE
 
 The [install docs](https://devdojo.com/docs/open-source/wave/install) use SQLite by default, with MySQL also documented. That makes it quick to get running on a laptop or a small server.
 
-We didn't find team workspaces or multi-tenancy in Wave's own pages. DevDojo has a separate "Teams" package page in its docs, but nothing on it ties it to Wave. If you need teams, check their site.
+We didn't find team workspaces or multi-tenancy described as part of Wave itself. Wave's docs do link to a separate [DevDojo Teams package](https://devdojo.com/docs/packages/teams), so if you need teams, start there and check how it fits your Wave version.
 
 ## What SaaS Laravel is
 
@@ -47,11 +45,11 @@ SaaS Laravel is four Laravel 13 starter kits that share the same backend: Vue, R
 The center of the kit is multi-tenancy with stancl/tenancy in multi-database mode:
 
 - A central database for your own admin side, plus **one database per tenant**.
-- Each tenant is found by domain, as a subdomain of your app (`acme.your-domain.com`).
+- Each tenant is found by domain, as a subdomain of your app (`acme.your-domain.com`). Tenants can also bring a [custom domain](/blog/laravel-tenant-custom-domains.html) once you add it.
 - Separate auth guards for central and tenant users. Cache, files and queued jobs are kept per tenant.
 - Workspace statuses (Active, Trial, Pending Invitation, Suspended), signed invitations for tenant admins and per-tenant maintenance mode.
 
-Around that you get Fortify auth with two-factor and passkeys, spatie roles and permissions, invitations, database-driven menus, in-app notifications and 17 languages. Admin screens are built in the kit's own frontend, not in Filament. The backend is split into modules with thin controllers and service classes, and every kit has Larastan at level 7, Pint and Pest tests set up.
+Around that you get Fortify auth with two-factor and passkeys, Spatie roles and permissions, database-driven menus, in-app notifications and 17 languages. Admin screens are built in the kit's own frontend, not in Filament. The backend is split into modules with thin controllers and service classes, and every kit has Larastan at level 7, Pint and Pest tests set up.
 
 What it doesn't have: billing, an HTTP API with tokens, a blog or a landing page builder. Billing is left out on purpose so you can choose your provider, but it does mean more work before you can charge anyone.
 
@@ -129,7 +127,7 @@ Yes. Wave's homepage says it's open source and free, and the repository is MIT-l
 
 ### Does Wave support multi-tenancy?
 
-We didn't find multi-tenancy or team workspaces in Wave's own docs when we checked in November 2026. DevDojo lists a separate Teams package in its docs, but it isn't described as part of Wave. Check their site for the current state.
+Not as part of Wave itself, when we checked in November 2026. Wave's docs link to a separate [DevDojo Teams package](https://devdojo.com/docs/packages/teams) for team accounts. Check their site for the current state.
 
 ### Does SaaS Laravel include billing like Wave?
 

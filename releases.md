@@ -26,6 +26,18 @@ Improved, Fixed or Removed, and describe anything buyers must do in words as the
 
 <ReleaseFilter />
 
+<ReleaseCard kit="livewire" version="Unreleased">
+
+- Added tenancy tests: creating a tenant (its domain, database and first admin user), field validation on the create tenant page, and sign-in checks that keep central and tenant accounts apart.
+
+</ReleaseCard>
+
+<ReleaseCard kit="vue" version="Unreleased">
+
+- Added tenancy tests: creating a tenant (its domain, database and first admin user), field validation on the create form, and sign-in checks that keep central and tenant accounts apart.
+
+</ReleaseCard>
+
 <ReleaseCard kit="livewire" version="0.0.2" date="4 November 2026">
 
 - Added a README with the setup steps, the default login users and the code quality commands.

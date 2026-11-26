@@ -1,6 +1,6 @@
 ---
 title: "Why We Didn't Use Filament in Our Multi-Tenant SaaS Kit"
-description: "Filament is a great admin framework. Here is why we built SaaS Laravel's admin in the kit's own stack instead, and when Filament is still the better choice."
+description: "Filament is a great admin framework. Here is why we built SaaS Laravel's admin in the kit's own stack instead, and when Filament is still the better pick."
 pageClass: blog-page
 date: 2026-11-21
 author: erag
@@ -16,11 +16,11 @@ One of the questions we get most often is "why doesn't SaaS Laravel ship with Fi
 
 This is our reasoning for our product: a set of multi-tenant starter kits with a database per tenant. It's not a claim that Filament is the wrong tool in general. For the basics of what Filament and Inertia each do, read [Filament vs Inertia](/blog/filament-vs-inertia.html) first. We won't repeat that here.
 
-Versions in this post: Laravel 13, Filament 5 (the latest GitHub release was v5.11.4 when we checked in November 2026), stancl/tenancy 3 and Inertia v3.
+Versions in this post: Laravel 13, Filament 5, stancl/tenancy 3 and Inertia v3.
 
 ## First: Filament is a great tool
 
-"We didn't use X" posts often read like "X is bad". Filament isn't. It describes itself as an open-source framework for building business software with Laravel, it's MIT licensed, and its site lists 1.3K+ community plugins (as of November 2026, on [filamentphp.com](https://filamentphp.com)). You describe a table or a form in PHP and get a working screen. For a lot of teams, that's exactly the right trade.
+"We didn't use X" posts often read like "X is bad". Filament isn't. It describes itself as an open-source framework for building business software with Laravel, it's [MIT licensed](https://github.com/filamentphp/filament), and its site lists 1.3K+ community plugins (as of November 2026, on [filamentphp.com](https://filamentphp.com)). You describe a table or a form in PHP and get a working screen. For a lot of teams, that's exactly the right trade.
 
 Other kits made the opposite call from us, and that's fine. As of November 2026, [Wave](https://devdojo.com/wave), [SaaSykit](https://saasykit.com) and [Larafast](https://larafast.com/pricing) all use Filament for their admin. If you want a Filament admin out of the box, those are the kits to look at.
 
@@ -60,7 +60,7 @@ The Livewire kit is the interesting case, because Filament is itself built on Li
 
 Filament is a framework on top of Laravel, with its own ideas about resources, forms, tables, actions and panels. Those ideas are good, but they're one more thing a buyer has to learn before they can change the admin with confidence.
 
-A starter kit is code you'll own for years. We'd rather you only need to know Laravel and your chosen frontend. The tenants module holds things you already know: routes, controllers, Data objects or Form Requests, services and a repository. The [architecture docs](/docs/core/architecture.html) describe the pattern in one page, because there's only one.
+A starter kit is code you'll own for years. We'd rather you only need to know Laravel and your chosen frontend. The tenants module holds things you already know: routes, controllers, Data objects or Form Requests, services and repositories. The [architecture docs](/docs/core/architecture.html) describe the pattern in one page, because there's only one.
 
 It helps AI coding tools too: every kit ships Laravel Boost guidelines, and fewer patterns means fewer rules to describe.
 
@@ -76,7 +76,7 @@ Then there's customization. A panel framework is fastest while your screen fits 
 
 This was the deciding point for us.
 
-Filament has multi-tenancy built in, and it's a good fit for team-based apps. Its docs (checked in November 2026) describe users who belong to many tenants, a tenant switcher and `canAccessTenant()` checks. The [tenancy docs](https://filamentphp.com/docs/5.x/users/tenancy) scope records by a tenant foreign key on shared tables, such as `team_id`. Multi-database tenancy isn't mentioned.
+Filament has multi-tenancy built in, and it's a good fit for team-based apps: users belong to many tenants, and records are scoped by a tenant key such as `team_id` on shared tables. We describe its model, with links to its docs, in [Filament's built-in tenancy](/blog/single-database-vs-database-per-tenant-starter-kit.html#filament-s-built-in-tenancy).
 
 SaaS Laravel works differently. stancl/tenancy identifies the tenant by its subdomain and switches the database connection for the whole request. Cache is tagged per tenant, the filesystem is suffixed per tenant, and queued jobs remember the tenant. There's no `team_id` on tenant tables, because each tenant's tables live in their own database.
 
@@ -88,7 +88,7 @@ Laravel's own [starter kits](https://laravel.com/docs/starter-kits) don't ship a
 
 ## Reason 6: one set of checks for both apps
 
-Every kit ships Pint, Pest 5 feature tests, Larastan (PHPStan) at level 7 and a GitHub Actions workflow. Because admin screens are ordinary controllers, services and pages, the admin and the customer app follow the same code style and are tested the same way. There's no second set of rules for "the panel part". One honest note: Larastan's `paths` currently cover `app/`, config, database and routes, not the `Modules/` folders yet.
+Every kit ships Pint, Pest 5 feature tests, Larastan (PHPStan) at level 7 and a GitHub Actions workflow. Because admin screens are ordinary controllers, services and pages, the admin and the customer app follow the same code style, pass the same static checks and can be tested with the same tools. There's no second set of rules for "the panel part". One honest note: Larastan's `paths` currently cover `app/`, config, database and routes, not the `Modules/` folders yet.
 
 ## What this decision costs
 

@@ -1,6 +1,6 @@
 ---
 title: "Filament vs a Custom Admin Panel for a Large Laravel SaaS"
-description: "Filament or a custom Inertia or Livewire admin for a large Laravel SaaS? Trade-offs on speed, customization, design, upgrades, testing, hiring and tenancy."
+description: "Filament or a custom Inertia or Livewire admin for a large Laravel SaaS? Trade-offs on speed, customization, design, upgrades, testing, hiring, tenancy."
 pageClass: blog-page
 date: 2026-11-21
 author: annu-gupta
@@ -48,7 +48,7 @@ If you need a working back office this week, this factor alone often decides it.
 
 **A custom admin wins, at a cost.** With your own pages there's no framework model to fit into. A multi-step wizard, a drag-and-drop board or a chart that reacts to filters is built the same way as any other screen.
 
-Filament is very flexible within its model, and it has themes and a large plugin ecosystem (its site listed 1.3K+ community plugins as of November 2026). But when a screen is far from "table plus form", you're working through extension points rather than writing a page. That's fine for a few screens. It gets tiring when most of your admin is unusual.
+Filament is very flexible within its model, and it has themes and a large plugin ecosystem (its site listed [1.3K+ community plugins](https://filamentphp.com/plugins) as of November 2026). But when a screen is far from "table plus form", you're working through extension points rather than writing a page. That's fine for a few screens. It gets tiring when most of your admin is unusual.
 
 ## Design consistency with the customer app
 
@@ -62,7 +62,7 @@ Both options need upgrade work. The shape is different.
 
 With **Filament**, you follow Filament's major versions in addition to Laravel's and Livewire's. When we checked in November 2026, Filament 5 required PHP 8.2+, Laravel v11.28+ and Tailwind CSS v4.1+ ([installation docs](https://filamentphp.com/docs/5.x/introduction/installation)). Each plugin you use also has to support the new major version before you can upgrade, so check that list before you plan the move.
 
-With a **custom admin**, you upgrade Laravel, Inertia or Livewire, and your JavaScript framework, which you were doing for the customer app anyway. shadcn-style components are copied into your repo, so you update them when you choose. You own more code, so there's more code to touch, but there's no extra framework layer in the middle.
+With a **custom admin**, you upgrade Laravel, Inertia or Livewire (plus Flux UI if you use it), and your JavaScript framework, which you were doing for the customer app anyway. shadcn-style components are copied into your repo, so you update them when you choose. You own more code, so there's more code to touch, but there's no extra framework layer in the middle.
 
 ## Testing
 
@@ -86,7 +86,7 @@ The awkward case is mixing: an Inertia app with a Filament admin means new hires
 
 ## Multi-tenancy fit
 
-Filament has tenancy built in. Its [tenancy docs](https://filamentphp.com/docs/5.x/users/tenancy) (checked November 2026) describe users who belong to many tenants, a tenant switcher and `canAccessTenant()` checks, with examples that scope records by a tenant foreign key like `team_id`. Multi-database tenancy isn't mentioned. If your SaaS is team-based on a shared database, that's a good match.
+Filament has tenancy built in, designed for users who belong to many tenants, with records scoped on shared tables (see [Filament's built-in tenancy](/blog/single-database-vs-database-per-tenant-starter-kit.html#filament-s-built-in-tenancy) for the details). If your SaaS is team-based on a shared database, that's a good match.
 
 If you use a database per tenant with a package like stancl/tenancy, Filament can still work, but you wire it up yourself. Our [Filament vs Inertia](/blog/filament-vs-inertia.html) post covers the middleware details. Some kits do this work for you: SaaSykit Tenancy, for example, ships a plugin that integrates Tenancy for Laravel with Filament for its multi-database mode ([their docs](https://saasykit.com/docs/multi-tenancy/multi-database-tenancy), November 2026).
 
@@ -103,7 +103,7 @@ We haven't found a sourced benchmark comparing Filament with a custom admin, so 
 | Speed to first screen | Fastest | Slowest | In between |
 | Customization ceiling | High within its model | No framework limit | No framework limit |
 | Matches the customer app | Needs a custom theme | Yes, if the app is Inertia | Yes, if the app is Livewire |
-| Upgrade work | Laravel, Livewire, Filament and plugins | Laravel, Inertia, JS framework | Laravel, Livewire |
+| Upgrade work | Laravel, Livewire, Filament and plugins | Laravel, Inertia, JS framework | Laravel, Livewire, Flux UI |
 | UI tests | Livewire tests | HTTP feature tests | Livewire tests |
 | Skills needed | Laravel and Filament | Laravel and Vue, React or Svelte | Laravel, Livewire and Blade |
 | Built-in tenancy | Team-style, scoped by foreign key | None; uses your backend | None; uses your backend |
@@ -151,8 +151,8 @@ We don't have a sourced benchmark either way. Query design usually matters more 
 
 ## Where SaaS Laravel fits
 
-SaaS Laravel takes the custom-admin route in all four kits. The central admin (tenants, domains, admin users, roles, menus, tenant maintenance) and each tenant's admin (users, roles, menus, layout settings) are built in the kit's own stack: [Vue](/kits/vue.html), [React](/kits/react.html), [Svelte](/kits/svelte.html) or [Livewire](/kits/livewire.html), on a database-per-tenant backend. The [architecture docs](/docs/core/architecture.html) show the controller, service and page pattern every screen follows.
+SaaS Laravel takes the custom-admin route in all four kits. The central admin (tenants, domains, admin users, roles, menus, tenant maintenance) and each tenant's admin (users, roles, menus, layout settings) are built in the kit's own stack: [Vue](/kits/vue.html), [React](/kits/react.html), [Svelte](/kits/svelte.html) or [Livewire](/kits/livewire.html), on a database-per-tenant backend. The [architecture docs](/docs/core/architecture.html) show the controller, service and page pattern every screen follows (Livewire: component + service).
 
-It's not the right choice if you want a Filament admin ready on day one, or if your product is an internal tool where Filament alone would be quicker. Billing isn't included either. Prices are on the [pricing page](/pricing.html).
+It's not the right choice if you want a Filament admin ready on day one, or if your product is an internal tool where Filament alone would be quicker. Billing isn't included either; the [Stripe billing guide](/blog/laravel-saas-stripe-billing.html) shows how to add it. Prices are on the [pricing page](/pricing.html).
 
 <BlogPostCta title="A custom admin, already built" text="SaaS Laravel ships central and tenant admin screens in Vue, React, Svelte or Livewire, using the same components as the rest of your app." />

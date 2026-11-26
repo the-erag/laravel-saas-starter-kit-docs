@@ -1,6 +1,6 @@
 ---
 title: "Best Laravel SaaS Starter Kits in 2026, Compared"
-description: "Laravel SaaS starter kits in 2026 compared: Spark, Wave, SaaSykit, Larafast, Tenancy for Laravel, the official kits and more, with a table and how to choose."
+description: "Laravel SaaS starter kits in 2026 compared: Spark, Wave, SaaSykit, Larafast, Tenancy for Laravel, the official kits and more, and how to choose."
 pageClass: blog-page
 date: 2026-11-21
 author: erag
@@ -12,7 +12,7 @@ tags: [Starter Kits, Comparison, Laravel SaaS]
 
 <BlogPostMeta />
 
-Search for a Laravel SaaS starter kit and you get a dozen names with very little detail. The real questions are: which frontend does it use, does it have an admin panel, how does it keep customers apart, and does it include billing?
+Search for a Laravel SaaS starter kit and you get a dozen names with very little detail. The real questions are: which frontend does it use, does it have an admin panel, how does it keep customers apart, and does it include billing? The short answer is that no single kit is best. For billing only, pick Spark. For a free all-in-one on Livewire, Wave. For a paid kit with many payment providers and Filament, SaaSykit. For a database per tenant, the Tenancy for Laravel boilerplate or SaaS Laravel.
 
 This post compares the kits we see most often: the official Laravel starter kits, Laravel Spark, Wave, SaaSykit, Larafast, the Tenancy for Laravel SaaS boilerplate, JetShip, Electrik and our own kit, SaaS Laravel. We checked every product on its own website, docs or GitHub repository in November 2026. Where we couldn't confirm something, the table says "check site" instead of guessing.
 
@@ -33,7 +33,7 @@ These products do different jobs. They fall into four rough groups:
 
 The [official starter kits](https://laravel.com/docs/starter-kits) are free and MIT-licensed. There are four: React, Vue and Svelte (all with Inertia and TypeScript) and Livewire 4 with Flux UI. Auth runs on Laravel Fortify, including two-factor. As of November 2026 they can also be generated with team support: users get a personal team, can create and switch teams and invite members.
 
-There's no admin panel and no billing. The code is copied into your app, and the docs say there's no need to update the starter kit itself.
+There's no admin panel and no billing. The code is copied into your app and you own it from there ([what that means for updates](/blog/laravel-official-starter-kits-vs-saas-boilerplate.html#what-they-leave-out)).
 
 **Good for:** developers who want official code and are happy to build the SaaS parts themselves.
 
@@ -57,13 +57,13 @@ There's no admin panel and no billing. The code is copied into your app, and the
 
 ### Larafast
 
-[Larafast](https://larafast.com) sells separate Livewire (TALL) and Vue (VILT, with Inertia) codebases, plus a separate team-based Multi-Tenancy product built on Livewire. It uses a Filament admin, supports Stripe, Lemon Squeezy and Paddle, and is a one-time purchase with lifetime updates. Its own pages didn't agree with each other on prices or Laravel version when we looked, so check their site for both.
+[Larafast](https://larafast.com) sells separate Livewire (TALL) and Vue (VILT, with Inertia) codebases, plus a separate team-based Multi-Tenancy product built on Livewire. It uses a Filament admin, supports Stripe, Lemon Squeezy and Paddle, and is a one-time purchase with lifetime updates. Every product card on its site lists Laravel 13. Its own pages didn't agree with each other on prices when we looked, so check their site for the current price.
 
 **Good for:** buyers who want both a Livewire and a Vue version from the same vendor.
 
 ### Tenancy for Laravel SaaS boilerplate
 
-The [Tenancy for Laravel boilerplate](https://tenancyforlaravel.com/saas-boilerplate/) comes from the authors of the stancl/tenancy package. It uses one database per tenant, with Laravel Nova for the admin side and a Tailwind frontend with some Alpine.js and Livewire. Billing uses Cashier Stripe. It's a one-time payment and isn't bound to one site. As of November 2026 it's on Laravel 12, and the page says a new Jetstream-based version is coming.
+The [Tenancy for Laravel boilerplate](https://tenancyforlaravel.com/saas-boilerplate/) comes from the authors of the stancl/tenancy package. It uses one database per tenant, with Laravel Nova for the admin side and a Tailwind frontend with some Alpine.js and Livewire. Billing uses Cashier Stripe. It's a one-time payment and isn't bound to one site. Its Enterprise tier is listed for companies with more than $60k annual revenue, and the FAQ says you need a [Laravel Nova](https://nova.laravel.com) licence if you use the prepared Nova resources. As of November 2026 it's on Laravel 12, and the page says a new Jetstream-based version is coming.
 
 **Good for:** teams that want database-per-tenant from the package authors and are happy with Nova.
 
@@ -75,9 +75,9 @@ The [Tenancy for Laravel boilerplate](https://tenancyforlaravel.com/saas-boilerp
 
 ### SaaS Laravel
 
-[SaaS Laravel](/) is our kit. It's four Laravel 13 kits with one shared backend: Vue, React or Svelte on Inertia v3, or Livewire 4 with Flux UI. It uses stancl/tenancy in multi-database mode, so each tenant gets its own database and subdomain, managed from a central app. It adds Fortify auth with passkeys, spatie roles and permissions, invitations and 17 languages.
+[SaaS Laravel](/) is our kit. It's four Laravel 13 kits with one shared backend: Vue, React or Svelte on Inertia v3, or Livewire 4 with Flux UI. It uses stancl/tenancy in multi-database mode, so each tenant gets its own database and subdomain, managed from a central app. It adds Fortify auth with passkeys, Spatie roles and permissions, invitations and 17 languages. Tenants can later get their own [custom domains](/blog/laravel-tenant-custom-domains.html) too.
 
-It doesn't include billing, an HTTP API or a landing page builder. Admin screens are built in the kit's own frontend, not Filament. It's a one-time payment with lifetime repository access and weekly updates.
+It doesn't include billing (our [Stripe billing guide](/blog/laravel-saas-stripe-billing.html) shows how to add it), an HTTP API or a landing page builder. Admin screens are built in the kit's own frontend, not Filament. It's a one-time payment with lifetime repository access and weekly updates.
 
 ## Laravel SaaS starter kits compared
 
@@ -89,8 +89,8 @@ Checked on each product's own site or repository in November 2026. "Check site" 
 | **Laravel Spark** | Paid, 1 year of updates | Any (portal has its own UI) | No | Bills a user or team; check site | Stripe or Paddle | Check site |
 | **Wave** | Free, MIT | Livewire, Volt, Folio | Filament | Check site | Stripe or Paddle | 13 |
 | **SaaSykit** | Paid, one-time, lifetime updates | Livewire, Alpine | Filament | Separate Tenancy product | Stripe, Paddle, Creem, Polar, Lemon Squeezy | 13 |
-| **Larafast** | Paid, one-time, lifetime updates | Livewire or Vue (Inertia) | Filament | Separate team-based product | Stripe, Lemon Squeezy, Paddle | Check site |
-| **Tenancy for Laravel** | Paid, one-time | Tailwind, Alpine, some Livewire | Laravel Nova | Database per tenant | Cashier Stripe | 12 |
+| **Larafast** | Paid, one-time, lifetime updates | Livewire or Vue (Inertia) | Filament | Separate team-based product | Stripe, Lemon Squeezy, Paddle | 13 |
+| **Tenancy for Laravel** | Paid, one-time; Enterprise tier above $60k revenue | Tailwind, Alpine, some Livewire | Laravel Nova (licence sold separately) | Database per tenant | Cashier Stripe | 12 |
 | **JetShip** | Paid, one-time, lifetime updates | Livewire | Filament | Check site | Stripe, Lemon Squeezy | Check site |
 | **Electrik** | Free, MIT | Livewire 4 | Custom `/ops` console | Teams | Stripe (Cashier) | 12 or 13 |
 | **SaaS Laravel** | Paid, one-time, weekly updates | Vue, React, Svelte (Inertia) or Livewire | Built in the kit's frontend | Database per tenant | Not included | 13 |

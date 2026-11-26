@@ -1,5 +1,5 @@
 ---
-title: "Single Database vs Database-per-Tenant Starter Kits"
+title: "Single Database vs Database-per-Tenant SaaS Kits"
 description: "Which Laravel SaaS starter kits share one database and which give each tenant its own, and what that means for migrations, backups, hosting and reports."
 pageClass: blog-page
 date: 2026-11-21
@@ -14,7 +14,7 @@ tags: [Multi-tenancy, Starter Kits, Database]
 
 When you compare Laravel SaaS starter kits, the feature lists look alike: auth, teams, roles, billing, an admin area. The thing that differs most is often one line on the page, or not on the page at all: does the kit keep every customer in **one shared database**, or does it give **each tenant its own database**?
 
-That choice is baked into the kit's migrations, models, routes and tests. You can change it later, but by then you're rewriting a large part of code you paid for. So it's worth knowing which model a kit uses before you buy it.
+That choice is baked into the kit's migrations, models, routes and tests. You can change it later, but by then you're rewriting a large part of the code you paid for. So it's worth knowing which model a kit uses before you buy it.
 
 Below: which model the common kits use (checked on their own sites in November 2026), what that means day to day, and how hard it is to switch. We make one of these kits, so we only state what each product says. For the theory behind the two models, read [single vs multi-database tenancy in Laravel](/blog/single-vs-multi-database-tenancy-laravel.html) first.
 
@@ -30,7 +30,7 @@ Many kits are built on Filament, so its model matters. Filament 5's [tenancy doc
 
 ### SaaSykit Tenancy
 
-SaaSykit Tenancy is a separate product from the base SaaSykit kit, built on Filament and Livewire. Its [multi-tenancy docs](https://saasykit.com/docs/multi-tenancy) recommend that you "stick with single-database tenancy". It also ships a plugin that [enables multi-database tenancy](https://saasykit.com/docs/multi-tenancy/multi-database-tenancy) by integrating Tenancy for Laravel with Filament. So, as of November 2026, you get both options, with single database as the recommended one.
+SaaSykit Tenancy is a separate product from the base SaaSykit kit, built on Filament and Livewire. Its [multi-database tenancy docs](https://saasykit.com/docs/multi-tenancy/multi-database-tenancy) recommend that you "stick with single-database tenancy". It also ships a plugin that [enables multi-database tenancy](https://saasykit.com/docs/multi-tenancy/multi-database-tenancy) by integrating Tenancy for Laravel with Filament. So, as of November 2026, you get both options, with single database as the recommended one.
 
 ### Tenancy for Laravel SaaS boilerplate
 
@@ -42,12 +42,12 @@ Our kits use stancl/tenancy in multi-database mode: a central database plus one 
 
 ### Others
 
-[Electrik](https://github.com/electrikhq/electrik) has teams with a `BelongsToTeam` trait; a database per tenant isn't stated. [Larafast Multi-Tenancy](https://larafast.com/multitenancy) describes team-based tenancy and mentions database isolation, but we couldn't tell which model it uses. Ask them if it matters.
+[Electrik](https://github.com/electrikhq/electrik) has teams with a `BelongsToTeam` trait; a database per tenant isn't stated. [Larafast Multi-Tenancy](https://larafast.com/multitenancy) lists "Team-Based Multi-Tenancy" and describes itself as a kit "with database isolation, custom domains and a Filament 5 admin panel". It doesn't say whether that means one database per tenant, so ask them if it matters.
 
 | Kit | Tenancy model (November 2026) | Tenant identified by | Admin UI |
 | --- | --- | --- | --- |
 | Official kits with teams | Shared database | Team in the URL (`/{current_team}`) | Not included |
-| Filament tenancy | Shared tables with a tenant key (per docs examples) | Tenant switcher in the panel | Filament |
+| Filament tenancy | Shared tables with a tenant key (per docs examples) | Tenant ID or slug in the URL path, or a [domain or subdomain](https://filamentphp.com/docs/5.x/users/tenancy) | Filament |
 | SaaSykit Tenancy | Single database recommended, multi-database plugin | Subdomains or custom domains | Filament |
 | Tenancy for Laravel boilerplate | Database per tenant | Domains | Laravel Nova |
 | SaaS Laravel | Database per tenant | Subdomains | Built in the kit's own frontend |
@@ -68,7 +68,7 @@ One database means one backup, and restoring one customer means picking their ro
 
 ### Hosting
 
-Shared-database kits run anywhere Laravel runs, including SQLite on a small server. A database-per-tenant kit asks more of the host. SaaS Laravel needs MySQL with a database user that can `CREATE` and `DROP` databases, and wildcard subdomains for tenant URLs. Some managed database plans restrict those permissions, so check yours first.
+Shared-database kits run anywhere Laravel runs, including SQLite on a small server. A database-per-tenant kit asks more of the host. SaaS Laravel needs MySQL or MariaDB ([requirements](/docs/getting-started/requirements.html)) with a database user that can `CREATE` and `DROP` databases, and wildcard subdomains for tenant URLs. Some managed database plans restrict those permissions, so check yours first.
 
 ### Reporting across tenants
 
@@ -92,7 +92,7 @@ The model isn't just a config value in a kit. It shapes the code you get:
 
 Switching means touching most of those files. And there's a cost specific to buying a kit: once you change something this basic, almost every update from the author touches files you've rewritten, so pulling updates gets much harder.
 
-Going from shared to per-tenant databases is the more common move and can be done tenant by tenant. Going the other way is harder. In SaaS Laravel, for example, records in each tenant database use auto-increment IDs, so two tenants can both have a user with ID 1, and merging them means rewriting keys.
+Going from shared to per-tenant databases can be done tenant by tenant. Going the other way is harder. In SaaS Laravel, for example, records in each tenant database use auto-increment IDs, so two tenants can both have a user with ID 1, and merging them means rewriting keys.
 
 So treat the tenancy model as fixed when you pick a kit.
 
@@ -152,6 +152,6 @@ If your MVP customers are businesses, it's easier to start with it than to move 
 
 SaaS Laravel only does database-per-tenant, on subdomains. If that's what your product needs, it gives you the central and tenant sides, separate guards, tenant-aware cache, files and queues, and tenant migrations already wired up. See the [multi-tenancy docs](/docs/core/multi-tenancy.html) and the [database layout](/docs/core/database.html).
 
-It's not the right pick if you want a shared database, a huge number of free accounts, or hosting without create-database rights. It also doesn't include billing. In those cases, look at the official kits with teams or SaaSykit Tenancy. Our [roundup of Laravel SaaS starter kits](/blog/best-laravel-saas-starter-kits.html) and [SaaS Laravel vs SaaSykit](/blog/saas-laravel-vs-saasykit.html) compare them further. If you want to see the code first, read [what clean Laravel code means in a starter kit](/blog/clean-laravel-code-saas-starter-kit.html), then check the [pricing](/pricing.html) and the [Vue](/kits/vue.html), [React](/kits/react.html), [Svelte](/kits/svelte.html) or [Livewire](/kits/livewire.html) kit pages.
+It's not the right pick if you want a shared database, a huge number of free accounts, or hosting without create-database rights. It also doesn't include billing (see the [Stripe billing guide](/blog/laravel-saas-stripe-billing.html) to add it). In those cases, look at the official kits with teams or SaaSykit Tenancy. Our [roundup of Laravel SaaS starter kits](/blog/best-laravel-saas-starter-kits.html) and [SaaS Laravel vs SaaSykit](/blog/saas-laravel-vs-saasykit.html) compare them further. If you want to see the code first, read [what clean Laravel code means in a starter kit](/blog/clean-laravel-code-saas-starter-kit.html), then check the [pricing](/pricing.html) and the [Vue](/kits/vue.html), [React](/kits/react.html), [Svelte](/kits/svelte.html) or [Livewire](/kits/livewire.html) kit pages.
 
 <BlogPostCta title="A database per tenant, already set up" text="SaaS Laravel gives each tenant its own database and subdomain, with central and tenant sides wired up, in Vue, React, Svelte or Livewire." />

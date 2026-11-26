@@ -20,7 +20,7 @@ We make SaaS Laravel, which is in the third group. Facts about Laravel's kits co
 
 ## What Laravel's official starter kits give you
 
-As of November 2026 there are four official kits: **React**, **Vue** and **Svelte** with Inertia and TypeScript, and **Livewire** 4 with Flux UI. The Inertia kits use shadcn/ui, shadcn-vue or shadcn-svelte for components and Wayfinder for typed routes. They're free, and the kit repositories are MIT-licensed.
+As of November 2026 there are four official kits: **React**, **Vue** and **Svelte** with Inertia and TypeScript, and **Livewire** 4 with Flux UI. The Inertia kits use shadcn/ui, shadcn-vue or shadcn-svelte for components and Wayfinder for typed routes. They're free, and the kit repositories are MIT-licensed (see the [Vue kit's composer.json](https://github.com/laravel/vue-starter-kit/blob/main/composer.json), for example).
 
 Out of the box you get:
 
@@ -37,7 +37,7 @@ The kits can also be generated **with teams**. Users belong to one or more teams
 The official kits are a starting point for any app, not a SaaS product. They don't include:
 
 - **An admin area** for you, the owner, to manage customers.
-- **Billing.** Cashier is a separate Laravel package you add yourself.
+- **Billing.** Cashier is a separate Laravel package you add yourself. Our [Stripe billing guide](/blog/laravel-saas-stripe-billing.html) shows it for a multi-tenant app.
 - **Multi-tenancy beyond teams.** Teams live in your app's one database. There are no tenant subdomains and no database per tenant.
 
 They also don't need updating, by design. The docs say "there is no need to update the starter kit itself". The code is copied into your app and you own it from the first commit. That's simple and honest, and it also means later improvements to the official kits don't reach your app unless you copy them in.
@@ -52,11 +52,11 @@ You start from code the whole Laravel community knows. Laravel's docs and most t
 
 The cost is time. Tenancy, roles, invitations and an admin area are the slow parts of a SaaS, and none of them come with the kit. You also make every structural decision yourself, which is good if you have opinions and slow if you don't.
 
-**Good for:** experienced Laravel developers, products with unusual requirements, and anyone who wants zero third-party code to understand.
+**Good for:** experienced Laravel developers, products with unusual requirements, and anyone who wants as little extra code to learn as possible beyond what Laravel's own kits ship.
 
 ### 2. A boilerplate built on its own structure
 
-Many boilerplates arrange the app their own way. Some are built around an admin framework such as Filament, some use Folio and Volt for pages, and some ship as a Composer package. Electrik, for example, says on its [GitHub README](https://github.com/electrikhq/electrik) (November 2026) that it's installed as a package under its own `Electrik\` namespace and is "not copied into `App\`".
+Many boilerplates arrange the app their own way. Some are built around an admin framework such as Filament, some use Folio and Volt for pages (Wave's [composer.json](https://github.com/thedevdojo/wave/blob/main/composer.json) requires both), and some ship as a Composer package. Electrik, for example, says on its [GitHub README](https://github.com/electrikhq/electrik) (November 2026) that it's installed as a package under its own `Electrik\` namespace and is "not copied into `App\`".
 
 None of these are wrong. A package gets updates through `composer update`. A Filament-based kit gets you many admin screens fast. The trade-off is that you learn the boilerplate's conventions on top of Laravel's, and when the boilerplate and Laravel move at different speeds, you wait for the boilerplate or patch it yourself.
 
@@ -77,7 +77,7 @@ People say "upgrading" as if it's one thing. In a SaaS it's three:
 | Layer | Official kit | Custom-structure boilerplate | Kit on the official structure |
 | --- | --- | --- | --- |
 | Laravel framework | `composer update`, follow the upgrade guide | Same, but may wait on the boilerplate's support | Same as the official kit |
-| Starter kit code | No updates; you own it | Depends on the vendor | Kit vendor ports official kit changes |
+| Starter kit code | No updates; you own it | Depends on the vendor | We bring relevant upstream changes over in the weekly updates |
 | SaaS features | You build and maintain them | Vendor updates (package or merge) | Vendor updates (usually a git merge) |
 
 The framework layer is the same everywhere: you bump versions and fix what breaks. The other two layers are where the choice shows.
@@ -108,12 +108,12 @@ SaaS Laravel is built on Laravel's official starter kits. Here's what that means
 - The Inertia kits keep the official frontend layout: `resources/js/pages`, `components/ui` with shadcn-vue, shadcn/ui or shadcn-svelte, and the layouts folder.
 - Auth is Laravel Fortify, as in the official kits, with two-factor and passkeys.
 - The Inertia kits use Wayfinder for typed routes. The Livewire kit uses Livewire 4 and Flux UI (free).
-- It's on Laravel 13. New features in Laravel's official kits come to the SaaS Laravel kits too, and you get them with the weekly updates through a normal `git merge upstream/main`.
+- It's on Laravel 13. We bring relevant upstream changes over in the weekly updates, and you get them through a normal `git merge upstream/main`.
 
 **What we add, and why:**
 
 - **Modules.** Features live in `Modules/` (Auth, Tenant, User, RolePermission and others) with PSR-4 autoloading, instead of being spread across `app/`. `routes/web.php` is empty, because each module loads its own routes. This is the biggest change from the official layout. We explain why in [modular Laravel architecture](/blog/modular-laravel-architecture.html).
-- **Thin controllers and services.** Controllers validate, call a service and return a response. Business logic and transactions live in service classes.
+- **Thin controllers and services.** Data objects (Inertia kits) or Form Requests (Livewire kit) validate the input; controllers call a service and return a response. Business logic and transactions live in service classes.
 - **Data objects.** The Inertia kits use spatie/laravel-data for validation and generated TypeScript types. The Livewire kit uses Form Requests.
 - **Tenancy.** stancl/tenancy with a database per tenant, subdomains and separate central and tenant guards.
 - **Tooling.** Larastan at level 7 (its paths don't include `Modules/` yet), Pint, Pest and a GitHub Actions workflow in every kit.

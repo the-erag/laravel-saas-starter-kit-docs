@@ -34,7 +34,7 @@ const scrollToSection = (event: MouseEvent, id: string) => {
           Laravel 13 SaaS Starter Kits for <span class="sl-gradient-text">Multi-Tenant</span> Apps
         </h1>
         <p class="sl-lead">
-          A Laravel 13 multi-tenant SaaS starter kit where every customer gets their own database, with sign-in, users,
+          SaaS Laravel is a Laravel 13 multi-tenant SaaS starter kit where every customer gets their own database, with sign-in, users,
           roles and permissions already working. It's for developers and small teams building a SaaS with Vue, React,
           Svelte or Livewire who don't want to build that foundation from scratch.
         </p>

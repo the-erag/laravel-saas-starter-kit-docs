@@ -10,6 +10,11 @@ export interface HomeFaq {
 
 export const homeFaqs: HomeFaq[] = [
   {
+    question: 'What is SaaS Laravel?',
+    answer:
+      'SaaS Laravel is a set of Laravel 13 starter kits for building a multi-tenant SaaS. Every kit has the same backend: a separate database for each customer, Fortify sign-in with two-factor and passkeys, users, roles and permissions, and a central admin for your tenants. You pick the frontend: Vue, React or Svelte with Inertia, or Livewire. You pay once through GitHub Sponsors and get the full source code. See the [documentation](/docs.html).',
+  },
+  {
     question: 'What is a multi-tenant SaaS in Laravel, and how does SaaS Laravel handle it?',
     answer:
       'A multi-tenant SaaS runs one Laravel app for many customers, and each customer (tenant) only sees their own data. SaaS Laravel uses stancl/tenancy in multi-database mode, so every tenant gets its own database and the domain of each request decides which tenant is active. See the [multi-tenancy docs](/docs/core/multi-tenancy.html).',

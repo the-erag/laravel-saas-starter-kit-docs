@@ -83,6 +83,8 @@ const organization = (): JsonLd => ({
   '@type': 'Organization',
   '@id': organizationId,
   name: site.name,
+  alternateName: 'saas-laravel.com',
+  description: site.description,
   url: `${site.url}/`,
   logo: { '@type': 'ImageObject', url: `${site.url}/icon-512.png`, width: 512, height: 512 },
   sameAs: [site.social.github, site.social.linkedin, site.social.x],
@@ -100,6 +102,8 @@ const website = (): JsonLd => ({
   '@type': 'WebSite',
   '@id': websiteId,
   name: site.name,
+  // Helps Google show "SaaS Laravel" as the site name in results instead of the bare domain.
+  alternateName: ['SaaSLaravel', 'saas-laravel.com'],
   url: `${site.url}/`,
   description: site.description,
   inLanguage: 'en-US',

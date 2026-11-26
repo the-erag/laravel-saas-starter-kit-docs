@@ -1,6 +1,6 @@
 ---
-title: "Laravel 13 SaaS Starter Kit with Multi-Tenancy | SaaS Laravel"
-description: "Laravel 13 SaaS starter kit with database-per-tenant multi-tenancy, auth, 2FA, roles and permissions. Vue, React, Svelte or Livewire. Pay once, weekly updates."
+title: "SaaS Laravel: Laravel 13 Multi-Tenant SaaS Starter Kit"
+description: "SaaS Laravel is a Laravel 13 SaaS starter kit with a database per tenant, auth, 2FA, roles and permissions, for Vue, React, Svelte or Livewire. Pay once."
 titleTemplate: false
 layout: page
 sidebar: false

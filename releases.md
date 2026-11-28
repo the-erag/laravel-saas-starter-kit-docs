@@ -35,6 +35,19 @@ Improved, Fixed or Removed, and describe anything buyers must do in words as the
 <ReleaseCard kit="vue" version="Unreleased">
 
 - Added tenancy tests: creating a tenant (its domain, database and first admin user), field validation on the create form, and sign-in checks that keep central and tenant accounts apart.
+- Fixed production deploys (for example on Laravel Cloud or Forge) failing during composer install with a "TypeScriptTransformerApplicationServiceProvider not found" error. The TypeScript type generator is now only loaded when the development packages are installed.
+
+</ReleaseCard>
+
+<ReleaseCard kit="react" version="Unreleased">
+
+- Fixed production deploys (for example on Laravel Cloud or Forge) failing during composer install with a "TypeScriptTransformerApplicationServiceProvider not found" error. The TypeScript type generator is now only loaded when the development packages are installed.
+
+</ReleaseCard>
+
+<ReleaseCard kit="svelte" version="Unreleased">
+
+- Fixed production deploys (for example on Laravel Cloud or Forge) failing during composer install with a "TypeScriptTransformerApplicationServiceProvider not found" error. The TypeScript type generator is now only loaded when the development packages are installed.
 
 </ReleaseCard>
 

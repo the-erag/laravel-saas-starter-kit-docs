@@ -1,6 +1,6 @@
 ---
 title: "Release Notes: Laravel SaaS Kit Updates"
-description: "Release notes for the SaaS Laravel starter kits: new features, improvements and fixes shipped to the Vue, React, Svelte and Livewire kits in every weekly update."
+description: "Release notes for the SaaS Laravel starter kits: features, improvements and fixes shipped to the Vue, React, Svelte and Livewire kits in weekly updates."
 ---
 
 # Release Notes

@@ -4,7 +4,7 @@ import { testimonials } from '../../data/testimonials';
 import SectionHeading from './SectionHeading.vue';
 
 const hasSamples = computed(() => testimonials.some((testimonial) => testimonial.sample));
-const heading = computed(() => `Trusted by ${testimonials.filter((testimonial) => !testimonial.team).length} developers`);
+const heading = computed(() => `Trusted by ${testimonials.length} developers`);
 const showStars = computed(() => !testimonials.every((testimonial) => testimonial.rating === 5));
 const isMounted = ref(false);
 const loop = computed(() => (isMounted.value ? [...testimonials, ...testimonials] : testimonials));

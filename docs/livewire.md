@@ -1,6 +1,6 @@
 ---
 title: "Livewire Starter Kit Documentation"
-description: "Overview and installation of the Livewire 4 edition of SaaS Laravel: tech stack, conventions, getting the code and next steps with Flux UI, Blade and Alpine.js."
+description: "Overview and installation of the Livewire 4 edition of SaaS Laravel: tech stack, conventions, getting the code, next steps with Flux UI, Blade and Alpine."
 ---
 
 # Livewire Starter Kit <Badge type="tip" text="Livewire" />

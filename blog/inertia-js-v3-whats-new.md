@@ -1,6 +1,6 @@
 ---
 title: "Inertia.js v3: What's New for Laravel"
-description: "Inertia v3 for Laravel explained: the new Vite plugin, useHttp, optimistic updates, instant visits, layout props, breaking changes and an upgrade checklist."
+description: "Inertia v3 for Laravel explained: the new Vite plugin, useHttp, optimistic updates, instant visits, layout props, breaking changes, an upgrade checklist."
 pageClass: blog-page
 date: 2026-09-29
 author: annu-gupta

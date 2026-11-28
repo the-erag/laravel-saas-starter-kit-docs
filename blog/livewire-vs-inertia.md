@@ -1,6 +1,6 @@
 ---
 title: "Livewire vs Inertia: Which Fits Your Laravel SaaS?"
-description: "Livewire vs Inertia for a Laravel SaaS in 2026: how each one works, team skills, components, SSR, real-time, testing, and a decision table to help you pick."
+description: "Livewire vs Inertia for a Laravel SaaS in 2026: how each works, team skills, components, SSR, real-time, testing, and a decision table to help you pick."
 pageClass: blog-page
 date: 2026-10-24
 author: annu-gupta

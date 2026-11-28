@@ -205,6 +205,8 @@ The `legacy_pos` connection has to exist in `config/database.php`, pointing at t
 
 **Custom domains.** Shops like their own address on receipts and in the browser. See [custom domains for Laravel tenants](/blog/laravel-tenant-custom-domains.html).
 
+Building a POS product from scratch instead of converting Ultimate POS? Our guide to [build a POS and inventory SaaS with Laravel](/use-cases/laravel-pos-inventory-saas.html) covers the modules, roles and build order.
+
 ## Frequently asked questions
 
 ### Can I keep using the Ultimate POS SaaS & Superadmin Module instead?

@@ -1,6 +1,6 @@
 ---
 title: "Laravel Multi-Tenancy Without a Package: Build It by Hand"
-description: "Laravel multi tenancy without a package: subdomain middleware, runtime DB switching, tenant migrations, tenant-aware queues, cache and files, and when to stop."
+description: "Laravel multi tenancy without a package: subdomain middleware, runtime DB switching, tenant migrations, tenant-aware queues, cache, files and when to stop."
 pageClass: blog-page
 date: 2026-11-04
 author: erag

@@ -1,6 +1,6 @@
 ---
 title: "SaaS Laravel Commercial License"
-description: "The SaaS Laravel Commercial License: use the starter kits in unlimited projects for you or your clients, but never resell, share or publish the source code."
+description: "The SaaS Laravel Commercial License: use the starter kits in unlimited projects for you or your clients, but never resell, share or publish the source."
 sidebar: false
 editLink: false
 ---

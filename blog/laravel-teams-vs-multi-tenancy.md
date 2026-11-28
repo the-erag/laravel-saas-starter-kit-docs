@@ -12,7 +12,7 @@ tags: [Multi-tenancy, Teams, Architecture]
 
 <BlogPostMeta />
 
-"Should I use teams or multi-tenancy?" is one of the first questions people ask when they start a Laravel SaaS. The two words get mixed up all the time. Both put customers into groups, both let you invite people, and both change which records a user can see. But Laravel teams vs multi tenancy is really a question about two different layers: who works together, and how strongly their data is kept apart.
+Laravel teams vs multi-tenancy is about two different layers. Teams decide who works together. Multi-tenancy decides how well one customer's data is kept apart from another's. Pick teams when one person works in several groups and needs to switch between them instantly. Pick multi-tenancy when each customer is a company whose data must never mix with another's, or when customers expect their own subdomain, backups or deletion. Many SaaS apps need both, with teams inside each tenant.
 
 In this post we'll explain what teams are in Laravel (including the new team option in the Laravel 13 starter kits and Jetstream teams), what multi-tenancy adds on top, and how to choose. We'll also cover the cases the short answers skip: teams inside a tenant, spatie/laravel-permission's teams mode, users who belong to several tenants, and how to move from teams to tenancy later without a rewrite.
 

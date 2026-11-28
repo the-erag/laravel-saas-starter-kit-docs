@@ -1,6 +1,6 @@
 ---
 title: "Laravel SaaS Dashboard with Vue and Inertia"
-description: "A Laravel Vue Inertia walkthrough for SaaS dashboards: typed props, layout breadcrumbs, a debounced search, useForm, modal refs and permission checks in Vue 3."
+description: "A Laravel Vue Inertia walkthrough for SaaS dashboards: typed props, layout breadcrumbs, debounced search, useForm, modal refs and permission checks."
 pageClass: blog-page
 date: 2026-09-29
 author: erag

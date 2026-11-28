@@ -1,6 +1,6 @@
 ---
 title: "stancl/tenancy vs Spatie Multitenancy in 2026"
-description: "stancl tenancy vs spatie multitenancy, compared neutrally: identification, databases, bootstrappers vs tasks, tenant creation, queues, commands and testing."
+description: "stancl tenancy vs spatie multitenancy compared neutrally: identification, databases, bootstrappers vs tasks, tenant creation, queues, commands, testing."
 pageClass: blog-page
 date: 2026-10-24
 author: erag

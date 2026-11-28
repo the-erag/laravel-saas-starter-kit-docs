@@ -1,6 +1,6 @@
 ---
 title: "Tenant Migrations and Seeders in Laravel"
-description: "Laravel tenant migrations and seeders with stancl/tenancy: central vs tenant folders, tenants:migrate, safe deployments, idempotent seeders and fixing failures."
+description: "Laravel tenant migrations and seeders with stancl/tenancy: central vs tenant folders, tenants:migrate, safe deploys, idempotent seeders, fixing failures."
 pageClass: blog-page
 date: 2026-09-29
 author: erag

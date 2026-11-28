@@ -1,6 +1,6 @@
 ---
 title: "Generate TypeScript Types from PHP in Laravel"
-description: "Use the Laravel TypeScript transformer to turn PHP classes, enums and laravel-data objects into TypeScript types, with setup, attributes, writers and CI tips."
+description: "Use the Laravel TypeScript transformer to turn PHP classes, enums and laravel-data objects into TypeScript types: setup, attributes, writers and CI tips."
 pageClass: blog-page
 date: 2026-09-29
 author: erag

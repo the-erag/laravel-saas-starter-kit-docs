@@ -1,6 +1,6 @@
 ---
 title: "Inertia SSR in Laravel: Setup Guide for Inertia v3"
-description: "Set up Inertia SSR in Laravel with Inertia v3: the Vite plugin, dev mode, config keys, browser-only code, Supervisor, deploys and what happens when SSR fails."
+description: "Set up Inertia SSR in Laravel with Inertia v3: the Vite plugin, dev mode, config keys, browser-only code, Supervisor, deploys and what to do if SSR fails."
 pageClass: blog-page
 date: 2026-10-24
 author: annu-gupta

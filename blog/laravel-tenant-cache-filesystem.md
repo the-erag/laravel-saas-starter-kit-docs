@@ -1,6 +1,6 @@
 ---
 title: "Tenant-Aware Cache and File Storage in Laravel"
-description: "How Laravel tenancy cache and file storage stay separate per tenant: cache tags, supported stores, calls that skip scoping, tenant disks, S3 and public URLs."
+description: "How Laravel tenancy keeps cache and file storage separate per tenant: cache tags, supported stores, calls that skip scoping, tenant disks, S3, public URLs."
 pageClass: blog-page
 date: 2026-09-29
 author: erag

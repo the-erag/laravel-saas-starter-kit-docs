@@ -1,6 +1,6 @@
 ---
 title: "Laravel Cloud vs Forge vs Vapor for Multi-Tenant SaaS"
-description: "Laravel Cloud vs Forge vs Vapor for a database-per-tenant SaaS: wildcard subdomains, custom domains, creating databases, queues, Reverb and cost, as of 2026."
+description: "Laravel Cloud vs Forge vs Vapor for a database-per-tenant SaaS: wildcard subdomains, custom domains, creating databases, queues, Reverb and cost in 2026."
 pageClass: blog-page
 date: 2026-10-24
 author: erag

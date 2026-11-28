@@ -99,17 +99,6 @@ export const testimonials: Testimonial[] = [
     sample: false,
   },
   {
-    name: 'Annu Gupta',
-    role: 'Software Engineer',
-    review:
-      'The domain-based branding and language settings are particularly useful. It makes managing multiple client-facing applications much easier without having to maintain separate implementations.',
-    location: 'India',
-    accent: '#d946ef',
-    rating: 5,
-    sample: false,
-    team: true,
-  },
-  {
     name: 'Alex Martin',
     role: 'Indie Hacker',
     review:

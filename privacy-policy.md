@@ -1,6 +1,6 @@
 ---
 title: "Privacy Policy: How We Handle Your Data"
-description: "How SaaS Laravel handles your data: no tracking or analytics cookies, purchases through GitHub Sponsors, and only what we need to give you repository access."
+description: "How SaaS Laravel handles your data: no tracking or analytics cookies, purchases through GitHub Sponsors, and only what we need for repository access."
 sidebar: false
 editLink: false
 ---

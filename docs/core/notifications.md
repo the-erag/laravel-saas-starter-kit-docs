@@ -1,6 +1,6 @@
 ---
 title: "In-App Notifications for Laravel SaaS"
-description: "Database notifications with a header bell, unread badge and a notifications page, a notification when an invited user joins, and one service call to send your own."
+description: "Database notifications with a header bell, unread badge and notifications page, an alert when an invited user joins, and one service call to send your own."
 ---
 
 # Notifications

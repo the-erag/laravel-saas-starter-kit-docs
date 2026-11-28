@@ -1,6 +1,6 @@
 ---
 title: "Stripe vs Paddle vs Lemon Squeezy for Laravel"
-description: "Stripe vs Paddle vs Lemon Squeezy for a Laravel SaaS: merchant of record vs payment processor, who handles sales tax and VAT, and the Laravel package for each."
+description: "Stripe vs Paddle vs Lemon Squeezy for a Laravel SaaS: merchant of record vs payment processor, who handles sales tax and VAT, and the package for each."
 pageClass: blog-page
 date: 2026-09-29
 author: annu-gupta

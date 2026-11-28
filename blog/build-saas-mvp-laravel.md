@@ -1,6 +1,6 @@
 ---
 title: "Build a SaaS MVP With Laravel: A Realistic 30-Day Plan"
-description: "How to build and launch a SaaS MVP with Laravel in about a month: what to build and what to skip, the stack, a week-by-week plan and how long it really takes."
+description: "How to build and launch a SaaS MVP with Laravel in about a month: what to build and skip, the stack, a week-by-week plan and how long it really takes."
 pageClass: blog-page
 date: 2026-10-27
 author: erag

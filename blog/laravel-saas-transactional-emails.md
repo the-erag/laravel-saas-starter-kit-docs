@@ -12,7 +12,7 @@ tags: [Email, Notifications]
 
 <BlogPostMeta />
 
-Your emails are often the first and the last thing a customer sees. The invitation brings them in. The password reset gets them back in. The "your payment failed" email stops them from quietly leaving. In a Laravel SaaS, writing a Mailable is the easy part. The harder part is getting the details right: each customer's own name and logo, emails that don't slow down the page, emails in the reader's language, and emails that land in the inbox instead of spam.
+To send transactional emails in a multi-tenant Laravel SaaS, use queued notifications. Set the app name to the tenant's name when tenancy starts, build every link on the tenant's domain, and send each email in the user's language with `HasLocalePreference`. Send through a real email service with SPF, DKIM and DMARC set up, so the emails land in the inbox and not in spam. Writing the Mailable is the easy part. The details matter because your emails are often the first and last thing a customer sees.
 
 Most guides on Laravel email only cover a single app. This one is about a multi-tenant SaaS, which is what we build our starter kit for.
 

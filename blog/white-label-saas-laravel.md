@@ -1,5 +1,5 @@
 ---
-title: "White Label SaaS Laravel Guide: Tenant Logos, Colors, Domains"
+title: "White Label SaaS in Laravel: Logos, Colors, Domains"
 description: "A white label SaaS Laravel guide: per-tenant logos, favicons and brand colors with Tailwind v4 CSS variables, contrast checks, dark mode, emails and PDFs."
 pageClass: blog-page
 date: 2026-11-04
@@ -12,7 +12,7 @@ tags: [Multi-tenancy, Branding, Tailwind]
 
 <BlogPostMeta />
 
-Sooner or later a bigger customer asks: "Can it look like our product?" They want their logo, their color, their name on every email, and ideally their own domain. That's a white label SaaS. In Laravel it mostly comes down to where you store the branding and how you get it into every page, email and PDF without a separate frontend per customer.
+To build a white label SaaS in Laravel, store each tenant's logo, favicon, brand color and name on the tenant record. Share them with every page through Inertia, and apply the colors at runtime with Tailwind v4 CSS variables. You don't need a separate frontend or a rebuild per customer. Then carry the brand into the login page, emails and PDFs, and add custom domains last. That's what a bigger customer means when they ask, "Can it look like our product?"
 
 In this post we build tenant branding for a multi-tenant Laravel and Inertia app with stancl/tenancy: a logo, favicon, brand color and app name per tenant, uploads resized into tenant storage, branding shared through Inertia, colors applied at runtime with Tailwind v4 CSS variables (no rebuild per tenant), contrast checks, dark mode, and the brand carried into the login page, emails and PDFs.
 

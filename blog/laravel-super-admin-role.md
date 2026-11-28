@@ -1,6 +1,6 @@
 ---
 title: "Laravel Super Admin Role with Spatie Permission"
-description: "Build a Laravel super admin role with Spatie: Gate::before or Gate::after, checks the bypass misses, the first super admin and how to stop privilege escalation."
+description: "Build a Laravel super admin role with Spatie: Gate::before or Gate::after, checks the bypass misses, the first super admin, stopping privilege escalation."
 pageClass: blog-page
 date: 2026-09-29
 author: erag

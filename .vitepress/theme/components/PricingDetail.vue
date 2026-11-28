@@ -1,14 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import {
-  formatPrice,
-  includedFeatures,
-  kits,
-  plans,
-  requirements,
-  site,
-  type PlanKey,
-} from '../../site';
+import { formatPrice, kits, plans, site, type PlanKey } from '../../site';
 import FrameworkLogo from './FrameworkLogo.vue';
 import SlIcon from './SlIcon.vue';
 
@@ -17,7 +9,6 @@ const props = defineProps<{ plan: PlanKey }>();
 const plan = computed(() => plans[props.plan]);
 const planKits = computed(() => plan.value.frameworks.map((key) => kits[key]));
 const isBundle = computed(() => planKits.value.length > 1);
-const firstKit = computed(() => planKits.value[0]);
 const savings = computed(() => planKits.value.reduce((total, kit) => total + kit.price, 0) - plan.value.price);
 </script>
 
@@ -47,56 +38,20 @@ const savings = computed(() => planKits.value.reduce((total, kit) => total + kit
     <div class="sl-container detail-layout">
       <div class="detail-main">
         <section class="block">
-          <h2 class="block-title"><SlIcon name="layers" :size="20" /> Technologies</h2>
-          <div v-if="isBundle" class="tech-kits">
-            <div v-for="kit in planKits" :key="kit.key" class="tech-kit">
-              <div class="tech-kit-head"><FrameworkLogo :name="kit.key" :size="20" /> {{ kit.title }}</div>
-              <ul>
-                <li v-for="item in kit.stack.slice(0, 5)" :key="item.label">{{ item.value }}</li>
-              </ul>
-            </div>
-          </div>
-          <dl v-else class="tech-list">
-            <div v-for="item in firstKit.stack" :key="item.label">
-              <dt>{{ item.label }}</dt>
-              <dd>{{ item.value }}</dd>
-            </div>
-          </dl>
-          <p class="block-sub">{{ isBundle ? 'Shared by every kit' : 'Tooling and backend' }}</p>
-          <div class="tags">
-            <span v-for="item in firstKit.frontendCommon" :key="item">{{ item }}</span>
-            <span v-for="item in firstKit.backendStack" :key="item.label">{{ item.value }}</span>
-          </div>
-        </section>
-
-        <section class="block">
-          <h2 class="block-title"><SlIcon name="package" :size="20" /> Included features</h2>
-          <div class="features">
-            <details v-for="(feature, index) in includedFeatures" :key="feature.title" class="feature" :open="index === 0">
-              <summary class="feature-summary">
-                <SlIcon name="check" :size="16" class="check" />
-                <span class="feature-heading">
-                  <b>{{ feature.title }}</b>
-                  <span class="feature-text">{{ feature.text }}</span>
-                </span>
-                <span class="feature-count">{{ feature.points.length }}</span>
-                <SlIcon name="chevron-down" :size="16" class="feature-chevron" />
-              </summary>
-              <ul class="feature-points">
-                <li v-for="point in feature.points" :key="point">{{ point }}</li>
-              </ul>
-            </details>
-          </div>
-        </section>
-
-        <section class="block">
-          <h2 class="block-title"><SlIcon name="server" :size="20" /> Requirements</h2>
-          <dl class="tech-list">
-            <div v-for="item in requirements" :key="item.label">
-              <dt>{{ item.label }}</dt>
-              <dd>{{ item.value }}</dd>
-            </div>
-          </dl>
+          <h2 class="block-title"><SlIcon name="layers" :size="20" /> What's in the kit</h2>
+          <p class="sl-text">
+            {{ isBundle ? 'Every kit has' : 'The kit has' }} the same Laravel 13 backend: a database per tenant, sign-in with
+            two-factor auth and passkeys, users, roles and permissions, 17 languages and a central admin for your tenants.
+            {{ isBundle ? 'The full feature list, stack and screenshots are on each kit page:' : 'The full feature list, stack and screenshots are on the kit page:' }}
+          </p>
+          <ul class="kit-links">
+            <li v-for="kit in planKits" :key="kit.key">
+              <a class="sl-link" :href="`/kits/${kit.key}.html`"><FrameworkLogo :name="kit.key" :size="18" /> Laravel {{ kit.name }} SaaS Starter Kit →</a>
+            </li>
+          </ul>
+          <p class="sl-text block-note">
+            Before you buy, check the <a class="sl-link" href="/docs/getting-started/requirements.html">requirements</a>: PHP 8.4+, MySQL or MariaDB, and a server with wildcard subdomains.
+          </p>
         </section>
 
         <section class="block">
@@ -189,6 +144,24 @@ const savings = computed(() => planKits.value.reduce((total, kit) => total + kit
 </template>
 
 <style scoped>
+.kit-links {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kit-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.block-note {
+  margin-top: 14px;
+}
+
 .license-note {
   margin-top: 16px;
   font-size: 14px;

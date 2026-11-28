@@ -211,6 +211,8 @@ The legacy connection has to exist in `config/database.php`, pointing at the old
 
 **Custom domains.** Stores often want their own domain, especially once the online store is live. See [custom domains for Laravel tenants](/blog/laravel-tenant-custom-domains.html).
 
+Building a POS product from scratch instead of converting Stocky? Our guide to [build a POS and inventory SaaS with Laravel](/use-cases/laravel-pos-inventory-saas.html) covers the modules, roles and build order.
+
 ## Frequently asked questions
 
 ### Should I buy Stocky SaaS instead?

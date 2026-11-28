@@ -12,7 +12,7 @@ tags: [Frontend, Inertia]
 
 <BlogPostMeta />
 
-"Which frontend should we use?" comes up on almost every new Laravel SaaS project, and it can turn into a long debate. Should it be Vue, React or Svelte for your Laravel SaaS? If you build with **Inertia**, I'd like to reassure you before we start: the choice matters much less than it feels like it does.
+Choosing Vue, React or Svelte for your Laravel SaaS comes down to what your team already knows. With **Inertia**, the Laravel backend stays the same and only the page components change. If nobody has a favorite: React is the safe pick if you plan to hire frontend developers, Vue or Svelte will feel most natural to Laravel developers, and Svelte needs the least code. Still stuck? Build one real screen in each and keep the one your team likes best.
 
 Below I'll show what actually changes between Vue, React and Svelte in a Laravel + Inertia app, compare them fairly, and give you a simple way to decide.
 

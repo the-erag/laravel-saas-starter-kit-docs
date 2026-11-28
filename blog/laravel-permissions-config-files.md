@@ -1,6 +1,6 @@
 ---
 title: "Laravel Permissions Seeder with Config Files"
-description: "Build a Laravel permissions seeder driven by config files: file layout, idempotent seeding, role defaults, pruning old permissions, tenants and safe deploys."
+description: "Build a Laravel permissions seeder driven by config files: file layout, idempotent seeding, role defaults, pruning old permissions, tenants, safe deploys."
 pageClass: blog-page
 date: 2026-09-29
 author: erag

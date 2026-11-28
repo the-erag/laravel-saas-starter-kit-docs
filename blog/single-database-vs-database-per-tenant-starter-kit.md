@@ -1,5 +1,5 @@
 ---
-title: "Single Database vs Database-per-Tenant SaaS Kits"
+title: "Starter Kits by Tenancy Model: Which to Buy"
 description: "Which Laravel SaaS starter kits share one database and which give each tenant its own, and what that means for migrations, backups, hosting and reports."
 pageClass: blog-page
 date: 2026-11-21
@@ -8,13 +8,13 @@ category: multi-tenancy
 tags: [Multi-tenancy, Starter Kits, Database]
 ---
 
-# Single Database vs Database-per-Tenant Starter Kits: Which One to Pick
+# Laravel SaaS Starter Kits by Tenancy Model: Which One to Buy
 
 <BlogPostMeta />
 
 When you compare Laravel SaaS starter kits, the feature lists look alike: auth, teams, roles, billing, an admin area. The thing that differs most is often one line on the page, or not on the page at all: does the kit keep every customer in **one shared database**, or does it give **each tenant its own database**?
 
-That choice is baked into the kit's migrations, models, routes and tests. You can change it later, but by then you're rewriting a large part of the code you paid for. So it's worth knowing which model a kit uses before you buy it.
+That choice is baked into the kit's migrations, models, routes and tests. You can change it later, but by then you're rewriting a large part of the code you paid for. So it's worth knowing which model a kit uses before you buy it. If you're still choosing a model for your own app, start with [single vs multi-database tenancy in Laravel](/blog/single-vs-multi-database-tenancy-laravel.html); this post is about choosing a kit.
 
 Below: which model the common kits use (checked on their own sites in November 2026), what that means day to day, and how hard it is to switch. We make one of these kits, so we only state what each product says. For the theory behind the two models, read [single vs multi-database tenancy in Laravel](/blog/single-vs-multi-database-tenancy-laravel.html) first.
 

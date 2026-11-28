@@ -46,6 +46,10 @@ const included = computed(() => [
             </a>
             <a class="sl-btn sl-btn--secondary sl-btn--lg" :href="`/docs/${framework}.html`">Read the {{ kit.name }} docs</a>
           </div>
+          <p class="kit-price-note">
+            {{ formatPrice(kit.price) }} one-time ·
+            <a :href="`/pricing/${framework}.html`">{{ kit.name }} kit pricing and how to buy</a>
+          </p>
         </div>
         <div class="sl-card kit-stack sl-reveal">
           <h2 class="kit-stack-title">{{ kit.name }} frontend stack</h2>
@@ -177,6 +181,21 @@ const included = computed(() => [
 </template>
 
 <style scoped>
+.kit-price-note {
+  margin: 16px 0 0;
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+}
+
+.kit-price-note a {
+  font-weight: 600;
+  color: var(--vp-c-brand-1);
+}
+
+.kit-price-note a:hover {
+  text-decoration: underline;
+}
+
 .kit {
   --accent: var(--vp-c-brand-1);
 }

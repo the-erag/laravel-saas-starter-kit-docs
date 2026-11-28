@@ -1,6 +1,6 @@
 ---
 title: "stancl/tenancy Tutorial: Getting Started"
-description: "A hands-on stancl tenancy tutorial: install stancl/tenancy 3, create a Tenant model, add tenant migrations and routes, and create your first tenant database."
+description: "A hands-on stancl tenancy tutorial: install stancl/tenancy 3, create a Tenant model, add tenant migrations and routes, and create a first tenant database."
 pageClass: blog-page
 date: 2026-09-29
 author: erag

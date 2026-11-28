@@ -182,6 +182,8 @@ The `--from` connection has to exist in `config/database.php`, pointing at the o
 
 **Custom domains.** Schools often want their own domain for the public website. See [custom domains for tenants](/blog/laravel-tenant-custom-domains.html).
 
+Building a school product from scratch instead of converting InfixEdu? Our guide to [build a school ERP SaaS with Laravel](/use-cases/laravel-school-erp-saas.html) covers the modules, roles and build order.
+
 ## Frequently asked questions
 
 ### Can I run a multi-school SaaS with a regular InfixEdu purchase?

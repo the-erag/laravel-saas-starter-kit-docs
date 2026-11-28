@@ -1,6 +1,6 @@
 ---
 title: "shadcn for Laravel: Vue, React and Svelte"
-description: "shadcn Laravel guide: set up shadcn/ui, shadcn-vue or shadcn-svelte in an Inertia app, configure components.json, theme with Tailwind v4 and wrap form fields."
+description: "shadcn Laravel guide: set up shadcn/ui, shadcn-vue or shadcn-svelte in an Inertia app, configure components.json, theme with Tailwind v4, wrap form fields."
 pageClass: blog-page
 date: 2026-09-29
 author: annu-gupta

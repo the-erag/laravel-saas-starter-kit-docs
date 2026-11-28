@@ -1,6 +1,6 @@
 ---
 title: "Laravel Roles and Permissions with Spatie"
-description: "A practical Laravel Spatie permission guide: roles, permissions and guards, assigning and checking them, super admins, caching, seeding and Inertia UI checks."
+description: "A practical Laravel Spatie permission guide: roles, permissions and guards, assigning and checking them, super admins, caching, seeding and Inertia checks."
 pageClass: blog-page
 date: 2026-09-29
 author: erag

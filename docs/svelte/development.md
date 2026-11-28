@@ -1,6 +1,6 @@
 ---
 title: "Svelte Kit Development Workflow"
-description: "Daily commands for the Svelte kit and step-by-step guides to adding a page and a form, plus type checking with svelte-check and linting with ESLint and Prettier."
+description: "Daily commands for the Svelte kit and guides to adding a page and a form, plus type checking with svelte-check and linting with ESLint and Prettier."
 ---
 
 # Development <Badge type="tip" text="Svelte" />

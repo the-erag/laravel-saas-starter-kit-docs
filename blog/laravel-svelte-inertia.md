@@ -1,6 +1,6 @@
 ---
 title: "Laravel and Svelte 5 with Inertia"
-description: "Laravel Svelte 5 tutorial with Inertia v3: runes in pages, module-script layout props, the reactive page object, snippets in forms and shared .svelte.ts state."
+description: "Laravel Svelte 5 tutorial with Inertia v3: runes in pages, module-script layout props, the reactive page object, form snippets and shared .svelte.ts state."
 pageClass: blog-page
 date: 2026-09-29
 author: annu-gupta

@@ -1,6 +1,6 @@
 ---
 title: "Two-Factor Authentication in Laravel"
-description: "Laravel two factor authentication with Fortify: how TOTP works, the enable, QR code and confirm flow, recovery codes, the login challenge and security tips."
+description: "Laravel two factor authentication with Fortify: how TOTP works, the enable, QR code and confirm flow, recovery codes, the login challenge, security tips."
 pageClass: blog-page
 date: 2026-09-29
 author: erag

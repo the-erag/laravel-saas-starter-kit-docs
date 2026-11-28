@@ -1,6 +1,6 @@
 ---
 title: "Thin Controllers in Laravel"
-description: "How to write Laravel thin controllers: the four jobs a controller has, Form Requests, authorization attributes, clean responses and a fat controller refactor."
+description: "How to write Laravel thin controllers: the four jobs of a controller, Form Requests, authorization attributes, clean responses and a fat controller fix."
 pageClass: blog-page
 date: 2026-09-29
 author: erag

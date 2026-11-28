@@ -1,6 +1,6 @@
 ---
-title: "How to Build a Multi-Tenant SaaS with Laravel"
-description: "How to build a multi-tenant SaaS application with Laravel: single database vs database per tenant, setting up stancl/tenancy, and the pitfalls to avoid."
+title: "Database per Tenant in Laravel: Build a Multi-Tenant SaaS"
+description: "Database per tenant in Laravel: how it compares with a single database, how to set it up with stancl/tenancy, and the pitfalls in a multi-tenant SaaS."
 pageClass: blog-page
 date: 2026-09-29
 author: erag
@@ -8,13 +8,13 @@ category: multi-tenancy
 tags: [Multi-tenancy, Architecture]
 ---
 
-# How to Build a Multi-Tenant SaaS with Laravel: Database-per-Tenant Explained
+# Database per Tenant in Laravel: How to Build a Multi-Tenant SaaS
 
 <BlogPostMeta />
 
 Almost every SaaS product is multi-tenant. One application serves many customers, and each customer (a company, a school, a team) only ever sees its own data. Those customers are your tenants, and when you build a multi-tenant SaaS with Laravel, the first big question is how to keep their data apart.
 
-It's one of the earliest decisions you'll make, and one of the hardest to change later. We'll compare the three common approaches, show how the database-per-tenant model works in Laravel, and go through the pitfalls that catch most teams.
+It's one of the earliest decisions you'll make, and one of the hardest to change later. We'll compare the three common approaches, show how the database-per-tenant model works in Laravel, and go through the pitfalls that catch most teams. For a step-by-step build with real code, follow our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
 
 ## The three ways to separate tenant data
 

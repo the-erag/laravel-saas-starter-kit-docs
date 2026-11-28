@@ -12,7 +12,7 @@ tags: [Multi-tenancy, Operations]
 
 <BlogPostMeta />
 
-At some point you'll have to suspend a SaaS account. A card keeps failing, someone breaks your terms, or a security incident means a customer's workspace has to be frozen while you investigate. It sounds like one boolean. Done badly, though, it either locks customers out of the very page they need to fix the problem, or leaves background jobs running for an account that should be paused. Below is how we'd handle the data model, where to block access, what to keep reachable, the parts people forget, and how to bring an account back.
+To suspend a SaaS account, store a status on the tenant record, not an `is_active` boolean. Check it in one middleware that shows a suspended page with a 403. Keep logout reachable, and the billing page too for unpaid accounts. Queued jobs, scheduled work, API routes and outgoing email should skip suspended accounts as well. Send both suspend and reactivate through one service method. Get this wrong and customers get locked out of the page they need to fix the problem, or background jobs keep running for an account that should be paused.
 
 ## Suspend vs cancel vs delete vs maintenance
 

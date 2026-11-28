@@ -1,6 +1,6 @@
 ---
 title: "Livewire 4 Components, Forms and Events"
-description: "Livewire 4 patterns in the Livewire kit: full-page and nested components, Form Request validation, authorization, events, modals, toasts, navigation and Alpine.js."
+description: "Livewire 4 patterns in the Livewire kit: full-page and nested components, Form Request validation, authorization, events, modals, toasts and Alpine.js."
 ---
 
 # Livewire <Badge type="tip" text="Livewire" />

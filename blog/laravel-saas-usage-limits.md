@@ -1,6 +1,6 @@
 ---
 title: "Laravel SaaS Usage Limits: Enforce Plan Quotas per Tenant"
-description: "Laravel SaaS usage limits per tenant: a plan limits config, a UsageLimitService with check and consume, race-safe counters, monthly resets and Inertia meters."
+description: "Laravel SaaS usage limits per tenant: a plan limits config, a UsageLimitService with check and consume, race-safe counters, monthly resets, Inertia meters."
 pageClass: blog-page
 date: 2026-11-04
 author: erag
@@ -12,7 +12,7 @@ tags: [Billing, Quotas, Multi-Tenancy]
 
 <BlogPostMeta />
 
-Almost every SaaS pricing page has numbers on it: "up to 5 users", "20 projects", "50,000 API calls a month". Those numbers only mean something if your app enforces them, and **Laravel SaaS usage limits** are harder than an `if` statement. Two requests can both squeeze through the last free slot. Monthly counters have to reset. And a customer who hits a limit should see a way to upgrade, not an error page.
+To enforce **Laravel SaaS usage limits**, keep each plan's limits in a config file. Send every limited action through one service that checks and uses up quota per tenant. Count limits like users and projects straight from their tables. Keep a counter per period for monthly quotas like API calls. Use an atomic update or a row lock so two requests can't both take the last slot. When a customer hits a limit, show them how to upgrade, not an error page.
 
 In this post we build plan quotas for a multi-tenant Laravel app where the tenant is the customer: limits per plan in config, a `UsageLimitService` with `check()` and `consume()` that holds up under concurrent requests, monthly resets, Inertia usage meters and upgrade prompts people don't hate, plus two packages that do some of it for you. We use Laravel 13, Inertia v3 and stancl/tenancy.
 

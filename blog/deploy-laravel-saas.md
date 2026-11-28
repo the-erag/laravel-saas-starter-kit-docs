@@ -1,6 +1,6 @@
 ---
 title: "Deploying a Laravel SaaS to Production"
-description: "Deploy a Laravel SaaS step by step: server needs, wildcard DNS and TLS, a deploy script with tenant migrations, queue workers with Supervisor and the scheduler."
+description: "Deploy a Laravel SaaS step by step: server needs, wildcard DNS and TLS, a deploy script with tenant migrations, Supervisor queue workers and the scheduler."
 pageClass: blog-page
 date: 2026-09-29
 author: erag
@@ -12,7 +12,7 @@ tags: [Multi-tenancy, Deployment]
 
 <BlogPostMeta />
 
-When you deploy a Laravel SaaS, you need everything a normal Laravel app needs. Multi-tenancy then adds a few things of its own: wildcard subdomains, a database user that's allowed to create databases, and migrations that run once for every tenant. Below we go through the server, a deploy script you can adapt, tenant migrations, queue workers, the scheduler and how we'd avoid downtime. We're assuming a database-per-tenant app with tenants on subdomains.
+To deploy a Laravel SaaS, start with a normal Laravel production server. Then add what multi-tenancy needs: wildcard DNS and a wildcard TLS certificate for tenant subdomains, a database user that can create databases, and a deploy script that runs `php artisan tenants:migrate` after the central migrations. Run queue workers with Supervisor, add one cron entry for the scheduler, and end every deploy with `php artisan reload`. Below we cover each piece. We assume a database-per-tenant app with tenants on subdomains.
 
 ## What the production server needs
 

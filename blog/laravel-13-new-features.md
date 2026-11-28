@@ -1,6 +1,6 @@
 ---
 title: "Laravel 13 New Features and Upgrade Guide"
-description: "Laravel 13 new features from the official release notes: release date, PHP 8.3 minimum, support dates, AI SDK, attributes, queue routing and the upgrade steps."
+description: "Laravel 13 new features from the official release notes: release date, PHP 8.3 minimum, support dates, AI SDK, attributes, queue routing and upgrade steps."
 pageClass: blog-page
 date: 2026-10-24
 author: annu-gupta

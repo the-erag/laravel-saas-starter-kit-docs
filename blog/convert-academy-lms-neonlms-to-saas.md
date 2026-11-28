@@ -168,6 +168,8 @@ It would create the tenant, copy users, courses, lessons, enrollments, progress 
 
 **Custom domains.** Academies usually want `learn.theirbrand.com`. See [custom domains for tenants](/blog/laravel-tenant-custom-domains.html). Per-academy settings like branding are covered in [tenant settings in Laravel](/blog/laravel-tenant-settings.html).
 
+Building a learning platform from scratch instead of converting an LMS script? Our guide to [build an LMS SaaS with Laravel](/use-cases/laravel-lms-saas.html) covers the modules, roles and build order.
+
 ## Frequently asked questions
 
 ### Which Academy LMS edition should I start from?

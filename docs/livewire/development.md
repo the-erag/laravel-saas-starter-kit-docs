@@ -1,6 +1,6 @@
 ---
 title: "Livewire Kit Development Workflow"
-description: "Daily commands for the Livewire kit, step-by-step guides to adding a page, a form and a module, plus linting with Pint and blade-formatter, PHPStan and the AI guidelines."
+description: "Daily commands for the Livewire kit, guides to adding a page, a form and a module, plus linting with Pint and blade-formatter, PHPStan and AI guidelines."
 ---
 
 # Development <Badge type="tip" text="Livewire" />

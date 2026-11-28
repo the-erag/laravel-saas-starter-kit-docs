@@ -1,6 +1,6 @@
 ---
-title: "Laravel Scout Multi Tenant Search: Shared or Per-Tenant Index"
-description: "Laravel Scout multi tenant search with Meilisearch and stancl/tenancy: a shared index with tenant filters and tokens, or one index per tenant, plus reindexing."
+title: "Laravel Scout Multi-Tenant Search: Shared or Per-Tenant"
+description: "Laravel Scout multi tenant search with Meilisearch and stancl/tenancy: a shared index with tenant filters and tokens, or an index per tenant, reindexing."
 pageClass: blog-page
 date: 2026-11-04
 author: erag

@@ -1,6 +1,6 @@
 ---
 title: "Livewire Multi Tenancy with stancl/tenancy: A Setup Guide"
-description: "Livewire multi tenancy with stancl/tenancy v3: make the update and upload routes tenant-aware, plus assets, wire:navigate, queued jobs, Pest tests and Flux."
+description: "Livewire multi tenancy with stancl/tenancy v3: make update and upload routes tenant-aware, plus assets, wire:navigate, queued jobs, Pest tests and Flux."
 pageClass: blog-page
 date: 2026-11-11
 author: annu-gupta

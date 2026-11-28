@@ -1,11 +1,11 @@
 ---
 title: "Laravel Multi-Tenancy with stancl/tenancy"
-description: "How Laravel multi-tenancy works in the SaaS Laravel kits: stancl/tenancy with a database per tenant, subdomain identification, tenant creation and invitations."
+description: "How Laravel multi-tenancy works in the SaaS Laravel kits: stancl/tenancy with a database per tenant, subdomain lookup, tenant creation and invitations."
 ---
 
 # Laravel multi-tenancy
 
-The kits run stancl/tenancy (`^3.10`) in multi-database mode. Each tenant (workspace) gets **its own database**, and the request's domain tells the app which tenant it's dealing with. Because the data is split at the database level, your tenant code doesn't need `where tenant_id = ...` filters.
+The kits run stancl/tenancy (`^3.10`) in multi-database mode. Each tenant (workspace) gets **its own database**, and the request's domain tells the app which tenant it's dealing with. Because the data is split at the database level, your tenant code doesn't need `where tenant_id = ...` filters. For a step-by-step walk through the whole flow, see the [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
 
 <KeyIdea>
 

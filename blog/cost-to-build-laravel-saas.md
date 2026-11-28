@@ -1,6 +1,6 @@
 ---
-title: "Cost to Build a SaaS With Laravel: Hours, Formula, Running Costs"
-description: "The cost to build a SaaS with Laravel, worked out in hours: example estimates per feature, a formula for your own rate, three scenarios and real running costs."
+title: "Cost to Build a SaaS With Laravel: Hours and Running Costs"
+description: "The cost to build a SaaS with Laravel in hours: example estimates per feature, a formula for your own rate, three scenarios and real running costs."
 pageClass: blog-page
 date: 2026-11-11
 author: erag

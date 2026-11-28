@@ -1,6 +1,6 @@
 ---
 title: "About SaaS Laravel and ERAG"
-description: "SaaS Laravel is a set of Laravel SaaS starter kits for Vue, React, Svelte and Livewire, built and maintained by ERAG. Who we are, what we make and how to contact us."
+description: "SaaS Laravel is a set of Laravel SaaS starter kits for Vue, React, Svelte and Livewire, built and maintained by ERAG. Who we are and how to contact us."
 sidebar: false
 editLink: false
 ---

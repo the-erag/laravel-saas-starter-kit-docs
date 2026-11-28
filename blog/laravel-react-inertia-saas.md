@@ -1,6 +1,6 @@
 ---
 title: "Building a Laravel SaaS with React and Inertia"
-description: "Laravel React Inertia guide for SaaS apps: typed page components, static layout props, withApp providers, useForm, ref-as-prop modals and the React Compiler."
+description: "Laravel React Inertia guide for SaaS apps: typed page components, static layout props, withApp providers, useForm, ref-as-prop modals, the React Compiler."
 pageClass: blog-page
 date: 2026-09-29
 author: annu-gupta

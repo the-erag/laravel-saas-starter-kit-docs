@@ -1,6 +1,6 @@
 ---
-title: "Laravel Health Check: /up, Readiness and Multi-Tenant Monitoring"
-description: "Laravel health check guide: the /up route and DiagnosingHealth, liveness vs readiness, spatie/laravel-health, and checks for tenant databases, queues and certs."
+title: "Laravel Health Checks: /up, Readiness, Multi-Tenant"
+description: "Laravel health check guide: the /up route and DiagnosingHealth, liveness vs readiness, spatie/laravel-health, and checks for tenant DBs, queues and certs."
 pageClass: blog-page
 date: 2026-11-04
 author: erag

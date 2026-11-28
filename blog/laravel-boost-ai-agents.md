@@ -1,6 +1,6 @@
 ---
 title: "Laravel Boost: AI Coding Agents for Laravel"
-description: "Laravel Boost gives AI coding agents real context on your app: what boost:install writes, guidelines, skills, the MCP tools and how to keep it all up to date."
+description: "Laravel Boost gives AI coding agents real context on your app: what boost:install writes, guidelines, skills, the MCP tools and how to keep it up to date."
 pageClass: blog-page
 date: 2026-09-29
 author: erag

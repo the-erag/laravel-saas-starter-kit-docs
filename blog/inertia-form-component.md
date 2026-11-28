@@ -1,6 +1,6 @@
 ---
 title: "Inertia Forms with the Form Component"
-description: "A practical guide to the Inertia Form component: field names, errors, slot props, reset and dirty state, file uploads, events and when to use useForm instead."
+description: "A practical guide to the Inertia Form component: field names, errors, slot props, reset and dirty state, file uploads, events and when to use useForm."
 pageClass: blog-page
 date: 2026-09-29
 author: erag

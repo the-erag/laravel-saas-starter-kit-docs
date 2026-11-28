@@ -12,7 +12,7 @@ tags: [SaaS, Pricing]
 
 <BlogPostMeta />
 
-Most developers leave pricing until the very end and then pick a number that feels safe. That's a shame, because SaaS pricing decides who signs up, how much support you'll carry, how fast you grow and even what you end up building. Below we go through the decisions roughly in the order you'll face them: what to charge for, which model to use, how to set up tiers, trials and annual plans, and finally how to get your plans into code.
+To price your SaaS, start from the value it gives customers, not from your hosting costs. Then pick a value metric and a pricing model. If you're not sure, start with three tiers, a free trial with an end date, and monthly and annual billing. Don't price too low. Most developers leave pricing to the end and pick a number that feels safe. But the price decides who signs up, how much support you'll do and how fast you grow.
 
 You won't find magic numbers here. Good prices come from talking to your customers, not from averages in a blog post.
 

@@ -1,6 +1,6 @@
 ---
 title: "Persistent Layouts in Inertia"
-description: "How Inertia layouts work: persistent, nested and default layouts, plus layout props with setLayoutProps, with Vue, React and Svelte examples for Laravel apps."
+description: "How Inertia layouts work: persistent, nested and default layouts, plus layout props with setLayoutProps, with Vue, React and Svelte examples for Laravel."
 pageClass: blog-page
 date: 2026-09-29
 author: annu-gupta

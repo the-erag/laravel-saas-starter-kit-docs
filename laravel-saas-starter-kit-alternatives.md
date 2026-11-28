@@ -1,7 +1,7 @@
 ---
-title: "Laravel SaaS Starter Kit Alternatives"
-description: "Honest alternatives to the SaaS Laravel starter kit: Spark, Wave, SaaSykit, Tenancy for Laravel, the official kits and more, with when each fits better."
-breadcrumb: "Laravel SaaS starter kit alternatives"
+title: "SaaS Laravel Alternatives and When They Fit"
+description: "SaaS Laravel alternatives: Spark, Wave, SaaSykit, Tenancy for Laravel, the official kits and more, and when each one fits better than our kit."
+breadcrumb: "SaaS Laravel alternatives"
 sidebar: false
 editLink: false
 itemList:
@@ -21,7 +21,7 @@ itemList:
     url: "https://demos.themeselection.com/jetship-laravel-starter-kit/"
 ---
 
-# Laravel SaaS Starter Kit Alternatives: When Another Option Fits Better
+# SaaS Laravel Alternatives: When Another Option Fits Better
 
 This page lists the real alternatives to our kit, SaaS Laravel, with a short, fair summary of each and a link to our full comparison. It's for developers who are weighing us against other options and want to know when another one is the better buy.
 

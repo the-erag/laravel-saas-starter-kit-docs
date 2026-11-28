@@ -1,6 +1,6 @@
 ---
 title: "Laravel SaaS Hosting Cost Calculator"
-description: "Estimate the monthly hosting cost of a multi-tenant Laravel SaaS on Forge, DigitalOcean or Laravel Cloud, with the formula and every price shown. No sign-up."
+description: "Estimate the monthly hosting cost of a multi-tenant Laravel SaaS on Forge, DigitalOcean or Laravel Cloud, with the formula and all prices. No sign-up."
 breadcrumb: "Laravel SaaS hosting cost calculator"
 sidebar: false
 editLink: false

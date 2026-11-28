@@ -1,6 +1,6 @@
 ---
 title: "Livewire Kit Layouts"
-description: "How the Livewire kit picks app and sign-in layouts from Setup defaults and user settings, the sidebar and header shells, the settings layout and per-page titles and breadcrumbs."
+description: "How the Livewire kit picks app and sign-in layouts from Setup and user settings: sidebar and header shells, settings layout, page titles and breadcrumbs."
 ---
 
 # Layouts <Badge type="tip" text="Livewire" />

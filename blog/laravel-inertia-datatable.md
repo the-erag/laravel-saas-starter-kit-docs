@@ -12,9 +12,9 @@ tags: [Inertia, Tables]
 
 <BlogPostMeta />
 
-Search for a Laravel Inertia datatable and you'll mostly find packages. Some are good, but a users or invoices table is something you'll build a dozen times in a SaaS app, and once you know the pattern it's not much code. You also keep full control over the queries, the markup and the design system.
+You can build a Laravel Inertia datatable without a package. Validate the query string in a Form Request. Build the query in a service with a sort whitelist and `paginate()->withQueryString()`. Update the URL from the page with `router.get()`. Search, sorting, filters and pagination all run on the server, so it works for 50 rows or 5 million. It's not much code once you know the pattern, and you keep full control of the queries, the markup and the design system.
 
-This guide builds one table from end to end. On the server: a validated request, a whitelist of sortable columns, a service that builds the query, and `paginate()->withQueryString()`. On the client: debounced search, sortable headers, filters, pagination links, a loading state, and all of it kept in the URL so a refresh or a shared link shows the same view.
+This guide builds one table from end to end: the server side first, then debounced search, sortable headers, filters, pagination links and a loading state on the client, all kept in the URL so a refresh or a shared link shows the same view.
 
 We're using Laravel 13, PHP 8.4 and Inertia v3 (`inertiajs/inertia-laravel` 3.5, `@inertiajs/vue3` 3.9). Vue is the main example, with a shorter React version after it.
 

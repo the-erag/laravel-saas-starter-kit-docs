@@ -1,6 +1,6 @@
 ---
 title: "Laravel Multi-Tenant Scheduler: tenants:run and Queued Jobs"
-description: "Run scheduled tasks for every tenant in a Laravel SaaS with stancl/tenancy: tenants:run, one queued job per tenant, skipping suspended tenants and time zones."
+description: "Run scheduled tasks for every tenant in a Laravel SaaS with stancl/tenancy: tenants:run, a queued job per tenant, skipping suspended tenants, time zones."
 pageClass: blog-page
 date: 2026-10-29
 author: annu-gupta

@@ -1,6 +1,6 @@
 ---
 title: "Livewire Kit Pages & Routes"
-description: "Every page in the Livewire kit with its Livewire component, view, route, access rules and purpose, from sign-in and settings pages to tenants, users and setup."
+description: "Every page in the Livewire kit with its component, view, route, access rules and purpose, from sign-in and settings pages to tenants, users and setup."
 ---
 
 # Pages <Badge type="tip" text="Livewire" />

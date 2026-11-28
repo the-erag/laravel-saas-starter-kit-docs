@@ -1,6 +1,6 @@
 ---
 title: "Testing Multi-Tenant Laravel Apps with Pest"
-description: "How to test Laravel tenancy with Pest: test database setup, creating tenants, isolation tests, tenant domains, fakes, cache and files, and faster test runs."
+description: "How to test Laravel tenancy with Pest: test database setup, creating tenants, isolation tests, tenant domains, fakes, cache and files, faster test runs."
 pageClass: blog-page
 date: 2026-09-29
 author: annu-gupta

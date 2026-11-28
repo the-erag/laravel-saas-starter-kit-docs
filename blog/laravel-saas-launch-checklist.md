@@ -1,6 +1,6 @@
 ---
 title: "Laravel SaaS Launch Checklist"
-description: "A SaaS launch checklist for Laravel apps: product, security, billing, legal pages, operations, monitoring and support, with links to detailed guides for each."
+description: "A SaaS launch checklist for Laravel apps: product, security, billing, legal pages, operations, monitoring and support, with links to guides for each."
 pageClass: blog-page
 date: 2026-09-29
 author: erag

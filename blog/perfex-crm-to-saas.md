@@ -191,6 +191,8 @@ The Understand phase is where you catch a vague spec, so answer its questions be
 
 **Tenant settings.** For how per-business settings are stored and cached, see [tenant settings in Laravel](/blog/laravel-tenant-settings.html).
 
+Planning the CRM modules for your own SaaS? Our guide to [build a CRM SaaS with Laravel](/use-cases/laravel-crm-saas.html) covers the modules, roles and build order.
+
 ## Frequently asked questions
 
 ### Can I turn Perfex CRM into a SaaS?

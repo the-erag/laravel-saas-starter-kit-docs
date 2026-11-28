@@ -1,6 +1,6 @@
 ---
 title: "Laravel GDPR: Data Export and Account Deletion for a SaaS"
-description: "Laravel GDPR for SaaS apps: export a user's data as a ZIP with a queued job and signed URL, delete accounts safely, handle backups, logs, Stripe and tenants."
+description: "Laravel GDPR for SaaS apps: export user data as a ZIP with a queued job and signed URL, delete accounts safely, handle backups, logs, Stripe and tenants."
 pageClass: blog-page
 date: 2026-11-04
 author: annu-gupta

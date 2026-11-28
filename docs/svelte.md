@@ -1,6 +1,6 @@
 ---
 title: "Svelte Starter Kit Documentation"
-description: "Overview and installation of the Svelte 5 edition of SaaS Laravel: tech stack, conventions, getting the code and next steps with Inertia v3 and shadcn-svelte."
+description: "Overview and installation of the Svelte 5 edition of SaaS Laravel: tech stack, conventions, getting the code, next steps with Inertia v3 and shadcn-svelte."
 ---
 
 # Svelte Starter Kit <Badge type="tip" text="Svelte" />

@@ -1,6 +1,6 @@
 ---
 title: "What Is Multi-Tenancy in Laravel? A Plain-English Guide"
-description: "What multi-tenancy in Laravel means, in plain English: the three tenant models with tiny code samples, how requests find a tenant, and when you don't need it."
+description: "What multi-tenancy in Laravel means in plain English: the three tenant models with small code samples, how requests find a tenant, and when to skip it."
 pageClass: blog-page
 date: 2026-11-11
 author: erag

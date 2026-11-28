@@ -1,6 +1,6 @@
 ---
 title: "Livewire Kit Architecture"
-description: "How the Livewire kit is organised: backend-only modules with Livewire components, views in resources/views, module registration, permission checks and translations."
+description: "How the Livewire kit is organised: backend-only modules with Livewire components, views in resources/views, registration, permissions and translations."
 ---
 
 # Architecture <Badge type="tip" text="Livewire" />

@@ -714,3 +714,22 @@
     border-right: 1px solid var(--vp-c-divider);
   }
 }
+
+/*
+ * Tablets (768–959px): the full nav menu doesn't fit next to the search box, so the page scrolled sideways.
+ * Use the mobile hamburger menu up to 960px instead; it holds the same links, the appearance switch and social links.
+ */
+@media (min-width: 768px) and (max-width: 959px) {
+  .VPNavBarMenu,
+  .VPNavBarExtra {
+    display: none !important;
+  }
+
+  .VPNavBarHamburger {
+    display: flex !important;
+  }
+
+  .VPNavScreen {
+    display: block !important;
+  }
+}

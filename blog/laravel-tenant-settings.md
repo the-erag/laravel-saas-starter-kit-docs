@@ -1,6 +1,6 @@
 ---
 title: "Laravel Tenant Settings: Per-Tenant Settings That Don't Leak"
-description: "Laravel tenant settings for database-per-tenant apps: a tenant settings table, stancl's data column or spatie/laravel-settings, plus caching and Inertia props."
+description: "Laravel tenant settings for database-per-tenant apps: a tenant settings table, stancl's data column or spatie/laravel-settings, plus caching and props."
 pageClass: blog-page
 date: 2026-11-04
 author: erag

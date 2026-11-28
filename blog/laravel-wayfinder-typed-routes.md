@@ -1,6 +1,6 @@
 ---
 title: "Typed Routes with Laravel Wayfinder"
-description: "How Laravel Wayfinder turns your routes and controllers into typed TypeScript functions: setup, the Vite plugin, .url(), parameters, forms and practical tips."
+description: "How Laravel Wayfinder turns routes and controllers into typed TypeScript functions: setup, the Vite plugin, .url(), parameters, forms and practical tips."
 pageClass: blog-page
 date: 2026-09-29
 author: annu-gupta

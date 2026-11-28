@@ -165,6 +165,8 @@ Run it on a copy first and compare counts per table. [Tenant migrations and seed
 
 **Custom domains.** Companies will ask for `hr.theircompany.com`. See [custom domains for tenants](/blog/laravel-tenant-custom-domains.html).
 
+Building an HR product from scratch instead of converting Worksuite? Our guide to [build an HR and payroll SaaS with Laravel](/use-cases/laravel-hr-payroll-saas.html) covers the modules, roles and build order.
+
 ## Frequently asked questions
 
 ### Should I just buy Worksuite Saas instead?

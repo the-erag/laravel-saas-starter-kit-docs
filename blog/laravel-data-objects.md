@@ -1,6 +1,6 @@
 ---
 title: "Laravel Data Objects with spatie/laravel-data"
-description: "A practical spatie laravel data guide: build typed Data objects, validate requests, map snake_case fields, handle relations and send clean props to Inertia."
+description: "A practical spatie laravel data guide: build typed Data objects, validate requests, map snake_case fields, handle relations, send clean props to Inertia."
 pageClass: blog-page
 date: 2026-09-29
 author: erag

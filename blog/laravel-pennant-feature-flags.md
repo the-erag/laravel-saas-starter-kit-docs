@@ -1,6 +1,6 @@
 ---
 title: "Laravel Pennant Feature Flags for a Multi-Tenant SaaS"
-description: "Laravel Pennant feature flags for a SaaS: per-tenant scopes, plan features vs Lottery rollouts, where the features table lives, Inertia props and Pest tests."
+description: "Laravel Pennant feature flags for a SaaS: per-tenant scopes, plan features vs Lottery rollouts, where the features table lives, Inertia props, Pest tests."
 pageClass: blog-page
 date: 2026-10-24
 author: annu-gupta

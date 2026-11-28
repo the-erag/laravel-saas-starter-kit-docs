@@ -12,7 +12,7 @@ tags: [Architecture, Code quality]
 
 <BlogPostMeta />
 
-Ask a room of Laravel developers about the Laravel repository pattern and you'll get two very confident, very different answers. Some teams put a repository and an interface in front of every model. Others see it as pointless ceremony on top of Eloquent. Honestly, both camps are right, just about different situations.
+The Laravel repository pattern helps when a class holds real query logic that several parts of the app share. Think listing screens with search, filters and pagination, reports, or data from an external API. It hurts when it only wraps `find()`, `create()`, `update()` and `delete()` around Eloquent, or adds an interface that will only ever have one implementation. That's why Laravel developers argue about it. Both sides are right, just about different situations.
 
 So instead of picking a side, I want to help you tell those situations apart. We'll look at what a repository actually is, why it's controversial in Laravel, where it clearly helps, where it only adds files, some lighter alternatives worth trying first, and a few rules that keep a repository useful if you do write one.
 

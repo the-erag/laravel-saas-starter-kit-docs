@@ -1,6 +1,6 @@
 ---
 title: "Laravel Socialite Google Login for Inertia Apps"
-description: "Add Laravel Socialite Google login to an Inertia app: Google Cloud setup, a social_accounts table, verified email matching, 2FA, and multi-tenant callbacks."
+description: "Add Laravel Socialite Google login to an Inertia app: Google Cloud setup, a social_accounts table, verified email matching, 2FA and multi-tenant callbacks."
 pageClass: blog-page
 date: 2026-10-24
 author: erag

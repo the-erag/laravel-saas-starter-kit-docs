@@ -1,6 +1,6 @@
 ---
 title: "Keeping a Starter Kit Up to Date with Git"
-description: "A git upstream merge workflow for starter kits: set up origin and upstream, preview changes, merge on a branch, resolve conflicts and run the post-merge steps."
+description: "A git upstream merge workflow for starter kits: set up origin and upstream, preview changes, merge on a branch, resolve conflicts, run post-merge steps."
 pageClass: blog-page
 date: 2026-09-29
 author: annu-gupta

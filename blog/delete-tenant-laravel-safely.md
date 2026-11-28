@@ -12,7 +12,7 @@ tags: [Multi-tenancy, Operations]
 
 <BlogPostMeta />
 
-Sooner or later a customer leaves, a trial runs out or a test workspace needs to go. When you delete a tenant in Laravel and each tenant has its own database, one click can drop that whole database. There's no undo.
+To delete a tenant in Laravel safely, don't call `$tenant->delete()` from a button. Suspend the workspace first. Then schedule the deletion and take a final backup. Do the delete in a queued job that drops the tenant database before it removes the tenant row, so you can retry a step that fails. With a database per tenant, one delete drops the whole database. There's no undo.
 
 Tenant creation gets most of the attention, so this post looks at the other end. Below we walk through what [stancl/tenancy](https://tenancyforlaravel.com) version 3 actually does when a tenant is deleted, what it leaves behind, a soft delete trap that catches people, and a deletion flow that's safe to run and safe to retry. If you want the wider picture of database-per-tenant apps first, start with [our multi-tenant SaaS walkthrough](/blog/multi-tenant-saas-laravel-database-per-tenant.html).
 

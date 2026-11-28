@@ -211,6 +211,8 @@ General rules:
 
 **Custom domains.** A tenant's booking site on `book.their-hotel.com` looks better than a subdomain. See [custom domains for tenants](/blog/laravel-tenant-custom-domains.html).
 
+Building a booking product from scratch instead of converting Booking Core? Our guide to [build a booking and appointment SaaS with Laravel](/use-cases/laravel-booking-saas.html) covers the modules, roles and build order.
+
 ## Frequently asked questions
 
 ### Can I keep Booking Core's multi-vendor marketplace in the SaaS?

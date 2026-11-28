@@ -299,8 +299,9 @@ const structuredData = (pageData: PageData, url: string, title: string, descript
   } else if (path.startsWith('pricing/')) {
     const planKey = path.replace(/^pricing\/|\.md$/g, '') as PlanKey;
 
+    // Each kit's Product markup lives on its /kits page only. The bundle has no kit page, so it keeps its Product here.
     graph.push(
-      software(planKey, url, description),
+      ...(planKey === 'all-kits' ? [software(planKey, url, description)] : []),
       breadcrumbs([home, { name: 'Pricing', url: `${site.url}/pricing.html` }, { name: plans[planKey].name, url }]),
     );
   } else if (path === 'pricing.md') {

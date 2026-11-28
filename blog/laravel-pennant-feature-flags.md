@@ -318,6 +318,8 @@ Set `<env name="PENNANT_STORE" value="array"/>` in `phpunit.xml`, so tests never
 - **Sending every flag to the browser.** List what the frontend needs.
 - **Never deleting flags.** Every old flag doubles your code paths. Give each one an owner and a removal date.
 
+Our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) explains the tenant context these flags rely on.
+
 ## Frequently asked questions
 
 ### What is Laravel Pennant?

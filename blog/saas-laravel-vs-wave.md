@@ -119,6 +119,8 @@ Neither is better in general. If you picked Wave for a multi-tenant B2B product,
 
 For the wider picture, see [Best Laravel SaaS starter kits in 2026, compared](/blog/best-laravel-saas-starter-kits.html).
 
+If neither fits, our page of [Laravel SaaS starter kit alternatives](/laravel-saas-starter-kit-alternatives.html) says when Spark, SaaSykit, the Tenancy for Laravel boilerplate or Laravel's own kits are the better choice.
+
 ## Frequently asked questions
 
 ### Is Wave really free?

@@ -135,6 +135,8 @@ A backup you've never restored is a guess. Once a month, restore a random tenant
 
 With stancl/tenancy's default event setup, deleting a tenant drops its database in the same request. Take a final dump first and keep it for your retention period. The full process is in [how to delete a tenant safely](/blog/delete-tenant-laravel-safely.html).
 
+The rest of the database-per-tenant setup is in our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 ## Frequently asked questions
 
 ### How often should I back up a multi-tenant Laravel app?

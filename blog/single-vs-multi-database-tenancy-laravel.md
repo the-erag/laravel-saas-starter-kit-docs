@@ -135,6 +135,10 @@ Two habits make either move cheaper. If you think you might ever switch, use ULI
 
 If you want my own leaning: for a B2B product I'd go multi-database, because the isolation and per-customer restores are hard to add later. For a free or consumer-style app with lots of tiny accounts, a single database is simpler to live with.
 
+If you'd like a second opinion on your own product, our [tenancy model quiz](/tools/laravel-tenancy-model-quiz.html) asks eight questions about your customers and hosting and explains which way each answer points.
+
+Our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) covers the database-per-tenant model built end to end.
+
 ## Frequently asked questions
 
 ### Is multi-database tenancy slower than a single database?

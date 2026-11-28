@@ -1,5 +1,6 @@
 <!--
   Wraps the numbered "## 1. ..." sections of a step-by-step guide and draws a step line beside them.
+  Steps can also be "### 1. ..." headings when the steps sit under their own "##" section.
   Leave a blank line after the opening tag and before the closing tag so the Markdown inside is parsed.
 -->
 <template>
@@ -25,18 +26,21 @@
   background: var(--vp-c-border);
 }
 
-.vp-doc .doc-steps > h2 {
+.vp-doc .doc-steps > h2,
+.vp-doc .doc-steps > h3 {
   position: relative;
   margin-top: 40px;
   padding-top: 0;
   border-top: 0;
 }
 
-.vp-doc .doc-steps > h2:first-child {
+.vp-doc .doc-steps > h2:first-child,
+.vp-doc .doc-steps > h3:first-child {
   margin-top: 0;
 }
 
-.vp-doc .doc-steps > h2::before {
+.vp-doc .doc-steps > h2::before,
+.vp-doc .doc-steps > h3::before {
   content: '';
   position: absolute;
   top: 7px;
@@ -79,7 +83,8 @@
     left: 8px;
   }
 
-  .vp-doc .doc-steps > h2::before {
+  .vp-doc .doc-steps > h2::before,
+  .vp-doc .doc-steps > h3::before {
     left: -28px;
     width: 17px;
     height: 17px;

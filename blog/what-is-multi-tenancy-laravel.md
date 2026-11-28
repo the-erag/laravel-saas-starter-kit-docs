@@ -183,6 +183,8 @@ Reach for real multi-tenancy when most of these are true:
 
 If none of that sounds like your product yet, don't add tenancy "just in case". It adds real weight to every feature you build. If you're still at the idea stage, our [30-day SaaS MVP plan](/blog/build-saas-mvp-laravel.html) is a better next read.
 
+If a word on this page is new to you, our [multi-tenancy glossary](/glossary.html) defines it in two to four sentences.
+
 ## Where to go next
 
 If you've decided Ledgerly (or your own app) needs tenancy, here's the order we'd read things in:
@@ -191,6 +193,10 @@ If you've decided Ledgerly (or your own app) needs tenancy, here's the order we'
 2. [Single vs multi-database tenancy](/blog/single-vs-multi-database-tenancy-laravel.html) to make the big data decision with your eyes open.
 3. [Laravel multi-tenancy packages compared](/blog/laravel-multi-tenancy-packages.html) to pick a package (or decide to build it yourself).
 4. [The stancl/tenancy tutorial](/blog/stancl-tenancy-tutorial.html) to set it up step by step, including tenant-aware queues for background emails and reminders.
+
+Once the models make sense, the [tenancy model quiz](/tools/laravel-tenancy-model-quiz.html) helps you pick one for your own app in about a minute.
+
+For how the same ideas look in working code, see our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
 
 ## Frequently asked questions
 

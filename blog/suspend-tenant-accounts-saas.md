@@ -149,6 +149,8 @@ Reactivating should be as quick as suspending. Set the status back, clear `suspe
 
 Suspended accounts shouldn't hang around forever, though. Decide how long you keep data for a suspended or cancelled account, put that in your terms, warn the customer before the deadline, and then delete the tenant properly. Take a final backup first, as described in [backups for a multi-database Laravel SaaS](/blog/laravel-multi-database-backups.html). Dropping a tenant database can't be undone.
 
+Our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) explains the tenancy setup a suspension sits on.
+
 ## Frequently asked questions
 
 ### What is the difference between suspending and deleting a SaaS account?

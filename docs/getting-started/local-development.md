@@ -244,6 +244,8 @@ Assets go to `public/build`. The Vue, React and Svelte kits also have a `build:s
 
 Seeing `Unable to locate file in Vite manifest`? Run `npm run build` or keep `npm run dev` running. For other problems, see [Troubleshooting](/docs/reference/troubleshooting).
 
+For the same setup explained step by step with this code, read the [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 <RelatedPages :links="[
   { text: 'Configuration', link: '/docs/getting-started/configuration', desc: 'What the kit-specific .env keys and config files do.' },
   { text: 'Commands', link: '/docs/reference/commands', desc: 'Every Composer, npm and Artisan command in one place.' },

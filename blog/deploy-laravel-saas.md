@@ -151,6 +151,10 @@ Two things have to be shared between releases: the `.env` file and the whole `st
 
 The server is only one part of launch day. For product, legal and support readiness, go through the [Laravel SaaS launch checklist](/blog/laravel-saas-launch-checklist.html). And if you haven't picked a foundation yet, our [buyer's guide to Laravel SaaS starter kits](/blog/laravel-saas-starter-kit.html) covers what to look for.
 
+Before you pick server sizes, the [hosting cost calculator](/tools/laravel-saas-hosting-cost-calculator.html) gives you a lean and a roomier monthly estimate for your tenant count and traffic.
+
+Our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) covers the app side of what this deploy serves: identification, queues, cache and storage.
+
 ## Frequently asked questions
 
 ### Can I deploy a multi-tenant Laravel app to shared hosting?

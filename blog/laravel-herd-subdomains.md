@@ -128,6 +128,8 @@ A few others we'd check before digging deeper:
 
 Also think twice about the TLD. Avoid `.dev`, which browsers force onto HTTPS, and `.local`, which macOS uses for Bonjour. `.test` is reserved for exactly this kind of use.
 
+Our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) covers what happens after a subdomain reaches the app.
+
 ## Frequently asked questions
 
 ### Do Laravel Herd subdomains need any configuration?

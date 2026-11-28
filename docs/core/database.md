@@ -113,6 +113,8 @@ What drops a tenant database:
 
 Tests never touch MySQL. `phpunit.xml` uses SQLite in memory (`DB_CONNECTION=sqlite`, `DB_DATABASE=:memory:`), and Pest applies `RefreshDatabase` to `tests/Feature`. There's more in [Testing](/docs/core/testing).
 
+For the same setup explained step by step with this code, read the [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 <RelatedPages :links="[
   { text: 'Multi-tenancy', link: '/docs/core/multi-tenancy#creating-a-tenant', desc: 'How a new tenant database is created, migrated and seeded.' },
   { text: 'Local development', link: '/docs/getting-started/local-development#seeded-data', desc: 'The users, roles and menus the seeders create.' },

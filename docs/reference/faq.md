@@ -33,7 +33,7 @@ It has the same features, but no Inertia, TypeScript or JavaScript framework. Pa
 
 ### Is there a billing / Stripe integration?
 
-No. The kits don't include billing, subscriptions or payment processing for your customers. [Laravel Stripe subscriptions for a SaaS](/blog/laravel-saas-stripe-billing) shows one way to add it with Cashier.
+No. The kits don't include billing, subscriptions or payment processing for your customers. [Laravel Stripe subscriptions for a SaaS](/blog/laravel-saas-stripe-billing) shows one way to add it with Cashier. For Paddle, [Paddle billing with SaaS Laravel](/integrations/paddle.html) walks through Cashier Paddle on the kit, step by step.
 
 ### Is there a REST API?
 

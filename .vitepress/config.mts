@@ -1,12 +1,12 @@
 import { execFileSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
-import { join, relative } from 'node:path';
+import { dirname, join, relative } from 'node:path';
 import { defineConfig, type DefaultTheme, type HeadConfig } from 'vitepress';
 import { fileURLToPath } from 'node:url';
 import type { Plugin } from 'vite';
 import { pageMarkdown } from './markdown';
-import { seoHead, writeLlmsFiles, writePageMarkdownFiles } from './seo';
+import { isGuidePage, seoHead, writeLlmsFiles, writePageMarkdownFiles } from './seo';
 import { frameworkKeys, kits, site, type FrameworkKey } from './site';
 
 function kitSidebar(framework: FrameworkKey): DefaultTheme.SidebarItem {
@@ -140,15 +140,16 @@ export default defineConfig({
       };
 
       // A component file plus the local files it imports directly (other components, site.ts, data loaders).
+      // Components live in components/ or one of its subfolders (doc/, tools/).
       const componentFiles = (name: string): string[] => {
-        const file = join(componentsDir, `${name}.vue`);
+        const file = ['', 'doc', 'tools'].map((folder) => join(componentsDir, folder, `${name}.vue`)).find((candidate) => existsSync(candidate));
 
-        if (!existsSync(file)) {
+        if (!file) {
           return [];
         }
 
         const imports = [...readFileSync(file, 'utf8').matchAll(/from '(\.{1,2}\/[^']+)'/g)].flatMap(([, spec]) => {
-          const base = join(componentsDir, spec);
+          const base = join(dirname(file), spec);
 
           return [base, `${base}.ts`, `${base}.vue`].filter((candidate) => existsSync(candidate) && !candidate.endsWith('/'));
         });
@@ -238,12 +239,13 @@ export default defineConfig({
       ? ([['meta', { name: 'google-site-verification', content: site.googleSiteVerification }]] as HeadConfig[])
       : []),
   ],
-  // Blog posts with long titles drop the " | SaaS Laravel" suffix, so the rendered <title> stays at 60
-  // characters or less and isn't cut off in search results. og:title and twitter:title already use the bare title.
+  // Blog posts and guide pages (use cases, tools, the tutorial, ...) with long titles drop the " | SaaS Laravel"
+  // suffix, so the rendered <title> stays at 60 characters or less and isn't cut off in search results.
+  // og:title and twitter:title already use the bare title.
   transformPageData(pageData) {
     const title = pageData.frontmatter.title as string | undefined;
 
-    if (pageData.relativePath.startsWith('blog/') && title && title.length + ` | ${site.name}`.length > 60) {
+    if ((pageData.relativePath.startsWith('blog/') || isGuidePage(pageData.relativePath)) && title && title.length + ` | ${site.name}`.length > 60) {
       pageData.titleTemplate = false;
       pageData.frontmatter.titleTemplate = false;
     }

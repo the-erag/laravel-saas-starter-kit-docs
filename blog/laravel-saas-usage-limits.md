@@ -360,6 +360,8 @@ Others exist, such as `zaber-dev/laravel-quota` for period budgets and `moneo/la
 - **Blocking existing data after a downgrade.** Customers forgive a blocked "Create" button. They don't forgive losing access to their work.
 - **Only enforcing in the frontend.** Hiding the button is a courtesy; the service is the rule.
 
+The tenant model these limits hang off is explained in our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 ## Frequently asked questions
 
 ### How do I limit usage per plan in a Laravel SaaS?

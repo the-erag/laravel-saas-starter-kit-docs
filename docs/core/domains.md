@@ -87,6 +87,8 @@ Every tenant domain has to resolve to your app.
 | Local with Herd | All `*.vue.test` subdomains work automatically once the site is linked |
 | Production | A wildcard DNS record (`*.your-domain.com`) plus a wildcard virtual host and TLS certificate |
 
+For the same setup explained step by step with this code, read the [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 <RelatedPages :links="[
   { text: 'Multi-tenancy', link: '/docs/core/multi-tenancy#identification', desc: 'How tenancy starts once the domain is found.' },
   { text: 'Authentication', link: '/docs/core/authentication#per-domain-features', desc: 'Turn sign-in features on or off per domain.' },

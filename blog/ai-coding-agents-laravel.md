@@ -157,6 +157,8 @@ Locally, on a database you don't mind throwing away, it's usually fine and it sp
 
 Give it one clearly scoped task, name the files or modules it's allowed to touch, and ask for a plan before code on anything larger. Small diffs are easier for you to review and easier for the agent to get right.
 
+For a bigger job run in reviewed phases, see [how to convert a CodeCanyon Laravel script into a multi-tenant SaaS with one AI prompt](/blog/codecanyon-laravel-script-to-saas.html).
+
 ## How SaaS Laravel supports AI coding
 
 If you'd rather not set all of this up by hand, the [SaaS Laravel](/) kits already ship with Laravel Boost guidelines in `AGENTS.md` and `CLAUDE.md`, skills in `.agents/skills` and `.claude/skills`, and an MCP configuration. That means an agent knows the stack, the module structure and the testing tools from the first prompt. The Vue kit also includes project rules in `.ai/rules`. One thing to know: the two guideline files set different testing policies by default. You can align them as described in [AI agent rules about tests](/docs/core/testing.html#ai-agent-rules-about-tests).

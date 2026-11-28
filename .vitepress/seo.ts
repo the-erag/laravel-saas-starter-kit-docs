@@ -222,6 +222,56 @@ const faqFromContent = (content: string): { question: string; answer: string }[]
     })
     .filter((item) => item.question.endsWith('?') && item.answer.length > 0);
 
+/** Guide pages outside the blog and docs: use cases, free tools, the tutorial, integrations, the alternatives hub and the glossary. */
+export const isGuidePage = (relativePath: string): boolean =>
+  ['use-cases/', 'tools/', 'guides/', 'integrations/'].some((prefix) => relativePath.startsWith(prefix)) ||
+  ['glossary.md', 'laravel-saas-starter-kit-alternatives.md'].includes(relativePath);
+
+type HowToFrontmatter = { name: string; steps: { name: string; text: string; anchor?: string }[] };
+
+// A step-by-step build plan or setup guide, from the page's `howTo` frontmatter.
+const howTo = (plan: HowToFrontmatter, url: string, description: string): JsonLd => ({
+  '@type': 'HowTo',
+  name: plan.name,
+  description,
+  url,
+  step: plan.steps.map((step, index) => ({
+    '@type': 'HowToStep',
+    position: index + 1,
+    name: step.name,
+    text: step.text,
+    ...(step.anchor ? { url: `${url}#${step.anchor}` } : {}),
+  })),
+});
+
+// Glossary entries are the page's <h2 id="..."> headings, each followed by its first paragraph.
+const definedTerms = (content: string, url: string, name: string, description: string): JsonLd => ({
+  '@type': 'DefinedTermSet',
+  '@id': `${url}#terms`,
+  name,
+  description,
+  url,
+  hasDefinedTerm: content
+    .split(/<h2 /)
+    .slice(1)
+    .map((chunk) => {
+      const id = chunk.match(/id="([^"]+)"/)?.[1];
+      const term = stripTags(chunk.split('</h2>')[0].replace(/^[^>]*>/, ''));
+      const definition = stripTags(chunk.split('</h2>')[1]?.match(/<p>([\s\S]*?)<\/p>/)?.[1] ?? '');
+
+      return { id, term, definition };
+    })
+    .filter((entry) => entry.id && entry.term && entry.definition)
+    .map((entry) => ({
+      '@type': 'DefinedTerm',
+      '@id': `${url}#${entry.id}`,
+      name: entry.term,
+      description: entry.definition,
+      url: `${url}#${entry.id}`,
+      inDefinedTermSet: { '@id': `${url}#terms` },
+    })),
+});
+
 const structuredData = (pageData: PageData, url: string, title: string, description: string, content: string): JsonLd[] => {
   const path = pageData.relativePath;
   const home = { name: 'Home', url: `${site.url}/` };
@@ -298,6 +348,48 @@ const structuredData = (pageData: PageData, url: string, title: string, descript
       { ...authorEntity(key), description },
       breadcrumbs([home, { name: 'Blog', url: `${site.url}/blog.html` }, { name: blogAuthor(key).name, url }]),
     );
+  } else if (isGuidePage(path)) {
+    const isTool = path.startsWith('tools/');
+    const frontmatter = pageData.frontmatter;
+
+    if (!isTool) {
+      graph.push({
+        '@type': 'TechArticle',
+        headline: pageTitle,
+        description,
+        url,
+        mainEntityOfPage: url,
+        image: ogImageFor(path),
+        inLanguage: 'en-US',
+        author: { '@id': organizationId },
+        publisher: { '@id': organizationId },
+        isPartOf: { '@id': websiteId },
+        ...(pageData.lastUpdated ? { dateModified: new Date(pageData.lastUpdated).toISOString() } : {}),
+      });
+    }
+
+    if (frontmatter.howTo) {
+      graph.push(howTo(frontmatter.howTo as HowToFrontmatter, url, description));
+    }
+
+    if (frontmatter.glossary) {
+      graph.push(definedTerms(content, url, pageTitle, description));
+    }
+
+    if (Array.isArray(frontmatter.itemList)) {
+      graph.push({
+        '@type': 'ItemList',
+        name: pageTitle,
+        itemListElement: (frontmatter.itemList as { name: string; url: string }[]).map((item, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: item.name,
+          url: new URL(item.url, `${site.url}/`).href,
+        })),
+      });
+    }
+
+    graph.push(breadcrumbs([home, { name: (frontmatter.breadcrumb as string | undefined) ?? pageTitle, url }]));
   } else if (path === 'docs.md' || path.startsWith('docs/')) {
     const section = path.split('/')[1]?.replace(/\.md$/, '');
     const trail = [home, { name: 'Documentation', url: `${site.url}/docs.html` }];
@@ -358,7 +450,8 @@ export const seoHead = (pageData: PageData, title: string, description: string, 
   const imageAlt = pageTitle;
   const isPost = pageData.relativePath.startsWith('blog/');
   const isAuthorPage = pageData.relativePath.startsWith('authors/');
-  const isDocs = pageData.relativePath.startsWith('docs/') || pageData.relativePath === 'docs.md' || isPost;
+  const isGuide = isGuidePage(pageData.relativePath) && !pageData.relativePath.startsWith('tools/');
+  const isDocs = pageData.relativePath.startsWith('docs/') || pageData.relativePath === 'docs.md' || isPost || isGuide;
   const pageGraph = structuredData(pageData, url, title, description, content);
   const hasNode = (id: string): boolean => pageGraph.some((node) => node['@id'] === id);
   // Organization and WebSite on every page, so the @id references used by other nodes resolve on each page.
@@ -496,6 +589,31 @@ export const writeLlmsFiles = async (srcDir: string, outDir: string, docsSidebar
     for (const file of blogFiles) {
       const page = await describe(`/blog/${file.replace(/\.md$/, '')}`);
       summary.push(`- [${page.title}](${site.url}/blog/${file.replace(/\.md$/, '.html')}): ${page.description}`);
+    }
+  }
+
+  // Guides, use cases, free tools and integrations outside the blog and docs.
+  const guideLinks = [
+    '/guides/laravel-multi-tenancy-tutorial',
+    '/glossary',
+    '/laravel-saas-starter-kit-alternatives',
+    ...(
+      await Promise.all(
+        ['use-cases', 'tools', 'integrations'].map(async (folder) =>
+          existsSync(join(srcDir, folder))
+            ? (await readdir(join(srcDir, folder))).filter((file) => file.endsWith('.md')).sort().map((file) => `/${folder}/${file.replace(/\.md$/, '')}`)
+            : [],
+        ),
+      )
+    ).flat(),
+  ].filter((link) => existsSync(join(srcDir, `${link.slice(1)}.md`)));
+
+  if (guideLinks.length) {
+    summary.push('', '## Guides, use cases and tools', '');
+
+    for (const link of guideLinks) {
+      const page = await describe(link);
+      summary.push(`- [${page.title}](${site.url}${link}.html): ${page.description}`);
     }
   }
 

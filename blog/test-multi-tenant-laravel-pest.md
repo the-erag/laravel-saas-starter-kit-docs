@@ -179,6 +179,8 @@ Grouping helps as well. Add `->group('tenancy')` to tenant tests, and you can ru
 
 If you run tests in parallel, add Laravel's `ParallelTesting::token()` to the tenant database prefix. That keeps two processes from ever creating the same tenant database.
 
+Our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) shows the code these tests protect, including the kit's own tenancy tests.
+
 ## Frequently asked questions
 
 ### Can I use RefreshDatabase with stancl/tenancy?

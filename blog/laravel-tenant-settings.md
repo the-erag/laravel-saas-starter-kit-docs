@@ -361,6 +361,8 @@ If a tenant can have several domains, some settings belong to the domain, not th
 - **Using a cache store without tags.** stancl's cache bootstrapper needs Redis, Memcached or the array store. With `file` or `database`, Option 1's tagged cache throws an exception.
 - **Putting settings the central app needs in the tenant database.** Your tenant list can't show a plan or status it has to open 300 databases to read.
 
+Our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) covers where tenant data lives in the central and tenant databases.
+
 ## Frequently asked questions
 
 ### How do I store settings per tenant in Laravel?

@@ -214,6 +214,8 @@ it('refuses to create projects with a read-only token', function () {
 
 Run these inside a tenant, as shown in [testing multi-tenant Laravel with Pest](/blog/test-multi-tenant-laravel-pest.html), and add one more test that a token from one tenant gets a 401 on another tenant's domain.
 
+Our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) explains the guard setup these tokens build on.
+
 ## Frequently asked questions
 
 ### Why does Sanctum return "Unauthenticated" in my multi-tenant app?

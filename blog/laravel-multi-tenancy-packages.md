@@ -151,6 +151,8 @@ Search results also surface smaller or older packages. `miracuthbert/laravel-mul
 
 **Forgetting everything outside the request.** Whichever package you pick, check what it does for queued jobs, scheduled commands and the cache. That's where tenant data leaks in real apps.
 
+For how one of these packages fits into a full app, see our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 ## Frequently asked questions
 
 ### What is the best Laravel multi-tenancy package?

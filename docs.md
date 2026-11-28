@@ -54,7 +54,7 @@ Every kit runs two kinds of app from one codebase. The central app lives on your
 | Who signs in | You and your admin team | Your customer and the people they invite |
 | What you manage there | Tenants, domains, admin users, roles, menus, layout, tenant maintenance | Its users, roles and permissions, menus, layout and notifications |
 
-A few workspace settings are managed from the central app: the workspace status, its domains, and each domain's app name, default language and sign-in features. Read [Multi-tenancy](/docs/core/multi-tenancy), [Domains](/docs/core/domains) and [Database](/docs/core/database) for the details.
+A few workspace settings are managed from the central app: the workspace status, its domains, and each domain's app name, default language and sign-in features. Read [Multi-tenancy](/docs/core/multi-tenancy), [Domains](/docs/core/domains) and [Database](/docs/core/database) for the details. If a term such as central domain or tenant context is new to you, the [glossary](/glossary.html) explains it in a few sentences.
 
 ## What is included
 

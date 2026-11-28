@@ -96,6 +96,8 @@ SaaSykit facts as of November 2026, from [saasykit.com](https://saasykit.com), [
 
 For the wider picture, see [Best Laravel SaaS starter kits in 2026, compared](/blog/best-laravel-saas-starter-kits.html).
 
+Weighing more than these two? [Laravel SaaS starter kit alternatives](/laravel-saas-starter-kit-alternatives.html) summarises each option we compare against and links to the full comparison.
+
 ## Frequently asked questions
 
 ### Does SaaSykit support a database per tenant?

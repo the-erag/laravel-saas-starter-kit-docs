@@ -340,6 +340,8 @@ Scope it to the tenant, not the user: the login page has no user, and the line m
 - **Theming everything.** Override the primary color and its foreground, not the whole palette, or every bad color choice becomes a support ticket.
 - **Forgetting other channels.** Emails, PDFs, the favicon and error pages all need the brand.
 
+Our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) covers how domains and tenants connect.
+
 ## Frequently asked questions
 
 ### What is a white label SaaS?

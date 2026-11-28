@@ -130,6 +130,8 @@ Answer these before you compare feature lists:
 - [ ] Do the kit's migrations show a `tenant_id`/`team_id` pattern or a separate tenant migrations folder?
 - [ ] Am I prepared to keep this model for the life of the product?
 
+Not sure which side of the checklist you're on? The [Laravel tenancy model quiz](/tools/laravel-tenancy-model-quiz.html) scores your answers and shows its weights, so you can see why it recommends one model.
+
 ## Frequently asked questions
 
 ### Do Laravel's official starter kits support multi-tenancy?

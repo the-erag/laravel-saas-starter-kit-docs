@@ -132,6 +132,8 @@ More in [Local development → Queue worker](/docs/getting-started/local-develop
 | `bootstrap/app.php` | Middleware registration, aliases (`auth`, `guest`, `central.only`, `permission`, `role`) and error page rendering |
 | `bootstrap/providers.php` | App and module service providers |
 
+For the same setup explained step by step with this code, read the [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 <RelatedPages :links="[
   { text: 'Environment', link: '/docs/reference/environment', desc: 'Every .env key with its default.' },
   { text: 'Multi-tenancy', link: '/docs/core/multi-tenancy', desc: 'How tenants are identified and created.' },

@@ -148,6 +148,8 @@ Check the license first. MIT and Apache-2.0 allow it with attribution. AGPL-3.0 
 
 The products above suggest it can carry a real business, and their posts show where the hard problems end up: databases, queues and hosting rather than the framework. Fathom, for example, moved its database to SingleStore and kept the Laravel app.
 
+We've written these steps out for common kinds of product, with the roles, the per-tenant data and the hard parts of each: a [CRM](/use-cases/laravel-crm-saas.html), a [school ERP](/use-cases/laravel-school-erp-saas.html), a [booking and appointment app](/use-cases/laravel-booking-saas.html), a [POS with inventory](/use-cases/laravel-pos-inventory-saas.html), a [helpdesk](/use-cases/laravel-helpdesk-saas.html), an [LMS](/use-cases/laravel-lms-saas.html), an [HR and payroll app](/use-cases/laravel-hr-payroll-saas.html) and an [invoicing app](/use-cases/laravel-invoicing-saas.html).
+
 ## Laravel SaaS examples and SaaS Laravel
 
 SaaS Laravel takes the database-per-tenant path. Each workspace gets its own database through `stancl/tenancy`, a subdomain identifies it, and roles and permissions live in config files, as described in the [multi-tenancy docs](/docs/core/multi-tenancy.html). Like Solidtime's open source edition, it ships without billing on purpose, so you pick the provider. If you want that foundation ready on Laravel 13, have a look at our [multi-tenant Laravel starter kit](/).

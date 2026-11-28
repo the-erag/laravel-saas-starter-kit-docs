@@ -114,6 +114,8 @@ A few items we'd budget as assumptions, because they depend too much on your set
 
 Add it up and a small Laravel SaaS on Forge with one server, Postmark Basic and Sentry's free plan runs about $40 to $60 a month before payment fees. Hosting is rarely what sinks a young SaaS.
 
+To try your own numbers, the [Laravel SaaS hosting cost calculator](/tools/laravel-saas-hosting-cost-calculator.html) estimates a monthly range from your tenants, daily users and emails, and shows every price and rule it uses.
+
 ## The hidden costs nobody quotes
 
 The build is a one-time bill. These keep arriving.

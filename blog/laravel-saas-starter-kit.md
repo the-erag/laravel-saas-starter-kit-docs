@@ -122,6 +122,12 @@ SaaS Laravel is a premium [Laravel SaaS starter kit](/) for Laravel 13, built ar
 
 The full list is on the [features overview](/#features), and you can compare plans on the [pricing page](/pricing.html).
 
+## What you can build on a SaaS starter kit
+
+A kit gives you the shared foundation. What goes on top depends on your product. We've mapped that out for eight common kinds of SaaS, with the modules to add and the tenant data each one needs: [CRM](/use-cases/laravel-crm-saas.html), [school ERP](/use-cases/laravel-school-erp-saas.html), [booking and appointments](/use-cases/laravel-booking-saas.html), [POS and inventory](/use-cases/laravel-pos-inventory-saas.html), [helpdesk](/use-cases/laravel-helpdesk-saas.html), [LMS](/use-cases/laravel-lms-saas.html), [HR and payroll](/use-cases/laravel-hr-payroll-saas.html) and [invoicing](/use-cases/laravel-invoicing-saas.html).
+
+The [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) shows the whole setup in one place, with code from a working app.
+
 ## Frequently asked questions
 
 ### What is the best Laravel SaaS starter kit?

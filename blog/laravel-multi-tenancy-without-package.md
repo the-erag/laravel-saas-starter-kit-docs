@@ -398,6 +398,8 @@ Hand-rolled tenancy is a good fit for an internal tool, a handful of tenants, or
 - **Sharing the session cookie across subdomains.** If `SESSION_DOMAIN` is `.your-app.com`, a session from Acme is valid on Globex, and user ID 5 there is a different person. Leave it empty so each subdomain gets its own cookie.
 - **Not resetting state.** Queue workers and Octane reuse processes. If you don't reset at the end of a request or the start of a job, the next one inherits the last tenant.
 
+To see the same flow built with stancl/tenancy instead, read our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 ## Frequently asked questions
 
 ### Can you do Laravel multi-tenancy without a package?

@@ -121,6 +121,8 @@ Even a careful flow produces orphans now and then: a failed drop, a manual delet
 
 Don't drop anything automatically, though. A person should look at an orphaned database before it's removed.
 
+For how tenants are created in the first place, see our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 ## Frequently asked questions
 
 ### Does deleting a tenant with stancl/tenancy delete its database?

@@ -38,7 +38,11 @@ import DocSteps from './components/doc/DocSteps.vue';
 import FeatureCards from './components/doc/FeatureCards.vue';
 import FlowDiagram from './components/doc/FlowDiagram.vue';
 import KeyIdea from './components/doc/KeyIdea.vue';
+import NextStep from './components/doc/NextStep.vue';
+import PricingBlock from './components/doc/PricingBlock.vue';
 import RelatedPages from './components/doc/RelatedPages.vue';
+import HostingCostCalculator from './components/tools/HostingCostCalculator.vue';
+import TenancyQuiz from './components/tools/TenancyQuiz.vue';
 import Layout from './Layout.vue';
 import './style.css';
 
@@ -54,7 +58,12 @@ export default {
     app.component('FeatureCards', FeatureCards);
     app.component('FlowDiagram', FlowDiagram);
     app.component('KeyIdea', KeyIdea);
+    app.component('NextStep', NextStep);
+    app.component('PricingBlock', PricingBlock);
     app.component('RelatedPages', RelatedPages);
+    // Free tools (see components/tools).
+    app.component('HostingCostCalculator', HostingCostCalculator);
+    app.component('TenancyQuiz', TenancyQuiz);
     app.component('HeroSection', HeroSection);
     app.component('HomeFaq', HomeFaq);
     app.component('KitPreview', KitPreview);

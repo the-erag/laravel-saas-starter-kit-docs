@@ -161,6 +161,8 @@ We've written a separate guide for each part of a multi-tenant Laravel app:
 | Offboarding | [Deleting tenants safely](/blog/delete-tenant-laravel-safely.html) |
 | Operations | [Backups for a multi-database Laravel SaaS](/blog/laravel-multi-database-backups.html) |
 
+For every step in more depth, with code from a working app, see our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 ## Frequently asked questions
 
 ### Is database-per-tenant slower than a single database?

@@ -151,6 +151,10 @@ If you turn on Laravel's trusted hosts, calling `$middleware->trustHosts()` with
 
 You need wildcard subdomains on your laptop as well, and `/etc/hosts` can't do wildcards. Our [guide to local subdomains with Laravel Herd](/blog/laravel-herd-subdomains.html) covers Herd, the alternatives and the usual pitfalls.
 
+Our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) covers identification, provisioning, queues, cache, storage and tests in one place.
+
+For quick definitions of subdomain, wildcard DNS, central domain and primary domain, see the [glossary](/glossary.html).
+
 ## Frequently asked questions
 
 ### Should I store the full domain or only the subdomain?

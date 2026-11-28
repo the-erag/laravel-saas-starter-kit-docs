@@ -180,6 +180,8 @@ it('sends the weekly report to tenant admins', function () {
 
 Then add one test for the scheduler closure that checks suspended tenants are skipped. Our guide on [testing multi-tenant Laravel with Pest](/blog/test-multi-tenant-laravel-pest.html) shows the tenant setup.
 
+The [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) shows how scheduled work fits with queues, cache and storage.
+
 ## Frequently asked questions
 
 ### Does the Laravel scheduler run for each tenant automatically?

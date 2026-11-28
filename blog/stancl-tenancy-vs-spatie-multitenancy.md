@@ -223,6 +223,8 @@ If "tenant" really means "team" and every row has a `team_id`, you may not need 
 
 **Expecting either package to fix a missing `tenant_id`.** In single-database mode, every query that skips the scope is a data leak. That risk is the same with both packages.
 
+For a complete stancl/tenancy setup, see our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 ## Frequently asked questions
 
 ### Is stancl/tenancy better than spatie/laravel-multitenancy?

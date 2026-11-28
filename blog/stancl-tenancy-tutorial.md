@@ -184,6 +184,8 @@ foreach (config('tenancy.central_domains') as $domain) {
 }
 ```
 
+The [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) shows the next steps after installation, from guards to tests.
+
 ## Frequently asked questions
 
 ### Does stancl/tenancy work with Laravel 13?

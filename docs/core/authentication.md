@@ -153,6 +153,8 @@ Admins can invite people instead of setting a password for them. There are two f
 
 Both send queued emails with a signed link that's valid for 7 days, so you need a [queue worker](/docs/getting-started/local-development#queue-worker) running.
 
+For the same setup explained step by step with this code, read the [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 <RelatedPages :links="[
   { text: 'Domains', link: '/docs/core/domains#per-domain-settings', desc: 'Where the per-domain auth feature toggles live.' },
   { text: 'Users, roles & permissions', link: '/docs/core/users-roles-permissions', desc: 'Give new users a role so they can open the dashboard.' },

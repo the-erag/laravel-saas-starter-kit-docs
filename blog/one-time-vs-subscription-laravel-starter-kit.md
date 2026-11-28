@@ -122,6 +122,8 @@ The bigger cost isn't on this table. It's the time you spend building what a kit
 5. **Can my team use it?** Some licenses limit repository users.
 6. **Is the price a sale price?** Launch and holiday prices change. Budget with the regular one.
 
+To see which kits sit in each price model, with a fair summary of each, read [Laravel SaaS starter kit alternatives](/laravel-saas-starter-kit-alternatives.html).
+
 ## Frequently asked questions
 
 ### Is a one-time starter kit cheaper than a subscription?

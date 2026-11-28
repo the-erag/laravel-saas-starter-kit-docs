@@ -112,12 +112,16 @@ Cloud is the fully managed option. On the [Cloud pricing page](https://laravel.c
 
 **Already on Vapor.** It still runs. We'd plan a move to Cloud on your own schedule rather than wait.
 
+For a rough monthly figure on Forge, plain droplets or Cloud, try our [hosting cost calculator](/tools/laravel-saas-hosting-cost-calculator.html). It lists the prices and sizing rules behind each estimate.
+
 ## Mistakes we see when picking a host
 
 - **Not testing `CREATE DATABASE`.** Create a real tenant on staging, on the exact database product you'll use in production. It's the one check that can block signups.
 - **Forgetting the domain cap.** Ten included custom domains is plenty for a normal app and very few for a SaaS that offers them to every customer.
 - **Queue driver surprises.** Adding a Cloud managed queue reroutes jobs that used the `database` driver. Know which connection your tenant jobs use, and read [multi-tenant queues](/blog/laravel-multi-tenant-queues.html) for where the jobs table should live.
 - **Ignoring time limits.** Tenant signup in the request and `tenants:migrate` in a deploy hook hit managed-platform timeouts long before they hit your own server's.
+
+For what the app itself does with tenants, from identification to storage, see our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
 
 ## Frequently asked questions
 

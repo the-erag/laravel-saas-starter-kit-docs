@@ -195,6 +195,8 @@ For the rest of the Fortify setup, see the [Laravel Fortify tutorial](/blog/lara
 
 With spatie/laravel-permission, every role and permission belongs to a guard through its `guard_name`. Create your admin permissions for the `admin` guard and pass the guard to the middleware, as the Spatie guide linked earlier explains.
 
+For how the guards fit into the rest of a multi-tenant app, see our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 ## Frequently asked questions
 
 ### Can a user be logged in with two guards at once?

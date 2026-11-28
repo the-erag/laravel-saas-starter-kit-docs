@@ -232,6 +232,8 @@ An unknown host throws a `TenantCouldNotBeIdentifiedException`, which turns into
 
 Regenerate both after you change the backend (see [Local development](/docs/getting-started/local-development#generated-files)).
 
+For the same setup explained step by step with this code, read the [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 <RelatedPages :links="[
   { text: 'Multi-tenancy', link: '/docs/core/multi-tenancy', desc: 'Tenants, identification and working in tenant context from code.' },
   { text: 'Project structure', link: '/docs/getting-started/project-structure#inside-a-module', desc: 'The folder layout inside a module.' },

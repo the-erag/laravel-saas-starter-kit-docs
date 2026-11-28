@@ -163,6 +163,8 @@ When a customer removes a domain or stops paying, delete the `domains` row. Iden
 
 If that domain was the tenant's main domain, switch to another one first. Otherwise emails and redirects keep pointing at a host that no longer works. For what happens to the rest of the tenant's data when the whole tenant goes, see [Deleting Tenants Safely in Laravel](/blog/delete-tenant-laravel-safely.html).
 
+Our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) shows how tenant identification works with subdomains, which is where custom domains plug in.
+
 ## Frequently asked questions
 
 ### Can a customer use their root domain?

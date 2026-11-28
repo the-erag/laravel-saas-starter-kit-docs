@@ -24,6 +24,16 @@ const columns: { title: string; links: { text: string; href: string; external?: 
     ],
   },
   {
+    title: 'Guides',
+    links: [
+      { text: 'Multi-Tenancy Tutorial', href: '/guides/laravel-multi-tenancy-tutorial.html' },
+      { text: 'Tenancy Model Quiz', href: '/tools/laravel-tenancy-model-quiz.html' },
+      { text: 'Hosting Cost Calculator', href: '/tools/laravel-saas-hosting-cost-calculator.html' },
+      { text: 'Starter Kit Alternatives', href: '/laravel-saas-starter-kit-alternatives.html' },
+      { text: 'Glossary', href: '/glossary.html' },
+    ],
+  },
+  {
     title: 'Purchase',
     links: [
       { text: 'How to Pay', href: '/how-to-pay.html' },
@@ -116,7 +126,7 @@ const social: { icon: IconName; label: string; href: string; external: boolean }
 
 .footer-inner {
   display: grid;
-  grid-template-columns: 2fr repeat(4, 1fr);
+  grid-template-columns: 2fr repeat(5, 1fr);
   gap: 40px;
 }
 
@@ -204,7 +214,7 @@ const social: { icon: IconName; label: string; href: string; external: boolean }
 
 @media (max-width: 860px) {
   .footer-inner {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .footer-brand {

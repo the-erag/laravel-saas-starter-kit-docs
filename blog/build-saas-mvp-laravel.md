@@ -123,6 +123,10 @@ If your customers are companies or teams with their own data, yes, and it's much
 
 Yes, even if it's a small amount. Paying customers give you honest feedback that free users can't.
 
+## Plans for common kinds of SaaS
+
+If your MVP is a well-known kind of product, start from a plan that already lists its modules and its traps. We have them for a [CRM](/use-cases/laravel-crm-saas.html), a [school ERP](/use-cases/laravel-school-erp-saas.html), [booking and appointments](/use-cases/laravel-booking-saas.html), [POS and inventory](/use-cases/laravel-pos-inventory-saas.html), a [helpdesk](/use-cases/laravel-helpdesk-saas.html), an [LMS](/use-cases/laravel-lms-saas.html), [HR and payroll](/use-cases/laravel-hr-payroll-saas.html) and [invoicing](/use-cases/laravel-invoicing-saas.html). Each one ends with a six-step build order you can map onto the 30 days above.
+
 ## Build your MVP on the SaaS Laravel starter kit
 
 [SaaS Laravel](/) takes care of the weeks of foundation work for you:

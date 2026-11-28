@@ -132,6 +132,8 @@ Make sure the page doesn't depend on the thing you're fixing. `--render` serves 
 
 Finally, leave a way in for your team: open login routes, a bypass link or an IP allow list.
 
+The tenancy setup underneath this is explained in our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 ## Frequently asked questions
 
 ### Does php artisan down take every tenant offline?

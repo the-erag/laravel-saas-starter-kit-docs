@@ -114,6 +114,8 @@ Skipping Spark makes sense when you want billing screens inside your own UI, or 
 
 **Pick both** when you need database-per-tenant B2B and want a ready-made billing portal on Stripe or Paddle.
 
+For the other options next to Spark and our kit, see [Laravel SaaS starter kit alternatives](/laravel-saas-starter-kit-alternatives.html), with a short summary and a "pick it if" line for each.
+
 ## Frequently asked questions
 
 ### Does SaaS Laravel include Laravel Spark?

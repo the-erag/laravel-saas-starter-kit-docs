@@ -175,6 +175,8 @@ A few more habits we'd keep:
 - Add the tenant key to your log context in a job middleware. A failed job then points straight at the customer.
 - Creating the tenant database and running its migrations can be queued as well. Just remember the tenant isn't usable until that job has finished.
 
+Our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) covers queues next to the other bootstrappers.
+
 ## Frequently asked questions
 
 ### Do I need a separate queue worker for each tenant?

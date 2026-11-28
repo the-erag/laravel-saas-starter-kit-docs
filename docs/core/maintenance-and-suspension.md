@@ -76,6 +76,8 @@ From then on, every request to that tenant's domains hits `EnsureTenantIsNotSusp
 
 The statuses are listed in [Multi-tenancy → Workspace status](/docs/core/multi-tenancy#workspace-status).
 
+For the same setup explained step by step with this code, read the [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 <RelatedPages :links="[
   { text: 'Multi-tenancy', link: '/docs/core/multi-tenancy#workspace-status', desc: 'Every workspace status and what it allows.' },
   { text: 'Architecture', link: '/docs/core/architecture#web-middleware', desc: 'Where the maintenance and suspension middleware run.' },

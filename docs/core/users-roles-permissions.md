@@ -210,6 +210,8 @@ export default function UsersToolbar() {
 A frontend check only hides things in the UI. The route still needs `permission:` middleware to actually block access.
 :::
 
+For the same setup explained step by step with this code, read the [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 <RelatedPages :links="[
   { text: 'Navigation & layouts', link: '/docs/core/navigation-and-layouts#database-driven-menus', desc: 'Menu items that only show for users with a permission.' },
   { text: 'Authentication', link: '/docs/core/authentication#central-and-tenant-guards', desc: 'The web and tenant guards behind each side.' },

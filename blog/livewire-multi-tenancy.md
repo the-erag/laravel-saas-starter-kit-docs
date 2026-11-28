@@ -225,6 +225,8 @@ Flux works fine under tenancy, because it's just Blade components and one script
 5. The `database` queue connection points at the central database.
 6. At least one Pest test runs a component inside a real tenant.
 
+The [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) shows the shared tenancy backend in more depth.
+
 ## Frequently asked questions
 
 ### Does stancl/tenancy work with Livewire 4?

@@ -308,6 +308,8 @@ The command dispatches `SyncTenantSeats` for every subscribed tenant. To react i
 
 Cashier Paddle follows the same shape. Its `Subscription` model has `incrementQuantity()`, `decrementQuantity()`, `updateQuantity()` and `incrementAndInvoice()`, with proration methods such as `prorate()`, `noProrate()`, `prorateImmediately()` and `doNotBill()`. The billing behaviour comes from Paddle, though, so check the Cashier Paddle docs before copying the strategy table above. Paddle is also a merchant of record that handles sales tax; our [Stripe vs Paddle vs Lemon Squeezy comparison](/blog/stripe-vs-paddle-vs-lemon-squeezy-laravel.html) explains when that's worth it.
 
+The kit-specific setup for Paddle, including the step that keeps Cashier's tables in the central database, is in our [Paddle billing guide](/integrations/paddle.html).
+
 ## Mistakes we see
 
 - **Using increment and decrement for syncing.** One missed job and the count is wrong forever. Set the exact number with `updateQuantity()`.

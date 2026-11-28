@@ -109,6 +109,8 @@ Edit both files so they match how your team works. Keep in mind that `php artisa
 
 The Vue kit also has project rules for agents in `.ai/rules/`. For example, `.ai/rules/general.md` says new code shouldn't contain code comments.
 
+For the same setup explained step by step with this code, read the [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 <RelatedPages :links="[
   { text: 'Commands', link: '/docs/reference/commands#composer-scripts', desc: 'Every Composer, npm and Artisan command in one place.' },
   { text: 'Local development', link: '/docs/getting-started/local-development#tests-and-checks', desc: 'Running the tests and checks during your first setup.' },

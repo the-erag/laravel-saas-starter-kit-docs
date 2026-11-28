@@ -206,6 +206,8 @@ These blog guides cover each part of a multi-tenant Laravel app in more depth:
 - [Deleting tenants safely in Laravel](/blog/delete-tenant-laravel-safely.html)
 - [stancl/tenancy vs Spatie Multitenancy](/blog/stancl-tenancy-vs-spatie-multitenancy.html)
 
+For the same setup explained step by step with this code, read the [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html). The [multi-tenancy glossary](/glossary.html) defines terms like bootstrapper, tenant provisioning and primary domain.
+
 <RelatedPages :links="[
   { text: 'Domains', link: '/docs/core/domains', desc: 'How tenant subdomains are stored and managed.' },
   { text: 'Database', link: '/docs/core/database', desc: 'Central and tenant migrations, seeders and commands.' },

@@ -56,7 +56,7 @@ Cashier (`laravel/cashier` for Stripe, `laravel/cashier-paddle` for Paddle) hand
 
 [Wave](https://github.com/thedevdojo/wave) is a free, MIT-licensed SaaS framework from DevDojo. Its feature list covers authentication, user profiles, impersonation, billing, subscription plans, roles and permissions, notifications, a changelog, a blog, pages, an API, an admin area, themes and plugins.
 
-Billing supports Stripe or Paddle, chosen with a `BILLING_PROVIDER` setting. Its `composer.json` requires Livewire, Laravel Folio and Filament. The latest release we found, 3.1.5 from January 2026, requires Laravel 12, so check the repository for Laravel 13 support if that matters to you.
+Billing supports Stripe or Paddle, chosen with a `BILLING_PROVIDER` setting. Its `composer.json` requires Livewire, Laravel Folio and Filament. When we checked again on 27 November 2026, the latest release was 3.7.3 and the `composer.json` on its main branch required Laravel 13.
 
 **Good for:** solo founders on a budget who like Livewire and want billing and a blog included.
 
@@ -127,6 +127,8 @@ Start from your product, not from the feature lists:
 - **Ignoring the update story.** A kit is a fork of someone else's code. Ask how updates reach you and how often they've shipped.
 - **Trusting old comparisons.** Prices, stacks and Laravel versions change. Check the vendor's own page, as we did here, and note the date.
 - **Buying for the demo.** Read the docs and look at a controller or two. That's the code you'll live with.
+
+If you're comparing other kits against SaaS Laravel rather than against Spark, our [Laravel SaaS starter kit alternatives](/laravel-saas-starter-kit-alternatives.html) page is organised that way.
 
 ## Frequently asked questions
 

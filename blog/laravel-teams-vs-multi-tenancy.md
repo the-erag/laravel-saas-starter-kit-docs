@@ -240,6 +240,8 @@ The longer you wait, the more tables you copy. If you already know customers wil
 - **Raw queries and `DB::table()`.** Global scopes only apply to Eloquent. Query builder calls skip them.
 - **Turning on spatie teams mode after the fact without the migration.** The team columns don't exist yet, so role queries fail. Run `permission:setup-teams` and migrate first.
 
+If you pick multi-tenancy, our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) builds it out in full.
+
 ## Frequently asked questions
 
 ### Is Laravel teams the same as multi-tenancy?

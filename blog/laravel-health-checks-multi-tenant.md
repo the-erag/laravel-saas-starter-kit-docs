@@ -298,6 +298,8 @@ Keep the levels honest. Failed means someone acts now: central database down, qu
 - **Results stored in a tenant database.** Keep the health tables and routes central.
 - **No external monitor.** If the server is down, it can't email you about it.
 
+For the parts of a tenant app worth monitoring, see our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 ## Frequently asked questions
 
 ### What does Laravel's /up health check do?

@@ -136,6 +136,8 @@ Each of these goes deeper on one question from this page:
 - [Official starter kits vs a SaaS boilerplate](/blog/laravel-official-starter-kits-vs-saas-boilerplate.html): building on Laravel's kits or on a custom base.
 - [One-time vs subscription starter kits](/blog/one-time-vs-subscription-laravel-starter-kit.html): what each price model gets you.
 
+If you've narrowed it down to our kit and want to know when another one is the better buy, read [Laravel SaaS starter kit alternatives](/laravel-saas-starter-kit-alternatives.html).
+
 ## Frequently asked questions
 
 ### Which Laravel SaaS starter kit is the best?

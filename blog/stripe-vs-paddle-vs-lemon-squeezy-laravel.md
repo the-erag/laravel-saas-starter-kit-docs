@@ -154,4 +154,6 @@ You can, but each provider keeps its own customers and subscriptions, so your ap
 
 SaaS Laravel doesn't include billing or any payment provider, and that's on purpose, so you can use Stripe, Paddle, Lemon Squeezy or whatever fits your market. What the kit does give you are the pieces billing sits on: a central `App\Models\Tenant` model that can become the billable model, a [module-based architecture](/docs/core/architecture.html) where a billing module fits in next to the others, and a [workspace status](/docs/core/multi-tenancy.html#workspace-status) you can hook up to subscription events. The [Laravel SaaS starter kit buyer's guide](/blog/laravel-saas-starter-kit.html) covers what the kits do and don't include.
 
+If you pick Paddle, our [Paddle billing guide for the kit](/integrations/paddle.html) shows the setup we tested: the tenant as the billable model, Cashier's tables in the central database and webhooks on the central domain.
+
 <BlogPostCta title="Bring your own payment provider" text="SaaS Laravel includes multi-tenancy, Fortify auth, roles and permissions and 17 languages. Billing is not included, so you can use the provider that fits your market." />

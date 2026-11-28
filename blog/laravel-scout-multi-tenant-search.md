@@ -320,6 +320,8 @@ With a shared index, call `deleteDocuments(['filter' => 'tenant_id = ...'])` on 
 - **`--fresh` on a shared index.** It flushes everyone's documents.
 - **New tenants without index settings.** Filters and sorting fail until the settings are synced.
 
+The [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) shows the tenancy basics behind tenant-aware search.
+
 ## Frequently asked questions
 
 ### Does Laravel Scout support multi-tenancy?

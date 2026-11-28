@@ -163,6 +163,8 @@ stancl offers two fixes. You can set `asset_helper_tenancy` to `false` and call 
 
 Deleting a tenant with stancl's default `DeleteDatabase` job drops the database, and that's all. It doesn't remove `storage/tenant42`, the `tenant42/` prefix on S3 or the cached entries. Add those steps to your deletion pipeline yourself; [Deleting Tenants Safely in Laravel](/blog/delete-tenant-laravel-safely.html) walks through it.
 
+Our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html) puts both bootstrappers next to the others, and notes which cache stores support the tenant tags.
+
 ## Frequently asked questions
 
 ### Can I use the database cache driver with stancl/tenancy?

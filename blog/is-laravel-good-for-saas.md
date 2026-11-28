@@ -53,6 +53,8 @@ This is the part agency pages skip. Laravel is a framework, not a finished SaaS,
 
 For the accounting app, that list is probably three to six weeks of work before the first invoice feature exists. That number is an example assumption based on a solo developer who knows Laravel. Change it for your own speed. It's also the gap a boilerplate fills, and we compare both paths honestly in [Laravel SaaS boilerplate vs building from scratch](/blog/laravel-saas-boilerplate-vs-scratch.html).
 
+For a concrete picture of what "build yourself" means, our use-case guides list it per product type. A [helpdesk](/use-cases/laravel-helpdesk-saas.html) needs inbound email routing, a [booking app](/use-cases/laravel-booking-saas.html) needs time zones and double-booking rules, and a [POS](/use-cases/laravel-pos-inventory-saas.html) needs stock that stays right when two tills sell at once. There are also guides for a [CRM](/use-cases/laravel-crm-saas.html), a [school ERP](/use-cases/laravel-school-erp-saas.html), an [LMS](/use-cases/laravel-lms-saas.html), [HR and payroll](/use-cases/laravel-hr-payroll-saas.html) and [invoicing](/use-cases/laravel-invoicing-saas.html).
+
 ## Where Laravel is a weak fit for SaaS
 
 We'd rather lose a sale than have you pick the wrong tool. Here's when we'd point you elsewhere.

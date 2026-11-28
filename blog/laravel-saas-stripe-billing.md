@@ -182,6 +182,8 @@ You don't need to build your own screens for cards, invoices and cancellations, 
 
 Your VAT or sales tax obligations depend on where you and your customers are based. Stripe Tax can do the calculation: call `Cashier::calculateTaxes()` in your service provider, and add `collectTaxIds()` to the subscription builder so business customers can enter a VAT number at checkout. Stripe calculates and collects the tax. Registering and filing are still your job as the seller. If you'd rather hand that off to a merchant of record, our comparison of [Stripe, Paddle and Lemon Squeezy for Laravel](/blog/stripe-vs-paddle-vs-lemon-squeezy-laravel.html) covers the options.
 
+Using Paddle instead? Our [Paddle billing guide](/integrations/paddle.html) covers the same tenant-as-customer setup with Cashier Paddle, which needs no migration edits but does need its models pinned to the central database.
+
 ## Frequently asked questions
 
 ### Does Laravel Cashier work with a Team or Tenant model instead of User?

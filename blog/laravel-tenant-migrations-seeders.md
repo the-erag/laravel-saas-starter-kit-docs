@@ -149,6 +149,8 @@ php artisan tenants:seed --tenants=acme
 
 If the tenant shouldn't exist at all, delete it through the model so its database gets dropped too. And if you queue the pipeline, keep in mind that jobs and seeders then run in a worker without the HTTP request, so they can't read form input. Our post on [queued jobs in a multi-tenant Laravel app](/blog/laravel-multi-tenant-queues.html) goes into that in detail.
 
+For migrations in the context of the whole tenant lifecycle, see our [Laravel multi-tenancy tutorial](/guides/laravel-multi-tenancy-tutorial.html).
+
 ## Frequently asked questions
 
 ### Do tenant migrations run automatically for new tenants?
